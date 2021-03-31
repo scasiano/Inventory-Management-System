@@ -1,4 +1,4 @@
-package sample;
+package imsGUI;
 
 public class Controller {
 }
