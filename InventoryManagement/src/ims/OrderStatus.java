@@ -1,5 +1,5 @@
 package ims;
 
-public class CurrentStock {
+public class OrderStatus {
     //TODO Read
 }

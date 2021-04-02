@@ -4,4 +4,5 @@ public class OutgoingGoods {
     //TODO: Add
     //TODO: Update
     //TODO: Delete
+    //TODO Read
 }
