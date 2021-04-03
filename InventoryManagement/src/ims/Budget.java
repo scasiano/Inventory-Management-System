@@ -6,7 +6,6 @@ public class Budget {
     //TODO: Add
     //TODO: Update
     //TODO: Delete
-    //TODO Read
     Date dateStart;
     Date dateEnd;
     double outgoing;
@@ -56,5 +55,49 @@ public class Budget {
     }
     public void setEmployeeNo(long employeeNo) {
         this.employeeNo = employeeNo;
+    }
+
+    //SQL Queries READ
+    public static ArrayList<Budget> selectAll() throws SQLException {
+        ResultSet dbResult = SqlController.dbStatement.executeQuery("select * from budget");
+        ArrayList<Budget> resultList = new ArrayList<>();
+        while (dbResult.next()) resultList.add(new Budget(dbResult.getDate(1), dbResult.getDate(2), dbResult.getDouble(3), dbResult.getDouble(4), dbResult.getDouble(5), dbResult.getLong(5)));
+        return resultList;
+    }
+    public static ArrayList<Date> selectDateStart() throws SQLException {
+        ResultSet dbResult = SqlController.dbStatement.executeQuery("select date_start from budget");
+        ArrayList<Date> resultList = new ArrayList<>();
+        while (dbResult.next()) resultList.add(dbResult.getDate(1));
+        return resultList;
+    }
+    public static ArrayList<Date> selectDateEnd() throws SQLException {
+        ResultSet dbResult = SqlController.dbStatement.executeQuery("select date_end from budget");
+        ArrayList<Date> resultList = new ArrayList<>();
+        while (dbResult.next()) resultList.add(dbResult.getDate(1));
+        return resultList;
+    }
+    public static ArrayList<Double> selectOutgoing() throws SQLException {
+        ResultSet dbResult = SqlController.dbStatement.executeQuery("select outgoing from budget");
+        ArrayList<Double> resultList = new ArrayList<>();
+        while (dbResult.next()) resultList.add(dbResult.getDouble(1));
+        return resultList;
+    }
+    public static ArrayList<Double> selectIncome() throws SQLException {
+        ResultSet dbResult = SqlController.dbStatement.executeQuery("select income from budget");
+        ArrayList<Double> resultList = new ArrayList<>();
+        while (dbResult.next()) resultList.add(dbResult.getDouble(1));
+        return resultList;
+    }
+    public static ArrayList<Double> selectNet() throws SQLException {
+        ResultSet dbResult = SqlController.dbStatement.executeQuery("select net from budget");
+        ArrayList<Double> resultList = new ArrayList<>();
+        while (dbResult.next()) resultList.add(dbResult.getDouble(1));
+        return resultList;
+    }
+    public static ArrayList<Long> selectEmployeeNo() throws SQLException {
+        ResultSet dbResult = SqlController.dbStatement.executeQuery("select net from budget");
+        ArrayList<Long> resultList = new ArrayList<>();
+        while (dbResult.next()) resultList.add(dbResult.getLong(1));
+        return resultList;
     }
 }

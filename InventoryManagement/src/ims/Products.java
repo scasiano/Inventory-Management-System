@@ -44,32 +44,32 @@ public class Products {
         this.price = price;
     }
 
-    //SQL Queries
-    public static ArrayList<Products> SelectAll() throws SQLException {
+    //SQL Queries READ
+    public static ArrayList<Products> selectAll() throws SQLException {
         ResultSet dbResult = SqlController.dbStatement.executeQuery("select * from products");
         ArrayList<Products> resultList = new ArrayList<>();
         while (dbResult.next()) resultList.add(new Products(dbResult.getLong(1), dbResult.getString(2), dbResult.getDouble(3), dbResult.getDouble(4)));
         return resultList;
     }
-    public static ArrayList<Long> SelectProductId() throws SQLException {
+    public static ArrayList<Long> selectProductId() throws SQLException {
         ResultSet dbResult = SqlController.dbStatement.executeQuery("select product_id from products");
         ArrayList<Long> resultList = new ArrayList<>();
         while (dbResult.next()) resultList.add(dbResult.getLong(1));
         return resultList;
     }
-    public static ArrayList<String> SelectName() throws SQLException {
+    public static ArrayList<String> selectName() throws SQLException {
         ResultSet dbResult = SqlController.dbStatement.executeQuery("select name from products");
         ArrayList<String> resultList = new ArrayList<>();
         while (dbResult.next()) resultList.add(dbResult.getString(1));
         return resultList;
     }
-    public static ArrayList<Double> SelectMsrp() throws SQLException {
+    public static ArrayList<Double> selectMsrp() throws SQLException {
         ResultSet dbResult = SqlController.dbStatement.executeQuery("select msrp from products");
         ArrayList<Double> resultList = new ArrayList<>();
         while (dbResult.next()) resultList.add(dbResult.getDouble(1));
         return resultList;
     }
-    public static ArrayList<Double> SelectPrice() throws SQLException {
+    public static ArrayList<Double> selectPrice() throws SQLException {
         ResultSet dbResult = SqlController.dbStatement.executeQuery("select price from products");
         ArrayList<Double> resultList = new ArrayList<>();
         while (dbResult.next()) resultList.add(dbResult.getDouble(1));

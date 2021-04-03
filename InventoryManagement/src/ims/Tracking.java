@@ -6,7 +6,6 @@ public class Tracking {
     //TODO: Add
     //TODO: Update
     //TODO: Delete
-    //TODO Read
     long orderID;
     String shippingStatus;
     String trackingID;
@@ -43,5 +42,37 @@ public class Tracking {
     }
     public void setCarrier(String carrier) {
         this.carrier = carrier;
+    }
+
+    //SQL Queries READ
+    public static ArrayList<Tracking> selectAll() throws SQLException {
+        ResultSet dbResult = SqlController.dbStatement.executeQuery("select * from tracking");
+        ArrayList<Tracking> resultList = new ArrayList<>();
+        while (dbResult.next()) resultList.add(new Tracking(dbResult.getLong(1), dbResult.getString(2), dbResult.getString(3), dbResult.getString(4)));
+        return resultList;
+    }
+    public static ArrayList<Long> selectOutgoingID() throws SQLException {
+        ResultSet dbResult = SqlController.dbStatement.executeQuery("select outgoing_id from tracking");
+        ArrayList<Long> resultList = new ArrayList<>();
+        while (dbResult.next()) resultList.add(dbResult.getLong(1));
+        return resultList;
+    }
+    public static ArrayList<String> selectShippingStatus() throws SQLException {
+        ResultSet dbResult = SqlController.dbStatement.executeQuery("select shipping_status from tracking");
+        ArrayList<String> resultList = new ArrayList<>();
+        while (dbResult.next()) resultList.add(dbResult.getString(1));
+        return resultList;
+    }
+    public static ArrayList<String> selectTrackingID() throws SQLException {
+        ResultSet dbResult = SqlController.dbStatement.executeQuery("select tracking_id from tracking");
+        ArrayList<String> resultList = new ArrayList<>();
+        while (dbResult.next()) resultList.add(dbResult.getString(1));
+        return resultList;
+    }
+    public static ArrayList<String> selectCarrier() throws SQLException {
+        ResultSet dbResult = SqlController.dbStatement.executeQuery("select carrier from tracking");
+        ArrayList<String> resultList = new ArrayList<>();
+        while (dbResult.next()) resultList.add(dbResult.getString(1));
+        return resultList;
     }
 }

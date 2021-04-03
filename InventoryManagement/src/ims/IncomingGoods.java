@@ -6,15 +6,14 @@ public class IncomingGoods {
     //TODO: Add
     //TODO: Update
     //TODO: Delete
-    //TODO Read
     long incomingID;
     long productID;
     Date dateIn;
     String trackingNo; //nullable
     int quantity;
-    int employeeNo; //nullable
+    long employeeNo; //nullable
 
-    public IncomingGoods(long incomingID, long productID, Date dateIn, String trackingNo, int quantity, int employeeNo) {
+    public IncomingGoods(long incomingID, long productID, Date dateIn, String trackingNo, int quantity, long employeeNo) {
         this.incomingID = incomingID;
         this.productID = productID;
         this.dateIn = dateIn;
@@ -39,7 +38,7 @@ public class IncomingGoods {
     public int getQuantity() {
         return quantity;
     }
-    public int getEmployeeNo() {
+    public long getEmployeeNo() {
         return employeeNo;
     }
     public void setIncomingID(long incomingID) {
@@ -57,7 +56,51 @@ public class IncomingGoods {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
-    public void setEmployeeNo(int employeeNo) {
+    public void setEmployeeNo(long employeeNo) {
         this.employeeNo = employeeNo;
+    }
+
+    //SQL Queries READ
+    public static ArrayList<IncomingGoods> selectAll() throws SQLException {
+        ResultSet dbResult = SqlController.dbStatement.executeQuery("select * from incoming_goods");
+        ArrayList<IncomingGoods> resultList = new ArrayList<>();
+        while (dbResult.next()) resultList.add(new IncomingGoods(dbResult.getLong(1), dbResult.getLong(2), dbResult.getDate(3), dbResult.getString(4), dbResult.getInt(5), dbResult.getInt(5)));
+        return resultList;
+    }
+    public static ArrayList<Long> selectIncomingID() throws SQLException {
+        ResultSet dbResult = SqlController.dbStatement.executeQuery("select incoming_id from incoming_goods");
+        ArrayList<Long> resultList = new ArrayList<>();
+        while (dbResult.next()) resultList.add(dbResult.getLong(1));
+        return resultList;
+    }
+    public static ArrayList<Long> selectProductID() throws SQLException {
+        ResultSet dbResult = SqlController.dbStatement.executeQuery("select product_id from incoming_goods");
+        ArrayList<Long> resultList = new ArrayList<>();
+        while (dbResult.next()) resultList.add(dbResult.getLong(1));
+        return resultList;
+    }
+    public static ArrayList<Date> selectDateIn() throws SQLException {
+        ResultSet dbResult = SqlController.dbStatement.executeQuery("select date_in from incoming_goods");
+        ArrayList<Date> resultList = new ArrayList<>();
+        while (dbResult.next()) resultList.add(dbResult.getDate(1));
+        return resultList;
+    }
+    public static ArrayList<String> selectTrackingNo() throws SQLException {
+        ResultSet dbResult = SqlController.dbStatement.executeQuery("select track_no from incoming_goods");
+        ArrayList<String> resultList = new ArrayList<>();
+        while (dbResult.next()) resultList.add(dbResult.getString(1));
+        return resultList;
+    }
+    public static ArrayList<Integer> selectQuantity() throws SQLException {
+        ResultSet dbResult = SqlController.dbStatement.executeQuery("select quantity from incoming_goods");
+        ArrayList<Integer> resultList = new ArrayList<>();
+        while (dbResult.next()) resultList.add(dbResult.getInt(1));
+        return resultList;
+    }
+    public static ArrayList<Long> selectEmployeeNo() throws SQLException {
+        ResultSet dbResult = SqlController.dbStatement.executeQuery("select employee_no from incoming_goods");
+        ArrayList<Long> resultList = new ArrayList<>();
+        while (dbResult.next()) resultList.add(dbResult.getLong(1));
+        return resultList;
     }
 }

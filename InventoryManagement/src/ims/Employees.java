@@ -6,7 +6,6 @@ public class Employees {
     //TODO: Add
     //TODO: Update
     //TODO: Delete
-    //TODO Read
     long employeeNo;
     long userID;
     String employeeFn;
@@ -75,5 +74,61 @@ public class Employees {
     }
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    //SQL Queries READ
+    public static ArrayList<Employees> selectAll() throws SQLException {
+        ResultSet dbResult = SqlController.dbStatement.executeQuery("select * from employees");
+        ArrayList<Employees> resultList = new ArrayList<>();
+        while (dbResult.next()) resultList.add(new Employees(dbResult.getLong(1), dbResult.getLong(2), dbResult.getString(3), dbResult.getString(4), dbResult.getDouble(5), dbResult.getString(6), dbResult.getDate(7), dbResult.getDate(8)));
+        return resultList;
+    }
+    public static ArrayList<Long> selectEmployeeNo() throws SQLException {
+        ResultSet dbResult = SqlController.dbStatement.executeQuery("select employee_no from employees");
+        ArrayList<Long> resultList = new ArrayList<>();
+        while (dbResult.next()) resultList.add(dbResult.getLong(1));
+        return resultList;
+    }
+    public static ArrayList<Long> selectUserID() throws SQLException {
+        ResultSet dbResult = SqlController.dbStatement.executeQuery("select user_id from employees");
+        ArrayList<Long> resultList = new ArrayList<>();
+        while (dbResult.next()) resultList.add(dbResult.getLong(1));
+        return resultList;
+    }
+    public static ArrayList<String> selectEmployeeFn() throws SQLException {
+        ResultSet dbResult = SqlController.dbStatement.executeQuery("select employee_fn from employees");
+        ArrayList<String> resultList = new ArrayList<>();
+        while (dbResult.next()) resultList.add(dbResult.getString(1));
+        return resultList;
+    }
+    public static ArrayList<String> selectEmployeeLn() throws SQLException {
+        ResultSet dbResult = SqlController.dbStatement.executeQuery("select employee_ln from employees");
+        ArrayList<String> resultList = new ArrayList<>();
+        while (dbResult.next()) resultList.add(dbResult.getString(1));
+        return resultList;
+    }
+    public static ArrayList<Double> selectPayHour() throws SQLException {
+        ResultSet dbResult = SqlController.dbStatement.executeQuery("select pay_hour from employees");
+        ArrayList<Double> resultList = new ArrayList<>();
+        while (dbResult.next()) resultList.add(dbResult.getDouble(1));
+        return resultList;
+    }
+    public static ArrayList<String> selectPosition() throws SQLException {
+        ResultSet dbResult = SqlController.dbStatement.executeQuery("select position from employees");
+        ArrayList<String> resultList = new ArrayList<>();
+        while (dbResult.next()) resultList.add(dbResult.getString(1));
+        return resultList;
+    }
+    public static ArrayList<Date> selectStartDate() throws SQLException {
+        ResultSet dbResult = SqlController.dbStatement.executeQuery("select start_date from employees");
+        ArrayList<Date> resultList = new ArrayList<>();
+        while (dbResult.next()) resultList.add(dbResult.getDate(1));
+        return resultList;
+    }
+    public static ArrayList<Date> selectEndDate() throws SQLException {
+        ResultSet dbResult = SqlController.dbStatement.executeQuery("select end_date from employees");
+        ArrayList<Date> resultList = new ArrayList<>();
+        while (dbResult.next()) resultList.add(dbResult.getDate(1));
+        return resultList;
     }
 }
