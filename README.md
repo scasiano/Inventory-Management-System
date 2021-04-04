@@ -5,6 +5,7 @@
 ## Contributors
 
 - Shane Casiano
+- Joseph Dodd
 - Duncan Hedden
 - Dakarai Holcomb
 - Jade Spahr
