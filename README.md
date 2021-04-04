@@ -14,6 +14,6 @@
 
 ## License & copyright
 
-© Shane Casiano, Duncan Hedden, Dakarai Holcomb, Jade Spahr
+© Shane Casiano, Joseph Dodd, Duncan Hedden, Dakarai Holcomb, Jade Spahr
 
 Licensed under the [MIT License](LICENSE)
