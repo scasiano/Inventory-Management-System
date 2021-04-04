@@ -3,15 +3,22 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class ActiveInvoice {
-    //TODO: Add
     //TODO: Update
-    //TODO: Delete
     long orderID;
     Date dateProcessed;
     double totalCharge;
     double totalRecieved; //nullable //generated from totalcharges and outstandingbalance
     double outstandingBalance;
 
+    //For adding
+    ActiveInvoice(long orderID, Date dateProcessed, double totalCharge, double outstandingBalance){
+        this.orderID = orderID;
+        this.dateProcessed = dateProcessed;
+        this.totalCharge = totalCharge;
+        this.outstandingBalance = outstandingBalance;
+    }
+
+    //For returning
     ActiveInvoice(long orderID, Date dateProcessed, double totalCharge, double totalRecieved, double outstandingBalance){
         this.orderID = orderID;
         this.dateProcessed = dateProcessed;
@@ -85,5 +92,16 @@ public class ActiveInvoice {
         ArrayList<Double> resultList = new ArrayList<>();
         while (dbResult.next()) resultList.add(dbResult.getDouble(1));
         return resultList;
+    }
+
+    //SQL Queries DELETE
+    public static void deleteRecord(long primaryKey) throws SQLException{
+        SqlController.dbStatement.executeUpdate("delete from active_invoice where order_id = " + primaryKey);
+    }
+
+    //SQL Queries ADD
+    //Must add to orders first, orderID FK
+    public static void AddRecord(ActiveInvoice recordToAdd) throws SQLException {
+        SqlController.dbStatement.executeUpdate("insert into active_invoice(order_id, date_processed, total_charge, outstanding_balance) values (" + recordToAdd.orderID + ", '" + recordToAdd.dateProcessed + "', " +recordToAdd.totalCharge + ", " + recordToAdd.outstandingBalance + ")");
     }
 }

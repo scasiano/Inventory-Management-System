@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class InvoiceHistory {
     //TODO: Add
     //TODO: Update
-    //TODO: Delete
     long orderID;
     Date datePlaced;
     double totalCharge;
@@ -60,5 +59,10 @@ public class InvoiceHistory {
         ArrayList<Double> resultList = new ArrayList<>();
         while (dbResult.next()) resultList.add(dbResult.getDouble(1));
         return resultList;
+    }
+
+    //SQL Queries DELETE
+    public static void deleteRecord(long primaryKey) throws SQLException{
+        SqlController.dbStatement.executeUpdate("delete from invoice_history where order_id = " + primaryKey);
     }
 }

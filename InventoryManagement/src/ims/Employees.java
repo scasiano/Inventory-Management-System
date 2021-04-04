@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class Employees {
     //TODO: Add
     //TODO: Update
-    //TODO: Delete
     long employeeNo;
     long userID;
     String employeeFn;
@@ -130,5 +129,11 @@ public class Employees {
         ArrayList<Date> resultList = new ArrayList<>();
         while (dbResult.next()) resultList.add(dbResult.getDate(1));
         return resultList;
+    }
+
+    //SQL Queries DELETE
+    //EmployeeNo is FK for multiple tables, these entries must be changed first
+    public static void deleteRecord(long primaryKey) throws SQLException{
+        SqlController.dbStatement.executeUpdate("delete from employees where employee_no = " + primaryKey);
     }
 }

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class Users {
     //TODO: Add
     //TODO: Update
-    //TODO: Delete
     long userID;
     String username;
     String password;
@@ -102,5 +101,11 @@ public class Users {
         ArrayList<String> resultList = new ArrayList<>();
         while (dbResult.next()) resultList.add(dbResult.getString(1));
         return resultList;
+    }
+
+    //SQL Queries DELETE
+    //You must also delete entry from employee table, if exists
+    public static void deleteRecord(long primaryKey) throws SQLException{
+        SqlController.dbStatement.executeUpdate("delete from users where user_id = " + primaryKey);
     }
 }

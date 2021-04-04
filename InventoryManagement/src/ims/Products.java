@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class Products {
     //TODO: Add
     //TODO: Update
-    //TODO: Delete
     long productID;
     String name;
     double msrp;
@@ -74,5 +73,11 @@ public class Products {
         ArrayList<Double> resultList = new ArrayList<>();
         while (dbResult.next()) resultList.add(dbResult.getDouble(1));
         return resultList;
+    }
+
+    //SQL Queries DELETE
+    //You must delete all entries where products_id is FK first
+    public static void deleteRecord(long primaryKey) throws SQLException{
+        SqlController.dbStatement.executeUpdate("delete from products where product_id = " + primaryKey);
     }
 }

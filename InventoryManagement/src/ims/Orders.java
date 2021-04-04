@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Orders {
     //TODO: Add
     //TODO: Update
-    //TODO: Delete
+
     long orderID;
     String customerFn;
     String customerLn;
@@ -102,5 +102,11 @@ public class Orders {
         ArrayList<Long> resultList = new ArrayList<>();
         while (dbResult.next()) resultList.add(dbResult.getLong(1));
         return resultList;
+    }
+
+    //SQL Queries DELETE
+    //You must also delete all record where this orderID is FK
+    public static void deleteRecord(long primaryKey) throws SQLException{
+        SqlController.dbStatement.executeUpdate("delete from orders where order_id = " + primaryKey);
     }
 }

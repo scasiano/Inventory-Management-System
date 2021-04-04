@@ -3,9 +3,8 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class OrderItems {
-    //TODO: Add
     //TODO: Update
-    //TODO: Delete
+    //TODO: Add
     long orderID;
     long productID;
 
@@ -46,5 +45,11 @@ public class OrderItems {
         ArrayList<Long> resultList = new ArrayList<>();
         while (dbResult.next()) resultList.add(dbResult.getLong(1));
         return resultList;
+    }
+
+    //SQL Queries Delete
+    //You should also deletes the order link for this, as you require both for the completed order view
+    public static void deleteRecord(long primaryKey) throws SQLException{
+        SqlController.dbStatement.executeUpdate("delete from order_items where order_id = " + primaryKey);
     }
 }

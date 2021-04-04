@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class Budget {
     //TODO: Add
     //TODO: Update
-    //TODO: Delete
     Date dateStart;
     Date dateEnd;
     double outgoing;
@@ -99,5 +98,10 @@ public class Budget {
         ArrayList<Long> resultList = new ArrayList<>();
         while (dbResult.next()) resultList.add(dbResult.getLong(1));
         return resultList;
+    }
+
+    //SQL Queries DELETE
+    public static void deleteRecord(Date primaryKey) throws SQLException{
+        SqlController.dbStatement.executeUpdate("delete from budget where date_start = '" + primaryKey + "'");
     }
 }

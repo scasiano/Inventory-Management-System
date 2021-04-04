@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class IncomingGoods {
     //TODO: Add
     //TODO: Update
-    //TODO: Delete
     long incomingID;
     long productID;
     Date dateIn;
@@ -102,5 +101,10 @@ public class IncomingGoods {
         ArrayList<Long> resultList = new ArrayList<>();
         while (dbResult.next()) resultList.add(dbResult.getLong(1));
         return resultList;
+    }
+
+    //SQL Queries DELETE
+    public static void deleteRecord(long primaryKey) throws SQLException{
+        SqlController.dbStatement.executeUpdate("delete from incoming_goods where incoming_id = " + primaryKey);
     }
 }

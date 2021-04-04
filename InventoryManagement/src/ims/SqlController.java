@@ -18,4 +18,9 @@ public class SqlController {
         dbConnection = DriverManager.getConnection("jdbc:mysql://" + dbIpAddress + ":" + dbPort + "/" + dbName,dbUserName,dbPassword);
         dbStatement = SqlController.dbConnection.createStatement();
     }
+
+    //testing function
+    public static void main(String[] args){
+
+    }
 }
