@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class Products {
     //TODO: Add
-    //TODO: Update
     long productID;
     String name;
     double msrp;
@@ -50,7 +49,7 @@ public class Products {
         while (dbResult.next()) resultList.add(new Products(dbResult.getLong(1), dbResult.getString(2), dbResult.getDouble(3), dbResult.getDouble(4)));
         return resultList;
     }
-    public static ArrayList<Long> selectProductId() throws SQLException {
+    public static ArrayList<Long> selectProductID() throws SQLException {
         ResultSet dbResult = SqlController.dbStatement.executeQuery("select product_id from products");
         ArrayList<Long> resultList = new ArrayList<>();
         while (dbResult.next()) resultList.add(dbResult.getLong(1));
@@ -79,5 +78,18 @@ public class Products {
     //You must delete all entries where products_id is FK first
     public static void deleteRecord(long primaryKey) throws SQLException{
         SqlController.dbStatement.executeUpdate("delete from products where product_id = " + primaryKey);
+    }
+
+    //SQL Queries ADD
+
+    //SQL Queries MODIFY
+    public static void modifyName(long primaryKey, String updateValue) throws SQLException {
+        SqlController.dbStatement.executeUpdate("update products set name = '" + updateValue + "' where product_id = " + primaryKey);
+    }
+    public static void modifyMsrp(long primaryKey, double updateValue) throws SQLException {
+        SqlController.dbStatement.executeUpdate("update products set msrp = " + updateValue + " where product_id = " + primaryKey);
+    }
+    public static void modifyPrice(long primaryKey, double updateValue) throws SQLException {
+        SqlController.dbStatement.executeUpdate("update products set price = " + updateValue + " where product_id = " + primaryKey);
     }
 }

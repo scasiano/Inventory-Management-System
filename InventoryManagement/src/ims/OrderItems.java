@@ -3,7 +3,6 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class OrderItems {
-    //TODO: Update
     //TODO: Add
     long orderID;
     long productID;
@@ -52,4 +51,7 @@ public class OrderItems {
     public static void deleteRecord(long primaryKey) throws SQLException{
         SqlController.dbStatement.executeUpdate("delete from order_items where order_id = " + primaryKey);
     }
+
+    //SQL Queries ADD
+
 }

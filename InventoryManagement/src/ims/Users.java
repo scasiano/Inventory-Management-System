@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class Users {
     //TODO: Add
-    //TODO: Update
     long userID;
     String username;
     String password;
@@ -107,5 +106,24 @@ public class Users {
     //You must also delete entry from employee table, if exists
     public static void deleteRecord(long primaryKey) throws SQLException{
         SqlController.dbStatement.executeUpdate("delete from users where user_id = " + primaryKey);
+    }
+
+    //SQL Queries ADD
+
+    //SQL Queries MODIFY
+    public static void modifyUsername(long primaryKey, String updateValue) throws SQLException {
+        SqlController.dbStatement.executeUpdate("update users set username = '" + updateValue + "' where user_id = " + primaryKey);
+    }
+    public static void modifyPassword(long primaryKey, String updateValue) throws SQLException {
+        SqlController.dbStatement.executeUpdate("update users set password = '" + updateValue + "' where user_id = " + primaryKey);
+    }
+    public static void modifyFName(long primaryKey, String updateValue) throws SQLException {
+        SqlController.dbStatement.executeUpdate("update users set fname = '" + updateValue + "' where user_id = " + primaryKey);
+    }
+    public static void modifyLName(long primaryKey, String updateValue) throws SQLException {
+        SqlController.dbStatement.executeUpdate("update users set lname = '" + updateValue + "' where user_id = " + primaryKey);
+    }
+    public static void modifyRole(long primaryKey, String updateValue) throws SQLException {
+        SqlController.dbStatement.executeUpdate("update users set role = '" + updateValue + "' where user_id = " + primaryKey);
     }
 }

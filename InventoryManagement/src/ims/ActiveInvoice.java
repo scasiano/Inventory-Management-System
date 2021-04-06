@@ -3,7 +3,6 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class ActiveInvoice {
-    //TODO: Update
     long orderID;
     Date dateProcessed;
     double totalCharge;
@@ -101,7 +100,18 @@ public class ActiveInvoice {
 
     //SQL Queries ADD
     //Must add to orders first, orderID FK
-    public static void AddRecord(ActiveInvoice recordToAdd) throws SQLException {
-        SqlController.dbStatement.executeUpdate("insert into active_invoice(order_id, date_processed, total_charge, outstanding_balance) values (" + recordToAdd.orderID + ", '" + recordToAdd.dateProcessed + "', " +recordToAdd.totalCharge + ", " + recordToAdd.outstandingBalance + ")");
+    public static void addRecord(ActiveInvoice recordToAdd) throws SQLException {
+        SqlController.dbStatement.executeUpdate("insert into active_invoice(order_id, date_processed, total_charge, outstanding_balance) values (" + recordToAdd.orderID + ", '" + recordToAdd.dateProcessed + "', " + recordToAdd.totalCharge + ", " + recordToAdd.outstandingBalance + ")");
+    }
+
+    //SQL Queries MODIFY
+    public static void modifyDateProcessed(long primaryKey, Date updateValue) throws SQLException {
+        SqlController.dbStatement.executeUpdate("update active_invoice set date_processed = '" + updateValue + "' where order_id = " + primaryKey);
+    }
+    public static void modifyTotalCharge(long primaryKey, double updateValue) throws SQLException {
+        SqlController.dbStatement.executeUpdate("update active_invoice set total_charge = " + updateValue + " where order_id = " + primaryKey);
+    }
+    public static void modifyOutstandingBalance(long primaryKey, double updateValue) throws SQLException {
+        SqlController.dbStatement.executeUpdate("update active_invoice set outstanding_balance = " + updateValue + " where order_id = " + primaryKey);
     }
 }

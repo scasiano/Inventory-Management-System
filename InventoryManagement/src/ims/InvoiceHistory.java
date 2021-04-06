@@ -4,14 +4,13 @@ import java.util.ArrayList;
 
 public class InvoiceHistory {
     //TODO: Add
-    //TODO: Update
     long orderID;
-    Date datePlaced;
+    Date dateProcessed;
     double totalCharge;
 
     public InvoiceHistory(long orderID, Date datePlaced, double totalCharge) {
         this.orderID = orderID;
-        this.datePlaced = datePlaced;
+        this.dateProcessed = datePlaced;
         this.totalCharge = totalCharge;
     }
 
@@ -19,8 +18,8 @@ public class InvoiceHistory {
     public long getOrderID() {
         return orderID;
     }
-    public Date getDatePlaced() {
-        return datePlaced;
+    public Date getDateProcessed() {
+        return dateProcessed;
     }
     public double getTotalCharge() {
         return totalCharge;
@@ -29,7 +28,7 @@ public class InvoiceHistory {
         this.orderID = orderID;
     }
     public void setDatePlaced(Date datePlaced) {
-        this.datePlaced = datePlaced;
+        this.dateProcessed = datePlaced;
     }
     public void setTotalCharge(double totalCharge) {
         this.totalCharge = totalCharge;
@@ -49,7 +48,7 @@ public class InvoiceHistory {
         return resultList;
     }
     public static ArrayList<Date> selectDatePlaced() throws SQLException {
-        ResultSet dbResult = SqlController.dbStatement.executeQuery("select date_placed from invoice_history");
+        ResultSet dbResult = SqlController.dbStatement.executeQuery("select date_processed from invoice_history");
         ArrayList<Date> resultList = new ArrayList<>();
         while (dbResult.next()) resultList.add(dbResult.getDate(1));
         return resultList;
@@ -64,5 +63,15 @@ public class InvoiceHistory {
     //SQL Queries DELETE
     public static void deleteRecord(long primaryKey) throws SQLException{
         SqlController.dbStatement.executeUpdate("delete from invoice_history where order_id = " + primaryKey);
+    }
+
+    //SQL Queries ADD
+
+    //SQL Queries MODIFY
+    public static void modifyDateProcessed(long primaryKey, Date updateValue) throws SQLException {
+        SqlController.dbStatement.executeUpdate("update invoice_history set date_processed = '" + updateValue + "' where order_id = " + primaryKey);
+    }
+    public static void modifyTotalCharge(long primaryKey, double updateValue) throws SQLException {
+        SqlController.dbStatement.executeUpdate("update invoice_history set total_charge = " + updateValue + " where order_id = " + primaryKey);
     }
 }

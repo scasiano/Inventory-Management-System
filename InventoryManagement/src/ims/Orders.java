@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 public class Orders {
     //TODO: Add
-    //TODO: Update
-
     long orderID;
     String customerFn;
     String customerLn;
@@ -108,5 +106,24 @@ public class Orders {
     //You must also delete all record where this orderID is FK
     public static void deleteRecord(long primaryKey) throws SQLException{
         SqlController.dbStatement.executeUpdate("delete from orders where order_id = " + primaryKey);
+    }
+
+    //SQL Queries ADD
+
+    //SQL Queries MODIFY
+    public static void modifyCustomerFn(long primaryKey, String updateValue) throws SQLException {
+        SqlController.dbStatement.executeUpdate("update orders set customer_fn = '" + updateValue + "' where order_id = " + primaryKey);
+    }
+    public static void modifyCustomerLn(long primaryKey, String updateValue) throws SQLException {
+        SqlController.dbStatement.executeUpdate("update orders set customer_ln = '" + updateValue + "' where order_id = " + primaryKey);
+    }
+    public static void modifyCustomerAdd(long primaryKey, String updateValue) throws SQLException {
+        SqlController.dbStatement.executeUpdate("update orders set customer_add = '" + updateValue + "' where order_id = " + primaryKey);
+    }
+    public static void modifyDatePlaced(long primaryKey, Date updateValue) throws SQLException {
+        SqlController.dbStatement.executeUpdate("update orders set date_placed = '" + updateValue + "' where order_id = " + primaryKey);
+    }
+    public static void modifyEmployeeNo(long primaryKey, long updateValue) throws SQLException {
+        SqlController.dbStatement.executeUpdate("update orders set employee_no = " + updateValue + " where order_id = " + primaryKey);
     }
 }

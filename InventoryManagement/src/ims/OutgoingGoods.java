@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class OutgoingGoods {
     //TODO: Add
-    //TODO: Update
     long outgoingID;
     long productID;
     Date dateGo;
@@ -92,5 +91,21 @@ public class OutgoingGoods {
     //SQL Queries DELETE
     public static void deleteRecord(long primaryKey) throws SQLException{
         SqlController.dbStatement.executeUpdate("delete from outgoing_goods where outgoing_id = " + primaryKey);
+    }
+
+    //SQL Queries ADD
+
+    //SQL Queries MODIFY
+    public static void modifyProductID(long primaryKey, long updateValue) throws SQLException {
+        SqlController.dbStatement.executeUpdate("update outgoing_goods set product_id = " + updateValue + " where outgoing_id = " + primaryKey);
+    }
+    public static void modifyDateGo(long primaryKey, Date updateValue) throws SQLException {
+        SqlController.dbStatement.executeUpdate("update outgoing_goods set date_go = '" + updateValue + "' where outgoing_id = " + primaryKey);
+    }
+    public static void modifyQuantity(long primaryKey, int updateValue) throws SQLException {
+        SqlController.dbStatement.executeUpdate("update outgoing_goods set quantity = " + updateValue + " where outgoing_id = " + primaryKey);
+    }
+    public static void modifyQuantity(long primaryKey, long updateValue) throws SQLException {
+        SqlController.dbStatement.executeUpdate("update outgoing_goods set employee_no = " + updateValue + " where outgoing_id = " + primaryKey);
     }
 }

@@ -107,4 +107,23 @@ public class IncomingGoods {
     public static void deleteRecord(long primaryKey) throws SQLException{
         SqlController.dbStatement.executeUpdate("delete from incoming_goods where incoming_id = " + primaryKey);
     }
+
+    //SQL Queries ADD
+
+    //SQL Queries MODIFY
+    public static void modifyProductID(long primaryKey, long updateValue) throws SQLException {
+        SqlController.dbStatement.executeUpdate("update incoming_goods set product_id = " + updateValue + " where incoming_id = " + primaryKey);
+    }
+    public static void modifyDateIn(long primaryKey, Date updateValue) throws SQLException {
+        SqlController.dbStatement.executeUpdate("update incoming_goods set date_in = '" + updateValue + "' where incoming_id = " + primaryKey);
+    }
+    public static void modifyTrackingNo(long primaryKey, Date updateValue) throws SQLException {
+        SqlController.dbStatement.executeUpdate("update incoming_goods set track_no = '" + updateValue + "' where incoming_id = " + primaryKey);
+    }
+    public static void modifyQuantity(long primaryKey, int updateValue) throws SQLException {
+        SqlController.dbStatement.executeUpdate("update incoming_goods set quantity = " + updateValue + " where incoming_id = " + primaryKey);
+    }
+    public static void modifyEmployeeNo(long primaryKey, long updateValue) throws SQLException {
+        SqlController.dbStatement.executeUpdate("update incoming_goods set product_id = " + updateValue + " where incoming_id = " + primaryKey);
+    }
 }

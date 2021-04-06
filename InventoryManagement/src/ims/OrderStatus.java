@@ -60,4 +60,8 @@ public class OrderStatus {
         while (dbResult.next()) resultList.add(dbResult.getString(1));
         return resultList;
     }
+
+    //SQL Queries ADD
+
+    //SQL Queries MODIFY
 }

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class Tracking {
     //TODO: Add
-    //TODO: Update
     long orderID;
     String shippingStatus;
     String trackingID;
@@ -78,5 +77,18 @@ public class Tracking {
     //SQL Queries DELETE
     public static void deleteRecord(long primaryKey) throws SQLException{
         SqlController.dbStatement.executeUpdate("delete from tracking where order_id = " + primaryKey);
+    }
+
+    //SQL Queries ADD
+
+    //SQL Queries MODIFY
+    public static void modifyShippingStatus(long primaryKey, String updateValue) throws SQLException {
+        SqlController.dbStatement.executeUpdate("update tracking set shipping_status = '" + updateValue + "' where order_id = " + primaryKey);
+    }
+    public static void modifyTrackingID(long primaryKey, String updateValue) throws SQLException {
+        SqlController.dbStatement.executeUpdate("update tracking set tracking_id = '" + updateValue + "' where order_id = " + primaryKey);
+    }
+    public static void modifyCarrier(long primaryKey, String updateValue) throws SQLException {
+        SqlController.dbStatement.executeUpdate("update tracking set carrier = '" + updateValue + "' where order_id = " + primaryKey);
     }
 }

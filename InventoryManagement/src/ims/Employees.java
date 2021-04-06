@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class Employees {
     //TODO: Add
-    //TODO: Update
     long employeeNo;
     long userID;
     String employeeFn;
@@ -135,5 +134,30 @@ public class Employees {
     //EmployeeNo is FK for multiple tables, these entries must be changed first
     public static void deleteRecord(long primaryKey) throws SQLException{
         SqlController.dbStatement.executeUpdate("delete from employees where employee_no = " + primaryKey);
+    }
+
+    //SQL Queries ADD
+
+    //SQL Queries MODIFY
+    public static void modifyUserId(long primaryKey, long updateValue) throws SQLException {
+        SqlController.dbStatement.executeUpdate("update employees set user_id = " + updateValue + " where employee_no = " + primaryKey);
+    }
+    public static void modifyEmployeeFn(long primaryKey, String updateValue) throws SQLException {
+        SqlController.dbStatement.executeUpdate("update employees set employee_fn = '" + updateValue + "' where employee_no = " + primaryKey);
+    }
+    public static void modifyEmployeeLn(long primaryKey, String updateValue) throws SQLException {
+        SqlController.dbStatement.executeUpdate("update employees set employee_ln = '" + updateValue + "' where employee_no = " + primaryKey);
+    }
+    public static void modifyPayHour(long primaryKey, double updateValue) throws SQLException {
+        SqlController.dbStatement.executeUpdate("update employees set pay_hour = " + updateValue + " where employee_no = " + primaryKey);
+    }
+    public static void modifyPosition(long primaryKey, String updateValue) throws SQLException {
+        SqlController.dbStatement.executeUpdate("update employees set position = '" + updateValue + "' where employee_no = " + primaryKey);
+    }
+    public static void modifyStartDate(long primaryKey, Date updateValue) throws SQLException {
+        SqlController.dbStatement.executeUpdate("update employees set start_date = '" + updateValue + "' where employee_no = " + primaryKey);
+    }
+    public static void modifyEndDate(long primaryKey, Date updateValue) throws SQLException {
+        SqlController.dbStatement.executeUpdate("update employees set end_date = '" + updateValue + "' where employee_no = " + primaryKey);
     }
 }
