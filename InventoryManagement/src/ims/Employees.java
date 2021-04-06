@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class Employees {
     //TODO: Add
-    long employeeNo;
-    long userID;
+    long employeeNo; //PK
+    long userID; //FK
     String employeeFn;
     String employeeLn;
     double payHour; //default 10

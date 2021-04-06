@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Products {
     //TODO: Add
-    long productID;
+    long productID; //PK
     String name;
     double msrp;
     double price;

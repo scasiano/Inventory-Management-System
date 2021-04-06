@@ -2,7 +2,7 @@ package ims;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class CurrentStock {
+public class CurrentStock { //This entire table is autogen, all products exist here and quantity is changed based on incoming v. outgoing
     long productID;
     int quantity;
 

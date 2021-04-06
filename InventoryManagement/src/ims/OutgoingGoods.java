@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 public class OutgoingGoods {
     //TODO: Add
-    long outgoingID;
-    long productID;
+    long outgoingID; //PK
+    long productID; //FK
     Date dateGo;
     int quantity;
-    long employeeNo; //nullable
+    long employeeNo; //FK //nullable
 
     public OutgoingGoods(long outgoingID, long productID, Date dateGo, int quantity, long employeeNo) {
         this.outgoingID = outgoingID;

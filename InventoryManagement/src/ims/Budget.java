@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class Budget {
     //TODO: Add
-    Date dateStart;
-    Date dateEnd;
+    Date dateStart; //PK (This one is used as pseudo PK)
+    Date dateEnd; //PK (For completion)
     double outgoing;
     double income;
     double net; //nullable //generated from outgoing and income

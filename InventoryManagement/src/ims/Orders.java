@@ -4,12 +4,12 @@ import java.util.ArrayList;
 
 public class Orders {
     //TODO: Add
-    long orderID;
+    long orderID; //PK
     String customerFn;
     String customerLn;
     String customerAdd;
     Date datePlaced;
-    long employeeNo;
+    long employeeNo; //FK //nullable
 
     public Orders(long orderID, String customerFn, String customerLn, String customerAdd, Date datePlaced, long employeeNo) {
         this.orderID = orderID;

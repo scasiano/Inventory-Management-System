@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 public class Tracking {
     //TODO: Add
-    long orderID;
+    long orderID; //PK //FK
     String shippingStatus;
-    String trackingID;
-    String carrier;
+    String trackingID; //nullable
+    String carrier; //nullable
 
     public Tracking(long orderID, String shippingStatus, String trackingID, String carrier) {
         this.orderID = orderID;

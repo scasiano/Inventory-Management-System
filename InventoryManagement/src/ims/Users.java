@@ -12,7 +12,7 @@ public class Users {
     String role;
 
     public Users(long userID, String username, String password, String fName, String lName, String role) {
-        this.userID = userID;
+        this.userID = userID; //PK
         this.username = username;
         this.password = password;
         this.fName = fName;

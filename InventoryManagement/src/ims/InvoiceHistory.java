@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class InvoiceHistory {
     //TODO: Add
-    long orderID;
+    long orderID; //PK //FK
     Date dateProcessed;
     double totalCharge;
 

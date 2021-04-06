@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class OrderItems {
     //TODO: Add
-    long orderID;
-    long productID;
+    long orderID; //FK
+    long productID; //FK
 
     public OrderItems(long orderID, long productID) {
         this.orderID = orderID;

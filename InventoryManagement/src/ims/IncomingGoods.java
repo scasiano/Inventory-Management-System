@@ -5,8 +5,8 @@ import java.util.ArrayList;
 public class IncomingGoods {
     //TODO: Add
     //TODO: Update
-    long incomingID;
-    long productID;
+    long incomingID; //PK
+    long productID; //FK
     Date dateIn;
     String trackingNo; //nullable
     int quantity;
