@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane fx:id="ParGrid" maxHeight="Infinity" maxWidth="Infinity" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="imsGUI.Controller">
+    <columnConstraints>
+        <ColumnConstraints fx:id="column0" fillWidth="true" minWidth="10" />
+        <ColumnConstraints fx:id="column1" fillWidth="true" percentWidth="30" />
+        <ColumnConstraints fx:id="column2" fillWidth="true" percentWidth="69" />
+        <ColumnConstraints fx:id="column3" fillWidth="true" minWidth="10" />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints fx:id="row1" fillHeight="true" percentHeight="100" />
+        <RowConstraints />
+    </rowConstraints>
+    <children>
+        <ScrollPane fx:id="parentListContainer" fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: blue;" GridPane.columnIndex="1" GridPane.fillHeight="true" GridPane.fillWidth="true">
+            <content>
+                <VBox fx:id="productsList" fillWidth="true" focusTraversable="true" maxHeight="Infinity" maxWidth="Infinity" style="-fx-background-color: white; -fx-border-color: brown;">
+                    <children>
+                        <Button fx:id="refreshProd" alignment="TOP_CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#setProductList" text="Refresh" textAlignment="CENTER" wrapText="true" VBox.vgrow="NEVER">
+                        </Button>
+                    </children>
+                </VBox>
+            </content>
+        </ScrollPane>
+        <GridPane fx:id="productInfo" style="-fx-background-color: ALICEBLUE;" GridPane.columnIndex="2" GridPane.columnSpan="2">
+            <columnConstraints>
+                <ColumnConstraints fx:id="c0" fillWidth="true" minWidth="10" />
+                <ColumnConstraints fx:id="c1" fillWidth="true" percentWidth="50" />
+                <ColumnConstraints fx:id="c2" fillWidth="true" percentWidth="50" />
+                <ColumnConstraints fx:id="c3" fillWidth="true" minWidth="10" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints fx:id="r0" fillHeight="true" percentHeight="20" />
+                <RowConstraints fx:id="r1" fillHeight="true" percentHeight="20" />
+                <RowConstraints fx:id="r2" fillHeight="true" percentHeight="20" />
+                <RowConstraints fx:id="r3" fillHeight="true" percentHeight="20" />
+                <RowConstraints fx:id="r4" fillHeight="true" percentHeight="20" />
+                <RowConstraints />
+            </rowConstraints>
+            <children>
+                <Label text="Product Name:" style="-fx-background-color: white;" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="CENTER" />
+                <Label text="Product ID:" style="-fx-background-color: white; " GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                <Label text="Product MSRP:" style="-fx-background-color: white; " GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+                <Label text="Product Price" style="-fx-background-color: white; " GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+                <Label text="Product Description" style="-fx-background-color: white; " GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
+                <Label fx:id="productName" style="-fx-background-color: white; -fx-border-color: grey;" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                <Label fx:id="productID" style="-fx-background-color: white; -fx-border-color: grey;" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                <Label fx:id="productMSRP" style="-fx-background-color: white; -fx-border-color: grey;" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+                <Label fx:id="productPrice" style="-fx-background-color: white; -fx-border-color: grey;" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+                <Label fx:id="productDescription" style="-fx-background-color: white; -fx-border-color: grey;" text="Not current description" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
+                <ImageView fx:id="pImage" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" style=" -fx-border-color: grey;" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.rowSpan="2" GridPane.valignment="CENTER" />
+            </children>
+        </GridPane>
+    </children>
+</GridPane>
