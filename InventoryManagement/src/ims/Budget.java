@@ -3,7 +3,6 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class Budget {
-    //TODO: Add
     Date dateStart; //PK (This one is used as pseudo PK)
     Date dateEnd; //PK (For completion)
     double outgoing;
@@ -105,6 +104,9 @@ public class Budget {
     }
 
     //SQL Queries ADD
+    public static void addRecord(Budget recordToAdd) throws SQLException {
+        SqlController.dbStatement.executeUpdate("insert into budget(dateStart, dateEnd, outgoing, income, net, employeeNo) values (" + recordToAdd.dateStart + ", '" + recordToAdd.dateEnd + "', " +recordToAdd.outgoing + ", " + recordToAdd.income + ", " + recordToAdd.net + ", " + recordToAdd.employeeNo + ")");
+    }
 
     //SQL Queries MODIFY
     public static void modifyDateStart(Date primaryKey, Date updateValue) throws SQLException {

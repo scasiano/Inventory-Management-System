@@ -3,7 +3,6 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class Users {
-    //TODO: Add
     long userID;
     String username;
     String password;
@@ -109,6 +108,9 @@ public class Users {
     }
 
     //SQL Queries ADD
+    public static void addRecord(Users recordToAdd) throws SQLException {
+        SqlController.dbStatement.executeUpdate("insert into users(userID, username, password, fName, lName, role) values (" + recordToAdd.userID + ", '" + recordToAdd.username + "', " +recordToAdd.password + ", " + recordToAdd.fName + ", " + recordToAdd.lName + ", " + recordToAdd.role + ")");
+    }
 
     //SQL Queries MODIFY
     public static void modifyUsername(long primaryKey, String updateValue) throws SQLException {

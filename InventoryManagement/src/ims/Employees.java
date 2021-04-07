@@ -3,7 +3,6 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class Employees {
-    //TODO: Add
     long employeeNo; //PK
     long userID; //FK
     String employeeFn;
@@ -137,6 +136,9 @@ public class Employees {
     }
 
     //SQL Queries ADD
+    public static void addRecord(Employees recordToAdd) throws SQLException {
+        SqlController.dbStatement.executeUpdate("insert into employees(employeeNo, userID, employeeFn, employeeLn, payHour, position, startDate, endDate) values (" + recordToAdd.employeeNo + ", '" + recordToAdd.userID + "', " +recordToAdd.employeeFn + ", " + recordToAdd.employeeLn + ", " + recordToAdd.payHour + ", " + recordToAdd.position + ", " + recordToAdd.startDate + ", " + recordToAdd.endDate + ")");
+    }
 
     //SQL Queries MODIFY
     public static void modifyUserId(long primaryKey, long updateValue) throws SQLException {

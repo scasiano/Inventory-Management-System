@@ -3,7 +3,6 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class Tracking {
-    //TODO: Add
     long orderID; //PK //FK
     String shippingStatus;
     String trackingID; //nullable
@@ -80,6 +79,9 @@ public class Tracking {
     }
 
     //SQL Queries ADD
+    public static void addRecord(Tracking recordToAdd) throws SQLException {
+        SqlController.dbStatement.executeUpdate("insert into tracking(orderID, shippingStatus, trackingID, carrier) values (" + recordToAdd.orderID + ", '" + recordToAdd.shippingStatus + "', " +recordToAdd.trackingID + ", " + recordToAdd.carrier + ")");
+    }
 
     //SQL Queries MODIFY
     public static void modifyShippingStatus(long primaryKey, String updateValue) throws SQLException {

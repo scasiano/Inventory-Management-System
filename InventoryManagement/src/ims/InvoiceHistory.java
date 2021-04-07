@@ -3,7 +3,6 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class InvoiceHistory {
-    //TODO: Add
     long orderID; //PK //FK
     Date dateProcessed;
     double totalCharge;
@@ -66,6 +65,9 @@ public class InvoiceHistory {
     }
 
     //SQL Queries ADD
+    public static void addRecord(InvoiceHistory recordToAdd) throws SQLException {
+        SqlController.dbStatement.executeUpdate("insert into invoice_history(orderID, dateProcessed, totalCharge) values (" + recordToAdd.orderID + ", '" + recordToAdd.dateProcessed + "', " +recordToAdd.totalCharge + ")");
+    }
 
     //SQL Queries MODIFY
     public static void modifyDateProcessed(long primaryKey, Date updateValue) throws SQLException {

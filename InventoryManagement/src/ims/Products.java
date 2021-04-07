@@ -3,7 +3,6 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class Products {
-    //TODO: Add
     long productID; //PK
     String name;
     double msrp;
@@ -81,6 +80,9 @@ public class Products {
     }
 
     //SQL Queries ADD
+    public static void addRecord(Products recordToAdd) throws SQLException {
+        SqlController.dbStatement.executeUpdate("insert into products(productID, name, msrp, price) values (" + recordToAdd.productID + ", '" + recordToAdd.name + "', " +recordToAdd.msrp + ", " + recordToAdd.price + ")");
+    }
 
     //SQL Queries MODIFY
     public static void modifyName(long primaryKey, String updateValue) throws SQLException {

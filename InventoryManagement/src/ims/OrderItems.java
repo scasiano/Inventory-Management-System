@@ -3,7 +3,6 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class OrderItems {
-    //TODO: Add
     long orderID; //FK
     long productID; //FK
 
@@ -53,5 +52,7 @@ public class OrderItems {
     }
 
     //SQL Queries ADD
-
+    public static void addRecord(OrderItems recordToAdd) throws SQLException {
+        SqlController.dbStatement.executeUpdate("insert into order_items(orderID, productID) values (" + recordToAdd.orderID + ", '" + recordToAdd.productID + ")");
+    }
 }
