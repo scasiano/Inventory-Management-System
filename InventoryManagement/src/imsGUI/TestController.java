@@ -8,35 +8,19 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.*;
 import javafx.scene.layout.GridPane.*;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 
 public class TestController {
-
-
     @FXML
-    GridPane ParGrid;
-
-    @FXML
-    ScrollPane parentListContainer;
-
-    private Stage stage;
-    private Scene scene;
-    private Pane pane;
-//for testing purposes, will be moved later and implemented
-
-
-    public TestController() throws IOException {
-
+    private void openProducts() throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("ProductsList.fxml"));
+        Stage stage = new Stage();
+        stage.setTitle("Hello World");
+        stage.setScene(new Scene(root, 300, 275));
+        stage.show();
     }
-    //Methods for each of the views
-    //change as needed
-
 }
 
