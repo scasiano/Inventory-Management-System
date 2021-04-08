@@ -5,7 +5,8 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane fx:id="ParGrid" maxHeight="Infinity" maxWidth="Infinity" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="imsGUI.ProductListController">
+<GridPane fx:id="ParGrid" maxHeight="Infinity" maxWidth="Infinity" style="-fx-background-color: white;"
+          xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="imsGUI.ProductListController">
     <columnConstraints>
         <ColumnConstraints fx:id="column0" fillWidth="true" minWidth="10" />
         <ColumnConstraints fx:id="column1" fillWidth="true" percentWidth="30" />
@@ -60,14 +61,8 @@
         </GridPane>
       <HBox alignment="BASELINE_RIGHT" nodeOrientation="RIGHT_TO_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.columnSpan="2147483647" GridPane.halignment="LEFT">
          <children>
-            <Button alignment="BASELINE_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" text="Logout" textAlignment="RIGHT">
-               <HBox.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </HBox.margin></Button>
-            <Button mnemonicParsing="false" snapToPixel="false" text="Homepage" HBox.hgrow="SOMETIMES">
-               <HBox.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </HBox.margin></Button>
+            <Button alignment="BASELINE_RIGHT" onAction="#openLogin" contentDisplay="RIGHT" mnemonicParsing="false" text="Logout" textAlignment="RIGHT"/>
+            <Button mnemonicParsing="false" onAction="#openHomePage" text="Homepage" HBox.hgrow="SOMETIMES"/>
          </children>
       </HBox>
     </children>

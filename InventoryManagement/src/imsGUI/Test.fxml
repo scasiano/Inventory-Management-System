@@ -11,6 +11,7 @@
              <Button mnemonicParsing="false" onAction="#openAdminU" text="Admin-Users" />
              <Button mnemonicParsing="false" onAction="#openBudget" text="Budget" />
              <Button mnemonicParsing="false" onAction="#openHomePage" text="Homepage" />
+             <Button mnemonicParsing="false" onAction="#openLogin" text="Login"/>
              <Button mnemonicParsing="false" onAction="#openOrders" text="Orders" />
              <Button mnemonicParsing="false" onAction="#openProduct" text="Products" />
              <Button mnemonicParsing="false" onAction="#openProductStatus" text="Product Status" textAlignment="CENTER" wrapText="true" />
