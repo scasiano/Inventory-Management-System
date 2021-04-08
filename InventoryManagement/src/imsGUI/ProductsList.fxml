@@ -5,7 +5,7 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane fx:id="ParGrid" maxHeight="Infinity" maxWidth="Infinity" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="imsGUI.Controller">
+<GridPane fx:id="ParGrid" maxHeight="Infinity" maxWidth="Infinity" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="imsGUI.ProductListController">
     <columnConstraints>
         <ColumnConstraints fx:id="column0" fillWidth="true" minWidth="10" />
         <ColumnConstraints fx:id="column1" fillWidth="true" percentWidth="30" />

@@ -17,9 +17,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class Controller {
-    @FXML
-    VBox productsList;
+public class TestController {
+
 
     @FXML
     GridPane ParGrid;
@@ -31,16 +30,9 @@ public class Controller {
     private Scene scene;
     private Pane pane;
 //for testing purposes, will be moved later and implemented
-   public void setProductList(ActionEvent event) {
-       for(int i=0;i<7;i++)
-        {
-            Label label=new Label();
-            label.setText("Label"+i);
-            productsList.getChildren().add(label);
-        }
-    }
 
-    public Controller() throws IOException {
+
+    public TestController() throws IOException {
 
     }
     //Methods for each of the views
