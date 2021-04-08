@@ -53,6 +53,6 @@ public class OrderItems {
 
     //SQL Queries ADD
     public static void addRecord(OrderItems recordToAdd) throws SQLException {
-        SqlController.dbStatement.executeUpdate("insert into order_items(orderID, productID) values (" + recordToAdd.orderID + ", '" + recordToAdd.productID + ")");
+        SqlController.dbStatement.executeUpdate("insert into order_items(order_id, product_id) values (" + recordToAdd.orderID + ", '" + recordToAdd.productID + ")");
     }
 }

@@ -15,6 +15,11 @@ public class Tracking {
         this.carrier = carrier;
     }
 
+    public Tracking(long orderID, String shippingStatus) {
+        this.orderID = orderID;
+        this.shippingStatus = shippingStatus;
+    }
+
     //Get set
     public long getOrderID() {
         return orderID;
@@ -80,7 +85,7 @@ public class Tracking {
 
     //SQL Queries ADD
     public static void addRecord(Tracking recordToAdd) throws SQLException {
-        SqlController.dbStatement.executeUpdate("insert into tracking(orderID, shippingStatus, trackingID, carrier) values (" + recordToAdd.orderID + ", '" + recordToAdd.shippingStatus + "', " +recordToAdd.trackingID + ", " + recordToAdd.carrier + ")");
+        SqlController.dbStatement.executeUpdate("insert into tracking(order_id, shipping_status, tracking_id, carrier) values (" + recordToAdd.orderID + ", '" + recordToAdd.shippingStatus + "', " +recordToAdd.trackingID + ", " + recordToAdd.carrier + ")");
     }
 
     //SQL Queries MODIFY

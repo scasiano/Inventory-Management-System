@@ -20,6 +20,13 @@ public class IncomingGoods {
         this.employeeNo = employeeNo;
     }
 
+    public IncomingGoods(long incomingID, long productID, Date dateIn, int quantity) {
+        this.incomingID = incomingID;
+        this.productID = productID;
+        this.dateIn = dateIn;
+        this.quantity = quantity;
+    }
+
     //Get set
     public long getIncomingID() {
         return incomingID;
@@ -109,7 +116,7 @@ public class IncomingGoods {
 
     //SQL Queries ADD
     public static void addRecord(IncomingGoods recordToAdd) throws SQLException {
-        SqlController.dbStatement.executeUpdate("insert into incoming_goods(incomingID, productID, dateIn, trackingNo, quantity, employeeNo) values (" + recordToAdd.incomingID + ", '" + recordToAdd.productID + "', " +recordToAdd.dateIn + ", " + recordToAdd.trackingNo + ", " + recordToAdd.quantity + ", " + recordToAdd.employeeNo + ")");
+        SqlController.dbStatement.executeUpdate("insert into incoming_goods(incoming_id, product_id, date_in, track_no, quantity, employee_no) values (" + recordToAdd.incomingID + ", '" + recordToAdd.productID + "', " +recordToAdd.dateIn + ", " + recordToAdd.trackingNo + ", " + recordToAdd.quantity + ", " + recordToAdd.employeeNo + ")");
     }
 
     //SQL Queries MODIFY

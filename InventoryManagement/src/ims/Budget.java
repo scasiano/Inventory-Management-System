@@ -19,6 +19,13 @@ public class Budget {
         this.employeeNo = employeeNo;
     }
 
+    public Budget(Date dateStart, Date dateEnd, double outgoing, double income) {
+        this.dateStart = dateStart;
+        this.dateEnd = dateEnd;
+        this.outgoing = outgoing;
+        this.income = income;
+    }
+
     //Get set
     public Date getDateStart() {
         return dateStart;
@@ -105,7 +112,7 @@ public class Budget {
 
     //SQL Queries ADD
     public static void addRecord(Budget recordToAdd) throws SQLException {
-        SqlController.dbStatement.executeUpdate("insert into budget(dateStart, dateEnd, outgoing, income, net, employeeNo) values (" + recordToAdd.dateStart + ", '" + recordToAdd.dateEnd + "', " +recordToAdd.outgoing + ", " + recordToAdd.income + ", " + recordToAdd.net + ", " + recordToAdd.employeeNo + ")");
+        SqlController.dbStatement.executeUpdate("insert into budget(date_start, date_end, outgoing, income, employee_no) values (" + recordToAdd.dateStart + ", '" + recordToAdd.dateEnd + "', " +recordToAdd.outgoing + ", " + recordToAdd.income + ", " + recordToAdd.net + ", " + recordToAdd.employeeNo + ")");
     }
 
     //SQL Queries MODIFY

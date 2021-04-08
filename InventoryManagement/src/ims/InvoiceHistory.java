@@ -66,7 +66,7 @@ public class InvoiceHistory {
 
     //SQL Queries ADD
     public static void addRecord(InvoiceHistory recordToAdd) throws SQLException {
-        SqlController.dbStatement.executeUpdate("insert into invoice_history(orderID, dateProcessed, totalCharge) values (" + recordToAdd.orderID + ", '" + recordToAdd.dateProcessed + "', " +recordToAdd.totalCharge + ")");
+        SqlController.dbStatement.executeUpdate("insert into invoice_history(order_id, date_processed, total_charge) values (" + recordToAdd.orderID + ", '" + recordToAdd.dateProcessed + "', " +recordToAdd.totalCharge + ")");
     }
 
     //SQL Queries MODIFY

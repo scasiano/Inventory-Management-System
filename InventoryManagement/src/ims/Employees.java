@@ -23,6 +23,16 @@ public class Employees {
         this.endDate = endDate;
     }
 
+    public Employees(long employeeNo, long userID, String employeeFn, String employeeLn, double payHour, String position, Date startDate) {
+        this.employeeNo = employeeNo;
+        this.userID = userID;
+        this.employeeFn = employeeFn;
+        this.employeeLn = employeeLn;
+        this.payHour = payHour;
+        this.position = position;
+        this.startDate = startDate;
+    }
+
     //Get set
     public long getEmployeeNo() {
         return employeeNo;
@@ -137,7 +147,7 @@ public class Employees {
 
     //SQL Queries ADD
     public static void addRecord(Employees recordToAdd) throws SQLException {
-        SqlController.dbStatement.executeUpdate("insert into employees(employeeNo, userID, employeeFn, employeeLn, payHour, position, startDate, endDate) values (" + recordToAdd.employeeNo + ", '" + recordToAdd.userID + "', " +recordToAdd.employeeFn + ", " + recordToAdd.employeeLn + ", " + recordToAdd.payHour + ", " + recordToAdd.position + ", " + recordToAdd.startDate + ", " + recordToAdd.endDate + ")");
+        SqlController.dbStatement.executeUpdate("insert into employees(employee_no, user_id, employee_fn, employee_ln, pay_hour, position, start_date, end_date) values (" + recordToAdd.employeeNo + ", '" + recordToAdd.userID + "', " +recordToAdd.employeeFn + ", " + recordToAdd.employeeLn + ", " + recordToAdd.payHour + ", " + recordToAdd.position + ", " + recordToAdd.startDate + ", " + recordToAdd.endDate + ")");
     }
 
     //SQL Queries MODIFY

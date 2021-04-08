@@ -81,7 +81,7 @@ public class Products {
 
     //SQL Queries ADD
     public static void addRecord(Products recordToAdd) throws SQLException {
-        SqlController.dbStatement.executeUpdate("insert into products(productID, name, msrp, price) values (" + recordToAdd.productID + ", '" + recordToAdd.name + "', " +recordToAdd.msrp + ", " + recordToAdd.price + ")");
+        SqlController.dbStatement.executeUpdate("insert into products(product_id, name, msrp, price) values (" + recordToAdd.productID + ", '" + recordToAdd.name + "', " +recordToAdd.msrp + ", " + recordToAdd.price + ")");
     }
 
     //SQL Queries MODIFY

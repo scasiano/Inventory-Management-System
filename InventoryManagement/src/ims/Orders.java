@@ -19,6 +19,14 @@ public class Orders {
         this.employeeNo = employeeNo;
     }
 
+    public Orders(long orderID, String customerFn, String customerLn, String customerAdd, Date datePlaced) {
+        this.orderID = orderID;
+        this.customerFn = customerFn;
+        this.customerLn = customerLn;
+        this.customerAdd = customerAdd;
+        this.datePlaced = datePlaced;
+    }
+
     //Get set
     public long getOrderID() {
         return orderID;
@@ -109,7 +117,7 @@ public class Orders {
 
     //SQL Queries ADD
     public static void addRecord(Orders recordToAdd) throws SQLException {
-        SqlController.dbStatement.executeUpdate("insert into orders(orderID, customerFn, customerLn, customerAdd, datePlaced, employeeNo) values (" + recordToAdd.orderID + ", '" + recordToAdd.customerFn + "', " +recordToAdd.customerLn + ", " + recordToAdd.customerAdd + ", " + recordToAdd.datePlaced + ", " + recordToAdd.employeeNo + ")");
+        SqlController.dbStatement.executeUpdate("insert into orders(order_id, customer_fn, customer_ln, customer_add, date_placed, employee_no) values (" + recordToAdd.orderID + ", '" + recordToAdd.customerFn + "', " +recordToAdd.customerLn + ", " + recordToAdd.customerAdd + ", " + recordToAdd.datePlaced + ", " + recordToAdd.employeeNo + ")");
     }
 
     //SQL Queries MODIFY
