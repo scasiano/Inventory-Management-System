@@ -16,4 +16,5 @@ public class ProductListController {
             productsList.getChildren().add(label);
         }
     }
+
 }

@@ -9,8 +9,9 @@
     <columnConstraints>
         <ColumnConstraints fx:id="column0" fillWidth="true" minWidth="10" />
         <ColumnConstraints fx:id="column1" fillWidth="true" percentWidth="30" />
-        <ColumnConstraints fx:id="column2" fillWidth="true" percentWidth="65" />
-        <ColumnConstraints fx:id="column3" fillWidth="true" percentWidth="5" />
+        <ColumnConstraints fx:id="column2" fillWidth="true" percentWidth="60" />
+
+        <ColumnConstraints fx:id="column4" minWidth="10"/>
     </columnConstraints>
     <rowConstraints>
         <RowConstraints fx:id="row0" fillHeight="true" percentHeight="5" />

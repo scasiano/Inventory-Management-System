@@ -7,14 +7,14 @@
     <children>
           <ButtonBar>
          <buttons>
-             <Button fx:id="Homepagenav" mnemonicParsing="false" text="Homepage" />
-             <Button mnemonicParsing="false" text="Orders" />
-             <Button fx:id="productsNav" mnemonicParsing="false" onAction="#openProducts" text="Products" />
-             <!--Button mnemonicParsing="false" onAction="#prodStatController" text="Product Status" textAlignment="CENTER" wrapText="true" /-->
-             <Button mnemonicParsing="false" text="Budget" />
-             <Button mnemonicParsing="false" text="Profile" />
-             <Button mnemonicParsing="false" text="Admin-Users" />
-             <Button mnemonicParsing="false" text="Admin-Employee" />
+             <Button mnemonicParsing="false" onAction="#openAdminE" text="Admin-Employee" />
+             <Button mnemonicParsing="false" onAction="#openAdminU" text="Admin-Users" />
+             <Button mnemonicParsing="false" onAction="#openBudget" text="Budget" />
+             <Button mnemonicParsing="false" onAction="#openHomePage" text="Homepage" />
+             <Button mnemonicParsing="false" onAction="#openOrders" text="Orders" />
+             <Button mnemonicParsing="false" onAction="#openProduct" text="Products" />
+             <Button mnemonicParsing="false" onAction="#openProductStatus" text="Product Status" textAlignment="CENTER" wrapText="true" />
+             <Button mnemonicParsing="false" onAction="#openProfiles" text="Profile" />
          </buttons>
       </ButtonBar>
     </children>
