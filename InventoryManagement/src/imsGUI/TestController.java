@@ -6,37 +6,72 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.GridPane.*;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-
 public class TestController {
-
-
     @FXML
-    GridPane ParGrid;
-
-    @FXML
-    ScrollPane parentListContainer;
-
-    private Stage stage;
-    private Scene scene;
-    private Pane pane;
-//for testing purposes, will be moved later and implemented
-
-
-    public TestController() throws IOException {
-
+    private void openAdminE(ActionEvent event) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("AdminEmpList.fxml"));
+        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root, 300, 275));
+        stage.show();
     }
-    //Methods for each of the views
-    //change as needed
-
+    @FXML
+    private void openAdminU(ActionEvent event) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("AdminUserList.fxml"));
+        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root, 300, 275));
+        stage.show();
+    }
+    @FXML
+    private void openBudget(ActionEvent event) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("Budget.fxml"));
+        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root, 300, 275));
+        stage.show();
+    }
+    @FXML
+    private void openHomePage(ActionEvent event) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("HomePage.fxml"));
+        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
+    }
+    @FXML
+    private void openLogin(ActionEvent event) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
+        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
+    }
+    @FXML
+    private void openOrders(ActionEvent event) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("Orders.fxml"));
+        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
+    }
+    @FXML
+    private void openProduct(ActionEvent event) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("ProductList.fxml"));
+        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        //stage.setTitle("Hello World");
+        stage.setScene(new Scene(root));
+        stage.show();
+    }
+    @FXML
+    private void openProductStatus(ActionEvent event) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("ProductStatus.fxml"));
+        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
+    }
+    @FXML
+    private void openProfiles(ActionEvent event) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("Profiles.fxml"));
+        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
+    }
 }
 
