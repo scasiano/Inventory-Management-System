@@ -8,7 +8,6 @@
     <children>
           <ButtonBar>
          <buttons>
-             <Button mnemonicParsing="false" onAction="#openAdminE" text="Admin-Employee" />
              <Button mnemonicParsing="false" onAction="#openAdminU" text="Admin-Users" />
              <Button mnemonicParsing="false" onAction="#openBudget" text="Budget" />
              <Button mnemonicParsing="false" onAction="#openHomePage" text="Homepage" />

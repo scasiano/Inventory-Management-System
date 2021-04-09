@@ -10,13 +10,6 @@ import javafx.stage.Stage;
 
 public class TestController {
     @FXML
-    private void openAdminE(ActionEvent event) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("AdminEmpList.fxml"));
-        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root, 300, 275));
-        stage.show();
-    }
-    @FXML
     private void openAdminU(ActionEvent event) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("AdminUserList.fxml"));
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
