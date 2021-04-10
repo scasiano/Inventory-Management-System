@@ -20,12 +20,12 @@
     <children>
         <ScrollPane fx:id="parentListContainer" fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: blue;" GridPane.columnIndex="1" GridPane.fillHeight="true" GridPane.fillWidth="true" GridPane.rowIndex="1" GridPane.rowSpan="2147483647">
             <content>
-                <VBox fx:id="productsList" fillWidth="true" focusTraversable="true" maxHeight="Infinity" maxWidth="Infinity" style="-fx-background-color: white; -fx-border-color: brown;">
+                <HBox fx:id="productsList" fillHeight="true" focusTraversable="true" maxHeight="Infinity" maxWidth="Infinity" style="-fx-background-color: white; -fx-border-color: brown;">
                     <children>
                         <Button fx:id="refreshProd" alignment="TOP_CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#setProductList" text="Refresh" textAlignment="CENTER" wrapText="true" VBox.vgrow="NEVER">
                         </Button>
                     </children>
-                </VBox>
+                </HBox>
             </content>
         </ScrollPane>
         <GridPane fx:id="productInfo" style="-fx-background-color: ALICEBLUE;" GridPane.columnIndex="2" GridPane.columnSpan="2147483647" GridPane.rowIndex="1" GridPane.rowSpan="2147483647">
