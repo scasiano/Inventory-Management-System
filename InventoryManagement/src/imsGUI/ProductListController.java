@@ -25,9 +25,10 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class ProductListController{
+
     @FXML
     HBox productsList;
-   public void setProductList(ActionEvent event) throws SQLException {
+   public void setProductList() throws SQLException {
         ArrayList<Products> allProd =new ArrayList<Products>();
         VBox id=new VBox();
         VBox name = new VBox();

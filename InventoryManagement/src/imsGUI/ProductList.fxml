@@ -22,8 +22,8 @@
             <content>
                 <HBox fx:id="productsList" fillHeight="true" focusTraversable="true" maxHeight="Infinity" maxWidth="Infinity" style="-fx-background-color: white; -fx-border-color: brown;">
                     <children>
-                        <Button fx:id="refreshProd" alignment="TOP_CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#setProductList" text="Refresh" textAlignment="CENTER" wrapText="true" VBox.vgrow="NEVER">
-                        </Button>
+                        <!--Button fx:id="refreshProd" alignment="TOP_CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#setProductList" text="Refresh" textAlignment="CENTER" wrapText="true" VBox.vgrow="NEVER">
+                        </Button-->
                     </children>
                 </HBox>
             </content>

@@ -22,13 +22,9 @@ public class ImsGui extends Application {
     public static void main(String[] args) {
         try {
             ims.SqlController.initializeSql();
-            ArrayList<Long> prodName = Products.selectProductID();
-            for(int i=0;i<prodName.size();i++)
-            {
-                System.out.println(prodName.get(i));
-            }
+            launch(args);
         }catch(Exception e)
         {e.printStackTrace();}
-        launch(args);
+
     }
 }
