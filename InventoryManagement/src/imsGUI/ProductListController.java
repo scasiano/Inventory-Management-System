@@ -1,9 +1,11 @@
 package imsGUI;
 
 import ims.Products;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -15,6 +17,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -25,43 +28,84 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class ProductListController{
-public void initialize() throws SQLException{
-    setProductList();
-}
+
     @FXML
     HBox productsList;
-    public void getProductInfo(){
+    @FXML
+    Label productName;
+    @FXML
+    Label productID;
+    @FXML
+    Label productMSRP;
+    @FXML
+    Label productPrice;
+    @FXML
+    Label productDescription;
+
+    ListView<Long> listID;
+    ListView<String> listName;
+    ArrayList<Products> allProd =new ArrayList<Products>();
+
+    public void initialize() throws SQLException{
+        setProductList();
+        prodDetails();
 
     }
-   public void setProductList() throws SQLException {
-        ArrayList<Products> allProd =new ArrayList<Products>();
+
+    public void setProductList() throws SQLException {
+
        ObservableList<Long> productID;
        ObservableList<String> productN;
        ArrayList<Long> idList = new ArrayList<>();
        ArrayList<String> nameList= new ArrayList<>();
 
-        /*VBox id=new VBox();
-        VBox name = new VBox();*/
-       /*TextField pID = new TextField();
-         TextField pName = new TextField();
-         pID.setText(String.valueOf(allProd.get(i).getProductID()));
-         pID.setEditable(false);
-         pName.setText(allProd.get(i).getName());
-         pName.setEditable(false);
-         id.getChildren().add(pID);
-         name.getChildren().add(pName);*/
-             try {
-               allProd=Products.selectAll();
-                 for (int i = 0; i < allProd.size(); i++) {
-                     idList.add(allProd.get(i).getProductID());
-                     nameList.add(allProd.get(i).getName());
-                 }
-                 productID = FXCollections.observableArrayList(idList);
-                 productN = FXCollections.observableArrayList(nameList);
-                 ListView<Long> listID = new ListView<Long>(productID);
-                 ListView<String> listName = new ListView<String>(productN);
-                 productsList.getChildren().addAll(listID,listName);
-             }catch(Exception e){e.printStackTrace();}
+
+        VBox name = new VBox();
+        Label Name=new Label();
+        Name.setText("Product Name:");
+        VBox id=new VBox();
+        Label ID=new Label();
+        ID.setText("Product ID:");
+        id.getChildren().add(ID);
+        name.getChildren().add(Name);
+        try {
+            allProd=Products.selectAll();
+            for (int i = 0; i < allProd.size(); i++) {
+                idList.add(allProd.get(i).getProductID());
+                nameList.add(allProd.get(i).getName());
+                }
+            productID = FXCollections.observableArrayList(idList);
+            productN = FXCollections.observableArrayList(nameList);
+            listName= new ListView<String>(productN);
+            name.getChildren().add(listName);
+            listID= new ListView<Long>(productID);
+            id.getChildren().add(listID);
+            productsList.getChildren().addAll(name,id);
+        }catch(Exception e){e.printStackTrace();}
+    }
+    public void prodDetails(){
+        listID.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Integer index = listID.getSelectionModel().getSelectedIndex();
+                listName.getSelectionModel().select(index);
+                productName.setText(allProd.get(index).getName());
+                productID.setText(String.valueOf(allProd.get(index).getProductID()));
+                productMSRP.setText(String.valueOf(allProd.get(index).getMsrp()));
+                productPrice.setText(String.valueOf(allProd.get(index).getPrice()));
+            }
+        });
+        listName.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Integer index = listName.getSelectionModel().getSelectedIndex();
+                listID.getSelectionModel().select(index);
+                productName.setText(allProd.get(index).getName());
+                productID.setText(String.valueOf(allProd.get(index).getProductID()));
+                productMSRP.setText(String.valueOf(allProd.get(index).getMsrp()));
+                productPrice.setText(String.valueOf(allProd.get(index).getPrice()));
+            }
+        });
     }
 
     @FXML
