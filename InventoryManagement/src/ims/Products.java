@@ -8,7 +8,7 @@ public class Products {
     double msrp;
     double price;
 
-    Products(long productID, String name, double msrp, double price){
+    public Products(long productID, String name, double msrp, double price){
         this.productID = productID;
         this.name = name;
         this.msrp = msrp;

@@ -1,46 +1,46 @@
 package imsGUI;
 
 import ims.Products;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.geometry.HorizontalDirection;
-import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
-import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.ResourceBundle;
+
 
 public class ProductListController{
 
     @FXML
     HBox productsList;
     @FXML
-    Label productName;
+    TextField productName;
     @FXML
-    Label productID;
+    TextField productID;
     @FXML
-    Label productMSRP;
+    TextField productMSRP;
     @FXML
-    Label productPrice;
+    TextField productPrice;
+    /*@FXML
+    TextField productDescription;*/
     @FXML
-    Label productDescription;
+    Button addProd;
+    @FXML
+    Label addProdLabel;
+    @FXML
+    HBox addProdBox;
+    @FXML
+    HBox modBox;
 
     ListView<Long> listID;
     ListView<String> listName;
@@ -49,17 +49,12 @@ public class ProductListController{
     public void initialize() throws SQLException{
         setProductList();
         prodDetails();
-
     }
-
     public void setProductList() throws SQLException {
-
-       ObservableList<Long> productID;
-       ObservableList<String> productN;
-       ArrayList<Long> idList = new ArrayList<>();
-       ArrayList<String> nameList= new ArrayList<>();
-
-
+        ObservableList<Long> productID;
+        ObservableList<String> productN;
+        ArrayList<Long> idList = new ArrayList<>();
+        ArrayList<String> nameList= new ArrayList<>();
         VBox name = new VBox();
         Label Name=new Label();
         Name.setText("Product Name:");
@@ -81,7 +76,7 @@ public class ProductListController{
             listID= new ListView<Long>(productID);
             id.getChildren().add(listID);
             productsList.getChildren().addAll(name,id);
-        }catch(Exception e){e.printStackTrace();}
+       }catch(Exception e){e.printStackTrace();}
     }
     public void prodDetails(){
         listID.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -91,8 +86,8 @@ public class ProductListController{
                 listName.getSelectionModel().select(index);
                 productName.setText(allProd.get(index).getName());
                 productID.setText(String.valueOf(allProd.get(index).getProductID()));
-                productMSRP.setText(String.valueOf(allProd.get(index).getMsrp()));
-                productPrice.setText(String.valueOf(allProd.get(index).getPrice()));
+                productMSRP.setText("$"+String.valueOf(allProd.get(index).getMsrp()));
+                productPrice.setText("$"+String.valueOf(allProd.get(index).getPrice()));
             }
         });
         listName.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -102,12 +97,58 @@ public class ProductListController{
                 listID.getSelectionModel().select(index);
                 productName.setText(allProd.get(index).getName());
                 productID.setText(String.valueOf(allProd.get(index).getProductID()));
-                productMSRP.setText(String.valueOf(allProd.get(index).getMsrp()));
-                productPrice.setText(String.valueOf(allProd.get(index).getPrice()));
+                productMSRP.setText("$"+String.valueOf(allProd.get(index).getMsrp()));
+                productPrice.setText("$"+String.valueOf(allProd.get(index).getPrice()));
             }
         });
     }
-
+    public void startProduct(ActionEvent event){
+        productName.setEditable(true);
+        productID.setEditable(true);
+        productMSRP.setEditable(true);
+        productPrice.setEditable(true);
+        addProd.setVisible(false);
+        addProdBox.setVisible(true);
+    }
+    public void addDBProduct(ActionEvent event) throws SQLException {
+        Products temp = new Products(0,"",0,0);
+        if(productID.getText().length()==8 && productName.getText().length()>0 && productMSRP.getText().length()>2 && productPrice.getText().length()>3){
+            try{ temp.setProductID(Long.valueOf(productID.getText()));
+            temp.setName(productName.getText());
+            temp.setMsrp(Double.valueOf(productMSRP.getText()));
+            temp.setPrice(Double.valueOf(productPrice.getText()));
+            Products.addRecord(temp);
+            addProductEnd();
+            listID.getItems().clear();
+            listName.getItems().clear();
+            setProductList();
+            }catch(Exception e){e.printStackTrace();}
+        }
+        else
+        {
+            Alert noProd=new Alert(Alert.AlertType.ERROR);
+            noProd.setHeaderText("Input not valid");
+            noProd.setContentText("Check your inputs for the product.\n\tProductID should be 8 numbers\n\t Product should have a name\n\t The Msrp and price need to be alt least 4 characters long.");
+            noProd.showAndWait();
+        }
+    }
+    public void addProductEnd(){
+        productName.setEditable(false);
+        productID.setEditable(false);
+        productMSRP.setEditable(false);
+        productPrice.setEditable(false);
+        addProd.setVisible(true);
+        addProdLabel.setVisible(false);
+        addProdBox.setVisible(false);
+    }
+    public void modProduct(){
+        productName.setEditable(true);
+        productMSRP.setEditable(true);
+        productPrice.setEditable(true);
+        addProd.setVisible(false);
+        addProdLabel.setVisible(true);
+        modBox.setVisible(true);
+    }
     @FXML
     private void openHomePage(ActionEvent event) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("HomePage.fxml"));
