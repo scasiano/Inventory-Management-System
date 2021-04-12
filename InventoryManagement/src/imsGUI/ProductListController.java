@@ -118,7 +118,7 @@ public class ProductListController{
             temp.setMsrp(Double.valueOf(productMSRP.getText()));
             temp.setPrice(Double.valueOf(productPrice.getText()));
             Products.addRecord(temp);
-            addProductEnd();
+            endProductEdit();
             listID.getItems().clear();
             listName.getItems().clear();
             setProductList();
@@ -132,7 +132,7 @@ public class ProductListController{
             noProd.showAndWait();
         }
     }
-    public void addProductEnd(){
+    public void endProductEdit(){
         productName.setEditable(false);
         productID.setEditable(false);
         productMSRP.setEditable(false);
@@ -140,6 +140,7 @@ public class ProductListController{
         addProd.setVisible(true);
         addProdLabel.setVisible(false);
         addProdBox.setVisible(false);
+        modBox.setVisible(false);
     }
     public void modProduct(){
         productName.setEditable(true);

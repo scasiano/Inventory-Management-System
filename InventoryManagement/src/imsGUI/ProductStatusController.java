@@ -1,14 +1,98 @@
 package imsGUI;
 
+import ims.CurrentStock;
+import ims.IncomingGoods;
+import ims.OutgoingGoods;
+import ims.Products;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
+import java.sql.Date;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 public class ProductStatusController {
+    @FXML
+    TableView<IncomingGoods> incomingT;
+    @FXML
+    TableColumn inID;
+    @FXML
+    TableColumn inProductID;
+    @FXML
+    TableColumn dateIn;
+    @FXML
+    TableColumn trackingID;
+    @FXML
+    TableColumn inQuantity;
+    @FXML
+    TableColumn inEmpID;
+    @FXML
+    TableColumn inAdminAction;
+
+    @FXML
+    TableView outgoingT;
+    @FXML
+    TableColumn outID;
+    @FXML
+    TableColumn outProductID;
+    @FXML
+    TableColumn dateGo;
+    @FXML
+    TableColumn outQuantity;
+    @FXML
+    TableColumn outEmpID;
+    @FXML
+    TableColumn outAdminAction;
+
+
+    ArrayList<IncomingGoods> allIn =new ArrayList<IncomingGoods>();
+    ArrayList<OutgoingGoods> allOut =new ArrayList<OutgoingGoods>();
+    ArrayList<CurrentStock> allCur=new ArrayList<CurrentStock>();
+    public void initialize(){
+       setIncomingTable();
+       setOutgoingTable();
+    }
+    public void setIncomingTable(){
+        try {
+            inID.setCellValueFactory(new PropertyValueFactory<IncomingGoods,Long>("incomingID"));
+            inProductID.setCellValueFactory(new PropertyValueFactory<IncomingGoods,Long>("productID"));
+            dateIn.setCellValueFactory(new PropertyValueFactory<IncomingGoods, Date>("dateIn"));
+            inQuantity.setCellValueFactory(new PropertyValueFactory<IncomingGoods,Integer>("quantity"));
+            inEmpID.setCellValueFactory(new PropertyValueFactory<IncomingGoods,Long>("employeeNo"));
+            allIn = IncomingGoods.selectAll();
+            ObservableList<IncomingGoods> incoming = FXCollections.observableArrayList(allIn);
+            incomingT.setItems(incoming);
+        }catch(SQLException e){
+            System.out.println(e);
+            System.out.println(e.getSQLState());
+        }
+    }
+    public void setOutgoingTable(){
+        try {
+            outID.setCellValueFactory(new PropertyValueFactory<IncomingGoods,Long>("outgoingID"));
+            outProductID.setCellValueFactory(new PropertyValueFactory<IncomingGoods,Long>("productID"));
+            dateGo.setCellValueFactory(new PropertyValueFactory<IncomingGoods, Date>("dateGo"));
+            outQuantity.setCellValueFactory(new PropertyValueFactory<IncomingGoods,Integer>("quantity"));
+            outEmpID.setCellValueFactory(new PropertyValueFactory<IncomingGoods,Long>("employeeNo"));
+            allOut = OutgoingGoods.selectAll();
+            ObservableList<OutgoingGoods> outgoing = FXCollections.observableArrayList(allOut);
+            outgoingT.setItems(outgoing);
+        }catch(SQLException e){
+            System.out.println(e);
+            System.out.println(e.getSQLState());
+        }
+    }
+
     @FXML
     private void openHomePage(ActionEvent event) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("HomePage.fxml"));
