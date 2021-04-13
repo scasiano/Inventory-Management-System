@@ -54,6 +54,16 @@ public class ProductStatusController {
     @FXML
     TableColumn outAdminAction;
 
+    @FXML
+    TableView currentT;
+    @FXML
+    TableColumn productID;
+    @FXML
+    TableColumn curProductName;
+    @FXML
+    TableColumn curQuantity;
+    @FXML
+    TableColumn curAdminAction;
 
     ArrayList<IncomingGoods> allIn =new ArrayList<IncomingGoods>();
     ArrayList<OutgoingGoods> allOut =new ArrayList<OutgoingGoods>();
@@ -61,12 +71,14 @@ public class ProductStatusController {
     public void initialize(){
        setIncomingTable();
        setOutgoingTable();
+       setCurrentTable();
     }
     public void setIncomingTable(){
         try {
             inID.setCellValueFactory(new PropertyValueFactory<IncomingGoods,Long>("incomingID"));
             inProductID.setCellValueFactory(new PropertyValueFactory<IncomingGoods,Long>("productID"));
             dateIn.setCellValueFactory(new PropertyValueFactory<IncomingGoods, Date>("dateIn"));
+            trackingID.setCellValueFactory(new PropertyValueFactory<IncomingGoods,String>("trackingNo"));
             inQuantity.setCellValueFactory(new PropertyValueFactory<IncomingGoods,Integer>("quantity"));
             inEmpID.setCellValueFactory(new PropertyValueFactory<IncomingGoods,Long>("employeeNo"));
             allIn = IncomingGoods.selectAll();
@@ -79,14 +91,27 @@ public class ProductStatusController {
     }
     public void setOutgoingTable(){
         try {
-            outID.setCellValueFactory(new PropertyValueFactory<IncomingGoods,Long>("outgoingID"));
-            outProductID.setCellValueFactory(new PropertyValueFactory<IncomingGoods,Long>("productID"));
-            dateGo.setCellValueFactory(new PropertyValueFactory<IncomingGoods, Date>("dateGo"));
-            outQuantity.setCellValueFactory(new PropertyValueFactory<IncomingGoods,Integer>("quantity"));
-            outEmpID.setCellValueFactory(new PropertyValueFactory<IncomingGoods,Long>("employeeNo"));
+            outID.setCellValueFactory(new PropertyValueFactory<OutgoingGoods,Long>("outgoingID"));
+            outProductID.setCellValueFactory(new PropertyValueFactory<OutgoingGoods,Long>("productID"));
+            dateGo.setCellValueFactory(new PropertyValueFactory<OutgoingGoods, Date>("dateGo"));
+            outQuantity.setCellValueFactory(new PropertyValueFactory<OutgoingGoods,Integer>("quantity"));
+            outEmpID.setCellValueFactory(new PropertyValueFactory<OutgoingGoods,Long>("employeeNo"));
             allOut = OutgoingGoods.selectAll();
             ObservableList<OutgoingGoods> outgoing = FXCollections.observableArrayList(allOut);
             outgoingT.setItems(outgoing);
+        }catch(SQLException e){
+            System.out.println(e);
+            System.out.println(e.getSQLState());
+        }
+    }
+    public void setCurrentTable(){
+        try {
+            productID.setCellValueFactory(new PropertyValueFactory<CurrentStock,Long>("productID"));
+            //curProductName.setCellValueFactory(new PropertyValueFactory<Products,String>("name"));
+            curQuantity.setCellValueFactory(new PropertyValueFactory<CurrentStock,Integer>("quantity"));
+            allCur = CurrentStock.selectAll();
+            ObservableList<CurrentStock> current = FXCollections.observableArrayList(allCur);
+            currentT.setItems(current);
         }catch(SQLException e){
             System.out.println(e);
             System.out.println(e.getSQLState());

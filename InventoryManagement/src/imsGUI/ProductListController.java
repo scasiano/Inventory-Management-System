@@ -112,7 +112,7 @@ public class ProductListController{
     }
     public void addDBProduct(ActionEvent event) throws SQLException {
         Products temp = new Products(0,"",0,0);
-        if(productID.getText().length()==8 && productName.getText().length()>0 && productMSRP.getText().length()>2 && productPrice.getText().length()>3){
+        if(Double.valueOf(productID.getText())>0 && productName.getText().length()>0 && productMSRP.getText().length()>2 && productPrice.getText().length()>3){
             try{ temp.setProductID(Long.valueOf(productID.getText()));
             temp.setName(productName.getText());
             temp.setMsrp(Double.valueOf(productMSRP.getText()));
@@ -122,7 +122,9 @@ public class ProductListController{
             listID.getItems().clear();
             listName.getItems().clear();
             setProductList();
-            }catch(Exception e){e.printStackTrace();}
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
         else
         {
