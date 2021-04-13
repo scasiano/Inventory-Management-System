@@ -23,8 +23,7 @@ public class ImsGui extends Application {
         try {
             ims.SqlController.initializeSql();
             launch(args);
-        }catch(Exception e)
-        {e.printStackTrace();}
-
+        }
+        catch(Exception e) {e.printStackTrace();}
     }
 }

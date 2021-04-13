@@ -3,3 +3,4 @@ InventoryManagement/.idea
 InventoryManagement/out
 InventoryManagement/InventoryManagement.iml
 InventoryManagement/InventoryManagement.eml
+InventoryManagement/src/ims/SqlController.java

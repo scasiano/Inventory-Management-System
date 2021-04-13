@@ -128,4 +128,11 @@ public class Users {
     public static void modifyRole(long primaryKey, String updateValue) throws SQLException {
         SqlController.dbStatement.executeUpdate("update users set role = '" + updateValue + "' where user_id = " + primaryKey);
     }
+
+    //SQL Queries CHECK USER
+    public static String authenticateUser(String username, String password) throws SQLException {
+        ResultSet dbResult = SqlController.dbStatement.executeQuery("select * from users where username='" + username + "'");
+        if (password.equals(dbResult.getString(3))) return dbResult.getString(6);
+        return "";
+    }
 }
