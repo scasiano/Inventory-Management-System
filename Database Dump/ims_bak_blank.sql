@@ -180,7 +180,7 @@ UNLOCK TABLES;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`casiano`@`localhost`*/ /*!50003 TRIGGER `inventory_management`.`incoming_goods_AFTER_INSERT` AFTER INSERT ON `incoming_goods` FOR EACH ROW
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `inventory_management`.`incoming_goods_AFTER_INSERT` AFTER INSERT ON `incoming_goods` FOR EACH ROW
 BEGIN
 	UPDATE `inventory_management`.`current_stock`
 		SET current_stock.quantity = current_stock.quantity + NEW.quantity
@@ -326,7 +326,7 @@ UNLOCK TABLES;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`casiano`@`localhost`*/ /*!50003 TRIGGER `inventory_management`.`outgoing_goods_AFTER_INSERT` AFTER INSERT ON `outgoing_goods` FOR EACH ROW
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `inventory_management`.`outgoing_goods_AFTER_INSERT` AFTER INSERT ON `outgoing_goods` FOR EACH ROW
 BEGIN
 	UPDATE `inventory_management`.`current_stock`
 		SET current_stock.quantity = current_stock.quantity - NEW.quantity
@@ -371,7 +371,7 @@ UNLOCK TABLES;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`casiano`@`localhost`*/ /*!50003 TRIGGER `inventory_management`.`products_AFTER_INSERT` AFTER INSERT ON `products` FOR EACH ROW
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `inventory_management`.`products_AFTER_INSERT` AFTER INSERT ON `products` FOR EACH ROW
 BEGIN
 	INSERT INTO current_stock(product_id) VALUES (NEW.product_id);
 END */;;
@@ -389,7 +389,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`casiano`@`10.10.100.10`*/ /*!50003 TRIGGER `inventory_management`.`products_BEFORE_DELETE` BEFORE DELETE ON `products` FOR EACH ROW
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `inventory_management`.`products_BEFORE_DELETE` BEFORE DELETE ON `products` FOR EACH ROW
 BEGIN
 	DELETE FROM current_stock WHERE product_id = OLD.product_id;
 END */;;
@@ -499,4 +499,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-04-12 16:30:46
+-- Dump completed on 2021-04-13 15:09:47
