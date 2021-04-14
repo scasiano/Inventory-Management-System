@@ -5,13 +5,13 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
+
 <GridPane fx:id="ParGrid" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: grey;" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="imsGUI.ProductListController">
     <columnConstraints>
         <ColumnConstraints fx:id="column0" maxWidth="5" minWidth="5.0" />
         <ColumnConstraints fx:id="column1" percentWidth="30" />
         <ColumnConstraints fx:id="column2" percentWidth="59.5" />
         <ColumnConstraints fx:id="column3" percentWidth="10" />
-
     </columnConstraints>
     <rowConstraints>
         <RowConstraints fx:id="row0" fillHeight="true" percentHeight="5" />
@@ -55,6 +55,7 @@
                 <TextField fx:id="productDescription" editable="false" style="-fx-background-color: white; -fx-border-color: ALICEBLUE;" text="Not current description" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
                 <ImageView fx:id="pImage" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" style=" -fx-border-color: grey;" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.rowSpan="2" GridPane.valignment="CENTER" />
             <Label fx:id="addProdLabel" alignment="TOP_CENTER" style="-fx-background-color: ALICEBLUE;" text="Add Product Info" visible="false" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="TOP" />
+            <Button fx:id="startMod" mnemonicParsing="false" onAction="#modProduct" text="Modify Product" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
             <HBox fx:id="addProdBox" alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" visible="false" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
                <GridPane.margin>
                   <Insets bottom="20.0" left="30.0" right="30.0" top="30.0" />
@@ -66,7 +67,7 @@
             </HBox>
             <HBox fx:id="modBox" alignment="TOP_CENTER" layoutX="691.0" layoutY="638.0" prefHeight="100.0" prefWidth="200.0" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="4">
                <children>
-                  <Button fx:id="addDBProd1" mnemonicParsing="false" onAction="#modProduct" text="Modify Product" />
+                  <Button fx:id="addDBProd1" mnemonicParsing="false" onAction="#modDBProduct" text="Modify Product" />
                   <Button fx:id="deleteDBProd" layoutX="35.0" layoutY="10.0" mnemonicParsing="false" text="Delete Product" />
                   <Button fx:id="cancelProd1" mnemonicParsing="false" onAction="#endProductEdit" text="Cancel" />
                </children>

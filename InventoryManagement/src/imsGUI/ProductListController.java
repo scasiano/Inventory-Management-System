@@ -41,41 +41,45 @@ public class ProductListController{
     HBox addProdBox;
     @FXML
     HBox modBox;
+    @FXML
+    Button startMod;
 
     ListView<Long> listID;
     ListView<String> listName;
     ArrayList<Products> allProd =new ArrayList<Products>();
+    ObservableList<Long> pID;
+    ObservableList<String> prodN;
+    VBox nameBox = new VBox();
+    VBox idBox =new VBox();
+    Label Name=new Label();
+    int pIndex;
 
     public void initialize() throws SQLException{
         setProductList();
         prodDetails();
     }
     public void setProductList() throws SQLException {
-        ObservableList<Long> productID;
-        ObservableList<String> productN;
+
         ArrayList<Long> idList = new ArrayList<>();
         ArrayList<String> nameList= new ArrayList<>();
-        VBox name = new VBox();
-        Label Name=new Label();
         Name.setText("Product Name:");
-        VBox id=new VBox();
         Label ID=new Label();
         ID.setText("Product ID:");
-        id.getChildren().add(ID);
-        name.getChildren().add(Name);
+        idBox.getChildren().add(ID);
+        nameBox.getChildren().add(Name);
         try {
             allProd=Products.selectAll();
             for (int i = 0; i < allProd.size(); i++) {
                 idList.add(allProd.get(i).getProductID());
                 nameList.add(allProd.get(i).getName());
                 }
-            productID = FXCollections.observableArrayList(idList);
-            productN = FXCollections.observableArrayList(nameList);
-            listName= new ListView<String>(productN);
-            name.getChildren().add(listName);
-            listID= new ListView<Long>(productID);
-            id.getChildren().add(listID);
-            productsList.getChildren().addAll(name,id);
+            pID = FXCollections.observableArrayList(idList);
+            prodN = FXCollections.observableArrayList(nameList);
+            listName= new ListView<String>(prodN);
+            nameBox.getChildren().add(listName);
+            listID= new ListView<Long>(pID);
+            idBox.getChildren().add(listID);
+            productsList.getChildren().addAll(nameBox, idBox);
        }catch(Exception e){e.printStackTrace();}
     }
     public void prodDetails(){
@@ -83,6 +87,7 @@ public class ProductListController{
             @Override
             public void handle(MouseEvent event) {
                 Integer index = listID.getSelectionModel().getSelectedIndex();
+                pIndex=index;
                 listName.getSelectionModel().select(index);
                 productName.setText(allProd.get(index).getName());
                 productID.setText(String.valueOf(allProd.get(index).getProductID()));
@@ -94,6 +99,7 @@ public class ProductListController{
             @Override
             public void handle(MouseEvent event) {
                 Integer index = listName.getSelectionModel().getSelectedIndex();
+                pIndex=index;
                 listID.getSelectionModel().select(index);
                 productName.setText(allProd.get(index).getName());
                 productID.setText(String.valueOf(allProd.get(index).getProductID()));
@@ -107,24 +113,31 @@ public class ProductListController{
         productID.setEditable(true);
         productMSRP.setEditable(true);
         productPrice.setEditable(true);
+        addProdLabel.setVisible(true);
         addProd.setVisible(false);
         addProdBox.setVisible(true);
+        startMod.setVisible(false);
     }
     public void addDBProduct(ActionEvent event) throws SQLException {
         Products temp = new Products(0,"",0,0);
-        if(Double.valueOf(productID.getText())>0 && productName.getText().length()>0 && productMSRP.getText().length()>2 && productPrice.getText().length()>3){
-            try{ temp.setProductID(Long.valueOf(productID.getText()));
-            temp.setName(productName.getText());
-            temp.setMsrp(Double.valueOf(productMSRP.getText()));
-            temp.setPrice(Double.valueOf(productPrice.getText()));
-            Products.addRecord(temp);
-            endProductEdit();
-            listID.getItems().clear();
-            listName.getItems().clear();
-            setProductList();
-            }catch(Exception e){
+        if(
+             Double.valueOf(productID.getText())>0 && productName.getText().length()>0 && productMSRP.getText().length()>2 && productPrice.getText().length()>3){
+             try{
+                temp.setProductID(Long.valueOf(productID.getText()));
+                temp.setName(productName.getText());
+                temp.setMsrp(Double.valueOf(productMSRP.getText()));
+                temp.setPrice(Double.valueOf(productPrice.getText()));
+                Products.addRecord(temp);
+                endProductEdit();
+                listID.getItems().clear();
+                listName.getItems().clear();
+                idBox.getChildren().clear();
+                nameBox.getChildren().clear();
+                productsList.getChildren().clear();
+                setProductList();
+             }catch(Exception e){
                 e.printStackTrace();
-            }
+             }
         }
         else
         {
@@ -143,6 +156,12 @@ public class ProductListController{
         addProdLabel.setVisible(false);
         addProdBox.setVisible(false);
         modBox.setVisible(false);
+        startMod.setVisible(true);
+    }
+    public void modDBProduct(){
+        allProd.get(pIndex).setName(productName.getText());
+        allProd.get(pIndex).setMsrp(Double.valueOf(productMSRP.getText()));
+        allProd.get(pIndex).setPrice(Double.valueOf(productPrice.getText()));
     }
     public void modProduct(){
         productName.setEditable(true);
@@ -151,6 +170,12 @@ public class ProductListController{
         addProd.setVisible(false);
         addProdLabel.setVisible(true);
         modBox.setVisible(true);
+        startMod.setVisible(false);
+    }
+    public void delProduct(){
+       /* Alert delete=new Alert(Alert.AlertType.CONFIRMATION);
+        if(delete.)
+        ims.Products.deleteRecord(allProd.get(pIndex).getProductID());*/
     }
     @FXML
     private void openHomePage(ActionEvent event) throws Exception {
