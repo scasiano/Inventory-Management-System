@@ -6,13 +6,18 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import java.sql.*;
-import java.util.ArrayList;
 
 public class ImsGui extends Application {
     protected String User;
     @Override
     public void start(Stage primaryStage) throws Exception{
+        try {
+            ims.SqlController.initializeSql();
+        }
+        catch(Exception e) {
+            Global.exceptionAlert(e, "launch");
+            System.exit(503);
+        }
         Parent root = FXMLLoader.load(getClass().getResource("Test.fxml"));
         primaryStage.setTitle("Inventory Management Database");
         primaryStage.setScene(new Scene(root, 300, 275));
@@ -20,10 +25,6 @@ public class ImsGui extends Application {
     }
 
     public static void main(String[] args) {
-        try {
-            ims.SqlController.initializeSql();
-            launch(args);
-        }
-        catch(Exception e) {e.printStackTrace();}
+        launch(args);
     }
 }
