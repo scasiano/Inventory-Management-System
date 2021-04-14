@@ -1,79 +1,82 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<GridPane alignment="CENTER" prefHeight="400.0" prefWidth="510.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="imsGUI.LoginController">
+<GridPane alignment="CENTER" prefHeight="400.0" prefWidth="510.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="imsGUI.LoginController">
    <children>
-      <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" GridPane.columnIndex="1" />
+      <HBox alignment="CENTER" prefHeight="72.0" prefWidth="600.0" style="-fx-background-color: #03bafc;" GridPane.columnSpan="2147483647">
          <children>
-            <HBox alignment="CENTER" prefHeight="72.0" prefWidth="600.0" style="-fx-background-color: #03bafc;">
-               <children>
-                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Log In">
-                     <font>
-                        <Font size="25.0" />
-                     </font></Text>
-               </children>
-            </HBox>
-            <HBox alignment="CENTER" fillHeight="false" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-               <children>
-                  <GridPane alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="214.0" prefWidth="300.0" style="-fx-border-color: #CCCC;">
-                    <columnConstraints>
-                      <ColumnConstraints fillWidth="true" minWidth="10.0" prefWidth="100.0" />
-                      <ColumnConstraints fillWidth="true" minWidth="10.0" prefWidth="100.0" />
-                        <ColumnConstraints fillWidth="true" minWidth="10.0" prefWidth="100.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                     <children>
-                        <Button mnemonicParsing="false" style="-fx-background-color: #03bafc;" text="Login" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="2">
-                           <font>
-                              <Font size="20.0" />
-                           </font>
-                        </Button>
-                        <Button mnemonicParsing="false" style="-fx-background-color: #080808;" text="Reset" textFill="WHITE" GridPane.rowIndex="2">
-                           <font>
-                              <Font size="20.0" />
-                           </font>
-                        </Button>
-                        <TextField promptText="Username" GridPane.columnSpan="3">
-                           <font>
-                              <Font size="20.0" />
-                           </font>
-                        </TextField>
-                        <PasswordField promptText="Password" GridPane.columnSpan="2147483647" GridPane.rowIndex="1">
-                           <font>
-                              <Font size="20.0" />
-                           </font>
-                        </PasswordField>
-                     </children>
-                  </GridPane>
-               </children>
-            </HBox>
-            <HBox alignment="CENTER" prefHeight="29.0" prefWidth="600.0" style="-fx-background-color: #CCCC;">
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="IMS - 2021" />
-               </children>
-            </HBox>
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Log In">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Text>
          </children>
-      </VBox>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="29.0" prefWidth="600.0" style="-fx-background-color: #CCCC;" GridPane.columnSpan="2147483647" GridPane.rowIndex="4">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="IMS - 2021" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" fillHeight="false" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      <GridPane alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-border-color: #CCCC;" GridPane.columnIndex="1" GridPane.rowIndex="2">
+        <columnConstraints>
+          <ColumnConstraints fillWidth="true" percentWidth="30" />
+          <ColumnConstraints fillWidth="true" percentWidth="30" />
+            <ColumnConstraints fillWidth="true" percentWidth="30" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints percentHeight="30" />
+          <RowConstraints percentHeight="30" />
+          <RowConstraints percentHeight="30" />
+        </rowConstraints>
+         <children>
+            <Button mnemonicParsing="false" style="-fx-background-color: #03bafc;" text="Login" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="2">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" style="-fx-background-color: #080808;" text="Reset" textFill="WHITE" GridPane.rowIndex="2">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Button>
+            <TextField promptText="Username" GridPane.columnSpan="3" GridPane.valignment="BOTTOM">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets bottom="10.0" />
+               </GridPane.margin>
+            </TextField>
+            <PasswordField promptText="Password" GridPane.columnSpan="2147483647" GridPane.rowIndex="1" GridPane.valignment="TOP">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets bottom="20.0" top="20.0" />
+               </GridPane.margin>
+            </PasswordField>
+         </children>
+         <GridPane.margin>
+            <Insets top="20.0" />
+         </GridPane.margin>
+      </GridPane>
    </children>
    <columnConstraints>
-      <ColumnConstraints fillWidth="true"/>
+      <ColumnConstraints fillWidth="true" percentWidth="20" />
+      <ColumnConstraints fillWidth="true" percentWidth="60" />
+      <ColumnConstraints fillWidth="true" percentWidth="20" />
    </columnConstraints>
    <rowConstraints>
-      <RowConstraints />
+      <RowConstraints fillHeight="true" percentHeight="20" />
+      <RowConstraints fillHeight="true" percentHeight="10" />
+      <RowConstraints fillHeight="true" percentHeight="55" />
+      <RowConstraints fillHeight="true" percentHeight="5" />
+      <RowConstraints fillHeight="true" percentHeight="10" />
    </rowConstraints>
 </GridPane>
