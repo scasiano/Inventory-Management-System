@@ -29,7 +29,7 @@ CREATE TABLE `active_invoice` (
   `total_recieved` decimal(10,2) GENERATED ALWAYS AS (`total_charge` - `outstanding_balance`) VIRTUAL,
   `outstanding_balance` decimal(10,2) NOT NULL,
   PRIMARY KEY (`order_id`),
-  CONSTRAINT `active_invoice_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`)
+  CONSTRAINT `active_invoice_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -59,7 +59,7 @@ CREATE TABLE `budget` (
   `employee_no` int(11) unsigned zerofill DEFAULT NULL,
   PRIMARY KEY (`date_start`,`date_end`),
   KEY `employee_no` (`employee_no`),
-  CONSTRAINT `budget_ibfk_1` FOREIGN KEY (`employee_no`) REFERENCES `employees` (`employee_no`) ON DELETE SET NULL
+  CONSTRAINT `budget_ibfk_1` FOREIGN KEY (`employee_no`) REFERENCES `employees` (`employee_no`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -84,7 +84,7 @@ CREATE TABLE `current_stock` (
   `product_id` int(11) unsigned zerofill NOT NULL,
   `quantity` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`product_id`),
-  CONSTRAINT `current_stock_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`)
+  CONSTRAINT `current_stock_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -131,7 +131,7 @@ CREATE TABLE `employees` (
   `end_date` date DEFAULT NULL,
   PRIMARY KEY (`employee_no`),
   KEY `user_id` (`user_id`),
-  CONSTRAINT `employees_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
+  CONSTRAINT `employees_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -162,8 +162,8 @@ CREATE TABLE `incoming_goods` (
   PRIMARY KEY (`incoming_id`),
   KEY `employee_no` (`employee_no`),
   KEY `incoming_goods_ibfk_1` (`product_id`),
-  CONSTRAINT `incoming_goods_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `incoming_goods_ibfk_2` FOREIGN KEY (`employee_no`) REFERENCES `employees` (`employee_no`) ON DELETE SET NULL
+  CONSTRAINT `incoming_goods_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON UPDATE CASCADE,
+  CONSTRAINT `incoming_goods_ibfk_2` FOREIGN KEY (`employee_no`) REFERENCES `employees` (`employee_no`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -209,7 +209,7 @@ CREATE TABLE `invoice_history` (
   `date_processed` date NOT NULL,
   `total_charge` decimal(10,2) NOT NULL,
   PRIMARY KEY (`order_id`),
-  CONSTRAINT `invoice_history_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`)
+  CONSTRAINT `invoice_history_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -235,8 +235,8 @@ CREATE TABLE `order_items` (
   `product_id` int(11) unsigned zerofill NOT NULL,
   KEY `product_id` (`product_id`),
   KEY `order_items_ibfk_1` (`order_id`),
-  CONSTRAINT `order_items_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `order_items_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`)
+  CONSTRAINT `order_items_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `order_items_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -282,7 +282,7 @@ CREATE TABLE `orders` (
   `employee_no` int(11) unsigned zerofill DEFAULT NULL,
   PRIMARY KEY (`order_id`),
   KEY `orders_ibfk_1` (`employee_no`),
-  CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`employee_no`) REFERENCES `employees` (`employee_no`) ON DELETE SET NULL
+  CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`employee_no`) REFERENCES `employees` (`employee_no`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -312,8 +312,8 @@ CREATE TABLE `outgoing_goods` (
   PRIMARY KEY (`outgoing_id`),
   KEY `outgoing_goods_ibfk_2` (`employee_no`),
   KEY `outgoing_goods_ibfk_1` (`product_id`),
-  CONSTRAINT `outgoing_goods_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `outgoing_goods_ibfk_2` FOREIGN KEY (`employee_no`) REFERENCES `employees` (`employee_no`) ON DELETE SET NULL
+  CONSTRAINT `outgoing_goods_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON UPDATE CASCADE,
+  CONSTRAINT `outgoing_goods_ibfk_2` FOREIGN KEY (`employee_no`) REFERENCES `employees` (`employee_no`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -422,7 +422,7 @@ CREATE TABLE `tracking` (
   `tracking_id` varchar(35) DEFAULT NULL,
   `carrier` varchar(99) DEFAULT NULL,
   PRIMARY KEY (`order_id`),
-  CONSTRAINT `tracking_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`)
+  CONSTRAINT `tracking_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -511,4 +511,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-04-13 15:07:31
+-- Dump completed on 2021-04-14 10:09:30
