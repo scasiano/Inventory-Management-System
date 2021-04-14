@@ -3,6 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.geometry.Insets?>
 <GridPane maxHeight="Infinity" maxWidth="Infinity" style="-fx-background-color: grey;" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="imsGUI.AdminUserListController">
 
     <columnConstraints>
@@ -17,18 +18,22 @@
     </rowConstraints>
     <children>
         <HBox alignment="BASELINE_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="RIGHT_TO_LEFT" snapToPixel="false" GridPane.columnIndex="3" GridPane.columnSpan="2147483647" GridPane.halignment="LEFT">
-            <children>
-                <Button alignment="BASELINE_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#openLogin" text="Logout" wrapText="true" HBox.hgrow="NEVER">
-                </Button>
-                <Button alignment="BASELINE_RIGHT" centerShape="false" ellipsisString="" mnemonicParsing="false" onAction="#openHomePage" text="Homepage" textOverrun="CLIP" wrapText="true" HBox.hgrow="NEVER">
-                </Button>
-            </children>
-            <GridPane.margin>
-            </GridPane.margin>
-        </HBox>
+        <children>
+            <Button alignment="BASELINE_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#openLogin" text="Logout" wrapText="true" HBox.hgrow="NEVER">
+                <HBox.margin>
+                    <Insets bottom="5.0" left="5.0" top="5.0" />
+                </HBox.margin>
+            </Button>
+            <Button alignment="BASELINE_RIGHT" centerShape="false" mnemonicParsing="false" onAction="#openHomePage" text="Homepage" textOverrun="CLIP" wrapText="true" HBox.hgrow="NEVER">
+                <HBox.margin>
+                    <Insets bottom="5.0" left="5.0" top="5.0" />
+                </HBox.margin>
+            </Button>
+        </children>
+    </HBox>
         <TabPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT" prefHeight="200.0" prefWidth="200.0" scaleShape="false" snapToPixel="false" style="-fx-background-color: ALICEBLUE; -fx-border-color: white; -fx-tab-max-width: Infinity;" tabClosingPolicy="UNAVAILABLE" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.rowIndex="1">
             <tabs>
-                <Tab text="Incoming Goods">
+                <Tab text="Users">
                     <content>
                         <GridPane alignment="TOP_CENTER" focusTraversable="true" maxHeight="Infinity" maxWidth="Infinity" minHeight="-Infinity" minWidth="-Infinity">
                             <columnConstraints>
@@ -42,7 +47,7 @@
                                 <RowConstraints fillHeight="true" percentHeight="5" />
                             </rowConstraints>
                             <children>
-                                <TableView fx:id="incomingT" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                <TableView fx:id="userT" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                     <columns>
                                         <TableColumn fx:id="userID" text="Username ID" />
                                         <TableColumn fx:id="uFirstName" text="First Name" />
@@ -59,7 +64,7 @@
                         </GridPane>
                     </content>
                 </Tab>
-                <Tab text="Current Stock">
+                <Tab text="Employees">
                     <content>
                         <GridPane alignment="TOP_CENTER" focusTraversable="true" maxHeight="Infinity" maxWidth="Infinity" minHeight="-Infinity" minWidth="-Infinity">
                             <columnConstraints>
@@ -73,13 +78,14 @@
                                 <RowConstraints fillHeight="true" percentHeight="5" />
                             </rowConstraints>
                             <children>
-                                <TableView fx:id="currentT" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                <TableView fx:id="empT" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                     <columns>
                                         <TableColumn fx:id="empID" text="Employee ID" />
                                         <TableColumn fx:id="empUserID" text="Username ID" />
                                         <TableColumn fx:id="firstName" text="First Name" />
                                         <TableColumn fx:id="lastName" text="Last Name" />
                                         <TableColumn fx:id="payHour" text="Pay/Hour"/>
+                                        <TableColumn fx:id="dateStart" text="Start Date"/>
                                         <TableColumn fx:id="curAdminAction" text="Action" />
                                     </columns>
                                     <columnResizePolicy>
