@@ -11,10 +11,9 @@ import javafx.stage.Stage;
 public class LoginController {
     //once login is set up this should lead to homepage
     @FXML
-    private void openHomePage(ActionEvent event) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("HomePage.fxml"));
+    private void openHomePage(ActionEvent event) {
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root, 300, 275));
+        stage.setScene(ImsGui.global.getHomepageScene());
         stage.show();
     }
 }
