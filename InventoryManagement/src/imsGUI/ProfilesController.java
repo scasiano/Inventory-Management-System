@@ -1,5 +1,6 @@
 package imsGUI;
 
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import ims.Users;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -34,7 +35,7 @@ public class ProfilesController {
     @FXML
     TextField role;
     @FXML
-    PasswordField password;
+    TextField password;
     @FXML
     Button save;
     @FXML
@@ -55,6 +56,7 @@ public class ProfilesController {
     ArrayList<Users> allUsers = new ArrayList<Users>();
     ListView<String> columnUN;
     ListView<Long> columnID;
+    int uIndex = -1;
 
     public void initialize() throws SQLException {
         setUsersList();
@@ -148,41 +150,117 @@ public class ProfilesController {
         userResults.setVisible(true);
     }
 
-    public void saveButtonClicked(ActionEvent event) {
+    public void saveButtonClicked(ActionEvent event) throws SQLException {
         Users tmp = new Users(0, "", "", "", "", "");
-        if (Double.valueOf(user_id.getText()) > 0 && username.getText().length() > 0
-                && fname.getText().length() > 0 && lname.getText().length() > 0 && role.getText().length() > 0
-                && password.getText().length() > 0) {
-            try {
-                tmp.setUserID(Long.valueOf(user_id.getText()));
-                tmp.setUsername(username.getText());
-                tmp.setFName(fname.getText());
-                tmp.setLName(lname.getText());
-                tmp.setRole(role.getText());
-                tmp.setPassword(password.getText());
-                Users.addRecord(tmp);
-                columnUN.getItems().clear();
-                columnID.getItems().clear();
-                setUsersList();
-            } catch (Exception e) {
-                e.printStackTrace();
+        boolean flag = false;
+
+        try{
+            while(!flag){
+                if (user_id.getText().length() > 0 && Long.valueOf(user_id.getText().length()) >= 0){
+                    flag = true;
+                    tmp.setUserID(Long.valueOf(user_id.getText()));
+                } else{
+                    flag = false;
+                    Global.warningAlert("Incorrect ID", "User ID needs to be greater than 0 and less than 9");
+                    user_id.clear();
+                }
+                if (username.getText().length() > 0){
+                    flag = true;
+                    tmp.setUsername(username.getText());
+                } else{
+                    flag = false;
+                    Global.warningAlert("Incorrect Username", "Every User needs a Username");
+                    username.clear();
+                }
+                if (fname.getText().length() > 0){
+                    flag = true;
+                    tmp.setUsername(fname.getText());
+                } else{
+                    flag = false;
+                    Global.warningAlert("Incorrect first name", "Every User needs a first name");
+                    fname.clear();
+                }
+                if (lname.getText().length() > 0){
+                    flag = true;
+                    tmp.setUsername(lname.getText());
+                } else{
+                    flag = false;
+                    Global.warningAlert("Incorrect last name", "Every User needs a last name");
+                    lname.clear();
+                }
+                if (role.getText().length() > 0){
+                    flag = true;
+                    tmp.setUsername(role.getText());
+                } else{
+                    flag = false;
+                    Global.warningAlert("Incorrect role", "Every User needs a role type");
+                    role.clear();
+                }
+                if (password.getText().length() > 0){
+                    flag = true;
+                    tmp.setUsername(password.getText());
+                } else{
+                    flag = false;
+                    Global.warningAlert("Incorrect password", "Every User needs a password");
+                    password.clear();
+                }
             }
-        } else {
-            Alert noUser = new Alert(Alert.AlertType.ERROR);
-            noUser.setTitle("Invalid User");
-            noUser.setHeaderText("Invalid Input");
-            noUser.setContentText("Make sure all fields are correct when making User.");
-            noUser.showAndWait();
+            Users.addRecord(tmp);
+        } catch (MySQLIntegrityConstraintViolationException e){
+            Global.warningAlert("User Id Exists", "User ID already exists. User add canceled");
         }
+        endUserEdit();
+        columnUN.getItems().clear();
+        columnID.getItems().clear();
+        usersList.getChildren().clear();
+        usersList.getChildren().clear();
+        usersList.getChildren().clear();
+        initialize();
+        clearUserInfo();
+    }
+
+    public void clearUserInfo(){
+        user_id.clear();
+        username.clear();
+        fname.clear();
+        lname.clear();
+        role.clear();
+        password.clear();
     }
 
     public void endUserEdit() {
-
+        user_id.setEditable(false);
+        username.setEditable(false);
+        fname.setEditable(false);
+        lname.setEditable(false);
+        role.setEditable(false);
+        password.setEditable(false);
+        save.setVisible(true);
+        usersList.setVisible(true);
+        userResults.setVisible(true);
     }
 
 
-    public void deleteButtonClicked() {
+    public void deleteButtonClicked() throws SQLException {
+        Alert deleteAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        deleteAlert.setTitle("Delete");
+        deleteAlert.setHeaderText("Delete User");
+        deleteAlert.setContentText("Are you sure you want to delete this User?");
+        if(deleteAlert.showAndWait().get() == ButtonType.OK){
+            ims.Users.deleteRecord(allUsers.get(uIndex).getUserID());
+            endUserEdit();
+            columnUN.getItems().clear();
+            columnID.getItems().clear();
+            usersList.getChildren().clear();
+            usersList.getChildren().clear();
+            initialize();
+        }
+    }
 
+    public void modifyDBUser() throws SQLException{
+        allUsers.get(uIndex).setPassword(password.getText());
+        initialize();
+        endUserEdit();
     }
 
     public void modifyUser(){
@@ -198,9 +276,7 @@ public class ProfilesController {
     }
 
     public void loadTables() {
-        load.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
+           try {
                 username.setEditable(false);
                 user_id.setEditable(false);
                 fname.setEditable(false);
@@ -216,8 +292,16 @@ public class ProfilesController {
                 save.setVisible(true);
                 update.setVisible(true);
                 delete.setVisible(true);
+                user_id.clear();
+                username.clear();
+                fname.clear();
+                lname.clear();
+                role.clear();
+                password.clear();
+                initialize();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        });
     }
 
     @FXML
