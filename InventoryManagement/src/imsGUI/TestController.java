@@ -9,7 +9,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class TestController {
-    @FXML
+    /*@FXML
     private void openAdminU(ActionEvent event) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("AdminUserList.fxml"));
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -65,6 +65,6 @@ public class TestController {
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
-    }
+    }*/
 }
 

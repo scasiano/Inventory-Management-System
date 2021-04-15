@@ -22,7 +22,6 @@ import java.util.ArrayList;
 
 public class ProductListController {
 
-    private static final boolean LONG_MAX = true;
     @FXML
     HBox productsList;
     @FXML
