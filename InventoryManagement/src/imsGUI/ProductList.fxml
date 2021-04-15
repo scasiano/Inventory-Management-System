@@ -2,7 +2,6 @@
 
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
 <GridPane fx:id="ParGrid" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: grey;" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="imsGUI.ProductListController">
@@ -24,7 +23,7 @@
                 </HBox>
             </content>
         </ScrollPane>
-        <ScrollPane fitToWidth="true" style="-fx-background-color: ALICEBLUE;" GridPane.columnIndex="2" GridPane.columnSpan="2147483647" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.rowSpan="2147483647" GridPane.valignment="CENTER">
+        <ScrollPane fitToHeight="true" fitToWidth="true" style="-fx-background-color: ALICEBLUE;" GridPane.columnIndex="2" GridPane.columnSpan="2147483647" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.rowSpan="2147483647" GridPane.valignment="CENTER">
             <GridPane fx:id="productInfo" maxHeight="Infinity" maxWidth="Infinity" style="-fx-background-color: ALICEBLUE;">
                 <columnConstraints>
                     <ColumnConstraints fx:id="c0" fillWidth="true" minWidth="10" />
@@ -47,20 +46,21 @@
                     <Label style="-fx-background-color: white;" text="Product MSRP:" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
                     <Label style="-fx-background-color: white;" text="Product Price" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
                     <Label style="-fx-background-color: white;" text="Product Description" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
-                    <TextField fx:id="productName" editable="false" maxHeight="30" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: white; -fx-border-color: ALICEBLUE;" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.valignment="CENTER">
-                  <GridPane.margin>
-                     <Insets top="10.0" />
-                  </GridPane.margin></TextField>
-                    <TextField fx:id="productID" editable="false" maxHeight="30" style="-fx-background-color: white; -fx-border-color: ALICEBLUE;" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-                    <TextField fx:id="productMSRP" editable="false" maxHeight="30" style="-fx-background-color: white; -fx-border-color: ALICEBLUE;" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-                    <TextField fx:id="productPrice" editable="false" maxHeight="30" style="-fx-background-color: white; -fx-border-color: ALICEBLUE;" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
-                    <TextField fx:id="productDescription" alignment="TOP_LEFT" editable="false" maxHeight="1.7976931348623157E308" style="-fx-background-color: white; -fx-border-color: ALICEBLUE;" text="Not current description" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="4" GridPane.valignment="CENTER">
+                    <TextField fx:id="productName" editable="false" maxHeight="30" maxWidth="1.7976931348623157E308" minHeight="5" minWidth="5" style="-fx-background-color: white; -fx-border-color: ALICEBLUE;" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.valignment="CENTER">
+                        <GridPane.margin>
+                            <Insets top="10.0" />
+                        </GridPane.margin>
+                    </TextField>
+                    <TextField fx:id="productID" editable="false" maxHeight="30" minHeight="5" minWidth="5" style="-fx-background-color: white; -fx-border-color: ALICEBLUE;" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                    <TextField fx:id="productMSRP" editable="false" maxHeight="30" minHeight="5" minWidth="5" style="-fx-background-color: white; -fx-border-color: ALICEBLUE;" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+                    <TextField fx:id="productPrice" editable="false" maxHeight="30" minHeight="5" minWidth="5" style="-fx-background-color: white; -fx-border-color: ALICEBLUE;" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+                    <TextField fx:id="productDescription" alignment="TOP_LEFT" editable="false" maxHeight="1.7976931348623157E308" minHeight="5" minWidth="5" style="-fx-background-color: white; -fx-border-color: ALICEBLUE;" text="Not current description" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="4" GridPane.valignment="CENTER">
                   <GridPane.margin>
                      <Insets bottom="20.0" top="20.0" />
                   </GridPane.margin></TextField>
-                    <ImageView fx:id="pImage" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" style=" -fx-border-color: grey;" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.rowSpan="2" GridPane.valignment="CENTER" />
+                    <!--ImageView fx:id="pImage" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" style=" -fx-border-color: grey;" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.rowSpan="2" GridPane.valignment="CENTER" /-->
                 <Label fx:id="addProdLabel" alignment="TOP_CENTER" style="-fx-background-color: ALICEBLUE;" text="Add Product Info" visible="false" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="TOP" />
-                <Button fx:id="startMod" mnemonicParsing="false" onAction="#modProduct" text="Modify Product" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
+                <Button fx:id="startMod" mnemonicParsing="false" onAction="#modProduct" text="Modify Product" visible="false" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
                 <HBox fx:id="addProdBox" alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" visible="false" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
                    <GridPane.margin>
                       <Insets bottom="20.0" left="30.0" right="30.0" top="30.0" />
@@ -73,7 +73,7 @@
             <HBox fx:id="modBox" alignment="TOP_CENTER" layoutX="691.0" layoutY="638.0" prefHeight="100.0" prefWidth="200.0" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="4">
                <children>
                    <Button fx:id="addDBProd1" mnemonicParsing="false" onAction="#modDBProduct" text="Modify Product" />
-                   <Button fx:id="deleteDBProd" layoutX="35.0" layoutY="10.0" mnemonicParsing="false" text="Delete Product" />
+                   <Button fx:id="deleteDBProd" layoutX="35.0" layoutY="10.0" mnemonicParsing="false" onAction="#delDBProduct" text="Delete Product" />
                    <Button fx:id="cancelProd1" mnemonicParsing="false" onAction="#endProductEdit" text="Cancel" />
                </children>
                     <GridPane.margin>
@@ -88,19 +88,16 @@
         </ScrollPane>
       <HBox alignment="BASELINE_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="RIGHT_TO_LEFT" snapToPixel="false" GridPane.columnIndex="3" GridPane.columnSpan="2147483647" GridPane.halignment="LEFT">
          <children>
-            <Button alignment="BASELINE_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#openLogin" text="Logout" wrapText="true" HBox.hgrow="NEVER">
+            <Button alignment="BASELINE_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#openLogin" text="Logout" wrapText="true">
                <HBox.margin>
                   <Insets bottom="5.0" left="5.0" top="5.0" />
                </HBox.margin></Button>
-            <Button alignment="BASELINE_RIGHT" centerShape="false" ellipsisString="" mnemonicParsing="false" onAction="#openHomePage" text="Homepage" textOverrun="CLIP" wrapText="true" HBox.hgrow="NEVER">
+            <Button alignment="BASELINE_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#openHomePage" text="Homepage" wrapText="true">
                <HBox.margin>
                   <Insets left="10.0" right="10.0" />
                </HBox.margin>
             </Button>
          </children>
-         <opaqueInsets>
-            <Insets right="10.0" top="10.0" />
-         </opaqueInsets>
          <GridPane.margin>
             <Insets />
          </GridPane.margin>

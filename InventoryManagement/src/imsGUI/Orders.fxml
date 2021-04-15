@@ -6,9 +6,26 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="imsGUI.OrdersController"
-            prefHeight="400.0" prefWidth="600.0">
-
-</AnchorPane>
+<?import javafx.geometry.Insets?>
+<GridPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          fx:controller="imsGUI.OrdersController"
+          prefHeight="400.0" prefWidth="600.0">
+    <HBox alignment="BASELINE_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="RIGHT_TO_LEFT" snapToPixel="false" GridPane.columnIndex="3" GridPane.columnSpan="2147483647" GridPane.halignment="LEFT">
+        <children>
+            <Button alignment="BASELINE_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#openLogin" text="Logout" wrapText="true" HBox.hgrow="NEVER">
+                <HBox.margin>
+                    <Insets bottom="5.0" left="5.0" top="5.0" />
+                </HBox.margin>
+            </Button>
+            <Button alignment="BASELINE_RIGHT" centerShape="false" mnemonicParsing="false" onAction="#openHomePage" text="Homepage" textOverrun="CLIP" wrapText="true" HBox.hgrow="NEVER">
+                <HBox.margin>
+                    <Insets bottom="5.0" left="5.0" top="5.0" />
+                </HBox.margin>
+            </Button>
+        </children>
+        <GridPane.margin>
+            <Insets />
+        </GridPane.margin>
+    </HBox>
+</GridPane>

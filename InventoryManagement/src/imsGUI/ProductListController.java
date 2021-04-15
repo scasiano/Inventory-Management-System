@@ -1,5 +1,6 @@
 package imsGUI;
 
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import ims.Products;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,8 +20,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 
-public class ProductListController{
+public class ProductListController {
 
+    private static final boolean LONG_MAX = true;
     @FXML
     HBox productsList;
     @FXML
@@ -46,69 +48,76 @@ public class ProductListController{
 
     ListView<Long> listID;
     ListView<String> listName;
-    ArrayList<Products> allProd =new ArrayList<Products>();
+    ArrayList<Products> allProd = new ArrayList<Products>();
     ObservableList<Long> pID;
     ObservableList<String> prodN;
     VBox nameBox = new VBox();
-    VBox idBox =new VBox();
-    Label Name=new Label();
-    int pIndex;
+    VBox idBox = new VBox();
+    Label Name = new Label();
+    int pIndex = -1;
 
-    public void initialize() throws SQLException{
+    public void initialize() throws SQLException {
         setProductList();
         prodDetails();
     }
+
     public void setProductList() throws SQLException {
 
         ArrayList<Long> idList = new ArrayList<>();
-        ArrayList<String> nameList= new ArrayList<>();
+        ArrayList<String> nameList = new ArrayList<>();
         Name.setText("Product Name:");
-        Label ID=new Label();
+        Label ID = new Label();
         ID.setText("Product ID:");
         idBox.getChildren().add(ID);
         nameBox.getChildren().add(Name);
         try {
-            allProd=Products.selectAll();
+            allProd = Products.selectAll();
             for (int i = 0; i < allProd.size(); i++) {
                 idList.add(allProd.get(i).getProductID());
                 nameList.add(allProd.get(i).getName());
-                }
+            }
             pID = FXCollections.observableArrayList(idList);
             prodN = FXCollections.observableArrayList(nameList);
-            listName= new ListView<String>(prodN);
+            listName = new ListView<String>(prodN);
             nameBox.getChildren().add(listName);
-            listID= new ListView<Long>(pID);
+            listID = new ListView<Long>(pID);
             idBox.getChildren().add(listID);
             productsList.getChildren().addAll(nameBox, idBox);
-       }catch(Exception e){e.printStackTrace();}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        startMod.setVisible(false);
     }
-    public void prodDetails(){
+
+    public void prodDetails() {
         listID.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 Integer index = listID.getSelectionModel().getSelectedIndex();
-                pIndex=index;
+                pIndex = index;
                 listName.getSelectionModel().select(index);
                 productName.setText(allProd.get(index).getName());
                 productID.setText(String.valueOf(allProd.get(index).getProductID()));
-                productMSRP.setText("$"+String.valueOf(allProd.get(index).getMsrp()));
-                productPrice.setText("$"+String.valueOf(allProd.get(index).getPrice()));
+                productMSRP.setText("$" + String.valueOf(allProd.get(index).getMsrp()));
+                productPrice.setText("$" + String.valueOf(allProd.get(index).getPrice()));
             }
         });
         listName.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 Integer index = listName.getSelectionModel().getSelectedIndex();
-                pIndex=index;
+                pIndex = index;
                 listID.getSelectionModel().select(index);
                 productName.setText(allProd.get(index).getName());
                 productID.setText(String.valueOf(allProd.get(index).getProductID()));
-                productMSRP.setText("$"+String.valueOf(allProd.get(index).getMsrp()));
-                productPrice.setText("$"+String.valueOf(allProd.get(index).getPrice()));
+                productMSRP.setText("$" + String.valueOf(allProd.get(index).getMsrp()));
+                productPrice.setText("$" + String.valueOf(allProd.get(index).getPrice()));
             }
         });
+        startMod.setVisible(true);
     }
-    public void startProduct(ActionEvent event){
+
+    public void startProduct(ActionEvent event) {
         productName.setEditable(true);
         productID.setEditable(true);
         productMSRP.setEditable(true);
@@ -117,35 +126,76 @@ public class ProductListController{
         addProd.setVisible(false);
         addProdBox.setVisible(true);
         startMod.setVisible(false);
+        clearProdInfo();
     }
+
     public void addDBProduct(ActionEvent event) throws SQLException {
-        Products temp = new Products(0,"",0,0);
-        if(
-             Double.valueOf(productID.getText())>0 && productName.getText().length()>0 && productMSRP.getText().length()>2 && productPrice.getText().length()>3){
-             try{
-                temp.setProductID(Long.valueOf(productID.getText()));
-                temp.setName(productName.getText());
-                temp.setMsrp(Double.valueOf(productMSRP.getText()));
-                temp.setPrice(Double.valueOf(productPrice.getText()));
-                Products.addRecord(temp);
-                endProductEdit();
-                listID.getItems().clear();
-                listName.getItems().clear();
-                idBox.getChildren().clear();
-                nameBox.getChildren().clear();
-                productsList.getChildren().clear();
-                setProductList();
-             }catch(Exception e){
-                e.printStackTrace();
-             }
+        Products temp = new Products(0, "", 0, 0);
+        boolean flag = false;
+        //productMSRP.getText().length()>2 && productPrice.getText().length()>3){
+        try {
+            while (!flag) {
+                if (productID.getText().length() > 0 && Long.valueOf(productID.getText()) >= 0) {
+                    flag = true;
+                    temp.setProductID(Long.valueOf(productID.getText()));
+                } else {
+                    flag = false;
+                    Global.warningAlert("Incorrect ID", "Product ID needs to be greater than 0 and at most 9 digits long.");
+                    productID.clear();
+                }
+                if (productName.getText().length() > 0) {
+                    flag = true;
+                    temp.setName(productName.getText());
+                } else {
+                    flag = false;
+                    Global.warningAlert("Incorrect Name", "Every product should have a name.");
+                }
+                if (productMSRP.getText().length() > 0 && Double.valueOf(productMSRP.getText()) > 0) {
+                    flag = true;
+                    temp.setMsrp(Double.valueOf(productMSRP.getText()));
+                } else {
+                    flag = false;
+                    Global.warningAlert("Incorrect MSRP", "Every product should have a MSRP.");
+                    productMSRP.clear();
+                }
+                if (productPrice.getText().length() > 0 && Double.valueOf(productPrice.getText()) > 0) {
+                    flag = true;
+                    temp.setPrice(Double.valueOf(productPrice.getText()));
+                } else {
+                    flag = false;
+                    Global.informAlert("Incorrect Price", "Every product should have a Price.");
+                    productPrice.clear();
+                }
+            }
+            Products.addRecord(temp);
+        } catch (MySQLIntegrityConstraintViolationException e) {
+            Global.warningAlert("Product Id Exists", "Product ID already exists. Product Add canceled");
         }
-        else
+        endProductEdit();
+        listID.getItems().clear();
+        listName.getItems().clear();
+        idBox.getChildren().clear();
+        nameBox.getChildren().clear();
+        productsList.getChildren().clear();
+        initialize();
+        clearProdInfo();
+
+
+    }
+
+
+        /*else
         {
             Alert noProd=new Alert(Alert.AlertType.ERROR);
             noProd.setHeaderText("Input not valid");
             noProd.setContentText("Check your inputs for the product.\n\tProductID should be 8 numbers\n\t Product should have a name\n\t The Msrp and price need to be alt least 4 characters long.");
             noProd.showAndWait();
-        }
+        }*/
+    public void clearProdInfo(){
+        productID.clear();
+        productName.clear();
+        productMSRP.clear();
+        productPrice.clear();
     }
     public void endProductEdit(){
         productName.setEditable(false);
@@ -158,12 +208,15 @@ public class ProductListController{
         modBox.setVisible(false);
         startMod.setVisible(true);
     }
-    public void modDBProduct(){
+    public void modDBProduct() throws SQLException {
         allProd.get(pIndex).setName(productName.getText());
         allProd.get(pIndex).setMsrp(Double.valueOf(productMSRP.getText()));
         allProd.get(pIndex).setPrice(Double.valueOf(productPrice.getText()));
+        initialize();
+        endProductEdit();
     }
     public void modProduct(){
+        clearProdInfo();
         productName.setEditable(true);
         productMSRP.setEditable(true);
         productPrice.setEditable(true);
@@ -172,10 +225,20 @@ public class ProductListController{
         modBox.setVisible(true);
         startMod.setVisible(false);
     }
-    public void delProduct(){
-       /* Alert delete=new Alert(Alert.AlertType.CONFIRMATION);
-        if(delete.)
-        ims.Products.deleteRecord(allProd.get(pIndex).getProductID());*/
+    public void delDBProduct() throws SQLException {
+        Alert delete=new Alert(Alert.AlertType.CONFIRMATION);
+        delete.setHeaderText("Delete Product");
+        delete.setContentText("Are you Sure you want to Delete?");
+        if(delete.showAndWait().get() == ButtonType.OK) {
+            ims.Products.deleteRecord(allProd.get(pIndex).getProductID());
+            endProductEdit();
+            listID.getItems().clear();
+            listName.getItems().clear();
+            idBox.getChildren().clear();
+            nameBox.getChildren().clear();
+            productsList.getChildren().clear();
+            initialize();
+        }
     }
     @FXML
     private void openHomePage(ActionEvent event) throws Exception {
