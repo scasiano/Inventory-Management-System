@@ -240,17 +240,15 @@ public class ProductListController {
         }
     }
     @FXML
-    private void openHomePage(ActionEvent event) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("HomePage.fxml"));
+    private void openHomePage(ActionEvent event) {
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
+        stage.setScene(ImsGui.global.getHomepageScene());
         stage.show();
     }
     @FXML
-    private void openLogin(ActionEvent event) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
+    private void openLogin(ActionEvent event) {
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
+        stage.setScene(ImsGui.global.getLoginScene());
         stage.show();
     }
 }

@@ -8,20 +8,22 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class ImsGui extends Application {
+    public static Global global = new Global();
     protected String User;
     protected boolean r;
+
     @Override
     public void start(Stage primaryStage) throws Exception{
         try {
             ims.SqlController.initializeSql();
+            global.loadFxmlFiles();
         }
         catch(Exception e) {
             Global.exceptionAlert(e, "launch");
             System.exit(503);
         }
-        Parent root = FXMLLoader.load(getClass().getResource("Homepage.fxml"));
         primaryStage.setTitle("Inventory Management Database");
-        primaryStage.setScene(new Scene(root, 300, 275));
+        primaryStage.setScene(global.getHomepageScene());
         primaryStage.show();
     }
 
