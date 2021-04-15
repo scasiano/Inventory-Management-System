@@ -14,59 +14,46 @@ public class HomepageController {
   //  public void logout(){    }
     @FXML
     private void openAdminU(ActionEvent event) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("AdminUserList.fxml"));
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root, 300, 275));
+        stage.setScene(ImsGui.global.getAdminUserListScene());
         stage.show();
     }
     @FXML
     private void openBudget(ActionEvent event) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("Budget.fxml"));
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root, 300, 275));
+        stage.setScene(ImsGui.global.getBudgetScene());
         stage.show();
     }
     @FXML
-    private void openHomePage(ActionEvent event) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("HomePage.fxml"));
-        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.show();
-    }
-    @FXML
+
     private void openLogin(ActionEvent event) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
+        stage.setScene(ImsGui.global.getLoginScene());
         stage.show();
     }
     @FXML
     private void openOrders(ActionEvent event) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("Orders.fxml"));
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
+        stage.setScene(ImsGui.global.getOrdersScene());
         stage.show();
     }
     @FXML
     private void openProduct(ActionEvent event) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("ProductList.fxml"));
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         //stage.setTitle("Hello World");
-        stage.setScene(new Scene(root));
+        stage.setScene(ImsGui.global.getProductListScene());
         stage.show();
     }
     @FXML
     private void openProductStatus(ActionEvent event) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("ProductStatus.fxml"));
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
+        stage.setScene(ImsGui.global.getProductStatusScene());
         stage.show();
     }
     @FXML
     private void openProfiles(ActionEvent event) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("Profiles.fxml"));
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
+        stage.setScene(ImsGui.global.getProfilesScene());
         stage.show();
     }
 }
