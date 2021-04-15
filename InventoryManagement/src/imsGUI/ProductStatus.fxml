@@ -4,7 +4,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane maxHeight="Infinity" maxWidth="Infinity" style="-fx-background-color: grey;" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="imsGUI.ProductStatusController">
+<AnchorPane maxHeight="Infinity" maxWidth="Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="imsGUI.ProductStatusController">
+<GridPane maxHeight="Infinity" maxWidth="Infinity" style="-fx-background-color: grey;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
     <columnConstraints>
         <ColumnConstraints fx:id="column0" minWidth="10.0" />
         <ColumnConstraints fx:id="column1" percentWidth="80.0" />
@@ -33,8 +34,7 @@
                 <Insets />
             </GridPane.margin>
         </HBox>
-       <TabPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT" prefHeight="200.0" prefWidth="200.0" scaleShape="false"
-                snapToPixel="false" style="-fx-background-color: ALICEBLUE; -fx-border-color: white; -fx-tab-max-width: Infinity;" tabClosingPolicy="UNAVAILABLE" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+       <TabPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT" prefHeight="200.0" prefWidth="200.0" scaleShape="false" snapToPixel="false" style="-fx-background-color: ALICEBLUE; -fx-border-color: white; -fx-tab-max-width: Infinity;" tabClosingPolicy="UNAVAILABLE" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.rowIndex="1">
           <tabs>
             <Tab text="Incoming Goods">
                 <content>
@@ -52,7 +52,7 @@
                     <children>
                         <TableView fx:id="incomingT" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                           <columns>
-                              <TableColumn fx:id="inID" prefWidth="153.6000064611435" text="Incoming Shipment ID"/>
+                              <TableColumn fx:id="inID" prefWidth="153.6000064611435" text="Incoming Shipment ID" />
                               <TableColumn fx:id="inProductID" minWidth="0.0" prefWidth="95.19999694824219" text="Product ID" />
                               <!--TableColumn fx:id="inProductName" prefWidth="138.20001220703125" text="Product Name" /-->
                               <TableColumn fx:id="dateIn" minWidth="0.0" prefWidth="132.199951171875" text="Date Submitted" />
@@ -140,3 +140,4 @@
       </TabPane>
    </children>
 </GridPane>
+</AnchorPane>
