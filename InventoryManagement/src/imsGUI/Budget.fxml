@@ -1,14 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="imsGUI.BudgetController"
-            prefHeight="400.0" prefWidth="600.0">
 
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="imsGUI.BudgetController">
+   <children>
+      <DatePicker fx:id="dateRange" layoutX="229.0" layoutY="57.0" prefHeight="26.0" prefWidth="144.0" />
+      <TextField fx:id="netProfit" layoutX="245.0" layoutY="122.0" prefHeight="26.0" prefWidth="112.0" />
+      <Label fx:id="periodLabel" layoutX="263.0" layoutY="31.0" text="BudgetPeriod" />
+      <TextField fx:id="incoming" layoutX="246.0" layoutY="230.0" prefHeight="26.0" prefWidth="112.0" />
+      <TextField fx:id="outgoing" layoutX="246.0" layoutY="174.0" prefHeight="26.0" prefWidth="112.0" />
+      <TextField fx:id="userInfo" layoutX="246.0" layoutY="327.0" prefHeight="26.0" prefWidth="112.0" />
+      <Label fx:id="netLabel" layoutX="274.0" layoutY="105.0" text="Net Profit" />
+      <Label fx:id="outLabel" layoutX="259.0" layoutY="157.0" text="Total Outgoing" />
+      <Label fx:id="inLabel" layoutX="262.0" layoutY="213.0" text="Total Incoming" />
+      <Label fx:id="empLabel" layoutX="248.0" layoutY="310.0" text="Employee Assigned" />
+      <Button fx:id="addBtn" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" style="-fx-background-color: #063c99#063c99;" text="ADD" textFill="WHITE" />
+      <Button fx:id="modifyBtn" layoutX="459.0" layoutY="360.0" mnemonicParsing="false" style="-fx-background-color: #063c99#063c99;" text="Modify" textFill="WHITE" />
+      <Button fx:id="deleteBtn" layoutX="526.0" layoutY="360.0" mnemonicParsing="false" style="-fx-background-color: #063c99#063c99;" text="Delete" textFill="WHITE" />
+      <ScrollPane layoutX="14.0" layoutY="57.0" prefHeight="296.0" prefWidth="200.0">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="297.0" prefWidth="200.0">
+               <children>
+                  <HBox fx:id="periodList" layoutY="-5.0" prefHeight="296.0" prefWidth="200.0" />
+               </children>
+            </AnchorPane>
+        </content>
+      </ScrollPane>
+   </children>
 </AnchorPane>
