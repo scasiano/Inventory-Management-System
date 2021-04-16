@@ -4,10 +4,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 
 import java.io.*;
 
@@ -108,11 +105,21 @@ public class Global {
             Label ipAddressLabel = new Label("IP Address: ");
             Label portLabel = new Label("Port: ");
             Label nameLabel = new Label("DB Name: ");
-            HBox usernameBox = new HBox(100, usernameLabel, username);
-            HBox passwordBox = new HBox(100, passwordLabel, password);
-            HBox ipAddressBox = new HBox(100, ipAddressLabel, ipAddress);
-            HBox portBox = new HBox(100, portLabel, port);
-            HBox nameBox = new HBox(100, nameLabel, name);
+            Region usernameFiller = new Region();
+            HBox.setHgrow(usernameFiller, Priority.ALWAYS);
+            Region passwordFiller = new Region();
+            HBox.setHgrow(passwordFiller, Priority.ALWAYS);
+            Region ipAddressFiller = new Region();
+            HBox.setHgrow(ipAddressFiller, Priority.ALWAYS);
+            Region portFiller = new Region();
+            HBox.setHgrow(portFiller, Priority.ALWAYS);
+            Region nameFiller = new Region();
+            HBox.setHgrow(nameFiller, Priority.ALWAYS);
+            HBox usernameBox = new HBox(100, usernameLabel, usernameFiller, username);
+            HBox passwordBox = new HBox(100, passwordLabel, passwordFiller, password);
+            HBox ipAddressBox = new HBox(100, ipAddressLabel, ipAddressFiller, ipAddress);
+            HBox portBox = new HBox(100, portLabel, portFiller, port);
+            HBox nameBox = new HBox(100, nameLabel, nameFiller, name);
             alert.getDialogPane().setHeaderText("Login information for the Database:");
             VBox expContent = new VBox();
             expContent.getChildren().addAll(usernameBox, passwordBox, ipAddressBox, portBox, nameBox);
