@@ -3,12 +3,23 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class Budget {
-    Date dateStart; //PK (This one is used as pseudo PK)
-    Date dateEnd; //PK (For completion)
+    long periodID; //PK //Auto Increment
+    Date dateStart; //Unique
+    Date dateEnd; //Unique
     double outgoing;
     double income;
     double net; //nullable //generated from outgoing and income
     long employeeNo; //nullable
+
+    public Budget(long periodID, Date dateStart, Date dateEnd, double outgoing, double income, double net, long employeeNo) {
+        this.periodID = periodID;
+        this.dateStart = dateStart;
+        this.dateEnd = dateEnd;
+        this.outgoing = outgoing;
+        this.income = income;
+        this.net = net;
+        this.employeeNo = employeeNo;
+    }
 
     public Budget(Date dateStart, Date dateEnd, double outgoing, double income, double net, long employeeNo) {
         this.dateStart = dateStart;
@@ -27,6 +38,9 @@ public class Budget {
     }
 
     //Get set
+    public long getPeriodID(){
+        return periodID;
+    }
     public Date getDateStart() {
         return dateStart;
     }
@@ -44,6 +58,9 @@ public class Budget {
     }
     public long getEmployeeNo() {
         return employeeNo;
+    }
+    public void setPeriodID(long periodID){
+        this.periodID = periodID;
     }
     public void setDateStart(Date dateStart) {
         this.dateStart = dateStart;
@@ -65,7 +82,13 @@ public class Budget {
     public static ArrayList<Budget> selectAll() throws SQLException {
         ResultSet dbResult = SqlController.dbStatement.executeQuery("select * from budget");
         ArrayList<Budget> resultList = new ArrayList<>();
-        while (dbResult.next()) resultList.add(new Budget(dbResult.getDate(1), dbResult.getDate(2), dbResult.getDouble(3), dbResult.getDouble(4), dbResult.getDouble(5), dbResult.getLong(5)));
+        while (dbResult.next()) resultList.add(new Budget(dbResult.getLong(1), dbResult.getDate(2), dbResult.getDate(3), dbResult.getDouble(4), dbResult.getDouble(5), dbResult.getDouble(6), dbResult.getLong(7)));
+        return resultList;
+    }
+    public static ArrayList<Date> selectPeriodID() throws SQLException {
+        ResultSet dbResult = SqlController.dbStatement.executeQuery("select period_id from budget");
+        ArrayList<Date> resultList = new ArrayList<>();
+        while (dbResult.next()) resultList.add(dbResult.getDate(1));
         return resultList;
     }
     public static ArrayList<Date> selectDateStart() throws SQLException {
