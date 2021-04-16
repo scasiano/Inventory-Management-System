@@ -100,8 +100,11 @@ public class OutgoingGoods {
     }
 
     //SQL Queries ADD
-    public static void addRecord(OutgoingGoods recordToAdd) throws SQLException {
+    public static void addRecordEmp(OutgoingGoods recordToAdd) throws SQLException {
         SqlController.dbStatement.executeUpdate("insert into outgoing_goods(outgoing_id, product_id, date_go, quantity, employee_no) values (" + recordToAdd.outgoingID + ", '" + recordToAdd.productID + "', " +recordToAdd.dateGo + ", " + recordToAdd.quantity + ", " + recordToAdd.employeeNo + ")");
+    }
+    public static void addRecord(OutgoingGoods recordToAdd) throws SQLException {
+        SqlController.dbStatement.executeUpdate("insert into outgoing_goods(outgoing_id, product_id, date_go, quantity) values (" + recordToAdd.outgoingID + ", '" + recordToAdd.productID + "', " +recordToAdd.dateGo + ", " + recordToAdd.quantity + ")");
     }
 
     //SQL Queries MODIFY

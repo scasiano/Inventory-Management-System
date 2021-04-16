@@ -116,8 +116,11 @@ public class Orders {
     }
 
     //SQL Queries ADD
-    public static void addRecord(Orders recordToAdd) throws SQLException {
+    public static void addRecordEmp(Orders recordToAdd) throws SQLException {
         SqlController.dbStatement.executeUpdate("insert into orders(order_id, customer_fn, customer_ln, customer_add, date_placed, employee_no) values (" + recordToAdd.orderID + ", '" + recordToAdd.customerFn + "', " +recordToAdd.customerLn + ", " + recordToAdd.customerAdd + ", " + recordToAdd.datePlaced + ", " + recordToAdd.employeeNo + ")");
+    }
+    public static void addRecord(Orders recordToAdd) throws SQLException {
+        SqlController.dbStatement.executeUpdate("insert into orders(order_id, customer_fn, customer_ln, customer_add, date_placed) values (" + recordToAdd.orderID + ", '" + recordToAdd.customerFn + "', " +recordToAdd.customerLn + ", " + recordToAdd.customerAdd + ", " + recordToAdd.datePlaced + ")");
     }
 
     //SQL Queries MODIFY

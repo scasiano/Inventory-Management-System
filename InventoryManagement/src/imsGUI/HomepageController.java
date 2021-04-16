@@ -13,45 +13,45 @@ public class HomepageController {
 
   //  public void logout(){    }
     @FXML
-    private void openAdminU(ActionEvent event) throws Exception {
+    private void openAdminU(ActionEvent event) {
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         stage.setScene(ImsGui.global.getAdminUserListScene());
         stage.show();
     }
     @FXML
-    private void openBudget(ActionEvent event) throws Exception {
+    private void openBudget(ActionEvent event) {
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         stage.setScene(ImsGui.global.getBudgetScene());
         stage.show();
     }
     @FXML
 
-    private void openLogin(ActionEvent event) throws Exception {
+    private void openLogin(ActionEvent event) {
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         stage.setScene(ImsGui.global.getLoginScene());
         stage.show();
     }
     @FXML
-    private void openOrders(ActionEvent event) throws Exception {
+    private void openOrders(ActionEvent event) {
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         stage.setScene(ImsGui.global.getOrdersScene());
         stage.show();
     }
     @FXML
-    private void openProduct(ActionEvent event) throws Exception {
+    private void openProduct(ActionEvent event) {
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         //stage.setTitle("Hello World");
         stage.setScene(ImsGui.global.getProductListScene());
         stage.show();
     }
     @FXML
-    private void openProductStatus(ActionEvent event) throws Exception {
+    private void openProductStatus(ActionEvent event) {
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         stage.setScene(ImsGui.global.getProductStatusScene());
         stage.show();
     }
     @FXML
-    private void openProfiles(ActionEvent event) throws Exception {
+    private void openProfiles(ActionEvent event) {
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         stage.setScene(ImsGui.global.getProfilesScene());
         stage.show();

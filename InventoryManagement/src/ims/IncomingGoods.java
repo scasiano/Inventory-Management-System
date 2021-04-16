@@ -20,6 +20,22 @@ public class IncomingGoods {
         this.employeeNo = employeeNo;
     }
 
+    public IncomingGoods(long incomingID, long productID, Date dateIn, int quantity, long employeeNo) {
+        this.incomingID = incomingID;
+        this.productID = productID;
+        this.dateIn = dateIn;
+        this.quantity = quantity;
+        this.employeeNo = employeeNo;
+    }
+
+    public IncomingGoods(long incomingID, long productID, Date dateIn, String trackingNo, int quantity) {
+        this.incomingID = incomingID;
+        this.productID = productID;
+        this.dateIn = dateIn;
+        this.trackingNo = trackingNo;
+        this.quantity = quantity;
+    }
+
     public IncomingGoods(long incomingID, long productID, Date dateIn, int quantity) {
         this.incomingID = incomingID;
         this.productID = productID;
@@ -115,9 +131,19 @@ public class IncomingGoods {
     }
 
     //SQL Queries ADD
-    public static void addRecord(IncomingGoods recordToAdd) throws SQLException {
+    public static void addRecordTrackEmp(IncomingGoods recordToAdd) throws SQLException {
         SqlController.dbStatement.executeUpdate("insert into incoming_goods(incoming_id, product_id, date_in, track_no, quantity, employee_no) values (" + recordToAdd.incomingID + ", '" + recordToAdd.productID + "', " +recordToAdd.dateIn + ", " + recordToAdd.trackingNo + ", " + recordToAdd.quantity + ", " + recordToAdd.employeeNo + ")");
     }
+    public static void addRecordEmp(IncomingGoods recordToAdd) throws SQLException {
+        SqlController.dbStatement.executeUpdate("insert into incoming_goods(incoming_id, product_id, date_in, quantity, employee_no) values (" + recordToAdd.incomingID + ", '" + recordToAdd.productID + "', " +recordToAdd.dateIn + ", " + recordToAdd.quantity + ", " + recordToAdd.employeeNo + ")");
+    }
+    public static void addRecordTrack(IncomingGoods recordToAdd) throws SQLException {
+        SqlController.dbStatement.executeUpdate("insert into incoming_goods(incoming_id, product_id, date_in, track_no, quantity) values (" + recordToAdd.incomingID + ", '" + recordToAdd.productID + "', " +recordToAdd.dateIn + ", " + recordToAdd.trackingNo + ", " + recordToAdd.quantity + ")");
+    }
+    public static void addRecord(IncomingGoods recordToAdd) throws SQLException {
+        SqlController.dbStatement.executeUpdate("insert into incoming_goods(incoming_id, product_id, date_in, quantity) values (" + recordToAdd.incomingID + ", '" + recordToAdd.productID + "', " +recordToAdd.dateIn + ", " + recordToAdd.quantity + ")");
+    }
+
 
     //SQL Queries MODIFY
     public static void modifyProductID(long primaryKey, long updateValue) throws SQLException {
