@@ -152,8 +152,17 @@ public class Budget {
     }
 
     //SQL Queries ADD
+    public static void addRecordEmpID(Budget recordToAdd) throws SQLException {
+        SqlController.dbStatement.executeUpdate("insert into budget(period_id, date_start, date_end, outgoing, income, employee_no) values (" + recordToAdd.periodID + ", " + recordToAdd.dateStart + ", '" + recordToAdd.dateEnd + "', " +recordToAdd.outgoing + ", " + recordToAdd.income + ", " + recordToAdd.employeeNo + ")");
+    }
+    public static void addRecordEmp(Budget recordToAdd) throws SQLException {
+        SqlController.dbStatement.executeUpdate("insert into budget(date_start, date_end, outgoing, income, employee_no) values (" + recordToAdd.dateStart + ", '" + recordToAdd.dateEnd + "', " +recordToAdd.outgoing + ", " + recordToAdd.income + ", " + recordToAdd.employeeNo + ")");
+    }
+    public static void addRecordID(Budget recordToAdd) throws SQLException {
+        SqlController.dbStatement.executeUpdate("insert into budget(period_id, date_start, date_end, outgoing, income) values (" + recordToAdd.periodID + ", " + recordToAdd.dateStart + ", '" + recordToAdd.dateEnd + "', " +recordToAdd.outgoing + ", " + recordToAdd.income + ")");
+    }
     public static void addRecord(Budget recordToAdd) throws SQLException {
-        SqlController.dbStatement.executeUpdate("insert into budget(date_start, date_end, outgoing, income, employee_no) values (" + recordToAdd.dateStart + ", '" + recordToAdd.dateEnd + "', " +recordToAdd.outgoing + ", " + recordToAdd.income + ", " + recordToAdd.net + ", " + recordToAdd.employeeNo + ")");
+        SqlController.dbStatement.executeUpdate("insert into budget(date_start, date_end, outgoing, income) values (" + recordToAdd.dateStart + ", '" + recordToAdd.dateEnd + "', " +recordToAdd.outgoing + ", " + recordToAdd.income + ")");
     }
 
     //SQL Queries MODIFY
