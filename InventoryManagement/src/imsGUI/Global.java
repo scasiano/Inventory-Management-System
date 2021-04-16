@@ -132,7 +132,6 @@ public class Global {
         catch (IOException e){exceptionAlert(e, "login file");}
     }
 
-
     //Get set
     public Scene getAdminUserListScene() {
         return adminUserListScene;
