@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-border-color: yellow;" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="imsGUI.HomepageController">
+<AnchorPane focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-border-color: yellow;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="imsGUI.HomepageController">
    <children>
                    <!--Not staying, will turn into a log out button-->
-             <Button mnemonicParsing="false" onAction="#openLogin" text="Login" AnchorPane.rightAnchor="0.0" />
+             <Button mnemonicParsing="false" onAction="#openLogin" text="Login" AnchorPane.rightAnchor="0.0">
+         <font>
+            <Font size="35.0" />
+         </font></Button>
             <HBox alignment="BOTTOM_CENTER" fillHeight="true" focusTraversable="true" maxHeight="1.7976931348623157E308" style="-fx-border-color: green;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="150.0">
                <children>
                   <GridPane alignment="CENTER" style="-fx-border-color: red;">
@@ -15,20 +25,43 @@
                         <ColumnConstraints fillWidth="true" hgrow="SOMETIMES" minWidth="10.0" percentWidth="30" />
                     </columnConstraints>
                     <rowConstraints>
-                        <RowConstraints fillHeight="true" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints fillHeight="true" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints fillHeight="true" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints fillHeight="true" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints fillHeight="true" minHeight="10.0" percentHeight="12.5" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints fillHeight="true" minHeight="10.0" percentHeight="12.5" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints fillHeight="true" minHeight="10.0" percentHeight="12.5" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints fillHeight="true" minHeight="10.0" percentHeight="12.5" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                         <Button fx:id="profilesB" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#openProfiles" text="Profile" GridPane.columnSpan="2147483647" />
-                         <Button fx:id="prodListB" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#openProduct" text="Products" GridPane.rowIndex="1" />
-                         <Button fx:id="prodStatB" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#openProductStatus" text="Product Status" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                         <Button fx:id="ordersB" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#openOrders" text="Orders" GridPane.rowIndex="2" />
-                         <Button fx:id="budgetB" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#openBudget" text="Budget" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                         <Button fx:id="adminB" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#openAdminU" text="Admin-Users" GridPane.columnSpan="2147483647" GridPane.rowIndex="3" />
+                         <Button fx:id="profilesB" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#openProfiles" text="Profile" GridPane.columnSpan="2147483647">
+                     <font>
+                        <Font size="30.0" />
+                     </font></Button>
+                         <Button fx:id="prodListB" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#openProduct" text="Products" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="30.0" />
+                     </font></Button>
+                         <Button fx:id="prodStatB" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#openProductStatus" text="Product Status" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="30.0" />
+                     </font></Button>
+                         <Button fx:id="ordersB" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#openOrders" text="Orders" GridPane.rowIndex="2">
+                     <font>
+                        <Font size="30.0" />
+                     </font></Button>
+                         <Button fx:id="budgetB" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#openBudget" text="Budget" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <font>
+                        <Font size="30.0" />
+                     </font></Button>
+                         <Button fx:id="adminB" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#openAdminU" text="Admin-Users" GridPane.columnSpan="2147483647" GridPane.rowIndex="3">
+                     <font>
+                        <Font size="30.0" />
+                     </font></Button>
                      </children>
                   </GridPane>
+            <ImageView fitHeight="300.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+               <image>
+                  <Image url="@IMSLogo.png" />
+               </image>
+            </ImageView>
                </children>
             </HBox>
    </children>
