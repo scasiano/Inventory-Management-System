@@ -42,6 +42,11 @@ public class ImsGui extends Application {
             dbIpAddress = objectRead.next();
             dbPort = objectRead.next();
             dbName = objectRead.next();
+            if (dbUserName == null || dbUserName.equals("") || dbPassword == null || dbPassword.equals("") || dbIpAddress == null || dbIpAddress.equals("") || dbPort == null || dbPort.equals("") || dbName == null || dbName.equals("")){
+                Global.warningAlert("User information incorrect", "Some portions of the user information was read as blank, please restart the program");
+                loginInformation.delete();
+                System.exit(4122);
+            }
             if (showAlert) Global.loginAlert(loginInformation, dbUserName, dbPassword, dbIpAddress, dbPort, dbName);
         }
         catch (IOException e){
@@ -59,7 +64,7 @@ public class ImsGui extends Application {
         }
         catch(Exception e) {
             Global.exceptionAlert(e, "launch");
-            System.exit(503);
+            System.exit(4167);
         }
         primaryStage.setTitle("Inventory Management Database");
         primaryStage.setScene(global.getHomepageScene());
