@@ -21,12 +21,28 @@ public class Budget {
         this.employeeNo = employeeNo;
     }
 
-    public Budget(Date dateStart, Date dateEnd, double outgoing, double income, double net, long employeeNo) {
+    public Budget(long periodID, Date dateStart, Date dateEnd, double outgoing, double income, long employeeNo) {
+        this.periodID = periodID;
         this.dateStart = dateStart;
         this.dateEnd = dateEnd;
         this.outgoing = outgoing;
         this.income = income;
-        this.net = net;
+        this.employeeNo = employeeNo;
+    }
+
+    public Budget(long periodID, Date dateStart, Date dateEnd, double outgoing, double income) {
+        this.periodID = periodID;
+        this.dateStart = dateStart;
+        this.dateEnd = dateEnd;
+        this.outgoing = outgoing;
+        this.income = income;
+    }
+
+    public Budget(Date dateStart, Date dateEnd, double outgoing, double income, long employeeNo) {
+        this.dateStart = dateStart;
+        this.dateEnd = dateEnd;
+        this.outgoing = outgoing;
+        this.income = income;
         this.employeeNo = employeeNo;
     }
 
@@ -36,6 +52,8 @@ public class Budget {
         this.outgoing = outgoing;
         this.income = income;
     }
+
+
 
     //Get set
     public long getPeriodID(){
