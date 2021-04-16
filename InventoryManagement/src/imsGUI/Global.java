@@ -36,14 +36,14 @@ public class Global {
         productList = FXMLLoader.load(getClass().getResource("ProductList.fxml"));
         productStatus = FXMLLoader.load(getClass().getResource("ProductStatus.fxml"));
         profiles = FXMLLoader.load(getClass().getResource("Profiles.fxml"));
-        adminUserListScene = new Scene(adminUserList, 500, 500);
-        budgetScene = new Scene(budget, 500, 500);
-        homepageScene = new Scene(homepage, 500, 500);
-        loginScene = new Scene(login, 500, 500);
-        ordersScene = new Scene(orders, 500, 500);
-        productListScene = new Scene(productList, 500, 500);
-        productStatusScene = new Scene(productStatus, 500, 500);
-        profilesScene = new Scene(profiles, 500, 500);
+        adminUserListScene = new Scene(adminUserList);
+        budgetScene = new Scene(budget);
+        homepageScene = new Scene(homepage);
+        loginScene = new Scene(login);
+        ordersScene = new Scene(orders);
+        productListScene = new Scene(productList);
+        productStatusScene = new Scene(productStatus);
+        profilesScene = new Scene(profiles);
     }
 
     public static void exceptionAlert(Exception e, String location){
