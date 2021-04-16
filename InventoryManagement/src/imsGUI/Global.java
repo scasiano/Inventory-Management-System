@@ -3,14 +3,13 @@ package imsGUI;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
+import java.io.*;
 
 public class Global {
 
@@ -88,6 +87,44 @@ public class Global {
         alert.setContentText(content);
         alert.showAndWait();
     }
+
+    public static void loginAlert(File loginInformation, String dbUserName, String dbPassword, String dbIpAddress, String dbPort, String dbName){
+        try {
+            loginInformation.createNewFile();
+            FileWriter fileWriter = new FileWriter("loginInformation");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            TextField username = new TextField();
+            username.setText(dbUserName);
+            PasswordField password = new PasswordField();
+            password.setText(dbPassword);
+            TextField ipAddress = new TextField();
+            ipAddress.setText(dbIpAddress);
+            TextField port = new TextField();
+            port.setText(dbPort);
+            TextField name = new TextField();
+            name.setText(dbName);
+            Label usernameLabel = new Label("Username: ");
+            Label passwordLabel = new Label("Password: ");
+            Label ipAddressLabel = new Label("IP Address: ");
+            Label portLabel = new Label("Port: ");
+            Label nameLabel = new Label("DB Name: ");
+            HBox usernameBox = new HBox(100, usernameLabel, username);
+            HBox passwordBox = new HBox(100, passwordLabel, password);
+            HBox ipAddressBox = new HBox(100, ipAddressLabel, ipAddress);
+            HBox portBox = new HBox(100, portLabel, port);
+            HBox nameBox = new HBox(100, nameLabel, name);
+            alert.getDialogPane().setHeaderText("Login information for the Database:");
+            VBox expContent = new VBox();
+            expContent.getChildren().addAll(usernameBox, passwordBox, ipAddressBox, portBox, nameBox);
+            expContent.setMaxWidth(Double.MAX_VALUE);
+            alert.getDialogPane().setExpandableContent(expContent);
+            alert.showAndWait();
+            fileWriter.write(username.getText() + "," + password.getText() + "," + ipAddress.getText() + "," + port.getText() + "," + name.getText());
+            fileWriter.close();
+        }
+        catch (IOException e){exceptionAlert(e, "login file");}
+    }
+
 
     //Get set
     public Scene getAdminUserListScene() {
