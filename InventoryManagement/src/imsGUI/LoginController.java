@@ -26,11 +26,17 @@ public class LoginController {
             String Pass = passBox.getText();
             Boolean admin;
             String role = authenticateUser(User, Pass);
-            admin = role.equals("Admin");
-
+            if (role.equals("")){
+                Global.warningAlert("Incorrect Credentials", "Your username and password do not match, please try again");
+                passBox.clear();
+                return;
+            }
+            admin = role.equals("Admin") || role.equals("IT");
             Stage stage = (Stage) LogBut.getScene().getWindow();
             stage.setScene(ImsGui.global.getHomepageScene());
             stage.show();
+            userBox.clear();
+            passBox.clear();
 
         } catch (Exception e) {
             Global.exceptionAlert(e, "login");

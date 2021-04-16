@@ -1,4 +1,6 @@
 package ims;
+import imsGUI.Global;
+
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -132,7 +134,7 @@ public class Users {
     //SQL Queries CHECK USER
     public static String authenticateUser(String username, String password) throws SQLException {
         ResultSet dbResult = SqlController.dbStatement.executeQuery("select * from users where username='" + username + "'");
-        if (password.equals(dbResult.getString(3))) return dbResult.getString(6);
+        while (dbResult.next()) if (password.equals(dbResult.getString(3))) return dbResult.getString(6);
         return "";
     }
 }
