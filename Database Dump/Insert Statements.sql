@@ -12,17 +12,17 @@ INSERT INTO products(product_id, name, msrp, price) VALUES (536271623, "Razer Ba
 
 
 -- Insert Statments Users
-INSERT INTO users(username, password, fname, lname, role) VALUES ("someUser", "somePassword", "John", "Doe", "Customer");
-INSERT INTO users(username, password, fname, lname, role) VALUES ("scasi", "imNotSharing", "Shane", "Casiano", "IT");
-INSERT INTO users(username, password, fname, lname, role) VALUES ("jdodd", "another", "Joseph", "Dodd", "Manager");
-INSERT INTO users(username, password, fname, lname, role) VALUES ("jspah", "password", "Jade", "Spahr", "Manager");
-INSERT INTO users(username, password, fname, lname, role) VALUES ("dhedd", "entry", "Duncan", "Hedden", "Admin");
-INSERT INTO users(username, password, fname, lname, role) VALUES ("dholc", "this", "Dakarai", "Holcomb", "Account Manager");
-INSERT INTO users(username, password, fname, lname, role) VALUES ("jane_doe", "should", "Jane", "Doe", "User");
-INSERT INTO users(username, password, fname, lname, role) VALUES ("serpent", "be", "Sarah", "Smith", "Customer");
-INSERT INTO users(username, password, fname, lname, role) VALUES ("jvdover", "md5", "Joep", "Van Den Overecht", "Customer");
-INSERT INTO users(username, password, fname, lname, role) VALUES ("bakednorker", "encrypted", "Bickolas", "Norker", "Customer");
-INSERT INTO users(username, password, fname, lname, role) VALUES ("jmill", "nopassword", "Josh", "Miller", "Account Worker");
+INSERT INTO users(user_id, username, password, fname, lname, role) VALUES (1, "someUser", "somePassword", "John", "Doe", "Customer");
+INSERT INTO users(user_id, username, password, fname, lname, role) VALUES (2, "scasi", "imNotSharing", "Shane", "Casiano", "IT");
+INSERT INTO users(user_id, username, password, fname, lname, role) VALUES (3, "jdodd", "another", "Joseph", "Dodd", "Manager");
+INSERT INTO users(user_id, username, password, fname, lname, role) VALUES (4, "jspah", "password", "Jade", "Spahr", "Manager");
+INSERT INTO users(user_id, username, password, fname, lname, role) VALUES (5, "dhedd", "entry", "Duncan", "Hedden", "Admin");
+INSERT INTO users(user_id, username, password, fname, lname, role) VALUES (6, "dholc", "this", "Dakarai", "Holcomb", "Account Manager");
+INSERT INTO users(user_id, username, password, fname, lname, role) VALUES (7, "jane_doe", "should", "Jane", "Doe", "User");
+INSERT INTO users(user_id, username, password, fname, lname, role) VALUES (8, "serpent", "be", "Sarah", "Smith", "Customer");
+INSERT INTO users(user_id, username, password, fname, lname, role) VALUES (9, "jvdover", "md5", "Joep", "Van Den Overecht", "Customer");
+INSERT INTO users(user_id, username, password, fname, lname, role) VALUES (10, "bakednorker", "encrypted", "Bickolas", "Norker", "Customer");
+INSERT INTO users(user_id, username, password, fname, lname, role) VALUES (11, "jmill", "nopassword", "Josh", "Miller", "Account Worker");
 
 
 -- Insert Statements Employees

@@ -50,13 +50,14 @@ DROP TABLE IF EXISTS `budget`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `budget` (
+  `period_id` int(11) NOT NULL AUTO_INCREMENT,
   `date_start` date NOT NULL,
   `date_end` date NOT NULL,
   `outgoing` double unsigned NOT NULL,
   `income` double unsigned NOT NULL,
   `net` double GENERATED ALWAYS AS (`income` - `outgoing`) VIRTUAL,
   `employee_no` int(11) unsigned zerofill DEFAULT NULL,
-  PRIMARY KEY (`date_start`,`date_end`),
+  PRIMARY KEY (`period_id`),
   KEY `employee_no` (`employee_no`),
   CONSTRAINT `budget_ibfk_1` FOREIGN KEY (`employee_no`) REFERENCES `employees` (`employee_no`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -499,4 +500,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-04-14 10:16:18
+-- Dump completed on 2021-04-15 20:01:32
