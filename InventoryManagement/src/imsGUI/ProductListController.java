@@ -83,36 +83,38 @@ public class ProductListController {
             idBox.getChildren().add(listID);
             productsList.getChildren().addAll(nameBox, idBox);
         } catch (Exception e) {
-            e.printStackTrace();
+            Global.exceptionAlert(e,"Set Product List");
         }
         startMod.setVisible(false);
     }
 
     public void prodDetails() {
-        listID.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                Integer index = listID.getSelectionModel().getSelectedIndex();
-                pIndex = index;
-                listName.getSelectionModel().select(index);
-                productName.setText(allProd.get(index).getName());
-                productID.setText(String.valueOf(allProd.get(index).getProductID()));
-                productMSRP.setText("$" + String.valueOf(allProd.get(index).getMsrp()));
-                productPrice.setText("$" + String.valueOf(allProd.get(index).getPrice()));
-            }
-        });
-        listName.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                Integer index = listName.getSelectionModel().getSelectedIndex();
-                pIndex = index;
-                listID.getSelectionModel().select(index);
-                productName.setText(allProd.get(index).getName());
-                productID.setText(String.valueOf(allProd.get(index).getProductID()));
-                productMSRP.setText("$" + String.valueOf(allProd.get(index).getMsrp()));
-                productPrice.setText("$" + String.valueOf(allProd.get(index).getPrice()));
-            }
-        });
+        try {
+            listID.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    Integer index = listID.getSelectionModel().getSelectedIndex();
+                    pIndex = index;
+                    listName.getSelectionModel().select(index);
+                    productName.setText(allProd.get(index).getName());
+                    productID.setText(String.valueOf(allProd.get(index).getProductID()));
+                    productMSRP.setText("$" + String.valueOf(allProd.get(index).getMsrp()));
+                    productPrice.setText("$" + String.valueOf(allProd.get(index).getPrice()));
+                }
+            });
+            listName.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    Integer index = listName.getSelectionModel().getSelectedIndex();
+                    pIndex = index;
+                    listID.getSelectionModel().select(index);
+                    productName.setText(allProd.get(index).getName());
+                    productID.setText(String.valueOf(allProd.get(index).getProductID()));
+                    productMSRP.setText("$" + String.valueOf(allProd.get(index).getMsrp()));
+                    productPrice.setText("$" + String.valueOf(allProd.get(index).getPrice()));
+                }
+            });
+        }catch (Exception e){Global.exceptionAlert(e,"Show Product Details");}
         startMod.setVisible(true);
     }
 
@@ -171,11 +173,7 @@ public class ProductListController {
             Global.warningAlert("Product Id Exists", "Product ID already exists. Product Add canceled");
         }
         endProductEdit();
-        listID.getItems().clear();
-        listName.getItems().clear();
-        idBox.getChildren().clear();
-        nameBox.getChildren().clear();
-        productsList.getChildren().clear();
+        clearProdList();
         initialize();
         clearProdInfo();
 
@@ -190,6 +188,13 @@ public class ProductListController {
             noProd.setContentText("Check your inputs for the product.\n\tProductID should be 8 numbers\n\t Product should have a name\n\t The Msrp and price need to be alt least 4 characters long.");
             noProd.showAndWait();
         }*/
+    public void clearProdList(){
+        listID.getItems().clear();
+        listName.getItems().clear();
+        idBox.getChildren().clear();
+        nameBox.getChildren().clear();
+        productsList.getChildren().clear();
+    }
     public void clearProdInfo(){
         productID.clear();
         productName.clear();
@@ -208,9 +213,13 @@ public class ProductListController {
         startMod.setVisible(true);
     }
     public void modDBProduct() throws SQLException {
-        allProd.get(pIndex).setName(productName.getText());
-        allProd.get(pIndex).setMsrp(Double.valueOf(productMSRP.getText()));
-        allProd.get(pIndex).setPrice(Double.valueOf(productPrice.getText()));
+        try{
+            allProd.get(pIndex).setName(productName.getText());
+            allProd.get(pIndex).setMsrp(Double.valueOf(productMSRP.getText()));
+            allProd.get(pIndex).setPrice(Double.valueOf(productPrice.getText()));
+        }catch(Exception e){
+            Global.exceptionAlert(e,"Modify Products");
+        }
         initialize();
         endProductEdit();
     }
@@ -228,16 +237,15 @@ public class ProductListController {
         Alert delete=new Alert(Alert.AlertType.CONFIRMATION);
         delete.setHeaderText("Delete Product");
         delete.setContentText("Are you Sure you want to Delete?");
-        if(delete.showAndWait().get() == ButtonType.OK) {
-            ims.Products.deleteRecord(allProd.get(pIndex).getProductID());
-            endProductEdit();
-            listID.getItems().clear();
-            listName.getItems().clear();
-            idBox.getChildren().clear();
-            nameBox.getChildren().clear();
-            productsList.getChildren().clear();
-            initialize();
-        }
+        try {
+            if (delete.showAndWait().get() == ButtonType.OK) {
+                ims.Products.deleteRecord(allProd.get(pIndex).getProductID());
+                endProductEdit();
+                clearProdList();
+                initialize();
+                clearProdInfo();
+            }
+        }catch(Exception e){Global.exceptionAlert(e,"Delete Product");}
     }
     @FXML
     private void openHomePage(ActionEvent event) {

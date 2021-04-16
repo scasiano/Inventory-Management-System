@@ -102,7 +102,7 @@ public class ProfilesController {
             id.getChildren().add(columnID);
             usersList.getChildren().addAll(id, un);
         } catch (Exception e) {
-            e.printStackTrace();
+            Global.exceptionAlert(e,"Set User List");
         }
     }
 
@@ -247,13 +247,16 @@ public class ProfilesController {
         deleteAlert.setHeaderText("Delete User");
         deleteAlert.setContentText("Are you sure you want to delete this User?");
         if(deleteAlert.showAndWait().get() == ButtonType.OK){
-            ims.Users.deleteRecord(allUsers.get(uIndex).getUserID());
+           try{ ims.Users.deleteRecord(allUsers.get(uIndex).getUserID());
             endUserEdit();
             columnUN.getItems().clear();
             columnID.getItems().clear();
             usersList.getChildren().clear();
             usersList.getChildren().clear();
-            initialize();
+            clearUserInfo();
+            initialize();}catch(Exception e){
+               Global.exceptionAlert(e,"Delete User");
+           }
         }
     }
 
@@ -300,7 +303,7 @@ public class ProfilesController {
                 password.clear();
                 initialize();
             } catch (Exception e) {
-                e.printStackTrace();
+                Global.exceptionAlert(e,"Load Tables");
             }
     }
 
