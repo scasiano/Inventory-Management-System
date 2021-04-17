@@ -111,7 +111,7 @@ public class Users {
 
     //SQL Queries ADD
     public static void addRecord(Users recordToAdd) throws SQLException {
-        SqlController.dbStatement.executeUpdate("insert into users(user_id, username, password, fname, lname, role) values (" + recordToAdd.userID + ", '" + recordToAdd.username + "', " +recordToAdd.password + ", " + recordToAdd.fName + ", " + recordToAdd.lName + ", " + recordToAdd.role + ")");
+        SqlController.dbStatement.executeUpdate("insert into users(user_id, username, password, fname, lname, role) values (" + recordToAdd.userID + ", '" + recordToAdd.username + "', '" +recordToAdd.password + "', '" + recordToAdd.fName + "', '" + recordToAdd.lName + "', '" + recordToAdd.role + "');");
     }
 
     //SQL Queries MODIFY
