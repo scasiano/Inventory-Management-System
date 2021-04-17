@@ -58,9 +58,14 @@ public class ProductListController {
     public void initialize() throws SQLException {
         setProductList();
         prodDetails();
+        if(Global.privilege){
+            addProd.setVisible(true);
+        }
+        else
+            addProd.setVisible(false);
     }
 
-    public void setProductList() throws SQLException {
+    public void setProductList() {
 
         ArrayList<Long> idList = new ArrayList<>();
         ArrayList<String> nameList = new ArrayList<>();
@@ -114,8 +119,11 @@ public class ProductListController {
                     productPrice.setText("$" + String.valueOf(allProd.get(index).getPrice()));
                 }
             });
-        }catch (Exception e){Global.exceptionAlert(e,"Show Product Details");}
-        startMod.setVisible(true);
+        }catch (Exception e){
+            Global.exceptionAlert(e,"Show Product Details");
+        }
+        if(Global.privilege)
+            startMod.setVisible(true);
     }
 
     public void startProduct(ActionEvent event) {

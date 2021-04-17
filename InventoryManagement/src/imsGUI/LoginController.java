@@ -32,6 +32,8 @@ public class LoginController {
                 return;
             }
             admin = role.equals("Admin") || role.equals("IT");
+            Global.privilege=admin;
+            Global.currentUser=User;
             Stage stage = (Stage) LogBut.getScene().getWindow();
             stage.setScene(ImsGui.global.getHomepageScene());
             stage.show();
