@@ -12,14 +12,19 @@ import javafx.stage.Stage;
 public class HomepageController {
     @FXML
     Button profilesB;
+    @FXML
     Button prodListB;
+    @FXML
     Button prodStatB;
+    @FXML
     Button ordersB;
+    @FXML
     Button budgetB;
+    @FXML
     Button adminB;
 
     public void initialize(){
-       allowAdmin();
+    //   allowAdmin();
     }
   //  public void logout(){    }
     private void allowAdmin(){
