@@ -264,21 +264,21 @@ public class AdminUserListController {
                     userid.clear();
                 }if (empFname.getText().length() > 0){
                     flag = true;
-                    etmp.setEmployeeFn(fname.getText());
-                    tmp.setFName(fname.getText());
+                    etmp.setEmployeeFn(empFname.getText());
+                    tmp.setFName(empFname.getText());
                 } else{
                     flag = false;
                     Global.warningAlert("Incorrect first name", "Every User needs a first name");
-                    fname.clear();
+                    empFname.clear();
                 }
                 if (empLname.getText().length() > 0){
                     flag = true;
-                    etmp.setEmployeeFn(lname.getText());
-                    tmp.setLName(lname.getText());
+                    etmp.setEmployeeFn(empLname.getText());
+                    tmp.setLName(empLname.getText());
                 } else{
                     flag = false;
                     Global.warningAlert("Incorrect last name", "Every User needs a last name");
-                    lname.clear();
+                    empLname.clear();
                 }
                 if (pay.getText().length() > 0){
                     flag = true;
