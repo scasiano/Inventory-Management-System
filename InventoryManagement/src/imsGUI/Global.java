@@ -26,7 +26,7 @@ public class Global {
     private Scene productListScene;
     private Scene productStatusScene;
     private Scene profilesScene;
-    public static Boolean privilege;
+    public static Boolean privilege=true;
     public static String currentUser;
 
     public void loadFxmlFiles() throws Exception{

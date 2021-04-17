@@ -6,17 +6,32 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 public class HomepageController {
-    public void initialize(){}
+    @FXML
+    Button profilesB;
+    Button prodListB;
+    Button prodStatB;
+    Button ordersB;
+    Button budgetB;
+    Button adminB;
 
+    public void initialize(){
+       allowAdmin();
+    }
   //  public void logout(){    }
+    private void allowAdmin(){
+        if(Global.privilege){
+            adminB.setVisible(true);
+        }
+    }
     @FXML
     private void openAdminU(ActionEvent event) {
-        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        stage.setScene(ImsGui.global.getAdminUserListScene());
-        stage.show();
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(ImsGui.global.getAdminUserListScene());
+            stage.show();
     }
     @FXML
     private void openBudget(ActionEvent event) {
@@ -25,7 +40,6 @@ public class HomepageController {
         stage.show();
     }
     @FXML
-
     private void openLogin(ActionEvent event) {
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         stage.setScene(ImsGui.global.getLoginScene());
