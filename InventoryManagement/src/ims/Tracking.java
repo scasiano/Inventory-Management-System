@@ -85,13 +85,13 @@ public class Tracking {
 
     //SQL Queries ADD
     public static void addRecordTrackCarrier(Tracking recordToAdd) throws SQLException {
-        SqlController.dbStatement.executeUpdate("insert into tracking(order_id, shipping_status, tracking_id, carrier) values (" + recordToAdd.orderID + ", '" + recordToAdd.shippingStatus + "', " + recordToAdd.trackingID + ", " + recordToAdd.carrier + ")");
+        SqlController.dbStatement.executeUpdate("insert into tracking(order_id, shipping_status, tracking_id, carrier) values (" + recordToAdd.orderID + ", '" + recordToAdd.shippingStatus + "', '" + recordToAdd.trackingID + "', '" + recordToAdd.carrier + "')");
     }
     public static void addRecordTrack(Tracking recordToAdd) throws SQLException {
-        SqlController.dbStatement.executeUpdate("insert into tracking(order_id, shipping_status, tracking_id) values (" + recordToAdd.orderID + ", '" + recordToAdd.shippingStatus + "', " + recordToAdd.trackingID + ")");
+        SqlController.dbStatement.executeUpdate("insert into tracking(order_id, shipping_status, tracking_id) values (" + recordToAdd.orderID + ", '" + recordToAdd.shippingStatus + "', '" + recordToAdd.trackingID + "')");
     }
     public static void addRecordCarrier(Tracking recordToAdd) throws SQLException {
-        SqlController.dbStatement.executeUpdate("insert into tracking(order_id, shipping_status, carrier) values (" + recordToAdd.orderID + ", '" + recordToAdd.shippingStatus + "', " + recordToAdd.carrier + ")");
+        SqlController.dbStatement.executeUpdate("insert into tracking(order_id, shipping_status, carrier) values (" + recordToAdd.orderID + ", '" + recordToAdd.shippingStatus + "', '" + recordToAdd.carrier + "')");
     }
     public static void addRecord(Tracking recordToAdd) throws SQLException {
         SqlController.dbStatement.executeUpdate("insert into tracking(order_id, shipping_status) values (" + recordToAdd.orderID + ", '" + recordToAdd.shippingStatus + "')");
