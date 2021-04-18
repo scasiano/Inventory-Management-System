@@ -165,6 +165,12 @@ public class ProductStatusController {
             public void handle(MouseEvent event) {
                 intmp = incomingT.getSelectionModel().getSelectedItem();
                 modIncomB.setVisible(true);
+                inIDT.setText(String.valueOf(intmp.getIncomingID()));
+                inPIDT.setText(String.valueOf(intmp.getProductID()));
+                inDateT.setText(String.valueOf(intmp.getDateIn()));
+                trackNoT.setText(String.valueOf(intmp.getTrackingNo()));
+                inQuantT.setText(String.valueOf(intmp.getQuantity()));
+                inEmpT.setText(String.valueOf(intmp.getEmployeeNo()));
             }
         });
         outgoingT.setOnMouseClicked(new EventHandler<javafx.scene.input.MouseEvent>(){
@@ -172,6 +178,11 @@ public class ProductStatusController {
             public void handle(MouseEvent event){
                 outtmp= outgoingT.getSelectionModel().getSelectedItem();
                 modOutB.setVisible(true);
+                outIDT.setText(String.valueOf(outtmp.getOutgoingID()));
+                outPIDT.setText(String.valueOf(outtmp.getProductID()));
+                outDateT.setText(String.valueOf(outtmp.getDateGo()));
+                outEmpT.setText(String.valueOf(outtmp.getEmployeeNo()));
+                outQuantT.setText(String.valueOf(outtmp.getQuantity()));
             }
         });
     }
