@@ -50,6 +50,8 @@ public class OrdersController {
     @FXML
     Label datePlaced;
     @FXML
+    DatePicker addDate;
+    @FXML
     TextField trackingID;
     @FXML
     TextField carrier;
@@ -158,13 +160,13 @@ public class OrdersController {
                     Global.warningAlert("Incorrect Address", "Every Order needs a Customer address");
                     customerAddress.clear();
                 }
-                if(){
-                    tmp.setDatePlaced(java.sql.Date.valueOf(datePlaced.getText()));
+                if(addDate.getValue()!=null){
+                    tmp.setDatePlaced(java.sql.Date.valueOf(addDate.getValue()));
                 }
                 else{
                     flag = false;
                     Global.warningAlert("Incorrect Date", "Every Order needs a Date placed in the format yyyy-MM-dd");
-                    datePlaced.setText("");
+                    addDate.setValue(null);
                 }
                 if(Long.valueOf(employeeID.getText())>0){
                     method ++;
