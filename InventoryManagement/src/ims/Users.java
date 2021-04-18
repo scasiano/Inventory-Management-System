@@ -137,9 +137,9 @@ public class Users {
         while (dbResult.next()) if (password.equals(dbResult.getString(3))) return dbResult.getString(6);
         return "";
     }
-    public static long selectUserIDByUserName(String username) throws SQLException{
-        ResultSet dbResult = SqlController.dbStatement.executeQuery("select user_id from users where username='" + username + "'");
-        while (dbResult.next()) return dbResult.getLong(1);
-        return -1;
+    public static Users selectUserIDByUserName(String username) throws SQLException{
+        ResultSet dbResult = SqlController.dbStatement.executeQuery("select * from users where username='" + username + "'");
+        while (dbResult.next()) return new Users(dbResult.getLong(1), dbResult.getString(2), dbResult.getString(3), dbResult.getString(4), dbResult.getString(5), dbResult.getString(6));
+        return null;
     }
 }
