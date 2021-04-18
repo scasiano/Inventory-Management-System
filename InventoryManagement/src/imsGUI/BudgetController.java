@@ -20,7 +20,7 @@ public class BudgetController {
     @FXML
     Label empLabel;
     @FXML
-    DatePicker dateRange;
+    DatePicker dateRange;//this returns localDate which has to be cast into a SQL Date
     @FXML
     TextField netProfit;
     @FXML
@@ -37,7 +37,6 @@ public class BudgetController {
     Button deleteBtn;
     @FXML
     HBox periodList;
-
-
+    
 
 }
