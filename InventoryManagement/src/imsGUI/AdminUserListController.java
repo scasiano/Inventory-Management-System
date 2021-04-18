@@ -317,7 +317,6 @@ public class AdminUserListController {
             }catch (MySQLIntegrityConstraintViolationException a){
                 Global.warningAlert("User Id Exists", "You do not need to Add another User");
             }
-            empT.getItems().add(etmp);
             if(method ==1)
                 Employees.addRecord(etmp);
             if(method ==0)
@@ -326,6 +325,7 @@ public class AdminUserListController {
                 Employees.addRecordDate(etmp);
             if(method==2)
                 Employees.addRecordPayDate(etmp);
+            empT.getItems().add(etmp);
         } catch (MySQLIntegrityConstraintViolationException e){
             Global.warningAlert("Employee Id Exists", "Employee ID already exists. User add canceled");
         } catch(Exception p){
