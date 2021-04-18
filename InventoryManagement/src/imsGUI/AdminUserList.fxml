@@ -98,9 +98,15 @@
                                     <HBox.margin>
                                        <Insets left="10.0" right="10.0" />
                                     </HBox.margin></Button>
+                                    <Button fx:id="cancelOrder" mnemonicParsing="false" onAction="#hideData" text="Cancel"/>
                                 </HBox>
                                 <HBox fx:id="userAddB" alignment="TOP_CENTER" visible="false">
                                     <Button fx:id="save" mnemonicParsing="false" onAction="#saveUserClicked" text="Save" GridPane.rowIndex="1" />
+                                    <Button fx:id="cancelOrder3" mnemonicParsing="false" onAction="#hideData" text="Cancel" >
+                                        <HBox.margin>
+                                            <Insets left="10.0" right="10.0" />
+                                        </HBox.margin>
+                                    </Button>
                                 </HBox>
                             </children>
                             </VBox>
@@ -177,14 +183,21 @@
                                             <Button fx:id="empDelete" mnemonicParsing="false" onAction="#deleteEmpClicked" text="Delete User" GridPane.rowIndex="1">
                                                 <HBox.margin>
                                                     <Insets left="10.0" />
-                                                </HBox.margin></Button>
-                                            <Button fx:id="empUpdate" mnemonicParsing="false" onAction="#modifyDBUser" text="Update" GridPane.rowIndex="1">
+                                                </HBox.margin>
+                                            </Button>
+                                            <Button fx:id="empUpdate" mnemonicParsing="false" onAction="#modifyDBEmp" text="Update" GridPane.rowIndex="1">
                                                 <HBox.margin>
                                                     <Insets left="10.0" right="10.0" />
                                                 </HBox.margin></Button>
+                                            <Button fx:id="cancelOrder1" mnemonicParsing="false" onAction="#hideData" text="Cancel" />
                                         </HBox>
                                         <HBox fx:id="empAddB" alignment="TOP_CENTER" visible="false">
                                             <Button fx:id="empSave" mnemonicParsing="false" onAction="#saveEmpClicked" text="Save" GridPane.rowIndex="1" />
+                                            <Button fx:id="cancelOrder2" mnemonicParsing="false" onAction="#hideData" text="Cancel" >
+                                                <HBox.margin>
+                                                    <Insets left="10.0" right="10.0" />
+                                                </HBox.margin>
+                                            </Button>
                                         </HBox>
                                     </children>
                                 </VBox>

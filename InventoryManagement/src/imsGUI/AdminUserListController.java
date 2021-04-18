@@ -295,7 +295,7 @@ public class AdminUserListController {
                     empUsername.clear();
                 }
                 if(startDate.getText().length()>0 && startDate.getText().contains("-")){
-                    etmp.setStartDate(java.sql.Date.valueOf(startDate.getText()));
+                    etmp.setStartDate(Date.valueOf(startDate.getText()));
                 }else{
                     flag = false;
                     Global.warningAlert("Incorrect Start Date", "Every Employee needs a Start Date of the Format yyyy-MM-dd");
@@ -304,7 +304,7 @@ public class AdminUserListController {
                 if(endDate.getText().length()>0){
                     if(endDate.getText().contains("-")) {
                         method += 2;
-                        etmp.setEndDate(java.sql.Date.valueOf(endDate.getText()));
+                        etmp.setEndDate(Date.valueOf(endDate.getText()));
                     }else{
                         flag = false;
                         Global.warningAlert("Incorrect End Date", "Every Employee with a End Date of the Format yyyy-MM-dd");
@@ -428,6 +428,7 @@ public class AdminUserListController {
         empModB.setVisible(false);
         empAddB.setVisible(false);
         empAdd.setVisible(true);
+        empT.getSelectionModel().clearSelection();
     }
     @FXML
     private void openHomePage(ActionEvent event) {
