@@ -115,13 +115,14 @@ public class OrdersController {
                     } catch (SQLException p) {
                         Global.exceptionAlert(p,"Show Product Details");
                     }*/
+                    if(Global.privilege)
+                        startMod.setVisible(true);
                 }
             });
         }catch (Exception e){
             Global.exceptionAlert(e,"Show Product Details");
         }
-        if(Global.privilege)
-            startMod.setVisible(true);
+
     }
     public void addOrderClicked(ActionEvent event) throws SQLException {
         String[] name=customerName.getText().split(" ");

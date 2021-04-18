@@ -105,6 +105,8 @@ public class ProductListController {
                     productID.setText(String.valueOf(allProd.get(index).getProductID()));
                     productMSRP.setText("$" + String.valueOf(allProd.get(index).getMsrp()));
                     productPrice.setText("$" + String.valueOf(allProd.get(index).getPrice()));
+                    if(Global.privilege)
+                        startMod.setVisible(true);
                 }
             });
             listName.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -117,13 +119,14 @@ public class ProductListController {
                     productID.setText(String.valueOf(allProd.get(index).getProductID()));
                     productMSRP.setText("$" + String.valueOf(allProd.get(index).getMsrp()));
                     productPrice.setText("$" + String.valueOf(allProd.get(index).getPrice()));
+                    if(Global.privilege)
+                        startMod.setVisible(true);
                 }
             });
         }catch (Exception e){
             Global.exceptionAlert(e,"Show Product Details");
         }
-        if(Global.privilege)
-            startMod.setVisible(true);
+
     }
 
     public void startProduct(ActionEvent event) {
