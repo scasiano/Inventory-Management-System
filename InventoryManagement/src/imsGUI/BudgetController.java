@@ -37,6 +37,6 @@ public class BudgetController {
     Button deleteBtn;
     @FXML
     HBox periodList;
-    
+
 
 }

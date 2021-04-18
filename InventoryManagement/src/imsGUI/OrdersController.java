@@ -113,14 +113,14 @@ public class OrdersController {
                         trackingID.setText(Tracking.selectByOID(allOrders.get(oIndex).getOrderID()).getTrackingID());
                         carrier.setText(Tracking.selectByOID(allOrders.get(oIndex).getOrderID()).getCarrier());
                     } catch (SQLException p) {
-                        Global.exceptionAlert(p,"Show Product Details");
+                        Global.exceptionAlert(p,"Show Order Tracking Details");
                     }*/
                     if(Global.privilege)
                         startMod.setVisible(true);
                 }
             });
         }catch (Exception e){
-            Global.exceptionAlert(e,"Show Product Details");
+            Global.exceptionAlert(e,"Show Order Details");
         }
 
     }

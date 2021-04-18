@@ -59,11 +59,7 @@ public class Tracking {
         while (dbResult.next()) resultList.add(new Tracking(dbResult.getLong(1), dbResult.getString(2), dbResult.getString(3), dbResult.getString(4)));
         return resultList;
     }
-    public static Tracking selectByOID(Long oID) throws SQLException {
-        ResultSet dbResult = SqlController.dbStatement.executeQuery("select * from tracking where order_id="+oID);
-        Tracking order=new Tracking(dbResult.getLong(1), dbResult.getString(2), dbResult.getString(3));
-        return order;
-    }
+
     public static ArrayList<Long> selectOutgoingID() throws SQLException {
         ResultSet dbResult = SqlController.dbStatement.executeQuery("select outgoing_id from tracking");
         ArrayList<Long> resultList = new ArrayList<>();
@@ -117,5 +113,10 @@ public class Tracking {
     }
     public static void modifyCarrier(long primaryKey, String updateValue) throws SQLException {
         SqlController.dbStatement.executeUpdate("update tracking set carrier = '" + updateValue + "' where order_id = " + primaryKey);
+    }
+    public static Tracking selectByOID(long oID) throws SQLException {
+        ResultSet dbResult = SqlController.dbStatement.executeQuery("select * from tracking where order_id="+oID);
+        Tracking order=new Tracking(dbResult.getLong(1), dbResult.getString(2), dbResult.getString(3));
+        return order;
     }
 }
