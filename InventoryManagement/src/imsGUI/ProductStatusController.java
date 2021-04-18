@@ -184,10 +184,10 @@ public class ProductStatusController {
                 outtmp= outgoingT.getSelectionModel().getSelectedItem();
                 modOutB.setVisible(true);
                 outIDT.setText(String.valueOf(outtmp.getOutgoingID()));
-                //outPIDT.setText(String.valueOf(outtmp.getProductID()));
                 outDateT.setText(String.valueOf(outtmp.getDateGo()));
                 outEmpT.setText(String.valueOf(outtmp.getEmployeeNo()));
                 outQuantT.setText(String.valueOf(outtmp.getQuantity()));
+                //outPIDT.setText(String.valueOf(outtmp.getProductID()));
             }
         });}catch(Exception e){
             Global.exceptionAlert(e,"Outgoing Mouse Click");
