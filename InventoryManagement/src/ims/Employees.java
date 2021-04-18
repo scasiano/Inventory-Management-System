@@ -166,13 +166,13 @@ public class Employees {
 
     //SQL Queries ADD
     public static void addRecordPayDate(Employees recordToAdd) throws SQLException {
-        SqlController.dbStatement.executeUpdate("insert into employees(employee_no, user_id, employee_fn, employee_ln, pay_hour, position, start_date, end_date) values (" + recordToAdd.employeeNo + ", " + recordToAdd.userID + ", '" +recordToAdd.employeeFn + "', '" + recordToAdd.employeeLn + "', " + recordToAdd.payHour + ", '" + recordToAdd.position + "', " + recordToAdd.startDate + ", " + recordToAdd.endDate + ")");
+        SqlController.dbStatement.executeUpdate("insert into employees(employee_no, user_id, employee_fn, employee_ln, pay_hour, position, start_date, end_date) values (" + recordToAdd.employeeNo + ", " + recordToAdd.userID + ", '" +recordToAdd.employeeFn + "', '" + recordToAdd.employeeLn + "', " + recordToAdd.payHour + ", '" + recordToAdd.position + "', '" + recordToAdd.startDate + "', '" + recordToAdd.endDate + "')");
     }
     public static void addRecordDate(Employees recordToAdd) throws SQLException {
-        SqlController.dbStatement.executeUpdate("insert into employees(employee_no, user_id, employee_fn, employee_ln, position, start_date, end_date) values (" + recordToAdd.employeeNo + ", " + recordToAdd.userID + ", '" +recordToAdd.employeeFn + "', '" + recordToAdd.employeeLn + "', '" + recordToAdd.position + "', " + recordToAdd.startDate + ", " + recordToAdd.endDate + ")");
+        SqlController.dbStatement.executeUpdate("insert into employees(employee_no, user_id, employee_fn, employee_ln, position, start_date, end_date) values (" + recordToAdd.employeeNo + ", " + recordToAdd.userID + ", '" +recordToAdd.employeeFn + "', '" + recordToAdd.employeeLn + "', '" + recordToAdd.position + "', '" + recordToAdd.startDate + "', '" + recordToAdd.endDate + "')");
     }
     public static void addRecordPay(Employees recordToAdd) throws SQLException {
-        SqlController.dbStatement.executeUpdate("insert into employees(employee_no, user_id, employee_fn, employee_ln, pay_hour, position, start_date) values (" + recordToAdd.employeeNo + ", " + recordToAdd.userID + ", '" +recordToAdd.employeeFn + "', '" + recordToAdd.employeeLn + "', " + recordToAdd.payHour + ", '" + recordToAdd.position + "', " + recordToAdd.startDate + ")");
+        SqlController.dbStatement.executeUpdate("insert into employees(employee_no, user_id, employee_fn, employee_ln, pay_hour, position, start_date) values (" + recordToAdd.employeeNo + ", " + recordToAdd.userID + ", '" +recordToAdd.employeeFn + "', '" + recordToAdd.employeeLn + "', " + recordToAdd.payHour + ", '" + recordToAdd.position + "', '" + recordToAdd.startDate + "')");
     }
     public static void addRecord(Employees recordToAdd) throws SQLException {
         SqlController.dbStatement.executeUpdate("insert into employees(employee_no, user_id, employee_fn, employee_ln, position, start_date) values (" + recordToAdd.employeeNo + ", '" + recordToAdd.userID + "', '" +recordToAdd.employeeFn + "', '" + recordToAdd.employeeLn + "', '" + recordToAdd.position + "', '" + recordToAdd.startDate + "')");
