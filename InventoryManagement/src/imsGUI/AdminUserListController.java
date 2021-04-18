@@ -294,28 +294,26 @@ public class AdminUserListController {
                     Global.warningAlert("Incorrect Username", "Every Employee needs a Username");
                     empUsername.clear();
                 }
-                if(startDate.getText().length()>0){
+                if(startDate.getText().length()>0 && startDate.getText().contains("-")){
                     etmp.setStartDate(java.sql.Date.valueOf(startDate.getText()));
                 }else{
                     flag = false;
-                    Global.warningAlert("Incorrect Username", "Every Employee needs a Start Date");
+                    Global.warningAlert("Incorrect Start Date", "Every Employee needs a Start Date of the Format yyyy-MM-dd");
                     startDate.clear();
                 }
                 if(endDate.getText().length()>0){
-                    method +=2;
-                    etmp.setEndDate(java.sql.Date.valueOf(endDate.getText()));
+                    if(endDate.getText().contains("-")) {
+                        method += 2;
+                        etmp.setEndDate(java.sql.Date.valueOf(endDate.getText()));
+                    }else{
+                        flag = false;
+                        Global.warningAlert("Incorrect End Date", "Every Employee with a End Date of the Format yyyy-MM-dd");
+                        startDate.clear();
+                    }
                 }
                 //default
-                String pass="password"+utmp.getLName().substring(0)+utmp.getFName().substring(0)+"!";
+                String pass="password"+utmp.getLName().substring(0,1)+utmp.getFName().substring(0,1)+"!";
                 utmp.setPassword(pass);
-            }
-            try{
-                if(!newU) {
-                Users.addRecord(utmp);
-                userT.getItems().add(utmp);
-            }
-            }catch (MySQLIntegrityConstraintViolationException a){
-                Global.warningAlert("User Id Exists", "You do not need to Add another User");
             }
             if(method ==1)
                 Employees.addRecord(etmp);
@@ -326,6 +324,14 @@ public class AdminUserListController {
             if(method==2)
                 Employees.addRecordPayDate(etmp);
             empT.getItems().add(etmp);
+            try{
+                if(!newU) {
+                    Users.addRecord(utmp);
+                    userT.getItems().add(utmp);
+                }
+            }catch (MySQLIntegrityConstraintViolationException a){
+                Global.warningAlert("User Id Exists", "You do not need to Add another User");
+            }
         } catch (MySQLIntegrityConstraintViolationException e){
             Global.warningAlert("Employee Id Exists", "Employee ID already exists. User add canceled");
         } catch(Exception p){

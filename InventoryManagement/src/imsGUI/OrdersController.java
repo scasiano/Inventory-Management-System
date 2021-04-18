@@ -118,7 +118,7 @@ public class OrdersController {
                         Global.exceptionAlert(p,"Show Order Tracking Details");
                     }*/
                     if(Global.privilege)
-                        startMod.setVisible(true);
+                        modOrder.setVisible(true);
                 }
             });
         }catch (Exception e){

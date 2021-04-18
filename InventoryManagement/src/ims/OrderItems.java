@@ -55,4 +55,12 @@ public class OrderItems {
     public static void addRecord(OrderItems recordToAdd) throws SQLException {
         SqlController.dbStatement.executeUpdate("insert into order_items(order_id, product_id) values (" + recordToAdd.orderID + ", '" + recordToAdd.productID + ")");
     }
+
+    //SQL Queries ORDER ITEM FROM ID
+    public static ArrayList<OrderItems> selectByOrderID(long orderID) throws SQLException{
+        ResultSet dbResult = SqlController.dbStatement.executeQuery("select * from order_items where order_id = " + orderID);
+        ArrayList<OrderItems> resultList = new ArrayList<>();
+        while (dbResult.next()) resultList.add(new OrderItems(dbResult.getLong(1), dbResult.getLong(2)));
+        return resultList;
+    }
 }

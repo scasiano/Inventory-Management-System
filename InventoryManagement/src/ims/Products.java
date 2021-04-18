@@ -94,4 +94,7 @@ public class Products {
     public static void modifyPrice(long primaryKey, double updateValue) throws SQLException {
         SqlController.dbStatement.executeUpdate("update products set price = " + updateValue + " where product_id = " + primaryKey);
     }
+
+    //SQL Queries PRODUCTNAME FROM PRODUCT
+    public static String selectProductNameByProduct
 }
