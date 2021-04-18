@@ -59,8 +59,9 @@ public class ProfilesController {
     int uIndex = -1;
 
     public void initialize() throws SQLException {
-        setUsersList();
-        userDetails();
+      //setUsersList();
+       //userDetails();
+       //Users.getUserID(Global.currentUser);
     }
 
     public void setUsersList() {
@@ -240,8 +241,26 @@ public class ProfilesController {
         userResults.setVisible(true);
     }
 
-
-    public void deleteButtonClicked() throws SQLException {
+    public void modifyUser(){
+        username.setEditable(false);
+        fname.setEditable(false);
+        lname.setEditable(false);
+        role.setEditable(false);
+        password.setEditable(true);
+        user_id.setEditable(false);
+        save.setVisible(true);
+        usersList.setVisible(true);
+        userResults.setVisible(true);
+    }
+    /*public void clearUserInfo(){
+        user_id.clear();
+        username.clear();
+        fname.clear();
+        lname.clear();
+        role.clear();
+        password.clear();
+    }*/
+/*public void deleteButtonClicked() throws SQLException {
         Alert deleteAlert = new Alert(Alert.AlertType.CONFIRMATION);
         deleteAlert.setTitle("Delete");
         deleteAlert.setHeaderText("Delete User");
@@ -258,27 +277,8 @@ public class ProfilesController {
                Global.exceptionAlert(e,"Delete User");
            }
         }
-    }
-
-    public void modifyDBUser() throws SQLException{
-        allUsers.get(uIndex).setPassword(password.getText());
-        initialize();
-        endUserEdit();
-    }
-
-    public void modifyUser(){
-        username.setEditable(false);
-        fname.setEditable(false);
-        lname.setEditable(false);
-        role.setEditable(false);
-        password.setEditable(true);
-        user_id.setEditable(false);
-        save.setVisible(true);
-        usersList.setVisible(true);
-        userResults.setVisible(true);
-    }
-
-    public void loadTables() {
+    }*/
+    /*public void loadTables() {
            try {
                 username.setEditable(false);
                 user_id.setEditable(false);
@@ -305,7 +305,7 @@ public class ProfilesController {
             } catch (Exception e) {
                 Global.exceptionAlert(e,"Load Tables");
             }
-    }
+    }*/
 
     @FXML
     private void openHomePage(ActionEvent event) {
