@@ -67,26 +67,61 @@
                                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                 </columnResizePolicy>
                             </TableView>
-                            <VBox fx:id="incomingV" GridPane.columnIndex="3" GridPane.rowIndex="1">
-                                <TextField fx:id="inIDT" />
-                                <TextField fx:id="inPIDT" />
-                                <TextField fx:id="inDateT" />
-                                <TextField fx:id="trackNoT" />
-                                <TextField fx:id="inQuantT" />
-                                <TextField fx:id="inEmpT" />
+                            <VBox fx:id="incomingV" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                                <TextField fx:id="inIDT" promptText="Incoming ID">
+                                    <VBox.margin>
+                                        <Insets bottom="5.0" top="5.0" />
+                                    </VBox.margin>
+                                </TextField>
+                                <TextField fx:id="inPIDT" promptText="Incoming Product ID">
+                                    <VBox.margin>
+                                        <Insets bottom="5.0" top="5.0" />
+                                    </VBox.margin>
+                                </TextField>
+                                <TextField fx:id="inDateT" promptText="Incoming Date">
+                                    <VBox.margin>
+                                        <Insets bottom="5.0" top="5.0" />
+                                    </VBox.margin>
+                                </TextField>
+                                <TextField fx:id="trackNoT" promptText="Tracking Number(Optional)">
+                                    <VBox.margin>
+                                        <Insets bottom="5.0" top="5.0" />
+                                    </VBox.margin>
+                                </TextField>
+                                <TextField fx:id="inQuantT" promptText="Incoming Product Quantity">
+                                    <VBox.margin>
+                                        <Insets bottom="5.0" top="5.0" />
+                                    </VBox.margin>
+                                </TextField>
+                                <TextField fx:id="inEmpT" promptText="Employee ID(Optional)">
+                                    <VBox.margin>
+                                        <Insets bottom="5.0" top="5.0" />
+                                    </VBox.margin>
+                                </TextField>
                                 <HBox fx:id="inModB" alignment="TOP_CENTER" visible="false">
-                                    <Button fx:id="inDelete" mnemonicParsing="false" text="Delete User" GridPane.rowIndex="1">
+                                    <Button fx:id="inDelete" mnemonicParsing="false" onAction="#deleteIncomingClicked" text="Delete User" GridPane.rowIndex="1">
                                         <HBox.margin>
                                             <Insets left="10.0" />
-                                        </HBox.margin></Button>
+                                        </HBox.margin>
+                                    </Button>
                                     <Button fx:id="inUpdate" mnemonicParsing="false" text="Update" GridPane.rowIndex="1">
+                                        <HBox.margin>
+                                            <Insets left="10.0" right="10.0" />
+                                        </HBox.margin>
+                                    </Button>
+                                    <Button fx:id="inModCancel" mnemonicParsing="false" text="Cancel" onAction="#hideData" GridPane.rowIndex="1" >
                                         <HBox.margin>
                                             <Insets left="10.0" right="10.0" />
                                         </HBox.margin>
                                     </Button>
                                 </HBox>
                                 <HBox fx:id="inAddB" alignment="TOP_CENTER" visible="false">
-                                    <Button fx:id="inSave" mnemonicParsing="false" text="Save" GridPane.rowIndex="1" />
+                                    <Button fx:id="inSave" mnemonicParsing="false" text="Save" onAction="#saveIncomingClicked" GridPane.rowIndex="1" />
+                                    <Button fx:id="inCancel" mnemonicParsing="false" text="Cancel" onAction="#hideData" GridPane.rowIndex="1" >
+                                        <HBox.margin>
+                                            <Insets left="10.0" right="10.0" />
+                                        </HBox.margin>
+                                    </Button>
                                 </HBox>
                                  <GridPane.margin>
                                     <Insets top="20.0" />
@@ -116,6 +151,8 @@
                             <RowConstraints fillHeight="true" percentHeight="5" />
                         </rowConstraints>
                       <children>
+                          <Button fx:id="addOutB" mnemonicParsing="false" text="Add Outgoing" onAction="#addOutgoingData" GridPane.columnIndex="1"/>
+                          <Button fx:id="modOutB" mnemonicParsing="false" text="Modify" onAction="#modOutgoingData" visible="false" GridPane.columnIndex="1" GridPane.halignment="RIGHT" />
                           <TableView fx:id="outgoingT" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                               <columns>
                                   <TableColumn fx:id="outID" prefWidth="164.4000152349472" text="Outgoing Shipment ID" />
@@ -131,15 +168,35 @@
                                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                               </columnResizePolicy>
                           </TableView>
-                          <VBox fx:id="outgoingV" layoutX="905.0" layoutY="62.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                          <VBox fx:id="outgoingV" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="1">
                               <children>
-                                  <TextField fx:id="outIDT" />
-                                  <TextField fx:id="pIDT" />
-                                  <TextField fx:id="outDateT" />
-                                  <TextField fx:id="outQuantT" />
-                                  <TextField fx:id="outEmpIDT" />
+                                  <TextField fx:id="outIDT" promptText="Outgoing Order ID">
+                                      <VBox.margin>
+                                          <Insets bottom="5.0" top="5.0" />
+                                      </VBox.margin>
+                                  </TextField>
+                                  <TextField fx:id="pIDT" promptText="Outgoing Product ID">
+                                      <VBox.margin>
+                                          <Insets bottom="5.0" top="5.0" />
+                                      </VBox.margin>
+                                  </TextField>
+                                  <TextField fx:id="outDateT" promptText="Outgoing Date">
+                                      <VBox.margin>
+                                          <Insets bottom="5.0" top="5.0" />
+                                      </VBox.margin>
+                                  </TextField>
+                                  <TextField fx:id="outQuantT" promptText="Outgoing Quantity">
+                                      <VBox.margin>
+                                          <Insets bottom="5.0" top="5.0" />
+                                      </VBox.margin>
+                                  </TextField>
+                                  <TextField fx:id="outEmpT" promptText="Employee ID(Optional)">
+                                      <VBox.margin>
+                                          <Insets bottom="5.0" top="5.0" />
+                                      </VBox.margin>
+                                  </TextField>
                                   <HBox fx:id="outModB" alignment="TOP_CENTER" visible="false">
-                                      <Button fx:id="outDelete" mnemonicParsing="false" text="Delete User" GridPane.rowIndex="1">
+                                      <Button fx:id="outDelete" mnemonicParsing="false" text="Delete User" onAction="#deleteOutgoingClicked" GridPane.rowIndex="1">
                                           <HBox.margin>
                                               <Insets left="10.0" />
                                           </HBox.margin></Button>
@@ -147,17 +204,25 @@
                                           <HBox.margin>
                                               <Insets left="10.0" right="10.0" />
                                           </HBox.margin></Button>
+                                      <Button fx:id="outModCancel" mnemonicParsing="false" text="Cancel" onAction="#hideData" GridPane.rowIndex="1" >
+                                          <HBox.margin>
+                                              <Insets left="10.0" right="10.0" />
+                                          </HBox.margin>
+                                      </Button>
                                   </HBox>
                                   <HBox fx:id="outAddB" alignment="TOP_CENTER" visible="false">
-                                      <Button fx:id="outSave" mnemonicParsing="false" text="Save" GridPane.rowIndex="1" />
+                                      <Button fx:id="outSave" mnemonicParsing="false" text="Save" onAction="#saveOutgoingClicked" GridPane.rowIndex="1" />
+                                      <Button fx:id="outCancel" mnemonicParsing="false" text="Cancel" onAction="#hideData" GridPane.rowIndex="1" >
+                                          <HBox.margin>
+                                              <Insets left="10.0" right="10.0" />
+                                          </HBox.margin>
+                                      </Button>
                                   </HBox>
                               </children>
                                  <GridPane.margin>
                                     <Insets top="20.0" />
                                  </GridPane.margin>
                           </VBox>
-                          <Button fx:id="addOutB" mnemonicParsing="false" text="Add Incoming" GridPane.columnIndex="1"/>
-                          <Button fx:id="modOutB" mnemonicParsing="false" text="Modify" visible="false" GridPane.columnIndex="1" GridPane.halignment="RIGHT" />
                       </children>
                   </GridPane>
                         <padding>

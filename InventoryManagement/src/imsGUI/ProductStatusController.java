@@ -1,5 +1,6 @@
 package imsGUI;
 
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import ims.CurrentStock;
 import ims.IncomingGoods;
 import ims.OutgoingGoods;
@@ -9,10 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -77,6 +75,7 @@ public class ProductStatusController {
     TableColumn outID;
     @FXML
     TableColumn outProductID;
+
     @FXML
     TableColumn dateGo;
     @FXML
@@ -86,13 +85,13 @@ public class ProductStatusController {
     @FXML
     TextField outIDT;
     @FXML
-    TextField pIDT;
+    TextField outPIDT;
     @FXML
     TextField outDateT;
     @FXML
     TextField outQuantT;
     @FXML
-    TextField outEmpIDT;
+    TextField outEmpT;
 
 
     @FXML
@@ -114,6 +113,7 @@ public class ProductStatusController {
        setIncomingTable();
        setOutgoingTable();
        setCurrentTable();
+       getSelectedInfo();
     }
     public void setIncomingTable(){
         try {
@@ -175,17 +175,211 @@ public class ProductStatusController {
             }
         });
     }
+    public void saveIncomingClicked(ActionEvent event) throws SQLException {
+        int newU=1;
+        IncomingGoods tmp = new IncomingGoods(0, 0, null, "",0,0);
+        boolean flag = false;
+        try{
+            while(!flag){
+                if (inIDT.getText().length() > 0 && Long.valueOf(inIDT.getText().length()) >= 0){
+                    flag = true;
+                    tmp.setIncomingID((Long.parseLong(inIDT.getText())));
+                } else{
+                    flag = false;
+                    Global.warningAlert("Incorrect Incoming ID", "Needs to be greater than 0 and have 9 or less digits.");
+                    inIDT.clear();
+                }
+                if (inPIDT.getText().length() > 0 && Long.valueOf(inPIDT.getText().length()) >= 0){
+                    flag = true;
+                    tmp.setProductID(Long.parseLong(inPIDT.getText()));
+                } else{
+                    flag = false;
+                    Global.warningAlert("Incorrect Product ID", "Needs to be greater than 0 and have 9 or less digits.");
+                    inPIDT.clear();
+                }
+                if (inDateT.getText().length() > 0){
+                    flag = true;
+                    tmp.setDateIn(java.sql.Date.valueOf(inDateT.getText()));
+                } else{
+                    flag = false;
+                    Global.warningAlert("Incorrect Date", "Date needs to be in the format of yyy-MM-dd");
+                    inDateT.clear();
+                }
+                if (trackNoT.getText().length() > 0){
+                    flag = true;
+                    tmp.setTrackingNo(trackNoT.getText());
+                    newU --;
+                }
+                if (inQuantT.getText().length() > 0){
+                    flag = true;
+                    tmp.setQuantity(Integer.valueOf(inQuantT.getText()));
+                } else{
+                    flag = false;
+                    Global.warningAlert("Incorrect Quantity", "Every Incoming Shipment needs a Quantity");
+                    inQuantT.clear();
+                }
+                if(inEmpT.getText().length() > 0){
+                    tmp.setProductID(Long.valueOf(inEmpT.getText()));
+                    newU+=2;
+                }
+            }
+            if(newU==1) {
+                IncomingGoods.addRecord(tmp);
+                incomingT.getItems().add(tmp);
+            }
+            if(newU==0)
+            {
+                IncomingGoods.addRecordTrack(tmp);
+                incomingT.getItems().add(tmp);
+            }
+            if(newU==2) {
+                IncomingGoods.addRecordTrackEmp(tmp);
+                incomingT.getItems().add(tmp);
+            }
+            if(newU==3) {
+                IncomingGoods.addRecordEmp(tmp);
+                incomingT.getItems().add(tmp);
+
+            }
+            hideData();
+        } catch (MySQLIntegrityConstraintViolationException e){
+            Global.warningAlert("Incoming Id Exists", "Incoming ID already exists. Incoming Good add canceled");
+        } catch(Exception p){
+            Global.exceptionAlert(p,"Save Incoming");
+        }
+    }
+
+    public void saveOutgoingClicked(ActionEvent event) throws SQLException {
+        int newU = 1;
+        OutgoingGoods tmp = new OutgoingGoods(0, 0, null, 0, 0);
+        boolean flag = false;
+        try {
+            while (!flag) {
+                if (outIDT.getText().length() > 0 && Long.valueOf(outIDT.getText().length()) >= 0) {
+                    flag = true;
+                    tmp.setOutgoingID((Long.parseLong(outIDT.getText())));
+                } else {
+                    flag = false;
+                    Global.warningAlert("Incorrect Outgoing ID", "Needs to be greater than 0 and have 9 or less digits.");
+                    outIDT.clear();
+                }
+                if (outPIDT.getText().length() > 0 && Long.valueOf(outPIDT.getText().length()) >= 0) {
+                    flag = true;
+                    tmp.setProductID(Long.parseLong(outPIDT.getText()));
+                } else {
+                    flag = false;
+                    Global.warningAlert("Incorrect Product ID", "Needs to be greater than 0 and have 9 or less digits.");
+                    outIDT.clear();
+                }
+                if (outDateT.getText().length() > 0) {
+                    flag = true;
+                    tmp.setDateGo(java.sql.Date.valueOf(outDateT.getText()));
+                } else {
+                    flag = false;
+                    Global.warningAlert("Incorrect Date", "Date needs to be in the format of yyy-MM-dd");
+                    outDateT.clear();
+                }
+                if (outQuantT.getText().length() > 0) {
+                    flag = true;
+                    tmp.setQuantity(Integer.valueOf(outQuantT.getText()));
+                } else {
+                    flag = false;
+                    Global.warningAlert("Incorrect Quantity", "Every Incoming Shipment needs a Quantity");
+                    outQuantT.clear();
+                }
+                if (outEmpT.getText().length() > 0) {
+                    tmp.setProductID(Long.valueOf(inEmpT.getText()));
+                    newU++;
+                }
+            }
+            if (newU == 1) {
+                OutgoingGoods.addRecord(tmp);
+                outgoingT.getItems().add(tmp);
+            }
+            if (newU == 2) {
+                OutgoingGoods.addRecordEmp(tmp);
+                outgoingT.getItems().add(tmp);
+            }
+            hideData();
+        }catch(MySQLIntegrityConstraintViolationException e){
+            Global.warningAlert("Outgoing Id Exists", "Outgoing ID already exists. Incoming Good add canceled");
+        } catch(Exception p){
+            Global.exceptionAlert(p, "Save Outgoing");
+        }
+    }
+    public void deleteIncomingClicked() throws SQLException {
+        Alert deleteAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        deleteAlert.setTitle("Delete");
+        deleteAlert.setHeaderText("Delete User");
+        deleteAlert.setContentText("Are you sure you want to delete this Incoming Good?");
+        if(deleteAlert.showAndWait().get() == ButtonType.OK){
+            try{
+                ims.Users.deleteRecord(intmp.getIncomingID());
+                incomingT.getItems().remove(incomingT.getSelectionModel().getSelectedItem());
+                intmp=null;
+                hideData();
+            }catch(Exception e){
+                Global.exceptionAlert(e,"Delete Incoming Good");
+            }
+        }
+    }
+    public void deleteOutgoingClicked() throws SQLException {
+        Alert deleteAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        deleteAlert.setTitle("Delete");
+        deleteAlert.setHeaderText("Delete User");
+        deleteAlert.setContentText("Are you sure you want to delete this Incoming Good?");
+        if(deleteAlert.showAndWait().get() == ButtonType.OK){
+            try{
+                ims.Users.deleteRecord(outtmp.getOutgoingID());
+                outgoingT.getItems().remove(outgoingT.getSelectionModel().getSelectedItem());
+                outtmp=null;
+                hideData();
+            }catch(Exception e){
+                Global.exceptionAlert(e,"Delete Outgoing Good");
+            }
+        }
+    }
     public void addIncomingData(){
         incomingV.setVisible(true);
-        inAddB.setVisible(true);
+        addIncomB.setVisible(false);
         modIncomB.setVisible(false);
+        inAddB.setVisible(true);
         inModB.setVisible(false);
     }
     public void modIncomingData(){
         inModB.setVisible(true);
+        addIncomB.setVisible(false);
+        modIncomB.setVisible(false);
         incomingV.setVisible(true);
         inAddB.setVisible(false);
-        addIncomB.setVisible(false);
+    }
+    public void addOutgoingData(){
+        outgoingV.setVisible(true);
+        addOutB.setVisible(false);
+        modOutB.setVisible(false);
+        outAddB.setVisible(true);
+        outModB.setVisible(false);
+    }
+    public void modOutgoingData(){
+        outModB.setVisible(true);
+        addOutB.setVisible(false);
+        modOutB.setVisible(false);
+        outgoingV.setVisible(true);
+        outAddB.setVisible(false);
+    }
+    public void hideData(){
+        addIncomB.setVisible(true);
+        incomingV.setVisible(false);
+        inAddB.setVisible(false);
+        modIncomB.setVisible(false);
+        inModB.setVisible(false);
+        addOutB.setVisible(true);
+        outgoingV.setVisible(false);
+        outAddB.setVisible(false);
+        modOutB.setVisible(false);
+        outModB.setVisible(false);
+        incomingT.getSelectionModel().clearSelection();
+        outgoingT.getSelectionModel().clearSelection();
     }
     @FXML
     private void openHomePage(ActionEvent event) {
