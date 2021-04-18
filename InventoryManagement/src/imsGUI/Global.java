@@ -29,12 +29,6 @@ public class Global {
     private Scene profilesScene;
     public static Boolean privilege=true;
     public static String currentUser="scasi";
-    public long userID;
-    public String fname;
-    public String lname;
-    public String username;
-    public String role;
-    public String password;
 
     public void loadFxmlFiles() throws Exception{
         adminUserList = FXMLLoader.load(getClass().getResource("AdminUserList.fxml"));
