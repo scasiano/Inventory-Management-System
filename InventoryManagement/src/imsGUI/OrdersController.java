@@ -223,6 +223,7 @@ public class OrdersController {
         modBox.setVisible(true);
         addOrder.setVisible(false);
         addOrderBox.setVisible(false);
+        startMod.setVisible(true);
     }
     public void clearOrderInfo(){
         orderID.clear();
