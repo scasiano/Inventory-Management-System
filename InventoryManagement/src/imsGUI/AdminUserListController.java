@@ -136,8 +136,7 @@ public class AdminUserListController {
             ObservableList<Users> users = FXCollections.observableArrayList(allUsers);
             userT.setItems(users);
         }catch(SQLException e){
-            System.out.println(e);
-            System.out.println(e.getSQLState());
+            Global.exceptionAlert(e,"Set User Table");
         }
     }
     public void setEmpTable(){
@@ -153,15 +152,14 @@ public class AdminUserListController {
             ObservableList<Employees> emps = FXCollections.observableArrayList(allEmps);
             empT.setItems(emps);
         }catch(SQLException e){
-            System.out.println(e);
-            System.out.println(e.getSQLState());
+            Global.exceptionAlert(e,"Set Employees Table");
         }
     }
     public void getSelectedInfo(){
         userT.setOnMouseClicked(new EventHandler<javafx.scene.input.MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                 utemp= userT.getSelectionModel().getSelectedItem();
+                utemp= userT.getSelectionModel().getSelectedItem();
                 userModify.setVisible(true);
             }
         });

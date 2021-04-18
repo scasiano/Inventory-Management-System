@@ -137,4 +137,8 @@ public class Users {
         while (dbResult.next()) if (password.equals(dbResult.getString(3))) return dbResult.getString(6);
         return "";
     }
+    public static Long getUserID(String username) throws SQLException{
+        ResultSet dbResult = SqlController.dbStatement.executeQuery("select user_id from users where username='"+username+"';");
+                return (Long.valueOf(dbResult.getString(1)));
+    }
 }
