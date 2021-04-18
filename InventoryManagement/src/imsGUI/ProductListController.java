@@ -190,8 +190,6 @@ public class ProductListController {
 
 
     }
-
-
         /*else
         {
             Alert noProd=new Alert(Alert.AlertType.ERROR);
@@ -223,15 +221,17 @@ public class ProductListController {
         modBox.setVisible(false);
         startMod.setVisible(true);
     }
-    public void modDBProduct() throws SQLException {
+    public void modDBProduct(){
         try{
             ims.Products.modifyName(allProd.get(pIndex).getProductID(),productName.getText());
             ims.Products.modifyMsrp(allProd.get(pIndex).getProductID(),Double.valueOf(productMSRP.getText().substring(1)));
             ims.Products.modifyPrice(allProd.get(pIndex).getProductID(),Double.valueOf(productPrice.getText().substring(1)));
+            clearProdList();
+            initialize();
         }catch(Exception e){
             Global.exceptionAlert(e,"Modify Products");
         }
-        initialize();
+
         endProductEdit();
     }
     public void modProduct(){
