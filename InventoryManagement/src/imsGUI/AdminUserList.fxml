@@ -5,11 +5,10 @@
 <?import javafx.scene.layout.*?>
 
 <GridPane maxHeight="Infinity" maxWidth="Infinity" style="-fx-background-color: grey;" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="imsGUI.AdminUserListController">
-
     <columnConstraints>
         <ColumnConstraints fx:id="column0" minWidth="10.0" />
-        <ColumnConstraints fx:id="column1" percentWidth="80.0" />
-        <ColumnConstraints fx:id="column2" percentWidth="10.0" />
+        <ColumnConstraints fx:id="column1" percentWidth="75.0" />
+        <ColumnConstraints fx:id="column2" percentWidth="15.0" />
         <ColumnConstraints />
     </columnConstraints>
     <rowConstraints>
@@ -49,7 +48,10 @@
                             </rowConstraints>
                             <children>
                                 <Button fx:id="userModify" mnemonicParsing="false" onAction="#showUserData" text="Modify Employee" visible="false" GridPane.columnIndex="1" GridPane.halignment="RIGHT" />
-                                <Button fx:id="userAdd" mnemonicParsing="false" onAction="#addUserData" text="Add User" GridPane.columnIndex="1" />
+                                <Button fx:id="userAdd" mnemonicParsing="false" onAction="#addUserData" text="Add User" GridPane.columnIndex="1">
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin></Button>
                                 <TableView fx:id="userT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                                     <columns>
                                         <TableColumn fx:id="userID" text="Username ID" />

@@ -222,9 +222,9 @@ public class ProductListController {
     }
     public void modDBProduct() throws SQLException {
         try{
-            allProd.get(pIndex).setName(productName.getText());
-            allProd.get(pIndex).setMsrp(Double.valueOf(productMSRP.getText()));
-            allProd.get(pIndex).setPrice(Double.valueOf(productPrice.getText()));
+            ims.Products.modifyName(allProd.get(pIndex).getProductID(),productName.getText());
+            ims.Products.modifyMsrp(allProd.get(pIndex).getProductID(),Double.valueOf(productMSRP.getText()));
+            ims.Products.modifyPrice(allProd.get(pIndex).getProductID(),Double.valueOf(productPrice.getText()));
         }catch(Exception e){
             Global.exceptionAlert(e,"Modify Products");
         }
