@@ -75,7 +75,6 @@ public class OrdersController {
     int oIndex=-1;
     //Orders otemp;
     public void initialize(){
-        //setOrderProds();
         setOrderList();
         orderDetails();
     }
@@ -94,7 +93,7 @@ public class OrdersController {
     public void setOrderProds(){
         try {
             products.setCellValueFactory(new PropertyValueFactory<OrderItems,Long>("productID"));
-            allItems = OrderItems.selectAll();
+            allItems = OrderItems.selectByOrderID(allOrders.get(oIndex).getOrderID());
             ObservableList<OrderItems> orderI = FXCollections.observableArrayList(allItems);
             orderProds.setItems(orderI);
         }catch(SQLException e){
@@ -112,13 +111,14 @@ public class OrdersController {
                     customerAddress.setText(allOrders.get(oIndex).getCustomerAdd());
                     datePlaced.setText(String.valueOf(allOrders.get(oIndex).getDatePlaced()));
                     employeeID.setText(String.valueOf(allOrders.get(oIndex).getEmployeeNo()));
-                    /*try {
-                        shippingStatus.setText(Tracking.selectByOID(allOrders.get(oIndex).getOrderID()).getShippingStatus());
-                        trackingID.setText(Tracking.selectByOID(allOrders.get(oIndex).getOrderID()).getTrackingID());
-                        carrier.setText(Tracking.selectByOID(allOrders.get(oIndex).getOrderID()).getCarrier());
-                    } catch (SQLException p) {
-                        Global.exceptionAlert(p,"Show Order Tracking Details");
-                    }*/
+                    setOrderProds();
+                    try {
+                        shippingStatus.setText(Tracking.selectByOrderID(allOrders.get(oIndex).getOrderID()).getShippingStatus());
+                        trackingID.setText(Tracking.selectByOrderID(allOrders.get(oIndex).getOrderID()).getTrackingID());
+                        carrier.setText(Tracking.selectByOrderID(allOrders.get(oIndex).getOrderID()).getCarrier());
+                    } catch (SQLException a){
+                        a.printStackTrace();
+                    }
                     if(Global.privilege)
                         modOrder.setVisible(true);
                 }
@@ -208,6 +208,7 @@ public class OrdersController {
         trackingID.clear();
         carrier.clear();
         employeeID.clear();
+        addDate.setVisible(true);
         customerName.setEditable(true);
         customerAddress.setEditable(true);
         shippingStatus.setEditable(true);
@@ -233,6 +234,7 @@ public class OrdersController {
         trackingID.clear();
         carrier.clear();
         employeeID.clear();
+        addDate.setVisible(false);
         addOrder.setVisible(true);
         modOrder.setVisible(true);
         startMod.setVisible(false);
