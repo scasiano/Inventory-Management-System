@@ -58,6 +58,8 @@ public class OrdersController {
     @FXML
     Button addOrder;
     @FXML
+    Button modOrder;
+    @FXML
     Label addOrderLabel;
     @FXML
     HBox addOrderBox;
@@ -196,6 +198,15 @@ public class OrdersController {
             }
         }
     }
+    public void modOrder(){
+        customerName.setEditable(true);
+        customerAddress.setEditable(true);
+        shippingStatus.setEditable(true);
+        employeeID.setEditable(true);
+        modBox.setVisible(true);
+        startMod.setVisible(false);
+    }
+
     @FXML
     private void openHomePage(ActionEvent event) {
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();

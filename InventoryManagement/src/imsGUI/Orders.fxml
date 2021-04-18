@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="Infinity" maxWidth="Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="imsGUI.OrdersController">
+<AnchorPane maxHeight="Infinity" maxWidth="Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="imsGUI.OrdersController">
         <GridPane fx:id="ParGrid" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: grey;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <columnConstraints>
                 <ColumnConstraints fx:id="column0" maxWidth="5" minWidth="5.0" />
@@ -48,7 +57,7 @@
                             <RowConstraints fx:id="r3" percentHeight="14" />
                             <RowConstraints fx:id="r4" percentHeight="14" />
                             <RowConstraints fx:id="r5" percentHeight="14" />
-                            <RowConstraints fx:id="r6" percentHeight="14.0" />
+                            <RowConstraints fx:id="r6" percentHeight="14" />
                         </rowConstraints>
                         <children>
                             <Label minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: white;" text="Order ID:" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
@@ -167,6 +176,11 @@
                         <Insets />
                     </GridPane.margin>
                 </HBox>
+         <Button fx:id="modOrder" mnemonicParsing="false" text="Modify Order" GridPane.columnIndex="1">
+            <GridPane.margin>
+               <Insets left="100.0" />
+            </GridPane.margin>
+         </Button>
             </children>
         </GridPane>
     </AnchorPane>
