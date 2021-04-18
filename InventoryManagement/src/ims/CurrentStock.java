@@ -38,4 +38,11 @@ public class CurrentStock { //This entire table is autogen, all products exist h
         while (dbResult.next()) resultList.add(dbResult.getInt(1));
         return resultList;
     }
+
+    //SQL Queries QUANTITY FROM PRODUCTID
+    public static int selectQuantityByProductID(long productID) throws SQLException{
+        ResultSet dbResult = SqlController.dbStatement.executeQuery("select quantity from current_stock where product_id = " + productID);
+        while (dbResult.next()) return dbResult.getInt(1);
+        return -1;
+    }
 }
