@@ -452,7 +452,7 @@ CREATE TABLE `users` (
   `lname` varchar(255) NOT NULL,
   `role` varchar(99) NOT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -461,7 +461,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (00000000001,'someUser','somePassword','John','Doe','Customer'),(00000000002,'scasi','imNotSharing','Shane','Casiano','IT'),(00000000003,'jdodd','another','Joseph','Dodd','Manager'),(00000000004,'jspah','password','Jade','Spahr','Manager'),(00000000005,'dhedd','entry','Duncan','Hedden','Admin'),(00000000006,'dholc','this','Dakarai','Holcomb','Account Manager'),(00000000007,'jane_doe','should','Jane','Doe','User'),(00000000008,'serpent','be','Sarah','Smith','Customer'),(00000000009,'jvdover','md5','Joep','Van Den Overecht','Customer'),(00000000010,'bakednorker','encrypted','Bickolas','Norker','Customer'),(00000000011,'jmill','nopassword','Josh','Miller','Account Worker');
+INSERT INTO `users` VALUES (00000000000,'admin','admin','Admin','Admin','Admin'),(00000000001,'someUser','somePassword','John','Doe','Customer'),(00000000002,'scasi','imNotSharing','Shane','Casiano','IT'),(00000000003,'jdodd','another','Joseph','Dodd','Manager'),(00000000004,'jspah','password','Jade','Spahr','Manager'),(00000000005,'dhedd','entry','Duncan','Hedden','Admin'),(00000000006,'dholc','this','Dakarai','Holcomb','Account Manager'),(00000000007,'jane_doe','should','Jane','Doe','User'),(00000000008,'serpent','be','Sarah','Smith','Customer'),(00000000009,'jvdover','md5','Joep','Van Den Overecht','Customer'),(00000000010,'bakednorker','encrypted','Bickolas','Norker','Customer'),(00000000011,'jmill','nopassword','Josh','Miller','Account Worker');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -512,4 +512,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-04-15 20:18:22
+-- Dump completed on 2021-04-18 14:28:47
