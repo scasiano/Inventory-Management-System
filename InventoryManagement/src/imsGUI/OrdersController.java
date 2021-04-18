@@ -198,13 +198,29 @@ public class OrdersController {
             }
         }
     }
+    public void addOrder(){
+        orderID.clear();
+        customerName.clear();
+        customerAddress.clear();
+        shippingStatus.clear();
+        trackingID.clear();
+        carrier.clear();
+        employeeID.clear();
+        customerName.setEditable(true);
+        customerAddress.setEditable(true);
+        shippingStatus.setEditable(true);
+        employeeID.setEditable(true);
+        modOrder.setVisible(false);
+        addOrderBox.setVisible(true);
+    }
     public void modOrder(){
         customerName.setEditable(true);
         customerAddress.setEditable(true);
         shippingStatus.setEditable(true);
         employeeID.setEditable(true);
         modBox.setVisible(true);
-        startMod.setVisible(false);
+        addOrder.setVisible(false);
+        addOrderBox.setVisible(false);
     }
     public void clearOrderInfo(){
         orderID.clear();
@@ -214,6 +230,11 @@ public class OrdersController {
         trackingID.clear();
         carrier.clear();
         employeeID.clear();
+        addOrder.setVisible(true);
+        modOrder.setVisible(true);
+        startMod.setVisible(false);
+        modBox.setVisible(false);
+        addOrderBox.setVisible(false);
     }
 
     @FXML

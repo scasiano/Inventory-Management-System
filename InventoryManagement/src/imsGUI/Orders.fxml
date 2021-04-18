@@ -27,7 +27,7 @@
                 <RowConstraints fx:id="row1" fillHeight="true" percentHeight="95" />
             </rowConstraints>
             <children>
-                <Button fx:id="addOrder" mnemonicParsing="false" text="Add Order" GridPane.columnIndex="1" />
+                <Button fx:id="addOrder" mnemonicParsing="false" onAction="#addOrder" text="Add Order" GridPane.columnIndex="1" />
                 <ScrollPane fx:id="parentListContainer" fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: blue;" GridPane.columnIndex="1" GridPane.fillHeight="true" GridPane.fillWidth="true" GridPane.rowIndex="1" GridPane.rowSpan="2147483647">
                     <content>
                         <TableView fx:id="orderIDT">
@@ -98,7 +98,7 @@
                                     <Insets bottom="20.0" top="20.0" />
                                 </GridPane.margin></TextField>
                             <Label fx:id="addOrderLabel" alignment="TOP_CENTER" style="-fx-background-color: ALICEBLUE;" text="Add Order Info" visible="false" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="TOP" />
-                            <Button fx:id="startMod" mnemonicParsing="false" onAction="#modOrder" text="Modify Order" visible="false" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
+                            <Button fx:id="startMod" mnemonicParsing="false" onAction="#modOrder" text="Save" visible="false" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
                             <HBox fx:id="addOrderBox" alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" visible="false" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER">
                                 <GridPane.margin>
                                     <Insets bottom="20.0" left="30.0" right="30.0" top="30.0" />
@@ -110,7 +110,6 @@
                             </HBox>
                             <HBox fx:id="modBox" alignment="TOP_CENTER" layoutX="691.0" layoutY="638.0" prefHeight="100.0" prefWidth="200.0" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="5">
                                 <children>
-                                    <Button fx:id="addDBOrder1" mnemonicParsing="false" text="Modify Order" />
                                     <Button fx:id="deleteDBOrder" layoutX="35.0" layoutY="10.0" mnemonicParsing="false" text="Delete Order" />
                                     <Button fx:id="cancelOrder1" mnemonicParsing="false" onAction="#clearOrderInfo" text="Cancel" />
                                 </children>
