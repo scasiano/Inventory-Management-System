@@ -100,7 +100,7 @@ public class AdminUserListController {
     @FXML
     TextField pay;
     @FXML
-    TextField startDate;
+    DatePicker startDate;
     @FXML
     Button empSave;
     @FXML
@@ -108,7 +108,7 @@ public class AdminUserListController {
     @FXML
     Button empDelete;
 
-    TextField endDate=new TextField();
+    DatePicker endDate=new DatePicker();
     ArrayList<Users> allUsers;
     ArrayList<Employees> allEmps;
     Users utemp;
@@ -151,19 +151,13 @@ public class AdminUserListController {
         }
     }
     public void getSelectedInfo(){
-        userT.setOnMouseClicked(new EventHandler<javafx.scene.input.MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                utemp= userT.getSelectionModel().getSelectedItem();
-                userModify.setVisible(true);
-            }
+        userT.setOnMouseClicked(event -> {
+            utemp= userT.getSelectionModel().getSelectedItem();
+            userModify.setVisible(true);
         });
-        empT.setOnMouseClicked(new EventHandler<javafx.scene.input.MouseEvent>(){
-            @Override
-            public void handle(MouseEvent event){
-                etemp=empT.getSelectionModel().getSelectedItem();
-                empModify.setVisible(true);
-            }
+        empT.setOnMouseClicked(event -> {
+            etemp=empT.getSelectionModel().getSelectedItem();
+            empModify.setVisible(true);
         });
     }
     public void saveUserClicked(ActionEvent event) throws SQLException {
@@ -216,7 +210,7 @@ public class AdminUserListController {
                 }
 
                 //default
-                String pass="password"+tmp.getLName().substring(0,1)+tmp.getFName().substring(0,1)+"!";
+                String pass="password"+tmp.getLName().substring(0,2)+tmp.getFName().substring(0,2)+"!";
                 tmp.setPassword(pass);
             }
             if(!newU) {
@@ -229,7 +223,7 @@ public class AdminUserListController {
             Global.exceptionAlert(p,"Save Employee");
         }
     }
-    public void saveEmpClicked(ActionEvent event) throws SQLException {
+    public void saveEmpClicked(ActionEvent event) {
         boolean newU=true;
         if(etemp==null)
         {newU=false;}
@@ -239,7 +233,7 @@ public class AdminUserListController {
         boolean flag = false;
         try{
             while(!flag){
-                if (emp_id.getText().length() > 0 && Long.valueOf(emp_id.getText().length()) >= 0){
+                if (emp_id.getText().length() > 0 && Long.parseLong(emp_id.getText()) >= 0){
                     etmp.setEmployeeNo(Long.parseLong(emp_id.getText()));
                     flag = true;
                 } else{
@@ -247,12 +241,11 @@ public class AdminUserListController {
                     Global.warningAlert("Incorrect ID", "User ID needs to be greater than 0 and less than 9");
                     emp_id.clear();
                 }
-                if (userid.getText().length() > 0 && Long.valueOf(userid.getText().length()) >= 0){
+                if (userid.getText().length() > 0 && Long.parseLong(userid.getText()) >= 0){
                     etmp.setUserID(Long.parseLong(userid.getText()));
                     flag = true;
                     utmp.setUserID(Long.parseLong(userid.getText()));
                 } else{
-                    flag = false;
                     Global.warningAlert("Incorrect ID", "User ID needs to be greater than 0 and less than 9");
                     userid.clear();
                 }if (empFname.getText().length() > 0){
@@ -294,25 +287,19 @@ public class AdminUserListController {
                     Global.warningAlert("Incorrect Username", "Every Employee needs a Username");
                     empUsername.clear();
                 }
-                if(startDate.getText().length()>0 && startDate.getText().contains("-")){
-                    etmp.setStartDate(Date.valueOf(startDate.getText()));
+                if(startDate.getValue()!=null){
+                    etmp.setStartDate(java.sql.Date.valueOf(startDate.getValue()));
                 }else{
                     flag = false;
-                    Global.warningAlert("Incorrect Start Date", "Every Employee needs a Start Date of the Format yyyy-MM-dd");
-                    startDate.clear();
+                    Global.warningAlert("Incorrect Start Date", "Every Employee needs a Start Date ");
+                    startDate.setValue(null);
                 }
-                if(endDate.getText().length()>0){
-                    if(endDate.getText().contains("-")) {
+                if(endDate.getValue()!=null){
                         method += 2;
-                        etmp.setEndDate(Date.valueOf(endDate.getText()));
-                    }else{
-                        flag = false;
-                        Global.warningAlert("Incorrect End Date", "Every Employee with a End Date of the Format yyyy-MM-dd");
-                        startDate.clear();
-                    }
+                        etmp.setEndDate(java.sql.Date.valueOf(endDate.getValue()));
                 }
                 //default
-                String pass="password"+utmp.getLName().substring(0,1)+utmp.getFName().substring(0,1)+"!";
+                String pass="password"+utmp.getLName().substring(0,2)+utmp.getFName().substring(0,2)+"!";
                 utmp.setPassword(pass);
             }
             if(method ==1)
@@ -333,12 +320,12 @@ public class AdminUserListController {
                 Global.warningAlert("User Id Exists", "You do not need to Add another User");
             }
         } catch (MySQLIntegrityConstraintViolationException e){
-            Global.warningAlert("Employee Id Exists", "Employee ID already exists. User add canceled");
+            Global.exceptionAlert(e,"Add employee");
         } catch(Exception p){
             Global.exceptionAlert(p,"Save Employee");
         }
     }
-    public void deleteUserClicked() throws SQLException {
+    public void deleteUserClicked() {
         Alert deleteAlert = new Alert(Alert.AlertType.CONFIRMATION);
         deleteAlert.setTitle("Delete");
         deleteAlert.setHeaderText("Delete User");
@@ -418,6 +405,7 @@ public class AdminUserListController {
         empV.setVisible(true);
         empModB.setVisible(true);
         empAdd.setVisible(false);
+        empV.getChildren().add(endDate);
     }
     public void hideData(){
         userV.setVisible(false);

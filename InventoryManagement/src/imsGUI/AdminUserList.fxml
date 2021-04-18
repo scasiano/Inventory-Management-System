@@ -175,10 +175,11 @@
                                             <VBox.margin>
                                                 <Insets bottom="5.0" top="5.0" />
                                             </VBox.margin></TextField>
-                                        <TextField fx:id="startDate" promptText="Employee Start Date" GridPane.rowIndex="1">
+                                        <DatePicker fx:id="startDate" GridPane.rowIndex="1">
                                             <VBox.margin>
                                                 <Insets bottom="5.0" top="5.0" />
-                                            </VBox.margin></TextField>
+                                            </VBox.margin>
+                                        </DatePicker>
                                         <HBox fx:id="empModB" alignment="TOP_CENTER" visible="false">
                                             <Button fx:id="empDelete" mnemonicParsing="false" onAction="#deleteEmpClicked" text="Delete User" GridPane.rowIndex="1">
                                                 <HBox.margin>
