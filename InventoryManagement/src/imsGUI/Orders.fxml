@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
 
-    <AnchorPane maxHeight="Infinity" maxWidth="Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx"
-                xmlns:fx="http://javafx.com/fxml"
-                fx:controller="imsGUI.OrdersController">
-        <!--GridPane fx:id="ParGrid" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: grey;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+<AnchorPane maxHeight="Infinity" maxWidth="Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="imsGUI.OrdersController">
+        <GridPane fx:id="ParGrid" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: grey;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <columnConstraints>
                 <ColumnConstraints fx:id="column0" maxWidth="5" minWidth="5.0" />
                 <ColumnConstraints fx:id="column1" fillWidth="true" percentWidth="30" />
@@ -23,15 +25,15 @@
                 <RowConstraints fx:id="row1" fillHeight="true" percentHeight="95" />
             </rowConstraints>
             <children>
-                <Button fx:id="addProd" mnemonicParsing="false" onAction="#startProduct" text="Add Product" GridPane.columnIndex="1" />
+                <Button fx:id="addOrder" mnemonicParsing="false" text="Add Order" GridPane.columnIndex="1" />
                 <ScrollPane fx:id="parentListContainer" fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: blue;" GridPane.columnIndex="1" GridPane.fillHeight="true" GridPane.fillWidth="true" GridPane.rowIndex="1" GridPane.rowSpan="2147483647">
                     <content>
-                        <HBox fx:id="productsList" fillHeight="true" focusTraversable="true" maxHeight="Infinity" maxWidth="Infinity" style="-fx-background-color: white; -fx-border-color: brown;">
+                        <HBox fx:id="orderList" fillHeight="true" focusTraversable="true" maxHeight="Infinity" maxWidth="Infinity" style="-fx-background-color: white; -fx-border-color: brown;">
                         </HBox>
                     </content>
                 </ScrollPane>
                 <ScrollPane fitToHeight="true" fitToWidth="true" style="-fx-background-color: ALICEBLUE;" GridPane.columnIndex="2" GridPane.columnSpan="2147483647" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.rowSpan="2147483647" GridPane.valignment="CENTER">
-                    <GridPane fx:id="productInfo" maxHeight="Infinity" maxWidth="Infinity" style="-fx-background-color: ALICEBLUE;">
+                    <GridPane fx:id="orderInfo" maxHeight="Infinity" maxWidth="Infinity" style="-fx-background-color: ALICEBLUE;">
                         <columnConstraints>
                             <ColumnConstraints fx:id="c0" fillWidth="true" minWidth="10" />
                             <ColumnConstraints fx:id="c1" fillWidth="true" percentWidth="25" />
@@ -40,53 +42,78 @@
                             <ColumnConstraints fx:id="c4" fillWidth="true" minWidth="10" />
                         </columnConstraints>
                         <rowConstraints>
-                            <RowConstraints fx:id="r0" percentHeight="20" />
-                            <RowConstraints fx:id="r1" percentHeight="20" />
-                            <RowConstraints fx:id="r2" percentHeight="20" />
-                            <RowConstraints fx:id="r3" percentHeight="20" />
-                            <RowConstraints fx:id="r4" percentHeight="20" />
-                            <RowConstraints />
+                            <RowConstraints fx:id="r0" percentHeight="14" />
+                            <RowConstraints fx:id="r1" percentHeight="14" />
+                            <RowConstraints fx:id="r2" percentHeight="14" />
+                            <RowConstraints fx:id="r3" percentHeight="14" />
+                            <RowConstraints fx:id="r4" percentHeight="14" />
+                            <RowConstraints fx:id="r5" percentHeight="14" />
+                  <RowConstraints fx:id="r6" percentHeight="14.0" />
                         </rowConstraints>
                         <children>
-                            <Label minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: white;" text="Product Name:" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="CENTER" />
-                            <Label style="-fx-background-color: white;" text="Product ID:" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-                            <Label style="-fx-background-color: white;" text="Product MSRP:" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-                            <Label style="-fx-background-color: white;" text="Product Price" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
-                            <Label style="-fx-background-color: white;" text="Product Description" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
-                            <TextField fx:id="productName" editable="false" maxHeight="30" maxWidth="1.7976931348623157E308" minHeight="5" minWidth="5" style="-fx-background-color: white; -fx-border-color: ALICEBLUE;" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.valignment="CENTER">
+                            <Label minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: white;" text="Order ID" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
+                     <font>
+                        <Font size="20.0" />
+                     </font></Label>
+                            <Label style="-fx-background-color: white;" text="Customer Name" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                     <font>
+                        <Font size="20.0" />
+                     </font></Label>
+                            <Label style="-fx-background-color: white;" text="Customer Address" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                     <font>
+                        <Font size="20.0" />
+                     </font></Label>
+                            <Label style="-fx-background-color: white;" text="Shipping Status" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+                     <font>
+                        <Font size="20.0" />
+                     </font></Label>
+                            <Label style="-fx-background-color: white;" text="Tracking ID" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="CENTER">
+                     <font>
+                        <Font size="20.0" />
+                     </font></Label>
+                            <TextField fx:id="orderName" editable="false" maxHeight="30" maxWidth="1.7976931348623157E308" minHeight="5" minWidth="5" style="-fx-background-color: white; -fx-border-color: ALICEBLUE;" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.valignment="CENTER">
                                 <GridPane.margin>
                                     <Insets top="10.0" />
                                 </GridPane.margin>
                             </TextField>
-                            <TextField fx:id="productID" editable="false" maxHeight="30" minHeight="5" minWidth="5" style="-fx-background-color: white; -fx-border-color: ALICEBLUE;" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-                            <TextField fx:id="productMSRP" editable="false" maxHeight="30" minHeight="5" minWidth="5" style="-fx-background-color: white; -fx-border-color: ALICEBLUE;" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-                            <TextField fx:id="productPrice" editable="false" maxHeight="30" minHeight="5" minWidth="5" style="-fx-background-color: white; -fx-border-color: ALICEBLUE;" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
-                            <TextField fx:id="productDescription" alignment="TOP_LEFT" editable="false" maxHeight="1.7976931348623157E308" minHeight="5" minWidth="5" style="-fx-background-color: white; -fx-border-color: ALICEBLUE;" text="Not current description" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="4" GridPane.valignment="CENTER">
+                            <TextField fx:id="orderID" editable="false" maxHeight="30" minHeight="5" minWidth="5" style="-fx-background-color: white; -fx-border-color: ALICEBLUE;" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                            <TextField fx:id="customerName" editable="false" maxHeight="30" minHeight="5" minWidth="5" style="-fx-background-color: white; -fx-border-color: ALICEBLUE;" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+                            <TextField fx:id="customerAddress" editable="false" maxHeight="30" minHeight="5" minWidth="5" style="-fx-background-color: white; -fx-border-color: ALICEBLUE;" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+                            <TextField fx:id="shippingStatus" alignment="TOP_LEFT" editable="false" maxHeight="30.0" minHeight="5" minWidth="5" style="-fx-background-color: white; -fx-border-color: ALICEBLUE;" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="4" GridPane.valignment="CENTER">
                                 <GridPane.margin>
                                     <Insets bottom="20.0" top="20.0" />
                                 </GridPane.margin></TextField>
-                            <ImageView fx:id="pImage" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" style=" -fx-border-color: grey;" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.rowSpan="2" GridPane.valignment="CENTER">
-                            <Label fx:id="addProdLabel" alignment="TOP_CENTER" style="-fx-background-color: ALICEBLUE;" text="Add Product Info" visible="false" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="TOP" />
-                            <Button fx:id="startMod" mnemonicParsing="false" onAction="#modProduct" text="Modify Product" visible="false" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
-                            <HBox fx:id="addProdBox" alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" visible="false" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
+                            <Label fx:id="addOrderLabel" alignment="TOP_CENTER" style="-fx-background-color: ALICEBLUE;" text="Add Order Info" visible="false" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="TOP" />
+                            <Button fx:id="startMod" mnemonicParsing="false" text="Modify Order" visible="false" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
+                            <HBox fx:id="addOrderBox" alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" visible="false" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER">
                                 <GridPane.margin>
                                     <Insets bottom="20.0" left="30.0" right="30.0" top="30.0" />
                                 </GridPane.margin>
                                 <children>
-                                    <Button fx:id="addDBProd" mnemonicParsing="false" onAction="#addDBProduct" text="Add Product" />
-                                    <Button fx:id="cancelProd" mnemonicParsing="false" onAction="#endProductEdit" text="Cancel" />
+                                    <Button fx:id="addDBOrder" mnemonicParsing="false" text="Add Order" />
+                                    <Button fx:id="cancelOrder" mnemonicParsing="false" text="Cancel" />
                                 </children>
                             </HBox>
-                            <HBox fx:id="modBox" alignment="TOP_CENTER" layoutX="691.0" layoutY="638.0" prefHeight="100.0" prefWidth="200.0" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="4">
+                            <HBox fx:id="modBox" alignment="TOP_CENTER" layoutX="691.0" layoutY="638.0" prefHeight="100.0" prefWidth="200.0" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="5">
                                 <children>
-                                    <Button fx:id="addDBProd1" mnemonicParsing="false" onAction="#modDBProduct" text="Modify Product" />
-                                    <Button fx:id="deleteDBProd" layoutX="35.0" layoutY="10.0" mnemonicParsing="false" onAction="#delDBProduct" text="Delete Product" />
-                                    <Button fx:id="cancelProd1" mnemonicParsing="false" onAction="#endProductEdit" text="Cancel" />
+                                    <Button fx:id="addDBOrder1" mnemonicParsing="false" text="Modify Order" />
+                                    <Button fx:id="deleteDBOrder" layoutX="35.0" layoutY="10.0" mnemonicParsing="false" text="Delete Order" />
+                                    <Button fx:id="cancelOrder1" mnemonicParsing="false" text="Cancel" />
                                 </children>
                                 <GridPane.margin>
                                     <Insets bottom="10.0" left="30.0" right="30.0" top="50.0" />
                                 </GridPane.margin>
                             </HBox>
+                  <Label layoutX="20.0" layoutY="723.0" style="-fx-background-color: white;" text="Carrier" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                     <font>
+                        <Font size="20.0" />
+                     </font></Label>
+                  <TextField fx:id="orderName1" editable="false" layoutX="327.0" layoutY="80.0" maxHeight="30" maxWidth="1.7976931348623157E308" minHeight="5" minWidth="5" style="-fx-background-color: white; -fx-border-color: ALICEBLUE;" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                  <Label layoutX="20.0" layoutY="402.0" style="-fx-background-color: white;" text="Employee ID" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                     <font>
+                        <Font size="20.0" />
+                     </font></Label>
+                  <TextField fx:id="orderName2" editable="false" layoutX="327.0" layoutY="80.0" maxHeight="30" maxWidth="1.7976931348623157E308" minHeight="5" minWidth="5" style="-fx-background-color: white; -fx-border-color: ALICEBLUE;" GridPane.columnIndex="2" GridPane.rowIndex="6" />
                         </children>
                         <GridPane.margin>
                             <Insets top="10.0" />
@@ -110,5 +137,5 @@
                     </GridPane.margin>
                 </HBox>
             </children>
-        </GridPane-->
+        </GridPane>
     </AnchorPane>
