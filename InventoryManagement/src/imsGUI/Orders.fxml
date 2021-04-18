@@ -136,7 +136,11 @@
                         <Font size="15.0" />
                      </font>
                   </Label>
-                  <Label text="Placed" GridPane.columnIndex="3">
+                            <DatePicker fx:id="addDate" visible="false" GridPane.columnIndex="3" GridPane.halignment="CENTER">
+                     <GridPane.margin>
+                        <Insets left="10.0" />
+                     </GridPane.margin></DatePicker>
+                  <Label text="Placed:" GridPane.columnIndex="3">
                      <GridPane.margin>
                         <Insets left="20.0" />
                      </GridPane.margin>

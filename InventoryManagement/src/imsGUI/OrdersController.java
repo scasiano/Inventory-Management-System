@@ -133,7 +133,7 @@ public class OrdersController {
         boolean flag = false;
         try{
             while(!flag){
-                if (orderID.getText().length() > 0 && Long.valueOf(orderID.getText().length()) >= 0){
+                if (orderID.getText().length() > 0 && Long.parseLong(orderID.getText()) >= 0){
                     flag = true;
                     tmp.setOrderID(Long.parseLong(orderID.getText()));
                 } else{
@@ -158,7 +158,7 @@ public class OrdersController {
                     Global.warningAlert("Incorrect Address", "Every Order needs a Customer address");
                     customerAddress.clear();
                 }
-                if(datePlaced.getText().length()>0){
+                if(){
                     tmp.setDatePlaced(java.sql.Date.valueOf(datePlaced.getText()));
                 }
                 else{
