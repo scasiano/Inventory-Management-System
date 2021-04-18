@@ -151,7 +151,7 @@ public class ProfilesController {
         userResults.setVisible(true);
     }
 
-    public void saveButtonClicked(ActionEvent event) throws SQLException {
+/*    public void saveButtonClicked(ActionEvent event) throws SQLException {
         Users tmp = new Users(0, "", "", "", "", "");
         boolean flag = false;
 
@@ -218,7 +218,7 @@ public class ProfilesController {
         usersList.getChildren().clear();
         initialize();
         clearUserInfo();
-    }
+    }*/
 
     public void clearUserInfo(){
         user_id.clear();
@@ -240,6 +240,12 @@ public class ProfilesController {
         usersList.setVisible(true);
         userResults.setVisible(true);
     }
+
+    /*public void modDBUser(){
+        try{
+            ims.Users.modifyFName(allUsers.get(uIndex).getFName(), );
+        }
+    }*/
 
     public void modifyUser(){
         username.setEditable(false);
