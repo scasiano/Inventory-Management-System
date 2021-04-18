@@ -131,7 +131,7 @@
                                         <TableColumn fx:id="empUserID" text="Username ID" />
                                         <TableColumn fx:id="firstName" text="First Name" />
                                         <TableColumn fx:id="lastName" text="Last Name" />
-                                        <TableColumn fx:id="payHour" text="Pay/Hour" />
+                                        <TableColumn fx:id="payHour" text="Position" />
                                         <TableColumn fx:id="dateStart" text="Start Date" />
                                         <!--TableColumn fx:id="curAdminAction" text="Action"/-->
                                     </columns>

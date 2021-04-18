@@ -7,6 +7,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
 import java.io.*;
+import java.text.DecimalFormat;
 
 public class Global {
 
@@ -133,6 +134,7 @@ public class Global {
         }
         catch (IOException e){exceptionAlert(e, "login file");}
     }
+
 
     //Get set
     public Scene getAdminUserListScene() {

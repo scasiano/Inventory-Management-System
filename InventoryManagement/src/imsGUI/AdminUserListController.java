@@ -221,7 +221,7 @@ public class AdminUserListController {
                 }
 
                 //default
-                String pass="password"+tmp.getLName().substring(0)+tmp.getFName().substring(0)+"!";
+                String pass="password"+tmp.getLName().substring(0,1)+tmp.getFName().substring(0,1)+"!";
                 tmp.setPassword(pass);
             }
             if(!newU) {
@@ -322,40 +322,6 @@ public class AdminUserListController {
             Global.exceptionAlert(p,"Save Employee");
         }
     }
-    public void addUserData(){
-        userV.setVisible(true);
-        userAddB.setVisible(true);
-        userModify.setVisible(false);
-        userModB.setVisible(false);
-    }
-    public void addEmpData(){
-        empV.setVisible(true);
-        empAddB.setVisible(true);
-        empModify.setVisible(false);
-        empModB.setVisible(false);
-    }
-    public void showUserData(){
-        userV.setVisible(true);
-        userModB.setVisible(true);
-        userAdd.setVisible(false);
-    }
-    public void showEmpData(){
-        empV.setVisible(true);
-        empModB.setVisible(true);
-        empAdd.setVisible(false);
-    }
-    public void hideUserData(){
-        userV.setVisible(false);
-        userModB.setVisible(false);
-        userAddB.setVisible(false);
-        userAdd.setVisible(true);
-    }
-    public void hideEmpData(){
-        empV.setVisible(false);
-        empModB.setVisible(false);
-        empAddB.setVisible(false);
-        empAdd.setVisible(true);
-    }
     public void deleteUserClicked() throws SQLException {
         Alert deleteAlert = new Alert(Alert.AlertType.CONFIRMATION);
         deleteAlert.setTitle("Delete");
@@ -392,6 +358,40 @@ public class AdminUserListController {
        /* allUsers.get(uIndex).setPassword(password.getText());
         initialize();
         endUserEdit();*/
+    }
+    public void addUserData(){
+        userV.setVisible(true);
+        userAddB.setVisible(true);
+        userModify.setVisible(false);
+        userModB.setVisible(false);
+    }
+    public void addEmpData(){
+        empV.setVisible(true);
+        empAddB.setVisible(true);
+        empModify.setVisible(false);
+        empModB.setVisible(false);
+    }
+    public void showUserData(){
+        userV.setVisible(true);
+        userModB.setVisible(true);
+        userAdd.setVisible(false);
+    }
+    public void showEmpData(){
+        empV.setVisible(true);
+        empModB.setVisible(true);
+        empAdd.setVisible(false);
+    }
+    public void hideUserData(){
+        userV.setVisible(false);
+        userModB.setVisible(false);
+        userAddB.setVisible(false);
+        userAdd.setVisible(true);
+    }
+    public void hideEmpData(){
+        empV.setVisible(false);
+        empModB.setVisible(false);
+        empAddB.setVisible(false);
+        empAdd.setVisible(true);
     }
     @FXML
     private void openHomePage(ActionEvent event) {

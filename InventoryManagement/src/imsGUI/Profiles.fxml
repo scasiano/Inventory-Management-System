@@ -70,10 +70,12 @@
                   <VBox.margin>
                      <Insets bottom="5.0" top="5.0" />
                   </VBox.margin></TextField>
+                <!--Can be changed to a Text field if you don't want to authenticate the user again.-->
                 <PasswordField fx:id="password" promptText="Password">
                   <VBox.margin>
                      <Insets bottom="5.0" top="5.0" />
-                  </VBox.margin></PasswordField>
+                  </VBox.margin>
+                </PasswordField>
                 <Button fx:id="save" mnemonicParsing="false" onAction="#saveButtonClicked" text="Update" />
             </VBox>
    </children>

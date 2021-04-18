@@ -226,8 +226,8 @@ public class ProductListController {
     public void modDBProduct() throws SQLException {
         try{
             ims.Products.modifyName(allProd.get(pIndex).getProductID(),productName.getText());
-            ims.Products.modifyMsrp(allProd.get(pIndex).getProductID(),Double.valueOf(productMSRP.getText()));
-            ims.Products.modifyPrice(allProd.get(pIndex).getProductID(),Double.valueOf(productPrice.getText()));
+            ims.Products.modifyMsrp(allProd.get(pIndex).getProductID(),Double.valueOf(productMSRP.getText().substring(1)));
+            ims.Products.modifyPrice(allProd.get(pIndex).getProductID(),Double.valueOf(productPrice.getText().substring(1)));
         }catch(Exception e){
             Global.exceptionAlert(e,"Modify Products");
         }
@@ -235,7 +235,6 @@ public class ProductListController {
         endProductEdit();
     }
     public void modProduct(){
-        clearProdInfo();
         productName.setEditable(true);
         productMSRP.setEditable(true);
         productPrice.setEditable(true);
