@@ -160,9 +160,10 @@ public class ProductStatusController {
         }
     }
     public void getSelectedInfo(){
-        incomingT.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        try{
+            incomingT.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
-            public void handle(MouseEvent event) {
+            public void handle(MouseEvent event){
                 intmp = incomingT.getSelectionModel().getSelectedItem();
                 modIncomB.setVisible(true);
                 inIDT.setText(String.valueOf(intmp.getIncomingID()));
@@ -172,19 +173,25 @@ public class ProductStatusController {
                 inQuantT.setText(String.valueOf(intmp.getQuantity()));
                 inEmpT.setText(String.valueOf(intmp.getEmployeeNo()));
             }
-        });
+            });
+            }catch(Exception e){
+            Global.exceptionAlert(e,"Incoming Mouse Click");
+        }
+        try{
         outgoingT.setOnMouseClicked(new EventHandler<javafx.scene.input.MouseEvent>(){
             @Override
             public void handle(MouseEvent event){
                 outtmp= outgoingT.getSelectionModel().getSelectedItem();
                 modOutB.setVisible(true);
                 outIDT.setText(String.valueOf(outtmp.getOutgoingID()));
-                outPIDT.setText(String.valueOf(outtmp.getProductID()));
+                //outPIDT.setText(String.valueOf(outtmp.getProductID()));
                 outDateT.setText(String.valueOf(outtmp.getDateGo()));
                 outEmpT.setText(String.valueOf(outtmp.getEmployeeNo()));
                 outQuantT.setText(String.valueOf(outtmp.getQuantity()));
             }
-        });
+        });}catch(Exception e){
+            Global.exceptionAlert(e,"Outgoing Mouse Click");
+        }
     }
     public void saveIncomingClicked(ActionEvent event) throws SQLException {
         int newU=1;
