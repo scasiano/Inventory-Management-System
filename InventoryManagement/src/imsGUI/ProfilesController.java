@@ -60,7 +60,7 @@ public class ProfilesController {
 
     public void initialize() throws SQLException {
       //setUsersList();
-       //userDetails();
+       userDetails();
        //Users.getUserID(Global.currentUser);
     }
 
@@ -108,20 +108,20 @@ public class ProfilesController {
     }
 
     public void userDetails() {
-        columnID.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                Integer index = columnID.getSelectionModel().getSelectedIndex();
-                columnUN.getSelectionModel().select(index);
-                username.setText(allUsers.get(index).getUsername());
-                user_id.setText(String.valueOf(allUsers.get(index).getUserID()));
-                fname.setText(allUsers.get(index).getFName());
-                lname.setText(allUsers.get(index).getLName());
-                password.setText(allUsers.get(index).getPassword());
-                role.setText(allUsers.get(index).getRole());
-            }
-        });
-        columnUN.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        try {
+            Users currentUser = Users.selectUserByUserName(Global.currentUser);
+            username.setText(String.valueOf(currentUser.getUsername()));
+            user_id.setText(String.valueOf(currentUser.getUserID()));
+            fname.setText(currentUser.getFName());
+            lname.setText(currentUser.getLName());
+            password.setText(currentUser.getPassword());
+            role.setText(currentUser.getRole());
+        }
+        catch (Exception e){
+            Global.exceptionAlert(e, "Profile auto-fill");
+        }
+    }
+        /*columnUN.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 Integer index = columnUN.getSelectionModel().getSelectedIndex();
@@ -134,10 +134,10 @@ public class ProfilesController {
                 role.setText(allUsers.get(index).getRole());
             }
         });
+         */
 
         //save.setOnAction(e -> saveButtonClicked());
         //delete.setOnAction(e -> deleteButtonClicked());
-    }
 
     public void startUser(ActionEvent event) {
         username.setEditable(true);
