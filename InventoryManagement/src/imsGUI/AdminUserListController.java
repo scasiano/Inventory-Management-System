@@ -302,6 +302,14 @@ public class AdminUserListController {
                 String pass="password"+utmp.getLName().substring(0,2)+utmp.getFName().substring(0,2)+"!";
                 utmp.setPassword(pass);
             }
+            try{
+                if(!newU) {
+                    Users.addRecord(utmp);
+                    userT.getItems().add(utmp);
+                }
+            }catch (MySQLIntegrityConstraintViolationException a){
+                Global.warningAlert("User Id Exists", "You do not need to Add another User");
+            }
             if(method ==1)
                 Employees.addRecord(etmp);
             if(method ==0)
@@ -311,14 +319,7 @@ public class AdminUserListController {
             if(method==2)
                 Employees.addRecordPayDate(etmp);
             empT.getItems().add(etmp);
-            try{
-                if(!newU) {
-                    Users.addRecord(utmp);
-                    userT.getItems().add(utmp);
-                }
-            }catch (MySQLIntegrityConstraintViolationException a){
-                Global.warningAlert("User Id Exists", "You do not need to Add another User");
-            }
+
         } catch (MySQLIntegrityConstraintViolationException e){
             Global.exceptionAlert(e,"Add employee");
         } catch(Exception p){
