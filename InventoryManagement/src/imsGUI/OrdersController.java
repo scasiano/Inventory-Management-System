@@ -181,7 +181,7 @@ public class OrdersController {
             Global.exceptionAlert(p,"Add Order");
         }
     }
-    public void deleteUserClicked() throws SQLException {
+    public void deleteOrderClicked() throws SQLException {
         Alert deleteAlert = new Alert(Alert.AlertType.CONFIRMATION);
         deleteAlert.setTitle("Delete");
         deleteAlert.setHeaderText("Delete Order");
