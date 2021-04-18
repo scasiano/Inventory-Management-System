@@ -59,13 +59,6 @@ public class Tracking {
         while (dbResult.next()) resultList.add(new Tracking(dbResult.getLong(1), dbResult.getString(2), dbResult.getString(3), dbResult.getString(4)));
         return resultList;
     }
-
-    public static ArrayList<Long> selectOutgoingID() throws SQLException {
-        ResultSet dbResult = SqlController.dbStatement.executeQuery("select outgoing_id from tracking");
-        ArrayList<Long> resultList = new ArrayList<>();
-        while (dbResult.next()) resultList.add(dbResult.getLong(1));
-        return resultList;
-    }
     public static ArrayList<String> selectShippingStatus() throws SQLException {
         ResultSet dbResult = SqlController.dbStatement.executeQuery("select shipping_status from tracking");
         ArrayList<String> resultList = new ArrayList<>();
@@ -114,9 +107,11 @@ public class Tracking {
     public static void modifyCarrier(long primaryKey, String updateValue) throws SQLException {
         SqlController.dbStatement.executeUpdate("update tracking set carrier = '" + updateValue + "' where order_id = " + primaryKey);
     }
-    public static Tracking selectByOID(long oID) throws SQLException {
-        ResultSet dbResult = SqlController.dbStatement.executeQuery("select * from tracking where order_id="+oID);
-        Tracking order=new Tracking(dbResult.getLong(1), dbResult.getString(2), dbResult.getString(3));
-        return order;
+
+    //SQL Queries TRACKING FOR ORDER
+    public static Tracking selectByOrderID(long orderID) throws SQLException {
+        ResultSet dbResult = SqlController.dbStatement.executeQuery("select * from tracking where order_id = " + orderID);
+        while (dbResult.next()) return new Tracking(dbResult.getLong(1), dbResult.getString(2), dbResult.getString(3), dbResult.getString(4));
+        return null;
     }
 }

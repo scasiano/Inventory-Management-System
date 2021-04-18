@@ -94,4 +94,11 @@ public class Products {
     public static void modifyPrice(long primaryKey, double updateValue) throws SQLException {
         SqlController.dbStatement.executeUpdate("update products set price = " + updateValue + " where product_id = " + primaryKey);
     }
+
+    //SQL Queries PRODUCTNAME FROM PRODUCTID
+    public static String selectProductNameByProductID(long productID) throws SQLException{
+        ResultSet dbResult = SqlController.dbStatement.executeQuery("select name from products where product_id = " + productID);
+        while (dbResult.next()) return dbResult.getString(1);
+        return "";
+    }
 }
