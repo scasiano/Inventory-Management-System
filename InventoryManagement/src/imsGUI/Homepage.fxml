@@ -61,7 +61,7 @@
                   <Insets right="5.0" top="5.0" />
                </GridPane.margin>
             </Button>
-            <Region prefHeight="200.0" prefWidth="200.0" style="-fx-background-image: url(&quot;@IMSLogo.png&quot;);" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.rowSpan="2" />
+            <Region prefHeight="200.0" prefWidth="200.0" style="-fx-background-image: url('file:/home/revo/Documents/GitHub/DB-Project/InventoryManagement/src/imsGUI/IMSLogo.png'); -fx-background-position: center; -fx-background-size: contain; -fx-background-repeat: no-repeat;" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.rowSpan="2" />
                      </children>
                   </GridPane>
                </children>
