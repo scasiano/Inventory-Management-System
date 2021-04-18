@@ -31,7 +31,7 @@ public class LoginController {
                 passBox.clear();
                 return;
             }
-            admin = role.equals("Admin") || role.equals("IT");
+            admin = role.equalsIgnoreCase("Admin") || role.equalsIgnoreCase("IT");
             Global.privilege=admin;
             Global.currentUser=User;
             Stage stage = (Stage) LogBut.getScene().getWindow();
