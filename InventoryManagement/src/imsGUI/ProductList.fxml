@@ -10,7 +10,7 @@
         <ColumnConstraints fx:id="column0" maxWidth="5" minWidth="5.0" />
         <ColumnConstraints fx:id="column1" fillWidth="true" percentWidth="30" />
         <ColumnConstraints fx:id="column2" fillWidth="true" percentWidth="59.5" />
-        <ColumnConstraints fx:id="column3" percentWidth="10" />
+        <ColumnConstraints fx:id="column3" percentWidth="15" />
     </columnConstraints>
     <rowConstraints>
         <RowConstraints fx:id="row0" fillHeight="true" percentHeight="5" />

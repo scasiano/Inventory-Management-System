@@ -1,62 +1,82 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
 <!--Button fx:id="delete" layoutX="121.0" layoutY="344.0" mnemonicParsing="false" onAction="#deleteButtonClicked" text="Delete User" />
-<Button fx:id="update" layoutX="226.0" layoutY="344.0" mnemonicParsing="false" onAction="#modifyDBUser" text="Update" />
-<Button fx:id="load" layoutX="21.0" layoutY="344.0" mnemonicParsing="false" onAction="#loadTables" text="Load Table" />
-<Button fx:id="homepageBtn" layoutX="487.0" layoutY="344.0" mnemonicParsing="false" onAction="#openHomePage" text="Home Page" />
-<Button fx:id="loginBtn" layoutX="416.0" layoutY="344.0" mnemonicParsing="false" onAction="#openLogin" text="Login" />
-<ScrollPane layoutX="14.0" layoutY="30.0" prefHeight="281.0" prefWidth="287.0">
-        <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="273.0" prefWidth="289.0">
-               <children>
-                  <HBox fx:id="usersList" layoutY="-2.0" prefHeight="281.0" prefWidth="287.0" />
-               </children>
-            </AnchorPane>
-        </content>
-      </ScrollPane>-->
+        <Button fx:id="update" layoutX="226.0" layoutY="344.0" mnemonicParsing="false" onAction="#modifyDBUser" text="Update" />
+        <Button fx:id="load" layoutX="21.0" layoutY="344.0" mnemonicParsing="false" onAction="#loadTables" text="Load Table" />
+        <Button fx:id="homepageBtn" layoutX="487.0" layoutY="344.0" mnemonicParsing="false" onAction="#openHomePage" text="Home Page" />
+        <Button fx:id="loginBtn" layoutX="416.0" layoutY="344.0" mnemonicParsing="false" onAction="#openLogin" text="Login" />
+        <ScrollPane layoutX="14.0" layoutY="30.0" prefHeight="281.0" prefWidth="287.0">
+                <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="273.0" prefWidth="289.0">
+                       <children>
+                          <HBox fx:id="usersList" layoutY="-2.0" prefHeight="281.0" prefWidth="287.0" />
+                       </children>
+                    </AnchorPane>
+                </content>
+              </ScrollPane>-->
 
 <AnchorPane maxHeight="Infinity" maxWidth="Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="imsGUI.ProfilesController">
    <children>
-    <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0">
         <columnConstraints>
             <ColumnConstraints percentWidth="20" />
             <ColumnConstraints fillWidth="true" percentWidth="60" />
-            <ColumnConstraints percentWidth="20" />
+            <ColumnConstraints percentWidth="25" />
         </columnConstraints>
         <rowConstraints>
-            <RowConstraints percentHeight="10" />
+            <RowConstraints percentHeight="5" />
             <RowConstraints percentHeight="15" />
             <RowConstraints fillHeight="true" percentHeight="60" />
             <RowConstraints percentHeight="15" />
         </rowConstraints>
         <children>
+            <HBox alignment="BASELINE_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="RIGHT_TO_LEFT" snapToPixel="false" GridPane.columnIndex="2" GridPane.columnSpan="2147483647" GridPane.halignment="LEFT">
+                <children>
+                    <Button alignment="BASELINE_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#openLogin" text="Logout" textOverrun="CLIP" wrapText="true" HBox.hgrow="NEVER">
+                        <HBox.margin>
+                            <Insets bottom="5.0" left="5.0" top="5.0" />
+                        </HBox.margin>
+                    </Button>
+                    <Button alignment="BASELINE_RIGHT" centerShape="false" mnemonicParsing="false" onAction="#openHomePage" text="Homepage" textOverrun="CLIP" wrapText="true" HBox.hgrow="NEVER">
+                        <HBox.margin>
+                            <Insets bottom="5.0" left="5.0" top="5.0" />
+                        </HBox.margin>
+                    </Button>
+                </children>
+            </HBox>
             <VBox GridPane.columnIndex="1" GridPane.rowIndex="2">
                 <Label alignment="CENTER" prefHeight="41.0" prefWidth="152.0" text="Update Profile" />
-                <TextField fx:id="fname" promptText="First Name" />
-                <TextField fx:id="lname" promptText="Last Name" />
-                <TextField fx:id="username" promptText="Username" />
-                <TextField fx:id="role" promptText="Role" />
-                <TextField fx:id="user_id" editable="false" promptText="User ID" />
-                <PasswordField fx:id="password" promptText="Password" />
+                <TextField fx:id="fname" promptText="First Name">
+                  <VBox.margin>
+                     <Insets bottom="5.0" />
+                  </VBox.margin></TextField>
+                <TextField fx:id="lname" promptText="Last Name">
+                  <VBox.margin>
+                     <Insets bottom="5.0" top="5.0" />
+                  </VBox.margin></TextField>
+                <TextField fx:id="username" promptText="Username">
+                  <VBox.margin>
+                     <Insets bottom="5.0" top="5.0" />
+                  </VBox.margin></TextField>
+                <TextField fx:id="role" promptText="Role">
+                  <VBox.margin>
+                     <Insets bottom="5.0" top="5.0" />
+                  </VBox.margin></TextField>
+                <TextField fx:id="user_id" editable="false" promptText="User ID">
+                  <VBox.margin>
+                     <Insets bottom="5.0" top="5.0" />
+                  </VBox.margin></TextField>
+                <PasswordField fx:id="password" promptText="Password">
+                  <VBox.margin>
+                     <Insets bottom="5.0" top="5.0" />
+                  </VBox.margin></PasswordField>
                 <Button fx:id="save" mnemonicParsing="false" onAction="#saveButtonClicked" text="Update" />
             </VBox>
    </children>
-         <columnConstraints>
-            <ColumnConstraints />
-            <ColumnConstraints />
-            <ColumnConstraints />
-            <ColumnConstraints />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-         </rowConstraints>
     </GridPane>
    </children>
 </AnchorPane>

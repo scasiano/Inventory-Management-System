@@ -3,18 +3,20 @@ package imsGUI;
 import ims.CurrentStock;
 import ims.IncomingGoods;
 import ims.OutgoingGoods;
-import ims.Products;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.sql.Date;
@@ -24,6 +26,16 @@ import java.util.ArrayList;
 public class ProductStatusController {
     @FXML
     TableView<IncomingGoods> incomingT;
+    @FXML
+    Button addIncomB;
+    @FXML
+    Button modIncomB;
+    @FXML
+    VBox incomingV;
+    @FXML
+    HBox inAddB;
+    @FXML
+    HBox inModB;
     @FXML
     TableColumn inID;
     @FXML
@@ -37,10 +49,30 @@ public class ProductStatusController {
     @FXML
     TableColumn inEmpID;
     @FXML
-    TableColumn inAdminAction;
+    TextField inIDT;
+    @FXML
+    TextField inPIDT;
+    @FXML
+    TextField inDateT;
+    @FXML
+    TextField trackNoT;
+    @FXML
+    TextField inQuantT;
+    @FXML
+    TextField inEmpT;
 
     @FXML
-    TableView outgoingT;
+    TableView<OutgoingGoods> outgoingT;
+    @FXML
+    Button addOutB;
+    @FXML
+    Button modOutB;
+    @FXML
+    VBox outgoingV;
+    @FXML
+    HBox outAddB;
+    @FXML
+    HBox outModB;
     @FXML
     TableColumn outID;
     @FXML
@@ -52,7 +84,16 @@ public class ProductStatusController {
     @FXML
     TableColumn outEmpID;
     @FXML
-    TableColumn outAdminAction;
+    TextField outIDT;
+    @FXML
+    TextField pIDT;
+    @FXML
+    TextField outDateT;
+    @FXML
+    TextField outQuantT;
+    @FXML
+    TextField outEmpIDT;
+
 
     @FXML
     TableView currentT;
@@ -62,12 +103,13 @@ public class ProductStatusController {
     TableColumn curProductName;
     @FXML
     TableColumn curQuantity;
-    @FXML
-    TableColumn curAdminAction;
+
 
     ArrayList<IncomingGoods> allIn =new ArrayList<IncomingGoods>();
     ArrayList<OutgoingGoods> allOut =new ArrayList<OutgoingGoods>();
     ArrayList<CurrentStock> allCur=new ArrayList<CurrentStock>();
+    IncomingGoods intmp;
+    OutgoingGoods outtmp;
     public void initialize(){
        setIncomingTable();
        setOutgoingTable();
@@ -117,7 +159,34 @@ public class ProductStatusController {
             System.out.println(e.getSQLState());
         }
     }
-
+    public void getSelectedInfo(){
+        incomingT.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                intmp = incomingT.getSelectionModel().getSelectedItem();
+                modIncomB.setVisible(true);
+            }
+        });
+        outgoingT.setOnMouseClicked(new EventHandler<javafx.scene.input.MouseEvent>(){
+            @Override
+            public void handle(MouseEvent event){
+                outtmp= outgoingT.getSelectionModel().getSelectedItem();
+                modOutB.setVisible(true);
+            }
+        });
+    }
+    public void addIncomingData(){
+        incomingV.setVisible(true);
+        inAddB.setVisible(true);
+        modIncomB.setVisible(false);
+        inModB.setVisible(false);
+    }
+    public void modIncomingData(){
+        inModB.setVisible(true);
+        incomingV.setVisible(true);
+        inAddB.setVisible(false);
+        addIncomB.setVisible(false);
+    }
     @FXML
     private void openHomePage(ActionEvent event) {
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
