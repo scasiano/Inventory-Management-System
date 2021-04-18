@@ -206,6 +206,15 @@ public class OrdersController {
         modBox.setVisible(true);
         startMod.setVisible(false);
     }
+    public void clearOrderInfo(){
+        orderID.clear();
+        customerName.clear();
+        customerAddress.clear();
+        shippingStatus.clear();
+        trackingID.clear();
+        carrier.clear();
+        employeeID.clear();
+    }
 
     @FXML
     private void openHomePage(ActionEvent event) {
