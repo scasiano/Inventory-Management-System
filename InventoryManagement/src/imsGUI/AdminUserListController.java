@@ -285,7 +285,7 @@ public class AdminUserListController {
                     etmp.setPayHour(Double.valueOf(pay.getText()));
                 } else{
                     flag = false;
-                    Global.warningAlert("Incorrect role", "Every User needs a role type");
+                    Global.warningAlert("Incorrect pay", "Every User needs a payment");
                     pay.clear();
                 }
                 if (empRole.getText().length() > 0){
@@ -294,7 +294,7 @@ public class AdminUserListController {
                     tmp.setRole(empRole.getText());
                 } else{
                     flag = false;
-                    Global.warningAlert("Incorrect role", "Every User needs a role type");
+                    Global.warningAlert("Incorrect role", "Every Employee needs a role type");
                     empRole.clear();
                 }
                 if (empUsername.getText().length() > 0){
@@ -302,7 +302,7 @@ public class AdminUserListController {
                     tmp.setUsername(empUsername.getText());
                 } else{
                     flag = false;
-                    Global.warningAlert("Incorrect Username", "Every User needs a Username");
+                    Global.warningAlert("Incorrect Username", "Every Employee needs a Username");
                     empUsername.clear();
                 }
                 if(startDate.getText().length()>0){
