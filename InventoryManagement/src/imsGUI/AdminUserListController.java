@@ -151,19 +151,13 @@ public class AdminUserListController {
         }
     }
     public void getSelectedInfo(){
-        userT.setOnMouseClicked(new EventHandler<javafx.scene.input.MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                utemp= userT.getSelectionModel().getSelectedItem();
-                userModify.setVisible(true);
-            }
+        userT.setOnMouseClicked(event -> {
+            utemp= userT.getSelectionModel().getSelectedItem();
+            userModify.setVisible(true);
         });
-        empT.setOnMouseClicked(new EventHandler<javafx.scene.input.MouseEvent>(){
-            @Override
-            public void handle(MouseEvent event){
-                etemp=empT.getSelectionModel().getSelectedItem();
-                empModify.setVisible(true);
-            }
+        empT.setOnMouseClicked(event -> {
+            etemp=empT.getSelectionModel().getSelectedItem();
+            empModify.setVisible(true);
         });
     }
     public void saveUserClicked(ActionEvent event) throws SQLException {
@@ -229,7 +223,7 @@ public class AdminUserListController {
             Global.exceptionAlert(p,"Save Employee");
         }
     }
-    public void saveEmpClicked(ActionEvent event) throws SQLException {
+    public void saveEmpClicked(ActionEvent event) {
         boolean newU=true;
         if(etemp==null)
         {newU=false;}
@@ -338,7 +332,7 @@ public class AdminUserListController {
             Global.exceptionAlert(p,"Save Employee");
         }
     }
-    public void deleteUserClicked() throws SQLException {
+    public void deleteUserClicked() {
         Alert deleteAlert = new Alert(Alert.AlertType.CONFIRMATION);
         deleteAlert.setTitle("Delete");
         deleteAlert.setHeaderText("Delete User");
