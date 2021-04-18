@@ -27,7 +27,7 @@ public class Global {
     private Scene productStatusScene;
     private Scene profilesScene;
     public static Boolean privilege=true;
-    public static String currentUser;
+    public static String currentUser="scasi";
 
     public void loadFxmlFiles() throws Exception{
         adminUserList = FXMLLoader.load(getClass().getResource("AdminUserList.fxml"));

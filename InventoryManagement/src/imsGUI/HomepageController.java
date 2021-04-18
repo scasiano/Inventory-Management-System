@@ -24,12 +24,12 @@ public class HomepageController {
     Button adminB;
 
     public void initialize(){
-    //   allowAdmin();
+       allowAdmin();
     }
   //  public void logout(){    }
     private void allowAdmin(){
-        if(Global.privilege){
-            adminB.setVisible(true);
+        if(!(Global.privilege)){
+            adminB.setVisible(false);
         }
     }
     @FXML
