@@ -67,7 +67,7 @@ public class ImsGui extends Application {
             System.exit(4167);
         }
         primaryStage.setTitle("Inventory Management Database");
-        primaryStage.setScene(global.getHomepageScene());
+        primaryStage.setScene(global.getLoginScene());
         primaryStage.show();
     }
 
