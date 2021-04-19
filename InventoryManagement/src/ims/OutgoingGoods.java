@@ -18,7 +18,6 @@ public class OutgoingGoods {
     }
 
     public OutgoingGoods(long outgoingID, long productID, Date dateGo, int quantity) {
-        this.outgoingID = outgoingID;
         this.productID = productID;
         this.dateGo = dateGo;
         this.quantity = quantity;
@@ -101,10 +100,10 @@ public class OutgoingGoods {
 
     //SQL Queries ADD
     public static void addRecordEmp(OutgoingGoods recordToAdd) throws SQLException {
-        SqlController.dbStatement.executeUpdate("insert into outgoing_goods(outgoing_id, product_id, date_go, quantity, employee_no) values (" + recordToAdd.outgoingID + ", " + recordToAdd.productID + ", '" +recordToAdd.dateGo + "', " + recordToAdd.quantity + ", " + recordToAdd.employeeNo + ")");
+        SqlController.dbStatement.executeUpdate("insert into outgoing_goods(product_id, date_go, quantity, employee_no) values (" + recordToAdd.productID + ", '" +recordToAdd.dateGo + "', " + recordToAdd.quantity + ", " + recordToAdd.employeeNo + ")");
     }
     public static void addRecord(OutgoingGoods recordToAdd) throws SQLException {
-        SqlController.dbStatement.executeUpdate("insert into outgoing_goods(outgoing_id, product_id, date_go, quantity) values (" + recordToAdd.outgoingID + ", " + recordToAdd.productID + ", '" +recordToAdd.dateGo + "', " + recordToAdd.quantity + ")");
+        SqlController.dbStatement.executeUpdate("insert into outgoing_goods(product_id, date_go, quantity) values (" + recordToAdd.productID + ", '" +recordToAdd.dateGo + "', " + recordToAdd.quantity + ")");
     }
 
     //SQL Queries MODIFY
