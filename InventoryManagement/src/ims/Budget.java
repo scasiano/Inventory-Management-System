@@ -86,6 +86,9 @@ public class Budget {
     public void setDateEnd(Date dateEnd) {
         this.dateEnd = dateEnd;
     }
+    public void setNet(double net){
+        this.net = net;
+    }
     public void setOutgoing(double outgoing) {
         this.outgoing = outgoing;
     }
