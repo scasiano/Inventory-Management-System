@@ -2,7 +2,6 @@ package imsGUI;
 
 import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 import ims.Budget;
-import javafx.beans.property.ObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -12,12 +11,8 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.util.StringConverter;
 
-import java.sql.Array;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.text.DateFormat;
@@ -65,19 +60,19 @@ public class BudgetController {
     @FXML
     TableView<Budget> budgetTable;
     @FXML
-    TableColumn periodTable;
+    TableColumn<Budget, Long> periodTable;
     @FXML
-    TableColumn startTable;
+    TableColumn<Budget, Date> startTable;
     @FXML
-    TableColumn endTable;
+    TableColumn<Budget, Date> endTable;
     @FXML
-    TableColumn incomeTable;
+    TableColumn<Budget, Double> incomeTable;
     @FXML
-    TableColumn outTable;
+    TableColumn<Budget, Double> outTable;
     @FXML
-    TableColumn netTable;
+    TableColumn<Budget, Double> netTable;
     @FXML
-    TableColumn empTable;
+    TableColumn<Budget, Long> empTable;
 
     DatePicker endD = new DatePicker();
     DatePicker startD = new DatePicker();
@@ -85,13 +80,16 @@ public class BudgetController {
     Budget budgetTMP;
     int bIndex = 1;
 
+    Date startHold = new Date(2021-01-01);
+    Date endHold = new Date(2021-01-02);
+
     DateFormat dfStart = new SimpleDateFormat("yyyy-MM-dd");
     DateFormat dfEnd = new SimpleDateFormat("yyyy-MM-dd");
 
 
     public void initialize() throws SQLException {
         setBudgetList();
-        //budgetDetails();
+        budgetDetails();
         getSelectedInfo();
     }
 
@@ -130,7 +128,7 @@ public class BudgetController {
             newB = false;
         }
         bIndex = 1;
-        Budget tmp = new Budget(0, null, null, 0, 0, 0, 0);
+        Budget tmp = new Budget(0, startHold, endHold, 0, 0, 0, 0);
         boolean flag = false;
         try {
             while (!flag) {
@@ -143,14 +141,14 @@ public class BudgetController {
                     budgetID.clear();
                 }
                 if (startDate.getValue() != null) {
-                    tmp.setDateStart(Date.valueOf((startDate.getValue())));
+                    tmp.setDateStart(java.sql.Date.valueOf((startDate.getValue())));
                 } else {
                     flag = false;
                     Global.warningAlert("Incorrect Start Date", "Budget start date needs to have a year, month, and day.");
                     startDate.setValue(null);
                 }
                 if (endDate.getValue() != null) {
-                    tmp.setDateEnd(Date.valueOf(endDate.getValue()));
+                    tmp.setDateEnd(java.sql.Date.valueOf(endDate.getValue()));
                 } else {
                     flag = false;
                     Global.warningAlert("Incorrect Start Date", "Budget end date needs to have a year, month, and day.");
@@ -158,7 +156,7 @@ public class BudgetController {
                 }
                 if (outgoing.getText().length() > 0) {
                     flag = true;
-                    tmp.setIncome(Double.valueOf(outgoing.getText()));
+                    tmp.setOutgoing(Double.parseDouble(outgoing.getText()));
                 } else {
                     flag = false;
                     Global.warningAlert("Incorrect Outgoing Total", "Budget needs an outgoing total.");
@@ -166,7 +164,7 @@ public class BudgetController {
                 }
                 if (incoming.getText().length() > 0) {
                     flag = true;
-                    tmp.setIncome(Double.valueOf(incoming.getText()));
+                    tmp.setIncome(Double.parseDouble(incoming.getText()));
                 } else {
                     flag = false;
                     Global.warningAlert("Incorrect Incoming Total", "Budget needs an incoming total.");
@@ -174,7 +172,7 @@ public class BudgetController {
                 }
                 if (netProfit.getText().length() > 0) {
                     flag = true;
-                    tmp.setIncome(Double.valueOf(netProfit.getText()));
+                    tmp.setNet(Double.parseDouble(netProfit.getText()));
                 } else {
                     flag = false;
                     Global.warningAlert("Incorrect Net Income", "Budget needs a net income.");
@@ -182,7 +180,7 @@ public class BudgetController {
                 }
                 if (userInfo.getText().length() > 0) {
                     flag = true;
-                    tmp.setEmployeeNo(Long.valueOf(userInfo.getText()));
+                    tmp.setEmployeeNo(Long.parseLong(userInfo.getText()));
                 } else {
                     flag = false;
                     Global.warningAlert("Incorrect Employee Number", "Budget needs an employee number.");
