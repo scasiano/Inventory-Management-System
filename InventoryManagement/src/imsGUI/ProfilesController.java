@@ -1,26 +1,20 @@
 package imsGUI;
 
-import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import ims.Users;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import javax.swing.*;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collection;
 
 public class ProfilesController {
 
@@ -53,14 +47,13 @@ public class ProfilesController {
     @FXML
     HBox userResults;
 
-    ArrayList<Users> allUsers = new ArrayList<Users>();
+    ArrayList<Users> allUsers = new ArrayList<>();
     ListView<String> columnUN;
     ListView<Long> columnID;
     int uIndex = -1;
 
-    public void initialize() throws SQLException {
-      //setUsersList();
-       //Users.getUserID(Global.currentUser);
+    public void initialize() {
+
     }
 
     public void setUsersList() {
@@ -90,15 +83,15 @@ public class ProfilesController {
 
         try {
             allUsers = Users.selectAll();
-            for (int i = 0; i < allUsers.size(); i++) {
-                idList.add(allUsers.get(i).getUserID());
-                usernameList.add(allUsers.get(i).getUsername());
+            for (Users allUser : allUsers) {
+                idList.add(allUser.getUserID());
+                usernameList.add(allUser.getUsername());
             }
             userID = FXCollections.observableArrayList(idList);
             userName = FXCollections.observableArrayList(usernameList);
-            columnUN = new ListView<String>(userName);
+            columnUN = new ListView<>(userName);
             un.getChildren().add(columnUN);
-            columnID = new ListView<Long>(userID);
+            columnID = new ListView<>(userID);
             id.getChildren().add(columnID);
             usersList.getChildren().addAll(id, un);
         } catch (Exception e) {
