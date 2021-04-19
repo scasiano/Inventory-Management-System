@@ -5,12 +5,10 @@ import ims.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -105,13 +103,13 @@ public class ProductStatusController {
     TableColumn curQuantity;
 
 
-    ArrayList<IncomingGoods> allIn =new ArrayList<IncomingGoods>();
-    ArrayList<OutgoingGoods> allOut =new ArrayList<OutgoingGoods>();
-    ArrayList<CurrentStock> allCur=new ArrayList<CurrentStock>();
-    ArrayList<Products> allProd = new ArrayList<Products>();
-    ArrayList<Employees> allEmps = new ArrayList<Employees>();
+    ArrayList<IncomingGoods> allIn =new ArrayList<>();
+    ArrayList<OutgoingGoods> allOut =new ArrayList<>();
+    ArrayList<CurrentStock> allCur=new ArrayList<>();
+    ArrayList<Products> allProd = new ArrayList<>();
+    ArrayList<Employees> allEmps = new ArrayList<>();
     ArrayList<String> pNames;
-    ArrayList<String> eNames = new ArrayList<String>();
+    ArrayList<String> eNames = new ArrayList<>();
     IncomingGoods intmp;
     OutgoingGoods outtmp;
     public void initialize(){
@@ -172,34 +170,28 @@ public class ProductStatusController {
     }
     public void getSelectedInfo(){
         try{
-            incomingT.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event){
-                    intmp = incomingT.getSelectionModel().getSelectedItem();
-                    int i = incomingT.getSelectionModel().getSelectedIndex();
-                    modIncomB.setVisible(true);
-                    inProductsList.setValue(Long.toString(intmp.getProductID())+" | "+pNames.get(i));
-                    inDateT.setValue(intmp.getDateIn().toLocalDate());
-                    trackNoT.setText(intmp.getTrackingNo());
-                    inQuantT.setText(Integer.toString(intmp.getQuantity()));
-                    inEmpC.setValue(Long.toString(intmp.getEmployeeNo())+" | "+eNames.get(i));
-                }
+            incomingT.setOnMouseClicked(event -> {
+                intmp = incomingT.getSelectionModel().getSelectedItem();
+                int i = incomingT.getSelectionModel().getSelectedIndex();
+                modIncomB.setVisible(true);
+                inProductsList.setValue(intmp.getProductID() +" | "+pNames.get(i));
+                inDateT.setValue(intmp.getDateIn().toLocalDate());
+                trackNoT.setText(intmp.getTrackingNo());
+                inQuantT.setText(Integer.toString(intmp.getQuantity()));
+                inEmpC.setValue(intmp.getEmployeeNo() +" | "+eNames.get(i));
             });
         }
         catch(Exception e){
             Global.exceptionAlert(e,"Incoming Mouse Click");
         }
         try{
-            outgoingT.setOnMouseClicked(new EventHandler<javafx.scene.input.MouseEvent>(){
-                @Override
-                public void handle(MouseEvent event){
-                    outtmp= outgoingT.getSelectionModel().getSelectedItem();
-                    modOutB.setVisible(true);
-                    outDateT.setValue(outtmp.getDateGo().toLocalDate());
-                    outEmpC.setValue(outtmp.getEmployeeNo());
-                    outQuantT.setText(String.valueOf(outtmp.getQuantity()));
-                    outProductsList.setValue(outtmp.getProductID());
-                }
+            outgoingT.setOnMouseClicked(event -> {
+                outtmp = outgoingT.getSelectionModel().getSelectedItem();
+                modOutB.setVisible(true);
+                outDateT.setValue(outtmp.getDateGo().toLocalDate());
+                outEmpC.setValue(outtmp.getEmployeeNo());
+                outQuantT.setText(String.valueOf(outtmp.getQuantity()));
+                outProductsList.setValue(outtmp.getProductID());
             });
         }
         catch(Exception e){
@@ -211,9 +203,9 @@ public class ProductStatusController {
         try{
             allProd= Products.selectAll();
             pNames = Products.selectName();
-            for(int i=0;i<allProd.size();i++) {
-                if(CurrentStock.selectQuantityByProductID(allProd.get(i).getProductID())!=0){
-                    String s= Long.toString(allProd.get(i).getProductID())+" | "+allProd.get(i).getName();
+            for (Products products : allProd) {
+                if (CurrentStock.selectQuantityByProductID(products.getProductID()) != 0) {
+                    String s = products.getProductID() + " | " + products.getName();
                     outProductsList.getItems().add(s);
                     inProductsList.getItems().add(s);
                 }
@@ -231,17 +223,17 @@ public class ProductStatusController {
             for(int i=0;i<ftemp.size();i++){
                 eNames.add(ftemp.get(i)+" "+ltemp.get(i));
             }
-            for(int i=0;i<allEmps.size();i++) {
-                    String s= Long.toString(allEmps.get(i).getEmployeeNo())+" | "+allEmps.get(i).getEmployeeFn()+" "+allEmps.get(i).getEmployeeLn();
-                    inEmpC.getItems().add(s);
-                    outEmpC.getItems().add(s);
+            for (Employees allEmp : allEmps) {
+                String s = allEmp.getEmployeeNo() + " | " + allEmp.getEmployeeFn() + " " + allEmp.getEmployeeLn();
+                inEmpC.getItems().add(s);
+                outEmpC.getItems().add(s);
             }
         }
         catch(Exception e){
             Global.exceptionAlert(e,"Set Employee Combo");
         }
     }
-    public void saveIncomingClicked(ActionEvent event) throws SQLException {
+    public void saveIncomingClicked(ActionEvent event) {
         int newU=1;
         IncomingGoods tmp= new IncomingGoods(0, null, "", 0, 0);
         boolean flag = false;
@@ -304,7 +296,7 @@ public class ProductStatusController {
         }
     }
 
-    public void saveOutgoingClicked(ActionEvent event) throws SQLException {
+    public void saveOutgoingClicked(ActionEvent event) {
         int newU = 1;
         OutgoingGoods tmp = new OutgoingGoods(0, null, 0, 0);
         boolean flag = false;
@@ -393,7 +385,7 @@ public class ProductStatusController {
             if (outEmpC.getValue()!=null) {
                 String selectedItem = outEmpC.getSelectionModel().getSelectedItem().toString();
                 String[] s = selectedItem.split(" | ");
-                OutgoingGoods.modifyEmployee(outtmp.getOutgoingID(), Long.valueOf(s[0]));
+                OutgoingGoods.modifyEmployee(outtmp.getOutgoingID(), Long.parseLong(s[0]));
             }
             setOutgoingTable();
             setCurrentTable();
@@ -403,7 +395,7 @@ public class ProductStatusController {
             Global.exceptionAlert(e,"Modify Incoming Goods");
         }
     }
-    public void deleteIncomingClicked() throws SQLException {
+    public void deleteIncomingClicked() {
         Alert deleteAlert = new Alert(Alert.AlertType.CONFIRMATION);
         deleteAlert.setTitle("Delete");
         deleteAlert.setHeaderText("Delete User");
@@ -458,7 +450,7 @@ public class ProductStatusController {
         incomingV.setVisible(true);
         inAddB.setVisible(false);
 
-        if(Global.privilege==false) {
+        if(!Global.privilege) {
             outDelete.setVisible(false);
             inDelete.setVisible(false);
         }
@@ -476,7 +468,7 @@ public class ProductStatusController {
         modOutB.setVisible(false);
         outgoingV.setVisible(true);
         outAddB.setVisible(false);
-        if(Global.privilege==false) {
+        if(!Global.privilege) {
             outDelete.setVisible(false);
             inDelete.setVisible(false);
         }
