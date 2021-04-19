@@ -66,7 +66,6 @@ public class ProductListController {
     }
 
     public void setProductList() {
-
         ArrayList<Long> idList = new ArrayList<>();
         ArrayList<String> nameList = new ArrayList<>();
         Name.setText("Product Name:");
@@ -75,7 +74,6 @@ public class ProductListController {
         idBox.getChildren().add(ID);
         nameBox.getChildren().add(Name);
         try {
-            allProd = Products.selectAll();
             for (int i = 0; i < allProd.size(); i++) {
                 idList.add(allProd.get(i).getProductID());
                 nameList.add(allProd.get(i).getName());
@@ -87,6 +85,7 @@ public class ProductListController {
             listID = new ListView<Long>(pID);
             idBox.getChildren().add(listID);
             productsList.getChildren().addAll(nameBox, idBox);
+
         } catch (Exception e) {
             Global.exceptionAlert(e,"Set Product List");
         }

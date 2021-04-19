@@ -1,10 +1,7 @@
 package imsGUI;
 
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
-import ims.OrderItems;
-import ims.Orders;
-import ims.Tracking;
-import ims.Users;
+import ims.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -69,14 +66,21 @@ public class OrdersController {
     HBox modBox;
     @FXML
     Button startMod;
+    @FXML
+    Button addOrderItem;
+    @FXML
+    ComboBox productsList;
 
     ArrayList<Orders> allOrders;
     ArrayList<OrderItems> allItems;
+    ArrayList<OrderItems> allAddItems =new ArrayList<>();
+    ArrayList<Products> allProd;
     int oIndex=-1;
     //Orders otemp;
     public void initialize(){
         setOrderList();
         orderDetails();
+        setCombo();
     }
     public void setOrderList(){
         try{
@@ -168,11 +172,13 @@ public class OrdersController {
                     Global.warningAlert("Incorrect Date", "Every Order needs a Date placed in the format yyyy-MM-dd");
                     addDate.setValue(null);
                 }
-                if(Long.valueOf(employeeID.getText())>0){
-                    method ++;
-                    tmp.setEmployeeNo(Long.parseLong(employeeID.getText()));
+                if(employeeID.getText().length()>0){
+                    if(Long.valueOf(employeeID.getText())>0)
+                    {
+                        method++;
+                        tmp.setEmployeeNo(Long.parseLong(employeeID.getText()));
+                    }
                 }
-
             }
             if(method==0){
                 Orders.addRecord(tmp);}
@@ -209,14 +215,18 @@ public class OrdersController {
         carrier.clear();
         employeeID.clear();
         addDate.setVisible(true);
+        orderID.setEditable(true);
         customerName.setEditable(true);
         customerAddress.setEditable(true);
         shippingStatus.setEditable(true);
+        trackingID.setEditable(true);
+        carrier.setEditable(true);
         employeeID.setEditable(true);
         modOrder.setVisible(false);
         addOrderBox.setVisible(true);
     }
     public void modOrder(){
+        orderProds.setVisible(true);
         customerName.setEditable(true);
         customerAddress.setEditable(true);
         shippingStatus.setEditable(true);
@@ -226,7 +236,33 @@ public class OrdersController {
         addOrderBox.setVisible(false);
         startMod.setVisible(true);
     }
+    public void setCombo(){
+        try{
+            allProd=Products.selectAll();
+            for(int i=0;i<allProd.size();i++)
+            {
+                if(CurrentStock.selectQuantityByProductID(allProd.get(i).getProductID())!=0){
+                    String s= allProd.get(i).getProductID() +" | "+allProd.get(i).getName();
+                    productsList.getItems().add(s);
+                }
+            }
+        }catch(Exception e){
+            Global.exceptionAlert(e,"Set Combo");
+        }
+    }
+    public void addOrderItem() {
+        String selectedItem = (String) productsList.getSelectionModel().getSelectedItem();
+        String[] s = selectedItem.split(" | ");
+        if (orderID.getText().length() > 0) {
+            OrderItems orderItems = new OrderItems(Long.parseLong(orderID.getText()), Long.parseLong(s[0]));
+            products.setCellValueFactory(new PropertyValueFactory<OrderItems,Long>("productID"));
+            allAddItems.add(orderItems);
+            ObservableList<OrderItems> orderI = FXCollections.observableArrayList(allAddItems);
+            orderProds.setItems(orderI);
+        }
+    }
     public void clearOrderInfo(){
+        orderProds.setVisible(true);
         orderID.clear();
         customerName.clear();
         customerAddress.clear();
@@ -234,6 +270,15 @@ public class OrdersController {
         trackingID.clear();
         carrier.clear();
         employeeID.clear();
+        orderID.setEditable(false);
+        customerName.setEditable(false);
+        customerAddress.setEditable(false);
+        shippingStatus.setEditable(false);
+        trackingID.setEditable(false);
+        carrier.setEditable(false);
+        employeeID.setEditable(false);
+        modOrder.setVisible(false);
+        addOrderBox.setVisible(true);
         addDate.setVisible(false);
         addOrder.setVisible(true);
         modOrder.setVisible(true);
