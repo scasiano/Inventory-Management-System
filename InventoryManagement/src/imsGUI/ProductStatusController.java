@@ -360,11 +360,11 @@ public class ProductStatusController {
     }
     public void modIncom(){
         try{
-            String selected = (String) inProductsList.getSelectionModel().getSelectedItem();
+            String selected = inProductsList.getSelectionModel().getSelectedItem().toString();
             String[] p = selected.split(" | ");
             IncomingGoods.modifyDateIn(intmp.getIncomingID(),java.sql.Date.valueOf(inDateT.getValue()));
             if(inEmpC.getValue()!=null){
-                String selectedItem = (String) inEmpC.getSelectionModel().getSelectedItem();
+                String selectedItem = inEmpC.getSelectionModel().getSelectedItem().toString();
                 String[] s = selectedItem.split(" | ");
                 IncomingGoods.modifyEmployeeNo(intmp.getIncomingID(),Long.parseLong(s[0]));
             }
@@ -381,13 +381,13 @@ public class ProductStatusController {
     }
     public void modOut(){
         try{
-            String selected = (String) outProductsList.getSelectionModel().getSelectedItem();
+            String selected = outProductsList.getSelectionModel().getSelectedItem().toString();
             String[] p = selected.split(" | ");
             OutgoingGoods.modifyDateGo(outtmp.getOutgoingID(),java.sql.Date.valueOf(outDateT.getValue()));
             OutgoingGoods.modifyProductID(outtmp.getOutgoingID(),(Long.parseLong(p[0])));
             OutgoingGoods.modifyQuantity(outtmp.getOutgoingID(),Integer.parseInt(outQuantT.getText()));
             if (outEmpC.getValue()!=null) {
-                String selectedItem = (String) outEmpC.getSelectionModel().getSelectedItem();
+                String selectedItem = outEmpC.getSelectionModel().getSelectedItem().toString();
                 String[] s = selectedItem.split(" | ");
                 OutgoingGoods.modifyEmployee(outtmp.getOutgoingID(), Long.valueOf(s[0]));
             }
