@@ -194,7 +194,7 @@ public class ProductStatusController {
     }
     public void saveIncomingClicked(ActionEvent event) throws SQLException {
         int newU=1;
-        IncomingGoods tmp;
+        IncomingGoods tmp= new IncomingGoods(0, null, "", 0, 0);
         boolean flag = false;
         try{
             while(!flag){
@@ -261,7 +261,7 @@ public class ProductStatusController {
 
     public void saveOutgoingClicked(ActionEvent event) throws SQLException {
         int newU = 1;
-        OutgoingGoods tmp;
+        OutgoingGoods tmp = new OutgoingGoods(0, null, 0, 0);
         boolean flag = false;
         try {
             while (!flag) {
