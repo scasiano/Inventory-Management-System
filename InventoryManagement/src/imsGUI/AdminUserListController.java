@@ -368,6 +368,7 @@ public class AdminUserListController {
             Users.modifyLName(allUsers.get(uIndex).getUserID(),lname.getText());
             Users.modifyRole(allUsers.get(uIndex).getUserID(),usrRole.getText());
             Users.modifyUsername(allUsers.get(uIndex).getUserID(),username.getText());
+            initialize();
         }catch(Exception e){
             Global.exceptionAlert(e,"Modify Database User");
         }
@@ -433,25 +434,29 @@ public class AdminUserListController {
         userModify.setVisible(false);
         userModB.setVisible(false);
         clearUsrData();
-        hideData();
     }
     public void addEmpData(){
         empV.setVisible(true);
         empAddB.setVisible(true);
         empModify.setVisible(false);
         empModB.setVisible(false);
+
         clearEmpData();
-        hideData();
     }
     public void showUserData(){
         userV.setVisible(true);
         userModB.setVisible(true);
         userAdd.setVisible(false);
+        userAddB.setVisible(false);
+        user_id.setEditable(false);
     }
     public void showEmpData(){
         empV.setVisible(true);
         empModB.setVisible(true);
         empAdd.setVisible(false);
+        empV.setVisible(false);
+        empAddB.setVisible(false);
+        emp_id.setEditable(false);
         empV.getChildren().add(endDate);
     }
     public void hideData(){
@@ -463,7 +468,12 @@ public class AdminUserListController {
         empModB.setVisible(false);
         empAddB.setVisible(false);
         empAdd.setVisible(true);
+        userModify.setVisible(false);
+        empModify.setVisible(false);
+        user_id.setEditable(true);
+        emp_id.setEditable(true);
         empT.getSelectionModel().clearSelection();
+        userT.getSelectionModel().clearSelection();
     }
     public void clearEmpData(){
         empFname.clear();
