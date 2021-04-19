@@ -152,7 +152,7 @@ public class IncomingGoods {
     public static void modifyDateIn(long primaryKey, Date updateValue) throws SQLException {
         SqlController.dbStatement.executeUpdate("update incoming_goods set date_in = '" + updateValue + "' where incoming_id = " + primaryKey);
     }
-    public static void modifyTrackingNo(long primaryKey, Date updateValue) throws SQLException {
+    public static void modifyTrackingNo(long primaryKey, String updateValue) throws SQLException {
         SqlController.dbStatement.executeUpdate("update incoming_goods set track_no = '" + updateValue + "' where incoming_id = " + primaryKey);
     }
     public static void modifyQuantity(long primaryKey, int updateValue) throws SQLException {

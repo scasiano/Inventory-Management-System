@@ -117,7 +117,7 @@ public class OutgoingGoods {
     public static void modifyQuantity(long primaryKey, int updateValue) throws SQLException {
         SqlController.dbStatement.executeUpdate("update outgoing_goods set quantity = " + updateValue + " where outgoing_id = " + primaryKey);
     }
-    public static void modifyQuantity(long primaryKey, long updateValue) throws SQLException {
+    public static void modifyEmployee(long primaryKey, long updateValue) throws SQLException {
         SqlController.dbStatement.executeUpdate("update outgoing_goods set employee_no = " + updateValue + " where outgoing_id = " + primaryKey);
     }
 }
