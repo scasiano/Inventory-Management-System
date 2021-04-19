@@ -48,8 +48,6 @@ public class ProductStatusController {
     @FXML
     TableColumn inEmpID;
     @FXML
-    TextField inIDT;
-    @FXML
     TextField inPIDT;
     @FXML
     DatePicker inDateT;
@@ -59,6 +57,8 @@ public class ProductStatusController {
     TextField inQuantT;
     @FXML
     TextField inEmpT;
+    @FXML
+    Button inDelete;
 
     @FXML
     TableView<OutgoingGoods> outgoingT;
@@ -76,15 +76,12 @@ public class ProductStatusController {
     TableColumn outID;
     @FXML
     TableColumn outProductID;
-
     @FXML
     TableColumn dateGo;
     @FXML
     TableColumn outQuantity;
     @FXML
     TableColumn outEmpID;
-    @FXML
-    TextField outIDT;
     @FXML
     TextField outPIDT;
     @FXML
@@ -93,6 +90,8 @@ public class ProductStatusController {
     TextField outQuantT;
     @FXML
     TextField outEmpT;
+    @FXML
+    Button outDelete;
 
 
     @FXML
@@ -115,6 +114,7 @@ public class ProductStatusController {
        setOutgoingTable();
        setCurrentTable();
        getSelectedInfo();
+
     }
     public void setIncomingTable(){
         try {
@@ -167,7 +167,6 @@ public class ProductStatusController {
             public void handle(MouseEvent event){
                 intmp = incomingT.getSelectionModel().getSelectedItem();
                 modIncomB.setVisible(true);
-                inIDT.setText(String.valueOf(intmp.getIncomingID()));
                 inPIDT.setText(String.valueOf(intmp.getProductID()));
                 inDateT.setValue(intmp.getDateIn().toLocalDate());
                 trackNoT.setText(String.valueOf(intmp.getTrackingNo()));
@@ -184,7 +183,6 @@ public class ProductStatusController {
             public void handle(MouseEvent event){
                 outtmp= outgoingT.getSelectionModel().getSelectedItem();
                 modOutB.setVisible(true);
-                outIDT.setText(String.valueOf(outtmp.getOutgoingID()));
                 outDateT.setValue(outtmp.getDateGo().toLocalDate());
                 outEmpT.setText(String.valueOf(outtmp.getEmployeeNo()));
                 outQuantT.setText(String.valueOf(outtmp.getQuantity()));
@@ -200,14 +198,6 @@ public class ProductStatusController {
         boolean flag = false;
         try{
             while(!flag){
-                if (inIDT.getText().length() > 0 && Long.valueOf(inIDT.getText().length()) >= 0){
-                    flag = true;
-                    tmp.setIncomingID((Long.parseLong(inIDT.getText())));
-                } else{
-                    flag = false;
-                    Global.warningAlert("Incorrect Incoming ID", "Needs to be greater than 0 and have 9 or less digits.");
-                    inIDT.clear();
-                }
                 if (inPIDT.getText().length() > 0 && Long.valueOf(inPIDT.getText().length()) >= 0){
                     flag = true;
                     tmp.setProductID(Long.parseLong(inPIDT.getText()));
@@ -274,14 +264,6 @@ public class ProductStatusController {
         boolean flag = false;
         try {
             while (!flag) {
-                if (outIDT.getText().length() > 0 && Long.valueOf(outIDT.getText().length()) >= 0) {
-                    flag = true;
-                    tmp.setOutgoingID((Long.parseLong(outIDT.getText())));
-                } else {
-                    flag = false;
-                    Global.warningAlert("Incorrect Outgoing ID", "Needs to be greater than 0 and have 9 or less digits.");
-                    outIDT.clear();
-                }
                 try{
                     if (outPIDT.getText().length() > 0 && Long.valueOf(outPIDT.getText().length()) >= 0) {
                         flag = true;
@@ -289,7 +271,7 @@ public class ProductStatusController {
                     } else {
                         flag = false;
                         Global.warningAlert("Incorrect Product ID", "Needs to be greater than 0 and have 9 or less digits.");
-                        outIDT.clear();
+                        outPIDT.clear();
                     }
                 }catch(Exception e){
                     Global.warningAlert("Invalid Product ID","This Product Does Not exist in the database");
@@ -392,6 +374,19 @@ public class ProductStatusController {
             }
         }
     }
+    public void clearBox(){
+
+        inQuantT.clear();
+        inEmpT.clear();
+        inPIDT.clear();
+        trackNoT.clear();
+        inDateT.setValue(null);
+
+        outDateT.setValue(null);
+        outQuantT.clear();
+        outEmpT.clear();
+       //outPIDT.clear();
+    }
     public void addIncomingData(){
         incomingV.setVisible(true);
         addIncomB.setVisible(false);
@@ -405,7 +400,12 @@ public class ProductStatusController {
         modIncomB.setVisible(false);
         incomingV.setVisible(true);
         inAddB.setVisible(false);
-        inIDT.setEditable(false);
+
+        if(Global.privilege==false)
+        {
+            outDelete.setVisible(false);
+            inDelete.setVisible(false);
+        }
     }
     public void addOutgoingData(){
         outgoingV.setVisible(true);
@@ -420,7 +420,11 @@ public class ProductStatusController {
         modOutB.setVisible(false);
         outgoingV.setVisible(true);
         outAddB.setVisible(false);
-        outIDT.setEditable(false);
+        if(Global.privilege==false)
+        {
+            outDelete.setVisible(false);
+            inDelete.setVisible(false);
+        }
     }
     public void hideData(){
         addIncomB.setVisible(true);
@@ -435,6 +439,7 @@ public class ProductStatusController {
         outModB.setVisible(false);
         incomingT.getSelectionModel().clearSelection();
         outgoingT.getSelectionModel().clearSelection();
+        clearBox();
     }
     @FXML
     private void openHomePage(ActionEvent event) {

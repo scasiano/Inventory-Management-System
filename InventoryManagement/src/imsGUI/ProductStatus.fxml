@@ -68,11 +68,6 @@
                                 </columnResizePolicy>
                             </TableView>
                             <VBox fx:id="incomingV" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="1">
-                                <TextField fx:id="inIDT" promptText="Incoming ID">
-                                    <VBox.margin>
-                                        <Insets bottom="5.0" top="5.0" />
-                                    </VBox.margin>
-                                </TextField>
                                 <TextField fx:id="inPIDT" promptText="Incoming Product ID">
                                     <VBox.margin>
                                         <Insets bottom="5.0" top="5.0" />
@@ -170,11 +165,7 @@
                           </TableView>
                           <VBox fx:id="outgoingV" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="1">
                               <children>
-                                  <TextField fx:id="outIDT" promptText="Outgoing Order ID">
-                                      <VBox.margin>
-                                          <Insets bottom="5.0" top="5.0" />
-                                      </VBox.margin>
-                                  </TextField>
+
                                   <TextField fx:id="pIDT" promptText="Outgoing Product ID">
                                       <VBox.margin>
                                           <Insets bottom="5.0" top="5.0" />
@@ -199,7 +190,8 @@
                                       <Button fx:id="outDelete" mnemonicParsing="false" text="Delete" onAction="#deleteOutgoingClicked" GridPane.rowIndex="1">
                                           <HBox.margin>
                                               <Insets left="10.0" />
-                                          </HBox.margin></Button>
+                                          </HBox.margin>
+                                      </Button>
                                       <Button fx:id="outUpdate" mnemonicParsing="false" text="Update" onAction="#modOut" GridPane.rowIndex="1">
                                           <HBox.margin>
                                               <Insets left="10.0" right="10.0" />
