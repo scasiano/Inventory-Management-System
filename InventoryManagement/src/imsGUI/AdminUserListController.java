@@ -114,10 +114,14 @@ public class AdminUserListController {
     Users utemp;
     Employees etemp;
     int method=1;
+    int uIndex=-1;
+    int eIndex=-1;
     public void initialize(){
         setUserTable();
         setEmpTable();
         getSelectedInfo();
+        userDetails();
+        adminDetails();
     }
 
     public void setUserTable(){
@@ -384,6 +388,42 @@ public class AdminUserListController {
             Global.exceptionAlert(e,"modify Database Employee");
         }
         hideData();
+    }
+    public void userDetails(){
+        try{
+            userT.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event){
+                    uIndex= userT.getSelectionModel().getSelectedIndex();
+                    fname.setText(allUsers.get(uIndex).getFName());
+                    lname.setText(allUsers.get(uIndex).getLName());
+                    usrRole.setText(allUsers.get(uIndex).getRole());
+                    username.setText(allUsers.get(uIndex).getUsername());
+                    user_id.setText(String.valueOf(allUsers.get(uIndex).getUserID()));
+                }
+            });
+        } catch (Exception e){
+            Global.exceptionAlert(e, "Show admin details");
+        }
+    }
+    public void adminDetails(){
+        try{
+            empT.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event){
+                    eIndex= empT.getSelectionModel().getSelectedIndex();
+                    empFname.setText(allUsers.get(eIndex).getFName());
+                    empLname.setText(allUsers.get(eIndex).getLName());
+                    empRole.setText(allUsers.get(eIndex).getRole());
+                    empUsername.setText(allUsers.get(eIndex).getUsername());
+                    userid.setText(String.valueOf(allUsers.get(eIndex).getUserID()));
+                    emp_id.setText(String.valueOf(allEmps.get(eIndex).getEmployeeNo()));
+                    pay.setText(String.valueOf(allEmps.get(eIndex).getPayHour()));
+                }
+            });
+        } catch (Exception e){
+            Global.exceptionAlert(e, "Show admin details");
+        }
     }
     public void addUserData(){
         userV.setVisible(true);
