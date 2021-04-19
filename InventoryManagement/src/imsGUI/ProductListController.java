@@ -66,6 +66,8 @@ public class ProductListController {
     }
 
     public void setProductList() {
+        try{allProd = Products.selectAll();}
+        catch (SQLException e){Global.exceptionAlert(e, "get products");}
         ArrayList<Long> idList = new ArrayList<>();
         ArrayList<String> nameList = new ArrayList<>();
         Name.setText("Product Name:");

@@ -215,6 +215,8 @@ public class OrdersController {
         trackingID.clear();
         carrier.clear();
         employeeID.clear();
+        productsList.setVisible(true);
+        addOrderItem.setVisible(true);
         addDate.setVisible(true);
         orderID.setEditable(true);
         customerName.setEditable(true);
@@ -236,6 +238,8 @@ public class OrdersController {
         addOrder.setVisible(false);
         addOrderBox.setVisible(false);
         startMod.setVisible(true);
+        productsList.setVisible(false);
+        addOrderItem.setVisible(false);
     }
     public void modifyOrder(){
         try{
@@ -300,6 +304,8 @@ public class OrdersController {
         startMod.setVisible(false);
         modBox.setVisible(false);
         addOrderBox.setVisible(false);
+        productsList.setVisible(false);
+        addOrderItem.setVisible(false);
     }
 
     @FXML
