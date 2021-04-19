@@ -143,7 +143,7 @@ public class BudgetController {
                     budgetID.clear();
                 }
                 if (startDate.getValue() != null) {
-                    tmp.setDateStart(Date.valueOf(startDate.getValue()));
+                    tmp.setDateStart(Date.valueOf((startDate.getValue())));
                 } else {
                     flag = false;
                     Global.warningAlert("Incorrect Start Date", "Budget start date needs to have a year, month, and day.");
@@ -188,17 +188,24 @@ public class BudgetController {
                     Global.warningAlert("Incorrect Employee Number", "Budget needs an employee number.");
                     userInfo.clear();
                 }
-            }
-            try {
-                if (!newB) {
-                    Budget.addRecord(tmp);
-                    budgetTable.getItems().add(tmp);
+                try {
+                    if (!newB) {
+                        Budget.addRecord(tmp);
+                        budgetTable.getItems().add(tmp);
+                    }
+                } catch (MySQLIntegrityConstraintViolationException e) {
+                    Global.warningAlert("Budget ID Exists", "Budget ID is already in use. Budget add canceled.");
                 }
-            } catch (MySQLIntegrityConstraintViolationException e) {
-                Global.warningAlert("Budget ID Exists", "Budget ID is already in use. Budget add canceled.");
+                if(bIndex ==1)
+                    Budget.addRecord(budgetTMP);
+                if(bIndex == 0){
+                    Budget.addRecordID(budgetTMP);
+                }
             }
-        } catch (Exception e) {
-            Global.exceptionAlert(e, "Save Budget");
+        } catch (MySQLIntegrityConstraintViolationException e) {
+            Global.exceptionAlert(e, "Add Budget");
+        }catch (Exception p) {
+            Global.exceptionAlert(p, "Save employee");
         }
     }
 
@@ -214,6 +221,24 @@ public class BudgetController {
         addBtn.setVisible(true);
         homeBtn.setVisible(true);
         loginBtn.setVisible(true);
+    }
+
+    public void budgetDetails(){
+        try{
+            budgetTable.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
+                    bIndex= budgetTable.getSelectionModel().getSelectedIndex();
+                    budgetID.setText(String.valueOf(allBudget.get(bIndex).getPeriodID()));
+                    incoming.setText(String.valueOf(allBudget.get(bIndex).getIncome()));
+                    outgoing.setText(String.valueOf(allBudget.get(bIndex).getOutgoing()));
+                    netProfit.setText(String.valueOf(allBudget.get(bIndex).getNet()));
+                    userInfo.setText(String.valueOf(allBudget.get(bIndex).getEmployeeNo()));
+                }
+            });
+        } catch (Exception e){
+            Global.exceptionAlert(e, "Show budget details");
+        }
     }
 
     /*public void addDBBudget(ActionEvent event) throws SQLException {
@@ -325,6 +350,7 @@ public class BudgetController {
             Budget.modifyOutgoing(budgetTMP.getDateStart(), budgetTMP.getOutgoing());
             Budget.modifyIncome(budgetTMP.getDateStart(), budgetTMP.getIncome());
             Budget.modifyEmployeeNo(budgetTMP.getDateStart(), budgetTMP.getEmployeeNo());
+            initialize();
         } catch (Exception e){
             Global.exceptionAlert(e, "Modify Budget");
         }
