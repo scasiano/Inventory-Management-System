@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 
 import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class ProductStatusController {
@@ -51,7 +52,7 @@ public class ProductStatusController {
     @FXML
     TextField inPIDT;
     @FXML
-    TextField inDateT;
+    DatePicker inDateT;
     @FXML
     TextField trackNoT;
     @FXML
@@ -87,7 +88,7 @@ public class ProductStatusController {
     @FXML
     TextField outPIDT;
     @FXML
-    TextField outDateT;
+    DatePicker outDateT;
     @FXML
     TextField outQuantT;
     @FXML
@@ -168,7 +169,7 @@ public class ProductStatusController {
                 modIncomB.setVisible(true);
                 inIDT.setText(String.valueOf(intmp.getIncomingID()));
                 inPIDT.setText(String.valueOf(intmp.getProductID()));
-                inDateT.setText(String.valueOf(intmp.getDateIn()));
+                inDateT.setValue(intmp.getDateIn().toLocalDate());
                 trackNoT.setText(String.valueOf(intmp.getTrackingNo()));
                 inQuantT.setText(String.valueOf(intmp.getQuantity()));
                 inEmpT.setText(String.valueOf(intmp.getEmployeeNo()));
@@ -184,7 +185,7 @@ public class ProductStatusController {
                 outtmp= outgoingT.getSelectionModel().getSelectedItem();
                 modOutB.setVisible(true);
                 outIDT.setText(String.valueOf(outtmp.getOutgoingID()));
-                outDateT.setText(String.valueOf(outtmp.getDateGo()));
+                outDateT.setValue(outtmp.getDateGo().toLocalDate());
                 outEmpT.setText(String.valueOf(outtmp.getEmployeeNo()));
                 outQuantT.setText(String.valueOf(outtmp.getQuantity()));
                 //outPIDT.setText(String.valueOf(outtmp.getProductID()));
@@ -215,13 +216,13 @@ public class ProductStatusController {
                     Global.warningAlert("Incorrect Product ID", "Needs to be greater than 0 and have 9 or less digits.");
                     inPIDT.clear();
                 }
-                if (inDateT.getText().length() > 0){
+                if (inDateT.getValue()!=null){
                     flag = true;
-                    tmp.setDateIn(java.sql.Date.valueOf(inDateT.getText()));
+                    tmp.setDateIn(java.sql.Date.valueOf(inDateT.getValue()));
                 } else{
                     flag = false;
                     Global.warningAlert("Incorrect Date", "Date needs to be in the format of yyy-MM-dd");
-                    inDateT.clear();
+                    inDateT.setValue(null);
                 }
                 if (trackNoT.getText().length() > 0){
                     flag = true;
@@ -289,13 +290,13 @@ public class ProductStatusController {
                     Global.warningAlert("Incorrect Product ID", "Needs to be greater than 0 and have 9 or less digits.");
                     outIDT.clear();
                 }
-                if (outDateT.getText().length() > 0) {
+                if (outDateT.getValue()!=null) {
                     flag = true;
-                    tmp.setDateGo(java.sql.Date.valueOf(outDateT.getText()));
+                    tmp.setDateGo(java.sql.Date.valueOf(outDateT.getValue()));
                 } else {
                     flag = false;
                     Global.warningAlert("Incorrect Date", "Date needs to be in the format of yyy-MM-dd");
-                    outDateT.clear();
+                    outDateT.setValue(null);
                 }
                 if (outQuantT.getText().length() > 0) {
                     flag = true;
@@ -306,7 +307,7 @@ public class ProductStatusController {
                     outQuantT.clear();
                 }
                 if (outEmpT.getText().length() > 0) {
-                    tmp.setProductID(Long.valueOf(inEmpT.getText()));
+                    tmp.setEmployeeNo(Long.valueOf(inEmpT.getText()));
                     newU++;
                 }
             }
@@ -323,6 +324,36 @@ public class ProductStatusController {
             Global.warningAlert("Outgoing Id Exists", "Outgoing ID already exists. Incoming Good add canceled");
         } catch(Exception p){
             Global.exceptionAlert(p, "Save Outgoing");
+        }
+    }
+    public void modIncom(){
+        try{
+            IncomingGoods.modifyDateIn(intmp.getIncomingID(),java.sql.Date.valueOf(inDateT.getValue()));
+            if(inEmpT.getText().length() > 0){
+                IncomingGoods.modifyEmployeeNo(intmp.getIncomingID(),Long.valueOf(inEmpT.getText()));
+            }
+            IncomingGoods.modifyProductID(intmp.getIncomingID(),(Long.valueOf(inPIDT.getText())));
+            IncomingGoods.modifyQuantity(intmp.getIncomingID(),Integer.parseInt(inQuantT.getText()));
+            if (trackNoT.getText().length() > 0){
+                IncomingGoods.modifyTrackingNo(intmp.getIncomingID(),trackNoT.getText());
+            }
+            setIncomingTable();
+            hideData();
+        }catch(Exception e){
+            Global.exceptionAlert(e,"Modify Incoming Goods");
+        }
+    }
+    public void modOut(){
+        try{
+            OutgoingGoods.modifyDateGo(outtmp.getOutgoingID(),java.sql.Date.valueOf(outDateT.getValue()));
+            OutgoingGoods.modifyProductID(outtmp.getOutgoingID(),(Long.parseLong(outPIDT.getText())));
+            OutgoingGoods.modifyQuantity(outtmp.getOutgoingID(),Integer.parseInt(outQuantT.getText()));
+            if (outEmpT.getText().length() > 0)
+                OutgoingGoods.modifyEmployee(outtmp.getOutgoingID(),Long.valueOf(inEmpT.getText()));
+            setOutgoingTable();
+            hideData();
+        }catch(Exception e){
+            Global.exceptionAlert(e,"Modify Incoming Goods");
         }
     }
     public void deleteIncomingClicked() throws SQLException {
@@ -370,6 +401,7 @@ public class ProductStatusController {
         modIncomB.setVisible(false);
         incomingV.setVisible(true);
         inAddB.setVisible(false);
+        inIDT.setEditable(false);
     }
     public void addOutgoingData(){
         outgoingV.setVisible(true);
@@ -384,6 +416,7 @@ public class ProductStatusController {
         modOutB.setVisible(false);
         outgoingV.setVisible(true);
         outAddB.setVisible(false);
+        outIDT.setEditable(false);
     }
     public void hideData(){
         addIncomB.setVisible(true);

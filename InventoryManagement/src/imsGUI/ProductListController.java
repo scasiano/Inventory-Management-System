@@ -232,7 +232,6 @@ public class ProductListController {
         }catch(Exception e){
             Global.exceptionAlert(e,"Modify Products");
         }
-
         endProductEdit();
     }
     public void modProduct(){

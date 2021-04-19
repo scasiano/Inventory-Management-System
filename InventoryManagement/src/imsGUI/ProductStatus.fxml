@@ -78,11 +78,11 @@
                                         <Insets bottom="5.0" top="5.0" />
                                     </VBox.margin>
                                 </TextField>
-                                <TextField fx:id="inDateT" promptText="Incoming Date">
+                                <DatePicker fx:id="inDateT" >
                                     <VBox.margin>
                                         <Insets bottom="5.0" top="5.0" />
                                     </VBox.margin>
-                                </TextField>
+                                </DatePicker>
                                 <TextField fx:id="trackNoT" promptText="Tracking Number(Optional)">
                                     <VBox.margin>
                                         <Insets bottom="5.0" top="5.0" />
@@ -99,12 +99,12 @@
                                     </VBox.margin>
                                 </TextField>
                                 <HBox fx:id="inModB" alignment="TOP_CENTER" visible="false">
-                                    <Button fx:id="inDelete" mnemonicParsing="false" onAction="#deleteIncomingClicked" text="Delete User" GridPane.rowIndex="1">
+                                    <Button fx:id="inDelete" mnemonicParsing="false" onAction="#deleteIncomingClicked" text="Delete" GridPane.rowIndex="1">
                                         <HBox.margin>
                                             <Insets left="10.0" />
                                         </HBox.margin>
                                     </Button>
-                                    <Button fx:id="inUpdate" mnemonicParsing="false" text="Update" GridPane.rowIndex="1">
+                                    <Button fx:id="inUpdate" mnemonicParsing="false" text="Update" onAction="#modIncom" GridPane.rowIndex="1">
                                         <HBox.margin>
                                             <Insets left="10.0" right="10.0" />
                                         </HBox.margin>
@@ -180,11 +180,11 @@
                                           <Insets bottom="5.0" top="5.0" />
                                       </VBox.margin>
                                   </TextField>
-                                  <TextField fx:id="outDateT" promptText="Outgoing Date">
+                                  <DatePicker fx:id="outDateT" >
                                       <VBox.margin>
                                           <Insets bottom="5.0" top="5.0" />
                                       </VBox.margin>
-                                  </TextField>
+                                  </DatePicker>
                                   <TextField fx:id="outQuantT" promptText="Outgoing Quantity">
                                       <VBox.margin>
                                           <Insets bottom="5.0" top="5.0" />
@@ -196,14 +196,15 @@
                                       </VBox.margin>
                                   </TextField>
                                   <HBox fx:id="outModB" alignment="TOP_CENTER" visible="false">
-                                      <Button fx:id="outDelete" mnemonicParsing="false" text="Delete User" onAction="#deleteOutgoingClicked" GridPane.rowIndex="1">
+                                      <Button fx:id="outDelete" mnemonicParsing="false" text="Delete" onAction="#deleteOutgoingClicked" GridPane.rowIndex="1">
                                           <HBox.margin>
                                               <Insets left="10.0" />
                                           </HBox.margin></Button>
-                                      <Button fx:id="outUpdate" mnemonicParsing="false" text="Update" GridPane.rowIndex="1">
+                                      <Button fx:id="outUpdate" mnemonicParsing="false" text="Update" onAction="#modOut" GridPane.rowIndex="1">
                                           <HBox.margin>
                                               <Insets left="10.0" right="10.0" />
-                                          </HBox.margin></Button>
+                                          </HBox.margin>
+                                      </Button>
                                       <Button fx:id="outModCancel" mnemonicParsing="false" text="Cancel" onAction="#hideData" GridPane.rowIndex="1" >
                                           <HBox.margin>
                                               <Insets left="10.0" right="10.0" />
