@@ -3,7 +3,6 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class IncomingGoods {
-    //TODO: Update
     long incomingID; //PK
     long productID; //FK
     Date dateIn;
