@@ -30,9 +30,9 @@ public class HomepageController {
     }
     @FXML
     private void openAdminU(ActionEvent event) {
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(ImsGui.global.getAdminUserListScene());
-            stage.show();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(ImsGui.global.getAdminUserListScene());
+        stage.show();
     }
     @FXML
     private void openBudget(ActionEvent event) {
