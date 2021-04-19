@@ -221,7 +221,7 @@ public class ProductStatusController {
                     tmp.setDateIn(java.sql.Date.valueOf(inDateT.getValue()));
                 } else{
                     flag = false;
-                    Global.warningAlert("Incorrect Date", "Date needs to be in the format of yyy-MM-dd");
+                    Global.warningAlert("Incorrect Date", "Date needs to be in the format of yyyy-MM-dd");
                     inDateT.setValue(null);
                 }
                 if (trackNoT.getText().length() > 0){
@@ -263,6 +263,7 @@ public class ProductStatusController {
             hideData();
         } catch (MySQLIntegrityConstraintViolationException e){
             Global.warningAlert("Incoming Id Exists", "Incoming ID already exists. Incoming Good add canceled");
+            Global.exceptionAlert(e, "add incoming");
         } catch(Exception p){
             Global.exceptionAlert(p,"Save Incoming");
         }
