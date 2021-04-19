@@ -282,13 +282,17 @@ public class ProductStatusController {
                     Global.warningAlert("Incorrect Outgoing ID", "Needs to be greater than 0 and have 9 or less digits.");
                     outIDT.clear();
                 }
-                if (outPIDT.getText().length() > 0 && Long.valueOf(outPIDT.getText().length()) >= 0) {
-                    flag = true;
-                    tmp.setProductID(Long.parseLong(outPIDT.getText()));
-                } else {
-                    flag = false;
-                    Global.warningAlert("Incorrect Product ID", "Needs to be greater than 0 and have 9 or less digits.");
-                    outIDT.clear();
+                try{
+                    if (outPIDT.getText().length() > 0 && Long.valueOf(outPIDT.getText().length()) >= 0) {
+                        flag = true;
+                        tmp.setProductID(Long.parseLong(outPIDT.getText()));
+                    } else {
+                        flag = false;
+                        Global.warningAlert("Incorrect Product ID", "Needs to be greater than 0 and have 9 or less digits.");
+                        outIDT.clear();
+                    }
+                }catch(Exception e){
+                    Global.warningAlert("Invalid Product ID","This Product Does Not exist in the database");
                 }
                 if (outDateT.getValue()!=null) {
                     flag = true;

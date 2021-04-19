@@ -147,15 +147,19 @@ public class OrdersController {
                     Global.warningAlert("Incorrect ID", "Order ID needs to be greater than 0 and less than 9");
                     orderID.clear();
                 }
-                if (customerName.getText().length() > 0){
-                    flag = true;
-                    tmp.setCustomerFn(name[0]);
-                    tmp.setCustomerLn(name[1]);
-                } else{
-                    flag = false;
-                    Global.warningAlert("Incorrect Customer Name", "Every Order needs a Customer Name");
-                    customerName.clear();
-                }
+               try{
+                   if (customerName.getText().length() > 0){
+                       flag = true;
+                       tmp.setCustomerFn(name[0]);
+                       tmp.setCustomerLn(name[1]);
+                   } else{
+                       flag = false;
+                       Global.warningAlert("Incorrect Customer Name", "Every Order needs a Customer Name");
+                       customerName.clear();
+                   }
+               }catch(Exception e){
+                   Global.warningAlert("Incomplete Name","Users Need a first and Last Name");
+               }
                 if (customerAddress.getText().length() > 0){
                     flag = true;
                     tmp.setCustomerAdd(customerAddress.getText());

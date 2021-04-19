@@ -255,7 +255,9 @@ public class ProductListController {
                 initialize();
                 clearProdInfo();
             }
-        }catch(Exception e){Global.exceptionAlert(e,"Delete Product");}
+        }catch(Exception e) {
+            Global.warningAlert("Delete Product", "This Product can't be deleted becaust it is being used somewhere else");
+        }
     }
     @FXML
     private void openHomePage(ActionEvent event) {
