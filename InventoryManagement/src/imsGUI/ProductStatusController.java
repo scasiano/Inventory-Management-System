@@ -1,9 +1,7 @@
 package imsGUI;
 
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
-import ims.CurrentStock;
-import ims.IncomingGoods;
-import ims.OutgoingGoods;
+import ims.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -19,7 +17,6 @@ import javafx.stage.Stage;
 
 import java.sql.Date;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class ProductStatusController {
@@ -56,9 +53,11 @@ public class ProductStatusController {
     @FXML
     TextField inQuantT;
     @FXML
-    TextField inEmpT;
+    ComboBox inEmpC;
     @FXML
     Button inDelete;
+    @FXML
+    ComboBox inProductsList;
 
     @FXML
     TableView<OutgoingGoods> outgoingT;
@@ -89,9 +88,11 @@ public class ProductStatusController {
     @FXML
     TextField outQuantT;
     @FXML
-    TextField outEmpT;
+    ComboBox outEmpC;
     @FXML
     Button outDelete;
+    @FXML
+    ComboBox outProductsList;
 
 
     @FXML
@@ -107,13 +108,19 @@ public class ProductStatusController {
     ArrayList<IncomingGoods> allIn =new ArrayList<IncomingGoods>();
     ArrayList<OutgoingGoods> allOut =new ArrayList<OutgoingGoods>();
     ArrayList<CurrentStock> allCur=new ArrayList<CurrentStock>();
+    ArrayList<Products> allProd = new ArrayList<Products>();
+    ArrayList<Employees> allEmps = new ArrayList<Employees>();
+    ArrayList<String> pNames;
+    ArrayList<String> eNames = new ArrayList<String>();
     IncomingGoods intmp;
     OutgoingGoods outtmp;
     public void initialize(){
-       setIncomingTable();
-       setOutgoingTable();
-       setCurrentTable();
-       getSelectedInfo();
+        setIncomingTable();
+        setOutgoingTable();
+        setProdCombo();
+        setEmpCombo();
+        setCurrentTable();
+        getSelectedInfo();
 
     }
     public void setIncomingTable(){
@@ -166,12 +173,13 @@ public class ProductStatusController {
             @Override
             public void handle(MouseEvent event){
                 intmp = incomingT.getSelectionModel().getSelectedItem();
+                int i = incomingT.getSelectionModel().getSelectedIndex();
                 modIncomB.setVisible(true);
-                inPIDT.setText(String.valueOf(intmp.getProductID()));
+                inProductsList.setValue(Long.toString(intmp.getProductID())+" | "+pNames.get(i));
                 inDateT.setValue(intmp.getDateIn().toLocalDate());
-                trackNoT.setText(String.valueOf(intmp.getTrackingNo()));
-                inQuantT.setText(String.valueOf(intmp.getQuantity()));
-                inEmpT.setText(String.valueOf(intmp.getEmployeeNo()));
+                trackNoT.setText(intmp.getTrackingNo());
+                inQuantT.setText(Integer.toString(intmp.getQuantity()));
+                inEmpC.setValue(Long.toString(intmp.getEmployeeNo())+" | "+eNames.get(i));
             }
             });
             }catch(Exception e){
@@ -184,12 +192,47 @@ public class ProductStatusController {
                 outtmp= outgoingT.getSelectionModel().getSelectedItem();
                 modOutB.setVisible(true);
                 outDateT.setValue(outtmp.getDateGo().toLocalDate());
-                outEmpT.setText(String.valueOf(outtmp.getEmployeeNo()));
+                outEmpC.setValue(outtmp.getEmployeeNo());
                 outQuantT.setText(String.valueOf(outtmp.getQuantity()));
-                //outPIDT.setText(String.valueOf(outtmp.getProductID()));
+                outProductsList.setValue(outtmp.getProductID());
             }
         });}catch(Exception e){
             Global.exceptionAlert(e,"Outgoing Mouse Click");
+        }
+    }
+
+    public void setProdCombo(){
+        try{
+            allProd= Products.selectAll();
+            pNames = Products.selectName();
+            for(int i=0;i<allProd.size();i++)
+            {
+                if(CurrentStock.selectQuantityByProductID(allProd.get(i).getProductID())!=0){
+                    String s= Long.toString(allProd.get(i).getProductID())+" | "+allProd.get(i).getName();
+                    outProductsList.getItems().add(s);
+                    inProductsList.getItems().add(s);
+                }
+            }
+        }catch(Exception e){
+            Global.exceptionAlert(e,"Set Product Combo");
+        }
+    }
+    public void setEmpCombo(){
+        try{
+            allEmps= Employees.selectAll();
+            ArrayList<String> ftemp=Employees.selectEmployeeFn();
+            ArrayList<String> ltemp=Employees.selectEmployeeLn();
+            for(int i=0;i<ftemp.size();i++){
+                eNames.add(ftemp.get(i)+" "+ltemp.get(i));
+            }
+            for(int i=0;i<allEmps.size();i++)
+            {
+                    String s= Long.toString(allEmps.get(i).getEmployeeNo())+" | "+allEmps.get(i).getEmployeeFn()+" "+allEmps.get(i).getEmployeeLn();
+                    inEmpC.getItems().add(s);
+                    outEmpC.getItems().add(s);
+            }
+        }catch(Exception e){
+            Global.exceptionAlert(e,"Set Employee Combo");
         }
     }
     public void saveIncomingClicked(ActionEvent event) throws SQLException {
@@ -198,14 +241,14 @@ public class ProductStatusController {
         boolean flag = false;
         try{
             while(!flag){
-                if (inPIDT.getText().length() > 0 && Long.valueOf(inPIDT.getText().length()) >= 0){
-                    flag = true;
-                    tmp.setProductID(Long.parseLong(inPIDT.getText()));
-                } else{
-                    flag = false;
-                    Global.warningAlert("Incorrect Product ID", "Needs to be greater than 0 and have 9 or less digits.");
-                    inPIDT.clear();
-                }
+                try{
+                    if (inProductsList.getValue() != null){
+                        flag = true;
+                        String selectedItem = (String) inProductsList.getSelectionModel().getSelectedItem();
+                        String[] s = selectedItem.split(" | ");
+                        tmp.setProductID(Long.parseLong(s[0]));
+                    }
+                }catch(Exception e){Global.exceptionAlert(e,"Incoming  Products Combo");}
                 if (inDateT.getValue()!=null){
                     flag = true;
                     tmp.setDateIn(java.sql.Date.valueOf(inDateT.getValue()));
@@ -221,14 +264,16 @@ public class ProductStatusController {
                 }
                 if (inQuantT.getText().length() > 0){
                     flag = true;
-                    tmp.setQuantity(Integer.valueOf(inQuantT.getText()));
+                    tmp.setQuantity(Integer.parseInt(inQuantT.getText()));
                 } else{
                     flag = false;
                     Global.warningAlert("Incorrect Quantity", "Every Incoming Shipment needs a Quantity");
                     inQuantT.clear();
                 }
-                if(inEmpT.getText().length() > 0){
-                    tmp.setProductID(Long.valueOf(inEmpT.getText()));
+                if(inEmpC.getValue()!=null){
+                    String selectedItem = (String) inEmpC.getSelectionModel().getSelectedItem();
+                    String[] s = selectedItem.split(" | ");
+                    tmp.setProductID(Long.parseLong(s[0]));
                     newU+=2;
                 }
             }
@@ -266,16 +311,14 @@ public class ProductStatusController {
         try {
             while (!flag) {
                 try{
-                    if (outPIDT.getText().length() > 0 && Long.valueOf(outPIDT.getText().length()) >= 0) {
+                    if (outProductsList.getValue()!=null) {
                         flag = true;
-                        tmp.setProductID(Long.parseLong(outPIDT.getText()));
-                    } else {
-                        flag = false;
-                        Global.warningAlert("Incorrect Product ID", "Needs to be greater than 0 and have 9 or less digits.");
-                        outPIDT.clear();
+                        String selectedItem = (String) outProductsList.getSelectionModel().getSelectedItem();
+                        String[] s = selectedItem.split(" | ");
+                        tmp.setProductID(Long.parseLong(s[0]));
                     }
                 }catch(Exception e){
-                    Global.warningAlert("Invalid Product ID","This Product Does Not exist in the database");
+                    Global.exceptionAlert(e,"Out Products Combo");
                 }
                 if (outDateT.getValue()!=null) {
                     flag = true;
@@ -287,14 +330,16 @@ public class ProductStatusController {
                 }
                 if (outQuantT.getText().length() > 0) {
                     flag = true;
-                    tmp.setQuantity(Integer.valueOf(outQuantT.getText()));
+                    tmp.setQuantity(Integer.parseInt(outQuantT.getText()));
                 } else {
                     flag = false;
                     Global.warningAlert("Incorrect Quantity", "Every Incoming Shipment needs a Quantity");
                     outQuantT.clear();
                 }
-                if (outEmpT.getText().length() > 0) {
-                    tmp.setEmployeeNo(Long.valueOf(inEmpT.getText()));
+                if (outEmpC.getValue()!=null) {
+                    String selectedItem = (String) outEmpC.getSelectionModel().getSelectedItem();
+                    String[] s = selectedItem.split(" | ");
+                    tmp.setEmployeeNo(Long.parseLong(s[0]));
                     newU++;
                 }
             }
@@ -315,11 +360,15 @@ public class ProductStatusController {
     }
     public void modIncom(){
         try{
+            String selected = (String) inProductsList.getSelectionModel().getSelectedItem();
+            String[] p = selected.split(" | ");
             IncomingGoods.modifyDateIn(intmp.getIncomingID(),java.sql.Date.valueOf(inDateT.getValue()));
-            if(inEmpT.getText().length() > 0){
-                IncomingGoods.modifyEmployeeNo(intmp.getIncomingID(),Long.valueOf(inEmpT.getText()));
+            if(inEmpC.getValue()!=null){
+                String selectedItem = (String) inEmpC.getSelectionModel().getSelectedItem();
+                String[] s = selectedItem.split(" | ");
+                IncomingGoods.modifyEmployeeNo(intmp.getIncomingID(),Long.parseLong(s[0]));
             }
-            IncomingGoods.modifyProductID(intmp.getIncomingID(),(Long.valueOf(inPIDT.getText())));
+            IncomingGoods.modifyProductID(intmp.getIncomingID(),(Long.parseLong(p[0])));
             IncomingGoods.modifyQuantity(intmp.getIncomingID(),Integer.parseInt(inQuantT.getText()));
             if (trackNoT.getText().length() > 0){
                 IncomingGoods.modifyTrackingNo(intmp.getIncomingID(),trackNoT.getText());
@@ -332,11 +381,16 @@ public class ProductStatusController {
     }
     public void modOut(){
         try{
+            String selected = (String) outProductsList.getSelectionModel().getSelectedItem();
+            String[] p = selected.split(" | ");
             OutgoingGoods.modifyDateGo(outtmp.getOutgoingID(),java.sql.Date.valueOf(outDateT.getValue()));
-            OutgoingGoods.modifyProductID(outtmp.getOutgoingID(),(Long.parseLong(outPIDT.getText())));
+            OutgoingGoods.modifyProductID(outtmp.getOutgoingID(),(Long.parseLong(p[0])));
             OutgoingGoods.modifyQuantity(outtmp.getOutgoingID(),Integer.parseInt(outQuantT.getText()));
-            if (outEmpT.getText().length() > 0)
-                OutgoingGoods.modifyEmployee(outtmp.getOutgoingID(),Long.valueOf(inEmpT.getText()));
+            if (outEmpC.getValue()!=null) {
+                String selectedItem = (String) outEmpC.getSelectionModel().getSelectedItem();
+                String[] s = selectedItem.split(" | ");
+                OutgoingGoods.modifyEmployee(outtmp.getOutgoingID(), Long.valueOf(s[0]));
+            }
             setOutgoingTable();
             hideData();
         }catch(Exception e){
@@ -378,15 +432,12 @@ public class ProductStatusController {
     public void clearBox(){
 
         inQuantT.clear();
-        inEmpT.clear();
-        inPIDT.clear();
         trackNoT.clear();
         inDateT.setValue(null);
-
         outDateT.setValue(null);
         outQuantT.clear();
-        outEmpT.clear();
-       //outPIDT.clear();
+
+
     }
     public void addIncomingData(){
         incomingV.setVisible(true);

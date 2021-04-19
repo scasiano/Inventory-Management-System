@@ -125,6 +125,7 @@ public class OrdersController {
                     }
                     if(Global.privilege)
                         modOrder.setVisible(true);
+                    setOrderProds();
                 }
             });
         }catch (Exception e){

@@ -49,8 +49,8 @@
                             <RowConstraints fillHeight="true" percentHeight="5" />
                         </rowConstraints>
                         <children>
-                            <Button fx:id="addIncomB" mnemonicParsing="false" text="Add Incoming" onAction="#addIncomingData" GridPane.columnIndex="1" />
-                            <Button fx:id="modIncomB" mnemonicParsing="false" text="Modify" onAction="#modIncomingData" visible="false" GridPane.columnIndex="1" GridPane.halignment="RIGHT" />
+                            <Button fx:id="addIncomB" mnemonicParsing="false" onAction="#addIncomingData" text="Add Incoming" GridPane.columnIndex="1" />
+                            <Button fx:id="modIncomB" mnemonicParsing="false" onAction="#modIncomingData" text="Modify" visible="false" GridPane.columnIndex="1" GridPane.halignment="RIGHT" />
                             <TableView fx:id="incomingT" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                 <columns>
                                     <TableColumn fx:id="inID" minWidth="5" prefWidth="153.6000064611435" text="Incoming Shipment ID" />
@@ -68,12 +68,12 @@
                                 </columnResizePolicy>
                             </TableView>
                             <VBox fx:id="incomingV" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="1">
-                                <TextField fx:id="inPIDT" promptText="Incoming Product ID">
+                                <ComboBox fx:id="inProductsList" promptText="Select Product">
                                     <VBox.margin>
                                         <Insets bottom="5.0" top="5.0" />
                                     </VBox.margin>
-                                </TextField>
-                                <DatePicker fx:id="inDateT" >
+                                </ComboBox>
+                                <DatePicker fx:id="inDateT">
                                     <VBox.margin>
                                         <Insets bottom="5.0" top="5.0" />
                                     </VBox.margin>
@@ -88,31 +88,31 @@
                                         <Insets bottom="5.0" top="5.0" />
                                     </VBox.margin>
                                 </TextField>
-                                <TextField fx:id="inEmpT" promptText="Employee ID(Optional)">
+                                <ComboBox fx:id="inEmpC" promptText="Select Employee ID(Optional)">
                                     <VBox.margin>
                                         <Insets bottom="5.0" top="5.0" />
                                     </VBox.margin>
-                                </TextField>
+                                </ComboBox>
                                 <HBox fx:id="inModB" alignment="TOP_CENTER" visible="false">
                                     <Button fx:id="inDelete" mnemonicParsing="false" onAction="#deleteIncomingClicked" text="Delete" GridPane.rowIndex="1">
                                         <HBox.margin>
                                             <Insets left="10.0" />
                                         </HBox.margin>
                                     </Button>
-                                    <Button fx:id="inUpdate" mnemonicParsing="false" text="Update" onAction="#modIncom" GridPane.rowIndex="1">
+                                    <Button fx:id="inUpdate" mnemonicParsing="false" onAction="#modIncom" text="Update" GridPane.rowIndex="1">
                                         <HBox.margin>
                                             <Insets left="10.0" right="10.0" />
                                         </HBox.margin>
                                     </Button>
-                                    <Button fx:id="inModCancel" mnemonicParsing="false" text="Cancel" onAction="#hideData" GridPane.rowIndex="1" >
+                                    <Button fx:id="inModCancel" mnemonicParsing="false" onAction="#hideData" text="Cancel" GridPane.rowIndex="1">
                                         <HBox.margin>
                                             <Insets left="10.0" right="10.0" />
                                         </HBox.margin>
                                     </Button>
                                 </HBox>
                                 <HBox fx:id="inAddB" alignment="TOP_CENTER" visible="false">
-                                    <Button fx:id="inSave" mnemonicParsing="false" text="Save" onAction="#saveIncomingClicked" GridPane.rowIndex="1" />
-                                    <Button fx:id="inCancel" mnemonicParsing="false" text="Cancel" onAction="#hideData" GridPane.rowIndex="1" >
+                                    <Button fx:id="inSave" mnemonicParsing="false" onAction="#saveIncomingClicked" text="Save" GridPane.rowIndex="1" />
+                                    <Button fx:id="inCancel" mnemonicParsing="false" onAction="#hideData" text="Cancel" GridPane.rowIndex="1">
                                         <HBox.margin>
                                             <Insets left="10.0" right="10.0" />
                                         </HBox.margin>
@@ -146,8 +146,8 @@
                             <RowConstraints fillHeight="true" percentHeight="5" />
                         </rowConstraints>
                       <children>
-                          <Button fx:id="addOutB" mnemonicParsing="false" text="Add Outgoing" onAction="#addOutgoingData" GridPane.columnIndex="1"/>
-                          <Button fx:id="modOutB" mnemonicParsing="false" text="Modify" onAction="#modOutgoingData" visible="false" GridPane.columnIndex="1" GridPane.halignment="RIGHT" />
+                          <Button fx:id="addOutB" mnemonicParsing="false" onAction="#addOutgoingData" text="Add Outgoing" GridPane.columnIndex="1" />
+                          <Button fx:id="modOutB" mnemonicParsing="false" onAction="#modOutgoingData" text="Modify" visible="false" GridPane.columnIndex="1" GridPane.halignment="RIGHT" />
                           <TableView fx:id="outgoingT" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                               <columns>
                                   <TableColumn fx:id="outID" prefWidth="164.4000152349472" text="Outgoing Shipment ID" />
@@ -166,12 +166,12 @@
                           <VBox fx:id="outgoingV" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="1">
                               <children>
 
-                                  <TextField fx:id="pIDT" promptText="Outgoing Product ID">
+                                  <ComboBox fx:id="outProductsList" promptText="Outgoing Product ID">
                                       <VBox.margin>
                                           <Insets bottom="5.0" top="5.0" />
                                       </VBox.margin>
-                                  </TextField>
-                                  <DatePicker fx:id="outDateT" >
+                                  </ComboBox>
+                                  <DatePicker fx:id="outDateT">
                                       <VBox.margin>
                                           <Insets bottom="5.0" top="5.0" />
                                       </VBox.margin>
@@ -181,31 +181,31 @@
                                           <Insets bottom="5.0" top="5.0" />
                                       </VBox.margin>
                                   </TextField>
-                                  <TextField fx:id="outEmpT" promptText="Employee ID(Optional)">
+                                  <ComboBox fx:id="outEmpC" promptText="Select Employee ID(Optional)">
                                       <VBox.margin>
                                           <Insets bottom="5.0" top="5.0" />
                                       </VBox.margin>
-                                  </TextField>
+                                  </ComboBox>
                                   <HBox fx:id="outModB" alignment="TOP_CENTER" visible="false">
-                                      <Button fx:id="outDelete" mnemonicParsing="false" text="Delete" onAction="#deleteOutgoingClicked" GridPane.rowIndex="1">
+                                      <Button fx:id="outDelete" mnemonicParsing="false" onAction="#deleteOutgoingClicked" text="Delete" GridPane.rowIndex="1">
                                           <HBox.margin>
                                               <Insets left="10.0" />
                                           </HBox.margin>
                                       </Button>
-                                      <Button fx:id="outUpdate" mnemonicParsing="false" text="Update" onAction="#modOut" GridPane.rowIndex="1">
+                                      <Button fx:id="outUpdate" mnemonicParsing="false" onAction="#modOut" text="Update" GridPane.rowIndex="1">
                                           <HBox.margin>
                                               <Insets left="10.0" right="10.0" />
                                           </HBox.margin>
                                       </Button>
-                                      <Button fx:id="outModCancel" mnemonicParsing="false" text="Cancel" onAction="#hideData" GridPane.rowIndex="1" >
+                                      <Button fx:id="outModCancel" mnemonicParsing="false" onAction="#hideData" text="Cancel" GridPane.rowIndex="1">
                                           <HBox.margin>
                                               <Insets left="10.0" right="10.0" />
                                           </HBox.margin>
                                       </Button>
                                   </HBox>
                                   <HBox fx:id="outAddB" alignment="TOP_CENTER" visible="false">
-                                      <Button fx:id="outSave" mnemonicParsing="false" text="Save" onAction="#saveOutgoingClicked" GridPane.rowIndex="1" />
-                                      <Button fx:id="outCancel" mnemonicParsing="false" text="Cancel" onAction="#hideData" GridPane.rowIndex="1" >
+                                      <Button fx:id="outSave" mnemonicParsing="false" onAction="#saveOutgoingClicked" text="Save" GridPane.rowIndex="1" />
+                                      <Button fx:id="outCancel" mnemonicParsing="false" onAction="#hideData" text="Cancel" GridPane.rowIndex="1">
                                           <HBox.margin>
                                               <Insets left="10.0" right="10.0" />
                                           </HBox.margin>

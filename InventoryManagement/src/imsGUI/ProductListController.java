@@ -1,6 +1,7 @@
 package imsGUI;
 
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
+import ims.CurrentStock;
 import ims.Products;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -188,9 +189,8 @@ public class ProductListController {
         clearProdList();
         initialize();
         clearProdInfo();
-
-
     }
+
         /*else
         {
             Alert noProd=new Alert(Alert.AlertType.ERROR);
