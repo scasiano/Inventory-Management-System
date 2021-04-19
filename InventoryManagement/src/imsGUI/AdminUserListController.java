@@ -364,25 +364,25 @@ public class AdminUserListController {
     }
     public void modifyDBUser(){
         try{
-            Users.modifyFName(utemp.getUserID(),utemp.getFName());
-            Users.modifyLName(utemp.getUserID(),utemp.getLName());
-            Users.modifyRole(utemp.getUserID(),utemp.getRole());
-            Users.modifyUsername(utemp.getUserID(),utemp.getUsername());
+            Users.modifyFName(allUsers.get(uIndex).getUserID(),fname.getText());
+            Users.modifyLName(allUsers.get(uIndex).getUserID(),lname.getText());
+            Users.modifyRole(allUsers.get(uIndex).getUserID(),usrRole.getText());
+            Users.modifyUsername(allUsers.get(uIndex).getUserID(),username.getText());
         }catch(Exception e){
             Global.exceptionAlert(e,"Modify Database User");
         }
     }
     public void modifyDBEmp(){
         try{
-        Employees.modifyEmployeeFn(etemp.getEmployeeNo(),etemp.getEmployeeFn());
-        Employees.modifyEmployeeLn(etemp.getEmployeeNo(),etemp.getEmployeeLn());
-        Employees.modifyUserId(etemp.getEmployeeNo(),etemp.getUserID());
-        Employees.modifyStartDate(etemp.getEmployeeNo(),etemp.getStartDate());
-        Employees.modifyPosition(etemp.getEmployeeNo(),etemp.getPosition());
+        Employees.modifyEmployeeFn(allEmps.get(eIndex).getEmployeeNo(),empFname.getText());
+        Employees.modifyEmployeeLn(allEmps.get(eIndex).getEmployeeNo(),empLname.getText());
+        Employees.modifyUserId(allEmps.get(eIndex).getEmployeeNo(),Long.valueOf(userid.getText()));
+        Employees.modifyStartDate(allEmps.get(eIndex).getEmployeeNo(),java.sql.Date.valueOf(startDate.getValue()));
+        Employees.modifyPosition(allEmps.get(eIndex).getEmployeeNo(),empRole.getText());
         if(method==0 ||method==2)
-            Employees.modifyPayHour(etemp.getEmployeeNo(),etemp.getPayHour());
+            Employees.modifyPayHour(allEmps.get(eIndex).getEmployeeNo(),Double.valueOf(pay.getText()));
         if(method==2 || method==3)
-            Employees.modifyEndDate(etemp.getEmployeeNo(),etemp.getEndDate());
+            Employees.modifyEndDate(allEmps.get(eIndex).getEmployeeNo(),java.sql.Date.valueOf(endDate.getValue()));
         initialize();
         }catch(Exception e){
             Global.exceptionAlert(e,"modify Database Employee");

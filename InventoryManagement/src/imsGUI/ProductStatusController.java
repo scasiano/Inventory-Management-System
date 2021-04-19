@@ -363,7 +363,7 @@ public class ProductStatusController {
         deleteAlert.setContentText("Are you sure you want to delete this Incoming Good?");
         if(deleteAlert.showAndWait().get() == ButtonType.OK){
             try{
-                ims.Users.deleteRecord(intmp.getIncomingID());
+                ims.IncomingGoods.deleteRecord(intmp.getIncomingID());
                 incomingT.getItems().remove(incomingT.getSelectionModel().getSelectedItem());
                 intmp=null;
                 hideData();
