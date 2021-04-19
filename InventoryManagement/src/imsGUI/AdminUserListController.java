@@ -400,6 +400,7 @@ public class AdminUserListController {
                     usrRole.setText(allUsers.get(uIndex).getRole());
                     username.setText(allUsers.get(uIndex).getUsername());
                     user_id.setText(String.valueOf(allUsers.get(uIndex).getUserID()));
+                    userModify.setVisible(true);
                 }
             });
         } catch (Exception e){
@@ -419,6 +420,7 @@ public class AdminUserListController {
                     userid.setText(String.valueOf(allUsers.get(eIndex).getUserID()));
                     emp_id.setText(String.valueOf(allEmps.get(eIndex).getEmployeeNo()));
                     pay.setText(String.valueOf(allEmps.get(eIndex).getPayHour()));
+                    empModify.setVisible(true);
                 }
             });
         } catch (Exception e){
@@ -430,12 +432,14 @@ public class AdminUserListController {
         userAddB.setVisible(true);
         userModify.setVisible(false);
         userModB.setVisible(false);
+        clearUsrData();
     }
     public void addEmpData(){
         empV.setVisible(true);
         empAddB.setVisible(true);
         empModify.setVisible(false);
         empModB.setVisible(false);
+        clearEmpData();
     }
     public void showUserData(){
         userV.setVisible(true);
@@ -458,6 +462,22 @@ public class AdminUserListController {
         empAddB.setVisible(false);
         empAdd.setVisible(true);
         empT.getSelectionModel().clearSelection();
+    }
+    public void clearEmpData(){
+        empFname.clear();
+        empLname.clear();
+        empRole.clear();
+        empUsername.clear();
+        userid.clear();
+        emp_id.clear();
+        pay.clear();
+    }
+    public void clearUsrData(){
+        fname.clear();
+        lname.clear();
+        usrRole.clear();
+        username.clear();
+        user_id.clear();
     }
     @FXML
     private void openHomePage(ActionEvent event) {
