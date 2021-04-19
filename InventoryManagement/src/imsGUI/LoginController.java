@@ -1,14 +1,11 @@
 package imsGUI;
 
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.stage.Stage;
 import ims.Users;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+
 import static ims.Users.authenticateUser;
 
 public class LoginController {
@@ -24,7 +21,7 @@ public class LoginController {
         try {
             String User = userBox.getText();
             String Pass = passBox.getText();
-            Boolean admin;
+            boolean admin;
             String role = authenticateUser(User, Pass);
             if (role.equals("")){
                 Global.warningAlert("Incorrect Credentials", "Your username and password do not match, please try again");
