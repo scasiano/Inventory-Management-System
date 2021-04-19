@@ -185,6 +185,7 @@ public class OrdersController {
             else{
                 Orders.addRecordEmp(tmp);}
             orderIDT.getItems().add(tmp);
+            clearOrderInfo();
         } catch (MySQLIntegrityConstraintViolationException e){
             Global.warningAlert("Order Id Exists", "Order ID already exists. User add canceled");
         } catch(Exception p){
@@ -235,6 +236,20 @@ public class OrdersController {
         addOrder.setVisible(false);
         addOrderBox.setVisible(false);
         startMod.setVisible(true);
+    }
+    public void modifyOrder(){
+        try{
+            String[] name=customerName.getText().split(" ");
+            Orders.modifyCustomerFn(allOrders.get(oIndex).getOrderID(),name[0]);
+            Orders.modifyCustomerLn(allOrders.get(oIndex).getOrderID(),name[1]);
+            Orders.modifyCustomerAdd(allOrders.get(oIndex).getOrderID(),customerAddress.getText());
+            if(employeeID.getText().length()>0)
+                Orders.modifyEmployeeNo(allOrders.get(oIndex).getOrderID(),Long.parseLong(employeeID.getText()));
+            if(shippingStatus.getText().length()>0)
+                Tracking.modifyShippingStatus(allOrders.get(oIndex).getOrderID(),shippingStatus.getText());
+            clearOrderInfo();
+        }catch(Exception e){Global.exceptionAlert(e,"Modify Order");}
+
     }
     public void setCombo(){
         try{
