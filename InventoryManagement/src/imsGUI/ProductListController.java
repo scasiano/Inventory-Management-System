@@ -1,22 +1,17 @@
 package imsGUI;
 
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
-import ims.CurrentStock;
 import ims.Products;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -33,8 +28,6 @@ public class ProductListController {
     TextField productMSRP;
     @FXML
     TextField productPrice;
-    /*@FXML
-    TextField productDescription;*/
     @FXML
     Button addProd;
     @FXML
@@ -48,7 +41,7 @@ public class ProductListController {
 
     ListView<Long> listID;
     ListView<String> listName;
-    ArrayList<Products> allProd = new ArrayList<Products>();
+    ArrayList<Products> allProd = new ArrayList<>();
     ObservableList<Long> pID;
     ObservableList<String> prodN;
     VBox nameBox = new VBox();
@@ -56,14 +49,10 @@ public class ProductListController {
     Label Name = new Label();
     int pIndex = -1;
 
-    public void initialize() throws SQLException {
+    public void initialize() {
         setProductList();
         prodDetails();
-        if(Global.privilege){
-            addProd.setVisible(true);
-        }
-        else
-            addProd.setVisible(false);
+        addProd.setVisible(Global.privilege);
     }
 
     public void setProductList() {
@@ -77,19 +66,20 @@ public class ProductListController {
         idBox.getChildren().add(ID);
         nameBox.getChildren().add(Name);
         try {
-            for (int i = 0; i < allProd.size(); i++) {
-                idList.add(allProd.get(i).getProductID());
-                nameList.add(allProd.get(i).getName());
+            for (Products products : allProd) {
+                idList.add(products.getProductID());
+                nameList.add(products.getName());
             }
             pID = FXCollections.observableArrayList(idList);
             prodN = FXCollections.observableArrayList(nameList);
-            listName = new ListView<String>(prodN);
+            listName = new ListView<>(prodN);
             nameBox.getChildren().add(listName);
-            listID = new ListView<Long>(pID);
+            listID = new ListView<>(pID);
             idBox.getChildren().add(listID);
             productsList.getChildren().addAll(nameBox, idBox);
 
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             Global.exceptionAlert(e,"Set Product List");
         }
         startMod.setVisible(false);
@@ -97,35 +87,30 @@ public class ProductListController {
 
     public void prodDetails() {
         try {
-            listID.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
-                    Integer index = listID.getSelectionModel().getSelectedIndex();
-                    pIndex = index;
-                    listName.getSelectionModel().select(index);
-                    productName.setText(allProd.get(index).getName());
-                    productID.setText(String.valueOf(allProd.get(index).getProductID()));
-                    productMSRP.setText("$" + String.valueOf(allProd.get(index).getMsrp()));
-                    productPrice.setText("$" + String.valueOf(allProd.get(index).getPrice()));
-                    if(Global.privilege)
-                        startMod.setVisible(true);
-                }
+            listID.setOnMouseClicked(event -> {
+                int index = listID.getSelectionModel().getSelectedIndex();
+                pIndex = index;
+                listName.getSelectionModel().select(index);
+                productName.setText(allProd.get(index).getName());
+                productID.setText(String.valueOf(allProd.get(index).getProductID()));
+                productMSRP.setText("$" + allProd.get(index).getMsrp());
+                productPrice.setText("$" + allProd.get(index).getPrice());
+                if(Global.privilege)
+                    startMod.setVisible(true);
             });
-            listName.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
-                    Integer index = listName.getSelectionModel().getSelectedIndex();
-                    pIndex = index;
-                    listID.getSelectionModel().select(index);
-                    productName.setText(allProd.get(index).getName());
-                    productID.setText(String.valueOf(allProd.get(index).getProductID()));
-                    productMSRP.setText("$" + String.valueOf(allProd.get(index).getMsrp()));
-                    productPrice.setText("$" + String.valueOf(allProd.get(index).getPrice()));
-                    if(Global.privilege)
-                        startMod.setVisible(true);
-                }
+            listName.setOnMouseClicked(event -> {
+                int index = listName.getSelectionModel().getSelectedIndex();
+                pIndex = index;
+                listID.getSelectionModel().select(index);
+                productName.setText(allProd.get(index).getName());
+                productID.setText(String.valueOf(allProd.get(index).getProductID()));
+                productMSRP.setText("$" + allProd.get(index).getMsrp());
+                productPrice.setText("$" + allProd.get(index).getPrice());
+                if(Global.privilege)
+                    startMod.setVisible(true);
             });
-        }catch (Exception e){
+        }
+        catch (Exception e){
             Global.exceptionAlert(e,"Show Product Details");
         }
 
@@ -146,13 +131,13 @@ public class ProductListController {
     public void addDBProduct(ActionEvent event) throws SQLException {
         Products temp = new Products(0, "", 0, 0);
         boolean flag = false;
-        //productMSRP.getText().length()>2 && productPrice.getText().length()>3){
         try {
             while (!flag) {
-                if (productID.getText().length() > 0 && Long.valueOf(productID.getText()) >= 0) {
+                if (productID.getText().length() > 0 && Long.parseLong(productID.getText()) >= 0) {
                     flag = true;
-                    temp.setProductID(Long.valueOf(productID.getText()));
-                } else {
+                    temp.setProductID(Long.parseLong(productID.getText()));
+                }
+                else {
                     flag = false;
                     Global.warningAlert("Incorrect ID", "Product ID needs to be greater than 0 and at most 9 digits long.");
                     productID.clear();
@@ -160,29 +145,33 @@ public class ProductListController {
                 if (productName.getText().length() > 0) {
                     flag = true;
                     temp.setName(productName.getText());
-                } else {
+                }
+                else {
                     flag = false;
                     Global.warningAlert("Incorrect Name", "Every product should have a name.");
                 }
-                if (productMSRP.getText().length() > 0 && Double.valueOf(productMSRP.getText()) > 0) {
+                if (productMSRP.getText().length() > 0 && Double.parseDouble(productMSRP.getText()) > 0) {
                     flag = true;
-                    temp.setMsrp(Double.valueOf(productMSRP.getText()));
-                } else {
+                    temp.setMsrp(Double.parseDouble(productMSRP.getText()));
+                }
+                else {
                     flag = false;
                     Global.warningAlert("Incorrect MSRP", "Every product should have a MSRP.");
                     productMSRP.clear();
                 }
-                if (productPrice.getText().length() > 0 && Double.valueOf(productPrice.getText()) > 0) {
+                if (productPrice.getText().length() > 0 && Double.parseDouble(productPrice.getText()) > 0) {
                     flag = true;
-                    temp.setPrice(Double.valueOf(productPrice.getText()));
-                } else {
+                    temp.setPrice(Double.parseDouble(productPrice.getText()));
+                }
+                else {
                     flag = false;
                     Global.informAlert("Incorrect Price", "Every product should have a Price.");
                     productPrice.clear();
                 }
             }
             Products.addRecord(temp);
-        } catch (MySQLIntegrityConstraintViolationException e) {
+        }
+        catch (MySQLIntegrityConstraintViolationException e) {
             Global.warningAlert("Product Id Exists", "Product ID already exists. Product Add canceled");
         }
         endProductEdit();
@@ -190,14 +179,6 @@ public class ProductListController {
         initialize();
         clearProdInfo();
     }
-
-        /*else
-        {
-            Alert noProd=new Alert(Alert.AlertType.ERROR);
-            noProd.setHeaderText("Input not valid");
-            noProd.setContentText("Check your inputs for the product.\n\tProductID should be 8 numbers\n\t Product should have a name\n\t The Msrp and price need to be alt least 4 characters long.");
-            noProd.showAndWait();
-        }*/
     public void clearProdList(){
         listID.getItems().clear();
         listName.getItems().clear();
@@ -225,11 +206,12 @@ public class ProductListController {
     public void modDBProduct(){
         try{
             ims.Products.modifyName(allProd.get(pIndex).getProductID(),productName.getText());
-            ims.Products.modifyMsrp(allProd.get(pIndex).getProductID(),Double.valueOf(productMSRP.getText().substring(1)));
-            ims.Products.modifyPrice(allProd.get(pIndex).getProductID(),Double.valueOf(productPrice.getText().substring(1)));
+            ims.Products.modifyMsrp(allProd.get(pIndex).getProductID(),Double.parseDouble(productMSRP.getText().substring(1)));
+            ims.Products.modifyPrice(allProd.get(pIndex).getProductID(),Double.parseDouble(productPrice.getText().substring(1)));
             clearProdList();
             initialize();
-        }catch(Exception e){
+        }
+        catch(Exception e){
             Global.exceptionAlert(e,"Modify Products");
         }
         endProductEdit();
@@ -243,7 +225,7 @@ public class ProductListController {
         modBox.setVisible(true);
         startMod.setVisible(false);
     }
-    public void delDBProduct() throws SQLException {
+    public void delDBProduct() {
         Alert delete=new Alert(Alert.AlertType.CONFIRMATION);
         delete.setHeaderText("Delete Product");
         delete.setContentText("Are you Sure you want to Delete?");
@@ -255,7 +237,8 @@ public class ProductListController {
                 initialize();
                 clearProdInfo();
             }
-        }catch(Exception e) {
+        }
+        catch(Exception e) {
             Global.warningAlert("Delete Product", "This Product can't be deleted becaust it is being used somewhere else");
         }
     }
