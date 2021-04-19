@@ -7,10 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
@@ -90,7 +87,8 @@ public class OrdersController {
             allOrders=Orders.selectAll();
             ObservableList<Orders> oIDs = FXCollections.observableArrayList(allOrders);
             orderIDT.setItems(oIDs);
-        }catch(Exception e){
+        }
+        catch(Exception e){
             Global.exceptionAlert(e,"Set Order ID List");
         }
     }
@@ -100,40 +98,39 @@ public class OrdersController {
             allItems = OrderItems.selectByOrderID(allOrders.get(oIndex).getOrderID());
             ObservableList<OrderItems> orderI = FXCollections.observableArrayList(allItems);
             orderProds.setItems(orderI);
-        }catch(SQLException e){
+        }
+        catch(SQLException e){
             Global.exceptionAlert(e,"Set Order Items Products Table");
         }
     }
     public void orderDetails() {
         try {
-            orderIDT.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
-                    oIndex= orderIDT.getSelectionModel().getSelectedIndex();
-                    orderID.setText(String.valueOf(allOrders.get(oIndex).getOrderID()));
-                    customerName.setText(allOrders.get(oIndex).getCustomerFn()+" "+allOrders.get(oIndex).getCustomerLn());
-                    customerAddress.setText(allOrders.get(oIndex).getCustomerAdd());
-                    datePlaced.setText(String.valueOf(allOrders.get(oIndex).getDatePlaced()));
-                    employeeID.setText(String.valueOf(allOrders.get(oIndex).getEmployeeNo()));
-                    setOrderProds();
-                    try {
-                        shippingStatus.setText(Tracking.selectByOrderID(allOrders.get(oIndex).getOrderID()).getShippingStatus());
-                        trackingID.setText(Tracking.selectByOrderID(allOrders.get(oIndex).getOrderID()).getTrackingID());
-                        carrier.setText(Tracking.selectByOrderID(allOrders.get(oIndex).getOrderID()).getCarrier());
-                    } catch (SQLException a){
-                        a.printStackTrace();
-                    }
-                    if(Global.privilege)
-                        modOrder.setVisible(true);
-                    setOrderProds();
+            orderIDT.setOnMouseClicked(event -> {
+                oIndex= orderIDT.getSelectionModel().getSelectedIndex();
+                orderID.setText(String.valueOf(allOrders.get(oIndex).getOrderID()));
+                customerName.setText(allOrders.get(oIndex).getCustomerFn()+" "+allOrders.get(oIndex).getCustomerLn());
+                customerAddress.setText(allOrders.get(oIndex).getCustomerAdd());
+                datePlaced.setText(String.valueOf(allOrders.get(oIndex).getDatePlaced()));
+                employeeID.setText(String.valueOf(allOrders.get(oIndex).getEmployeeNo()));
+                setOrderProds();
+                try {
+                    shippingStatus.setText(Tracking.selectByOrderID(allOrders.get(oIndex).getOrderID()).getShippingStatus());
+                    trackingID.setText(Tracking.selectByOrderID(allOrders.get(oIndex).getOrderID()).getTrackingID());
+                    carrier.setText(Tracking.selectByOrderID(allOrders.get(oIndex).getOrderID()).getCarrier());
                 }
+                catch (SQLException a){
+                    a.printStackTrace();
+                }
+                if(Global.privilege) modOrder.setVisible(true);
+                setOrderProds();
             });
-        }catch (Exception e){
+        }
+        catch (Exception e){
             Global.exceptionAlert(e,"Show Order Details");
         }
 
     }
-    public void addOrderClicked(ActionEvent event) throws SQLException {
+    public void addOrderClicked(ActionEvent event) {
         String[] name=customerName.getText().split(" ");
         int method =0;
         Orders tmp = new Orders(0, "", "", "", null, 0);
@@ -143,7 +140,8 @@ public class OrdersController {
                 if (orderID.getText().length() > 0 && Long.parseLong(orderID.getText()) >= 0){
                     flag = true;
                     tmp.setOrderID(Long.parseLong(orderID.getText()));
-                } else{
+                }
+                else{
                     flag = false;
                     Global.warningAlert("Incorrect ID", "Order ID needs to be greater than 0 and less than 9");
                     orderID.clear();
@@ -153,18 +151,21 @@ public class OrdersController {
                        flag = true;
                        tmp.setCustomerFn(name[0]);
                        tmp.setCustomerLn(name[1]);
-                   } else{
+                   }
+                   else{
                        flag = false;
                        Global.warningAlert("Incorrect Customer Name", "Every Order needs a Customer Name");
                        customerName.clear();
                    }
-               }catch(Exception e){
+               }
+               catch(Exception e){
                    Global.warningAlert("Incomplete Name","Users Need a first and Last Name");
                }
                 if (customerAddress.getText().length() > 0){
                     flag = true;
                     tmp.setCustomerAdd(customerAddress.getText());
-                } else{
+                }
+                else{
                     flag = false;
                     Global.warningAlert("Incorrect Address", "Every Order needs a Customer address");
                     customerAddress.clear();
@@ -178,8 +179,7 @@ public class OrdersController {
                     addDate.setValue(null);
                 }
                 if(employeeID.getText().length()>0){
-                    if(Long.valueOf(employeeID.getText())>0)
-                    {
+                    if(Long.parseLong(employeeID.getText())>0) {
                         method++;
                         tmp.setEmployeeNo(Long.parseLong(employeeID.getText()));
                     }
@@ -191,13 +191,15 @@ public class OrdersController {
                 Orders.addRecordEmp(tmp);}
             orderIDT.getItems().add(tmp);
             clearOrderInfo();
-        } catch (MySQLIntegrityConstraintViolationException e){
+        }
+        catch (MySQLIntegrityConstraintViolationException e){
             Global.warningAlert("Order Id Exists", "Order ID already exists. User add canceled");
-        } catch(Exception p){
+        }
+        catch(Exception p){
             Global.exceptionAlert(p,"Add Order");
         }
     }
-    public void deleteOrderClicked() throws SQLException {
+    public void deleteOrderClicked() {
         Alert deleteAlert = new Alert(Alert.AlertType.CONFIRMATION);
         deleteAlert.setTitle("Delete");
         deleteAlert.setHeaderText("Delete Order");
@@ -207,7 +209,8 @@ public class OrdersController {
                 ims.Orders.deleteRecord(allOrders.get(oIndex).getOrderID());
                 orderIDT.getItems().remove(orderIDT.getSelectionModel().getSelectedItem());
                 oIndex=-1;
-            }catch(Exception e){
+            }
+            catch(Exception e){
                 Global.exceptionAlert(e,"Delete User");
             }
         }
@@ -252,25 +255,23 @@ public class OrdersController {
             Orders.modifyCustomerFn(allOrders.get(oIndex).getOrderID(),name[0]);
             Orders.modifyCustomerLn(allOrders.get(oIndex).getOrderID(),name[1]);
             Orders.modifyCustomerAdd(allOrders.get(oIndex).getOrderID(),customerAddress.getText());
-            if(employeeID.getText().length()>0)
-                Orders.modifyEmployeeNo(allOrders.get(oIndex).getOrderID(),Long.parseLong(employeeID.getText()));
-            if(shippingStatus.getText().length()>0)
-                Tracking.modifyShippingStatus(allOrders.get(oIndex).getOrderID(),shippingStatus.getText());
+            if(employeeID.getText().length()>0) Orders.modifyEmployeeNo(allOrders.get(oIndex).getOrderID(),Long.parseLong(employeeID.getText()));
+            if(shippingStatus.getText().length()>0) Tracking.modifyShippingStatus(allOrders.get(oIndex).getOrderID(),shippingStatus.getText());
             clearOrderInfo();
-        }catch(Exception e){Global.exceptionAlert(e,"Modify Order");}
-
+        }
+        catch(Exception e){Global.exceptionAlert(e,"Modify Order");}
     }
     public void setCombo(){
         try{
             allProd=Products.selectAll();
-            for(int i=0;i<allProd.size();i++)
-            {
-                if(CurrentStock.selectQuantityByProductID(allProd.get(i).getProductID())!=0){
-                    String s= allProd.get(i).getProductID() +" | "+allProd.get(i).getName();
+            for (Products value : allProd) {
+                if (CurrentStock.selectQuantityByProductID(value.getProductID()) != 0) {
+                    String s = value.getProductID() + " | " + value.getName();
                     productsList.getItems().add(s);
                 }
             }
-        }catch(Exception e){
+        }
+        catch(Exception e){
             Global.exceptionAlert(e,"Set Combo");
         }
     }
