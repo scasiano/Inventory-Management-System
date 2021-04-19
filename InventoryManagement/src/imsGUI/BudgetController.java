@@ -60,19 +60,19 @@ public class BudgetController {
     @FXML
     TableView<Budget> budgetTable;
     @FXML
-    TableColumn<Budget, Long> periodTable;
+    TableColumn periodTable;
     @FXML
-    TableColumn<Budget, Date> startTable;
+    TableColumn startTable;
     @FXML
-    TableColumn<Budget, Date> endTable;
+    TableColumn endTable;
     @FXML
-    TableColumn<Budget, Double> incomeTable;
+    TableColumn incomeTable;
     @FXML
-    TableColumn<Budget, Double> outTable;
+    TableColumn outTable;
     @FXML
-    TableColumn<Budget, Double> netTable;
+    TableColumn netTable;
     @FXML
-    TableColumn<Budget, Long> empTable;
+    TableColumn empTable;
 
     DatePicker endD = new DatePicker();
     DatePicker startD = new DatePicker();
@@ -96,8 +96,8 @@ public class BudgetController {
     public void setBudgetList() {
         try {
             periodTable.setCellValueFactory(new PropertyValueFactory<Budget, Long>("periodID"));
-            startTable.setCellValueFactory(new PropertyValueFactory<Budget, Date>("startDate"));
-            endTable.setCellValueFactory(new PropertyValueFactory<Budget, Date>("endDate"));
+            startTable.setCellValueFactory(new PropertyValueFactory<Budget, Date>("dateStart"));//the things in the parenthese at the end is the constructor argument name
+            endTable.setCellValueFactory(new PropertyValueFactory<Budget, Date>("dateEnd"));
             incomeTable.setCellValueFactory(new PropertyValueFactory<Budget, Double>("income"));
             outTable.setCellValueFactory(new PropertyValueFactory<Budget, Double>("outgoing"));
             netTable.setCellValueFactory(new PropertyValueFactory<Budget, Double>("net"));
