@@ -60,7 +60,6 @@ public class ProfilesController {
 
     public void initialize() throws SQLException {
       //setUsersList();
-       userDetails();
        //Users.getUserID(Global.currentUser);
     }
 
@@ -109,9 +108,13 @@ public class ProfilesController {
 
     public void userDetails() {
         try {
-            Users currentUser = Users.selectUserByUserName(Global.currentUser);
-            username.setText(String.valueOf(currentUser.getUsername()));
-            user_id.setText(String.valueOf(currentUser.getUserID()));
+            if (Global.currentUser == null) {
+                userDetails();
+                return;
+            }
+            Users currentUser = Global.currentUser;
+            username.setText(currentUser.getUsername());
+            user_id.setText(Long.toString(currentUser.getUserID()));
             fname.setText(currentUser.getFName());
             lname.setText(currentUser.getLName());
             password.setText(currentUser.getPassword());

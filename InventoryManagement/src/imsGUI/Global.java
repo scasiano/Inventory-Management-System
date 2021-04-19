@@ -1,5 +1,6 @@
 package imsGUI;
 
+import ims.Users;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -11,6 +12,14 @@ import java.text.DecimalFormat;
 
 public class Global {
 
+    private FXMLLoader adminUserListLoader;
+    private FXMLLoader budgetLoader;
+    private FXMLLoader homepageLoader;
+    private FXMLLoader loginLoader;
+    private FXMLLoader ordersLoader;
+    private FXMLLoader productListLoader;
+    private FXMLLoader productStatusLoader;
+    private FXMLLoader profilesLoader;
     private Parent adminUserList;
     private Parent budget;
     private Parent homepage;
@@ -27,18 +36,34 @@ public class Global {
     private Scene productListScene;
     private Scene productStatusScene;
     private Scene profilesScene;
+    private AdminUserListController adminUserListController;
+    private BudgetController budgetController;
+    private HomepageController homepageController;
+    private LoginController loginController;
+    private OrdersController ordersController;
+    private ProductListController productListController;
+    private ProductStatusController productStatusController;
+    private ProfilesController profilesController;
     public static Boolean privilege=true;
-    public static String currentUser="scasi";
+    public static Users currentUser;
 
     public void loadFxmlFiles() throws Exception{
-        adminUserList = FXMLLoader.load(getClass().getResource("AdminUserList.fxml"));
-        budget = FXMLLoader.load(getClass().getResource("Budget.fxml"));
-        homepage = FXMLLoader.load(getClass().getResource("Homepage.fxml"));
-        login = FXMLLoader.load(getClass().getResource("Login.fxml"));
-        orders = FXMLLoader.load(getClass().getResource("Orders.fxml"));
-        productList = FXMLLoader.load(getClass().getResource("ProductList.fxml"));
-        productStatus = FXMLLoader.load(getClass().getResource("ProductStatus.fxml"));
-        profiles = FXMLLoader.load(getClass().getResource("Profiles.fxml"));
+        adminUserListLoader = new FXMLLoader(getClass().getResource("AdminUserList.fxml"));
+        budgetLoader = new FXMLLoader(getClass().getResource("Budget.fxml"));
+        homepageLoader = new FXMLLoader(getClass().getResource("Homepage.fxml"));
+        loginLoader = new FXMLLoader(getClass().getResource("Login.fxml"));
+        ordersLoader = new FXMLLoader(getClass().getResource("Orders.fxml"));
+        productListLoader = new FXMLLoader(getClass().getResource("ProductList.fxml"));
+        productStatusLoader = new FXMLLoader(getClass().getResource("ProductStatus.fxml"));
+        profilesLoader = new FXMLLoader(getClass().getResource("Profiles.fxml"));
+        adminUserList = adminUserListLoader.load();
+        budget = budgetLoader.load();
+        homepage = homepageLoader.load();
+        login = loginLoader.load();
+        orders = ordersLoader.load();
+        productList = productListLoader.load();
+        productStatus = productStatusLoader.load();
+        profiles = profilesLoader.load();
         adminUserListScene = new Scene(adminUserList);
         budgetScene = new Scene(budget);
         homepageScene = new Scene(homepage);
@@ -47,6 +72,14 @@ public class Global {
         productListScene = new Scene(productList);
         productStatusScene = new Scene(productStatus);
         profilesScene = new Scene(profiles);
+        adminUserListController = adminUserListLoader.getController();
+        budgetController = budgetLoader.getController();
+        homepageController = homepageLoader.getController();
+        loginController = loginLoader.getController();
+        ordersController = ordersLoader.getController();
+        productListController = productListLoader.getController();
+        productStatusController = productStatusLoader.getController();
+        profilesController = profilesLoader.getController();
     }
 
     public static void exceptionAlert(Exception e, String location){
@@ -160,5 +193,29 @@ public class Global {
     }
     public Scene getProfilesScene() {
         return profilesScene;
+    }
+    public AdminUserListController getAdminUserListController() {
+        return adminUserListController;
+    }
+    public BudgetController getBudgetController() {
+        return budgetController;
+    }
+    public HomepageController getHomepageController() {
+        return homepageController;
+    }
+    public LoginController getLoginController() {
+        return loginController;
+    }
+    public OrdersController getOrdersController() {
+        return ordersController;
+    }
+    public ProductListController getProductListController() {
+        return productListController;
+    }
+    public ProductStatusController getProductStatusController() {
+        return productStatusController;
+    }
+    public ProfilesController getProfilesController() {
+        return profilesController;
     }
 }

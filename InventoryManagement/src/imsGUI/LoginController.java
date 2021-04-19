@@ -33,12 +33,13 @@ public class LoginController {
             }
             admin = role.equalsIgnoreCase("Admin") || role.equalsIgnoreCase("IT");
             Global.privilege=admin;
-            Global.currentUser=User;
+            Global.currentUser = Users.selectUserByUserName(User);
             Stage stage = (Stage) LogBut.getScene().getWindow();
             stage.setScene(ImsGui.global.getHomepageScene());
             stage.show();
             userBox.clear();
             passBox.clear();
+            ImsGui.global.getProfilesController().userDetails();
 
         } catch (Exception e) {
             Global.exceptionAlert(e, "login");
