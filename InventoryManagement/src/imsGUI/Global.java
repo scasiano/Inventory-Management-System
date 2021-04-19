@@ -8,26 +8,9 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
 import java.io.*;
-import java.text.DecimalFormat;
 
 public class Global {
 
-    private FXMLLoader adminUserListLoader;
-    private FXMLLoader budgetLoader;
-    private FXMLLoader homepageLoader;
-    private FXMLLoader loginLoader;
-    private FXMLLoader ordersLoader;
-    private FXMLLoader productListLoader;
-    private FXMLLoader productStatusLoader;
-    private FXMLLoader profilesLoader;
-    private Parent adminUserList;
-    private Parent budget;
-    private Parent homepage;
-    private Parent login;
-    private Parent orders;
-    private Parent productList;
-    private Parent productStatus;
-    private Parent profiles;
     private Scene adminUserListScene;
     private Scene budgetScene;
     private Scene homepageScene;
@@ -48,22 +31,22 @@ public class Global {
     public static Users currentUser;
 
     public void loadFxmlFiles() throws Exception{
-        adminUserListLoader = new FXMLLoader(getClass().getResource("AdminUserList.fxml"));
-        budgetLoader = new FXMLLoader(getClass().getResource("Budget.fxml"));
-        homepageLoader = new FXMLLoader(getClass().getResource("Homepage.fxml"));
-        loginLoader = new FXMLLoader(getClass().getResource("Login.fxml"));
-        ordersLoader = new FXMLLoader(getClass().getResource("Orders.fxml"));
-        productListLoader = new FXMLLoader(getClass().getResource("ProductList.fxml"));
-        productStatusLoader = new FXMLLoader(getClass().getResource("ProductStatus.fxml"));
-        profilesLoader = new FXMLLoader(getClass().getResource("Profiles.fxml"));
-        adminUserList = adminUserListLoader.load();
-        budget = budgetLoader.load();
-        homepage = homepageLoader.load();
-        login = loginLoader.load();
-        orders = ordersLoader.load();
-        productList = productListLoader.load();
-        productStatus = productStatusLoader.load();
-        profiles = profilesLoader.load();
+        FXMLLoader adminUserListLoader = new FXMLLoader(getClass().getResource("AdminUserList.fxml"));
+        FXMLLoader budgetLoader = new FXMLLoader(getClass().getResource("Budget.fxml"));
+        FXMLLoader homepageLoader = new FXMLLoader(getClass().getResource("Homepage.fxml"));
+        FXMLLoader loginLoader = new FXMLLoader(getClass().getResource("Login.fxml"));
+        FXMLLoader ordersLoader = new FXMLLoader(getClass().getResource("Orders.fxml"));
+        FXMLLoader productListLoader = new FXMLLoader(getClass().getResource("ProductList.fxml"));
+        FXMLLoader productStatusLoader = new FXMLLoader(getClass().getResource("ProductStatus.fxml"));
+        FXMLLoader profilesLoader = new FXMLLoader(getClass().getResource("Profiles.fxml"));
+        Parent adminUserList = adminUserListLoader.load();
+        Parent budget = budgetLoader.load();
+        Parent homepage = homepageLoader.load();
+        Parent login = loginLoader.load();
+        Parent orders = ordersLoader.load();
+        Parent productList = productListLoader.load();
+        Parent productStatus = productStatusLoader.load();
+        Parent profiles = profilesLoader.load();
         adminUserListScene = new Scene(adminUserList);
         budgetScene = new Scene(budget);
         homepageScene = new Scene(homepage);
