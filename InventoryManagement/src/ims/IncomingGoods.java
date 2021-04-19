@@ -3,7 +3,6 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class IncomingGoods {
-    //TODO: Update
     long incomingID; //PK
     long productID; //FK
     Date dateIn;
@@ -28,21 +27,21 @@ public class IncomingGoods {
         this.employeeNo = employeeNo;
     }
 
-    public IncomingGoods(long incomingID, long productID, Date dateIn, int quantity, long employeeNo) {
+    public IncomingGoods(long productID, Date dateIn, int quantity, long employeeNo) {
         this.productID = productID;
         this.dateIn = dateIn;
         this.quantity = quantity;
         this.employeeNo = employeeNo;
     }
 
-    public IncomingGoods(long incomingID, long productID, Date dateIn, String trackingNo, int quantity) {
+    public IncomingGoods(long productID, Date dateIn, String trackingNo, int quantity) {
         this.productID = productID;
         this.dateIn = dateIn;
         this.trackingNo = trackingNo;
         this.quantity = quantity;
     }
 
-    public IncomingGoods(long incomingID, long productID, Date dateIn, int quantity) {
+    public IncomingGoods(long productID, Date dateIn, int quantity) {
         this.productID = productID;
         this.dateIn = dateIn;
         this.quantity = quantity;
