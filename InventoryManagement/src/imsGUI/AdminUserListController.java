@@ -433,6 +433,7 @@ public class AdminUserListController {
         userModify.setVisible(false);
         userModB.setVisible(false);
         clearUsrData();
+        hideData();
     }
     public void addEmpData(){
         empV.setVisible(true);
@@ -440,6 +441,7 @@ public class AdminUserListController {
         empModify.setVisible(false);
         empModB.setVisible(false);
         clearEmpData();
+        hideData();
     }
     public void showUserData(){
         userV.setVisible(true);
