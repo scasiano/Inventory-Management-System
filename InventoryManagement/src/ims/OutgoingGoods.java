@@ -18,7 +18,6 @@ public class OutgoingGoods {
     }
 
     public OutgoingGoods(long outgoingID, long productID, Date dateGo, int quantity) {
-        this.outgoingID = outgoingID;
         this.productID = productID;
         this.dateGo = dateGo;
         this.quantity = quantity;

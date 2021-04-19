@@ -21,7 +21,6 @@ public class IncomingGoods {
     }
 
     public IncomingGoods(long incomingID, long productID, Date dateIn, int quantity, long employeeNo) {
-        this.incomingID = incomingID;
         this.productID = productID;
         this.dateIn = dateIn;
         this.quantity = quantity;
@@ -29,7 +28,6 @@ public class IncomingGoods {
     }
 
     public IncomingGoods(long incomingID, long productID, Date dateIn, String trackingNo, int quantity) {
-        this.incomingID = incomingID;
         this.productID = productID;
         this.dateIn = dateIn;
         this.trackingNo = trackingNo;
@@ -37,7 +35,6 @@ public class IncomingGoods {
     }
 
     public IncomingGoods(long incomingID, long productID, Date dateIn, int quantity) {
-        this.incomingID = incomingID;
         this.productID = productID;
         this.dateIn = dateIn;
         this.quantity = quantity;
