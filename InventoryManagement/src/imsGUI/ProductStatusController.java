@@ -21,86 +21,82 @@ public class ProductStatusController {
     @FXML
     TableView<IncomingGoods> incomingT;
     @FXML
-    Button addIncomB;
+    Button inAddButton;
     @FXML
-    Button modIncomB;
+    Button inModButton;
     @FXML
     VBox incomingV;
     @FXML
-    HBox inAddB;
+    HBox inAddHBox;
     @FXML
-    HBox inModB;
+    HBox inModHBox;
     @FXML
-    TableColumn inID;
+    TableColumn<IncomingGoods, Long> inID;
     @FXML
-    TableColumn inProductID;
+    TableColumn<IncomingGoods, Long> inProductID;
     @FXML
-    TableColumn dateIn;
+    TableColumn<IncomingGoods, Date> dateIn;
     @FXML
-    TableColumn trackingID;
+    TableColumn<IncomingGoods, String> trackingID;
     @FXML
-    TableColumn inQuantity;
+    TableColumn<IncomingGoods, Integer> inQuantity;
     @FXML
-    TableColumn inEmpID;
+    TableColumn<IncomingGoods, Long> inEmpID;
     @FXML
-    TextField inPIDT;
-    @FXML
-    DatePicker inDateT;
+    DatePicker inDatePick;
     @FXML
     TextField trackNoT;
     @FXML
-    TextField inQuantT;
+    TextField inQuantTBox;
     @FXML
-    ComboBox inEmpC;
+    ComboBox<String> inEmpC;
     @FXML
     Button inDelete;
     @FXML
-    ComboBox inProductsList;
+    ComboBox<String> inProductsC;
 
     @FXML
     TableView<OutgoingGoods> outgoingT;
     @FXML
-    Button addOutB;
+    Button outAddButton;
     @FXML
-    Button modOutB;
+    Button outModButton;
     @FXML
     VBox outgoingV;
     @FXML
-    HBox outAddB;
+    HBox outAddHBox;
     @FXML
-    HBox outModB;
+    HBox outModHBox;
     @FXML
-    TableColumn outID;
+    TableColumn<OutgoingGoods, Long> outID;
     @FXML
-    TableColumn outProductID;
+    TableColumn<OutgoingGoods, Long> outProductID;
     @FXML
-    TableColumn dateGo;
+    TableColumn<OutgoingGoods, Date> dateGo;
     @FXML
-    TableColumn outQuantity;
+    TableColumn<OutgoingGoods, Integer> outQuantity;
     @FXML
-    TableColumn outEmpID;
+    TableColumn<OutgoingGoods, Long> outEmpID;
     @FXML
-    TextField outPIDT;
+    DatePicker outDatePick;
     @FXML
-    DatePicker outDateT;
+    TextField outQuantTBox;
     @FXML
-    TextField outQuantT;
-    @FXML
-    ComboBox outEmpC;
+    ComboBox<String> outEmpC;
     @FXML
     Button outDelete;
     @FXML
-    ComboBox outProductsList;
+    ComboBox<String> outProductsC;
 
 
     @FXML
-    TableView currentT;
+    TableView<CurrentStock> currentT;
     @FXML
-    TableColumn productID;
+    TableColumn<CurrentStock, Long> productID;
     @FXML
     TableColumn curProductName;
     @FXML
-    TableColumn curQuantity;
+    TableColumn<CurrentStock, Integer> curQuantity;
 
 
     ArrayList<IncomingGoods> allIn =new ArrayList<>();
@@ -173,11 +169,11 @@ public class ProductStatusController {
             incomingT.setOnMouseClicked(event -> {
                 intmp = incomingT.getSelectionModel().getSelectedItem();
                 int i = incomingT.getSelectionModel().getSelectedIndex();
-                modIncomB.setVisible(true);
-                inProductsList.setValue(intmp.getProductID() +" | "+pNames.get(i));
-                inDateT.setValue(intmp.getDateIn().toLocalDate());
+                inModButton.setVisible(true);
+                inProductsC.setValue(intmp.getProductID() +" | "+pNames.get(i));
+                inDatePick.setValue(intmp.getDateIn().toLocalDate());
                 trackNoT.setText(intmp.getTrackingNo());
-                inQuantT.setText(Integer.toString(intmp.getQuantity()));
+                inQuantTBox.setText(Integer.toString(intmp.getQuantity()));
                 inEmpC.setValue(intmp.getEmployeeNo() +" | "+eNames.get(i));
             });
         }
@@ -187,27 +183,32 @@ public class ProductStatusController {
         try{
             outgoingT.setOnMouseClicked(event -> {
                 outtmp = outgoingT.getSelectionModel().getSelectedItem();
-                modOutB.setVisible(true);
-                outDateT.setValue(outtmp.getDateGo().toLocalDate());
-                outEmpC.setValue(outtmp.getEmployeeNo());
-                outQuantT.setText(String.valueOf(outtmp.getQuantity()));
-                outProductsList.setValue(outtmp.getProductID());
+                int i = outgoingT.getSelectionModel().getSelectedIndex();
+                outModButton.setVisible(true);
+                outProductsC.setValue(outtmp.getProductID()+" | "+pNames.get(i));
+                outDatePick.setValue(outtmp.getDateGo().toLocalDate());
+                outQuantTBox.setText(String.valueOf(outtmp.getQuantity()));
+                outEmpC.setValue(outtmp.getEmployeeNo()+" | " + eNames.get(i));
+
             });
         }
         catch(Exception e){
             Global.exceptionAlert(e,"Outgoing Mouse Click");
         }
+
     }
 
     public void setProdCombo(){
         try{
+            outProductsC.getItems().clear();
+            inProductsC.getItems().clear();
             allProd= Products.selectAll();
             pNames = Products.selectName();
             for (Products products : allProd) {
                 if (CurrentStock.selectQuantityByProductID(products.getProductID()) != 0) {
                     String s = products.getProductID() + " | " + products.getName();
-                    outProductsList.getItems().add(s);
-                    inProductsList.getItems().add(s);
+                    outProductsC.getItems().add(s);
+                    inProductsC.getItems().add(s);
                 }
             }
         }
@@ -217,6 +218,8 @@ public class ProductStatusController {
     }
     public void setEmpCombo(){
         try{
+            inEmpC.getItems().clear();
+            outEmpC.getItems().clear();
             allEmps= Employees.selectAll();
             ArrayList<String> ftemp=Employees.selectEmployeeFn();
             ArrayList<String> ltemp=Employees.selectEmployeeLn();
@@ -236,36 +239,36 @@ public class ProductStatusController {
     public void saveIncomingClicked(ActionEvent event) {
         boolean hasTrack = false;
         boolean hasEmp = false;
-        IncomingGoods tmp= new IncomingGoods(0, null, "", 0, 0);
+        IncomingGoods tmp= new IncomingGoods(0, null, "", 0);
         try{
             try{
-                if (inProductsList.getValue() != null){
-                    String selectedItem = (String) inProductsList.getSelectionModel().getSelectedItem();
+                if (inProductsC.getValue() != null){
+                    String selectedItem = inProductsC.getSelectionModel().getSelectedItem();
                     String[] s = selectedItem.split(" | ");
                     tmp.setProductID(Long.parseLong(s[0]));
                 }
             }
             catch(Exception e){Global.exceptionAlert(e,"Incoming  Products Combo");}
-            if (inDateT.getValue()!=null) tmp.setDateIn(java.sql.Date.valueOf(inDateT.getValue()));
+            if (inDatePick.getValue()!=null) tmp.setDateIn(java.sql.Date.valueOf(inDatePick.getValue()));
             else{
                 Global.warningAlert("Incorrect Date", "Date needs to be in the format of yyyy-MM-dd");
-                inDateT.setValue(null);
+                inDatePick.setValue(null);
                 return;
             }
             if (trackNoT.getText().length() > 0){
                 tmp.setTrackingNo(trackNoT.getText());
                 hasTrack = true;
             }
-            if (inQuantT.getText().length() > 0) tmp.setQuantity(Integer.parseInt(inQuantT.getText()));
+            if (inQuantTBox.getText().length() > 0) tmp.setQuantity(Integer.parseInt(inQuantTBox.getText()));
             else{
                 Global.warningAlert("Incorrect Quantity", "Every Incoming Shipment needs a Quantity");
-                inQuantT.clear();
+                inQuantTBox.clear();
                 return;
             }
             if(inEmpC.getValue()!=null){
-                String selectedItem = (String) inEmpC.getSelectionModel().getSelectedItem();
+                String selectedItem = inEmpC.getSelectionModel().getSelectedItem();
                 String[] s = selectedItem.split(" | ");
-                tmp.setProductID(Long.parseLong(s[0]));
+                tmp.setEmployeeNo(Long.parseLong(s[0]));
                 hasEmp = true;
             }
             if (hasEmp && hasTrack) IncomingGoods.addRecordTrackEmp(tmp);
@@ -277,7 +280,7 @@ public class ProductStatusController {
             hideData();
         }
         catch (MySQLIntegrityConstraintViolationException e){
-            Global.warningAlert("Incoming Id Exists", "Incoming ID already exists. Incoming Good add canceled");
+            Global.warningAlert("Incoming Id Exists", "Incoming ID already exists. Incoming Order add canceled");
             Global.exceptionAlert(e, "add incoming");
         }
         catch(Exception p){
@@ -287,11 +290,11 @@ public class ProductStatusController {
 
     public void saveOutgoingClicked(ActionEvent event) {
         boolean hasEmp = false;
-        OutgoingGoods tmp = new OutgoingGoods(0, null, 0, 0);
+        OutgoingGoods tmp = new OutgoingGoods(0, null, 0 );
         try {
             try{
-                if (outProductsList.getValue()!=null) {
-                    String selectedItem = (String) outProductsList.getSelectionModel().getSelectedItem();
+                if (outProductsC.getValue()!=null) {
+                    String selectedItem = (String) outProductsC.getSelectionModel().getSelectedItem();
                     String[] s = selectedItem.split(" | ");
                     tmp.setProductID(Long.parseLong(s[0]));
                 }
@@ -299,21 +302,24 @@ public class ProductStatusController {
             catch(Exception e){
                 Global.exceptionAlert(e,"Out Products Combo");
             }
-            if (outDateT.getValue()!=null) {
-                tmp.setDateGo(java.sql.Date.valueOf(outDateT.getValue()));
+            if (outDatePick.getValue()!=null) {
+                tmp.setDateGo(java.sql.Date.valueOf(outDatePick.getValue()));
             }
             else {
                 Global.warningAlert("Incorrect Date", "Date needs to be in the format of yyyy-MM-dd");
-                outDateT.setValue(null);
+                outDatePick.setValue(null);
                 return;
             }
-            if (outQuantT.getText().length() > 0) {
-                tmp.setQuantity(Integer.parseInt(outQuantT.getText()));
-            }
-            else {
-                Global.warningAlert("Incorrect Quantity", "Every Incoming Shipment needs a Quantity");
-                outQuantT.clear();
-                return;
+            try {
+                if (outQuantTBox.getText().length() > 0) {
+                    tmp.setQuantity(Integer.parseInt(outQuantTBox.getText()));
+                } else {
+                    Global.warningAlert("Incorrect Quantity", "Every Incoming Shipment needs a Quantity");
+                    outQuantTBox.clear();
+                    return;
+                }
+            }catch(Exception e){
+                Global.warningAlert("Quantity","There aren't enough products to send out.");
             }
             if (outEmpC.getValue()!=null) {
                 String selectedItem = outEmpC.getSelectionModel().getSelectedItem().toString();
@@ -328,7 +334,7 @@ public class ProductStatusController {
             hideData();
         }
         catch(MySQLIntegrityConstraintViolationException e){
-            Global.warningAlert("Outgoing Id Exists", "Outgoing ID already exists. Incoming Good add canceled");
+            Global.warningAlert("Outgoing Id Exists", "Outgoing ID already exists. Outgoing Order add canceled");
         }
         catch(Exception p){
             Global.exceptionAlert(p, "Save Outgoing");
@@ -336,34 +342,36 @@ public class ProductStatusController {
     }
     public void modIncom(){
         try{
-            String selected = inProductsList.getSelectionModel().getSelectedItem().toString();
+            String selected = inProductsC.getSelectionModel().getSelectedItem();
             String[] p = selected.split(" | ");
-            IncomingGoods.modifyDateIn(intmp.getIncomingID(),java.sql.Date.valueOf(inDateT.getValue()));
+            IncomingGoods.modifyProductID(intmp.getIncomingID(),(Long.parseLong(p[0])));
+            IncomingGoods.modifyDateIn(intmp.getIncomingID(),java.sql.Date.valueOf(inDatePick.getValue()));
+            IncomingGoods.modifyQuantity(intmp.getIncomingID(),Integer.parseInt(inQuantTBox.getText()));
+            IncomingGoods.modifyTrackingNo(intmp.getIncomingID(),trackNoT.getText());
             if(inEmpC.getValue()!=null){
-                String selectedItem = inEmpC.getSelectionModel().getSelectedItem().toString();
+                String selectedItem = inEmpC.getSelectionModel().getSelectedItem();
                 String[] s = selectedItem.split(" | ");
                 IncomingGoods.modifyEmployeeNo(intmp.getIncomingID(),Long.parseLong(s[0]));
-            }
-            IncomingGoods.modifyProductID(intmp.getIncomingID(),(Long.parseLong(p[0])));
-            IncomingGoods.modifyQuantity(intmp.getIncomingID(),Integer.parseInt(inQuantT.getText()));
-            if (trackNoT.getText().length() > 0){
-                IncomingGoods.modifyTrackingNo(intmp.getIncomingID(),trackNoT.getText());
             }
             setIncomingTable();
             setCurrentTable();
             hideData();
         }
         catch(Exception e){
-            Global.exceptionAlert(e,"Modify Incoming Goods");
+            Global.exceptionAlert(e,"Modify OutGoing Goods");
         }
     }
     public void modOut(){
         try{
-            String selected = outProductsList.getSelectionModel().getSelectedItem().toString();
+            String selected = outProductsC.getSelectionModel().getSelectedItem().toString();
             String[] p = selected.split(" | ");
-            OutgoingGoods.modifyDateGo(outtmp.getOutgoingID(),java.sql.Date.valueOf(outDateT.getValue()));
+            OutgoingGoods.modifyDateGo(outtmp.getOutgoingID(),java.sql.Date.valueOf(outDatePick.getValue()));
             OutgoingGoods.modifyProductID(outtmp.getOutgoingID(),(Long.parseLong(p[0])));
-            OutgoingGoods.modifyQuantity(outtmp.getOutgoingID(),Integer.parseInt(outQuantT.getText()));
+            try{
+                OutgoingGoods.modifyQuantity(outtmp.getOutgoingID(),Integer.parseInt(outQuantTBox.getText()));
+            }catch(Exception e){
+                Global.warningAlert("Quantity","There aren't enough products to send out.");
+            }
             if (outEmpC.getValue()!=null) {
                 String selectedItem = outEmpC.getSelectionModel().getSelectedItem().toString();
                 String[] s = selectedItem.split(" | ");
@@ -412,60 +420,64 @@ public class ProductStatusController {
         }
     }
     public void clearBox(){
-        inQuantT.clear();
+        inQuantTBox.clear();
         trackNoT.clear();
-        inDateT.setValue(null);
-        outDateT.setValue(null);
-        outQuantT.clear();
+        inDatePick.setValue(null);
+        outDatePick.setValue(null);
+        outQuantTBox.clear();
     }
     public void addIncomingData(){
         incomingV.setVisible(true);
-        addIncomB.setVisible(false);
-        modIncomB.setVisible(false);
-        inAddB.setVisible(true);
-        inModB.setVisible(false);
+        inAddButton.setVisible(false);
+        inModButton.setVisible(false);
+        inAddHBox.setVisible(true);
+        inModHBox.setVisible(false);
+        inProductsC.setValue(null);
+        inEmpC.setValue(null);
+    }
+    public void addOutgoingData(){
+        outgoingV.setVisible(true);
+        outAddButton.setVisible(false);
+        outModButton.setVisible(false);
+        outAddHBox.setVisible(true);
+        outModHBox.setVisible(false);
+        outProductsC.setValue(null);
+        outEmpC.setValue(null);
     }
     public void modIncomingData(){
-        inModB.setVisible(true);
-        addIncomB.setVisible(false);
-        modIncomB.setVisible(false);
+        inModHBox.setVisible(true);
+        inAddButton.setVisible(false);
+        inModButton.setVisible(false);
         incomingV.setVisible(true);
-        inAddB.setVisible(false);
+        inAddHBox.setVisible(false);
 
         if(!Global.privilege) {
             outDelete.setVisible(false);
             inDelete.setVisible(false);
         }
     }
-    public void addOutgoingData(){
-        outgoingV.setVisible(true);
-        addOutB.setVisible(false);
-        modOutB.setVisible(false);
-        outAddB.setVisible(true);
-        outModB.setVisible(false);
-    }
     public void modOutgoingData(){
-        outModB.setVisible(true);
-        addOutB.setVisible(false);
-        modOutB.setVisible(false);
+        outModHBox.setVisible(true);
+        outAddButton.setVisible(false);
+        outModButton.setVisible(false);
         outgoingV.setVisible(true);
-        outAddB.setVisible(false);
+        outAddHBox.setVisible(false);
         if(!Global.privilege) {
             outDelete.setVisible(false);
             inDelete.setVisible(false);
         }
     }
     public void hideData(){
-        addIncomB.setVisible(true);
+        inAddButton.setVisible(true);
         incomingV.setVisible(false);
-        inAddB.setVisible(false);
-        modIncomB.setVisible(false);
-        inModB.setVisible(false);
-        addOutB.setVisible(true);
+        inAddHBox.setVisible(false);
+        inModButton.setVisible(false);
+        inModHBox.setVisible(false);
+        outAddButton.setVisible(true);
         outgoingV.setVisible(false);
-        outAddB.setVisible(false);
-        modOutB.setVisible(false);
-        outModB.setVisible(false);
+        outAddHBox.setVisible(false);
+        outModButton.setVisible(false);
+        outModHBox.setVisible(false);
         incomingT.getSelectionModel().clearSelection();
         outgoingT.getSelectionModel().clearSelection();
         clearBox();

@@ -32,7 +32,7 @@
                      <font>
                         <Font size="25.0" />
                      </font></Button>
-                         <Button fx:id="prodStatB" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#openProductStatus" text="Product Status" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                         <Button fx:id="prodStatB" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#openProductStatus" text="Product Status" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="4">
                      <font>
                         <Font size="25.0" />
                      </font></Button>

@@ -16,19 +16,23 @@ public class OutgoingGoods {
         this.quantity = quantity;
         this.employeeNo = employeeNo;
     }
-
+    public OutgoingGoods(long outgoingID, long productID, Date dateGo, int quantity) {
+        this.productID = productID;
+        this.dateGo = dateGo;
+        this.quantity = quantity;
+    }
     public OutgoingGoods(long productID, Date dateGo, int quantity, long employeeNo) {
         this.productID = productID;
         this.dateGo = dateGo;
         this.quantity = quantity;
         this.employeeNo = employeeNo;
     }
-
-    public OutgoingGoods(long outgoingID, long productID, Date dateGo, int quantity) {
+    public OutgoingGoods(long productID, Date dateGo, int quantity){
         this.productID = productID;
         this.dateGo = dateGo;
         this.quantity = quantity;
     }
+
 
     //Get set
     public long getOutgoingID() {

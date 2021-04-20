@@ -163,6 +163,6 @@ public class IncomingGoods {
         SqlController.dbStatement.executeUpdate("update incoming_goods set quantity = " + updateValue + " where incoming_id = " + primaryKey);
     }
     public static void modifyEmployeeNo(long primaryKey, long updateValue) throws SQLException {
-        SqlController.dbStatement.executeUpdate("update incoming_goods set product_id = " + updateValue + " where incoming_id = " + primaryKey);
+        SqlController.dbStatement.executeUpdate("update incoming_goods set employee_no = " + updateValue + " where incoming_id = " + primaryKey);
     }
 }
