@@ -154,12 +154,6 @@ public class BudgetController {
                 incoming.clear();
                 return;
             }
-            if (netProfit.getText().length() > 0) tmp.setNet(Double.parseDouble(netProfit.getText()));
-            else {
-                Global.warningAlert("Incorrect Net Income", "Budget needs a net income.");
-                netProfit.clear();
-                return;
-            }
             if (userInfo.getText().length() > 0) {
                 tmp.setEmployeeNo(Long.parseLong(userInfo.getText()));
                 hasEmployee = true;
