@@ -30,9 +30,9 @@ public class AdminUserListController {
     @FXML
     VBox userV;
     @FXML
-    HBox userAddB;
+    HBox userAddHBox;
     @FXML
-    HBox userModB;
+    HBox modUHBox;
     @FXML
     TableColumn<Users, Long> userID;
     @FXML
@@ -44,13 +44,13 @@ public class AdminUserListController {
     @FXML
     TableColumn<Users, String> role;
     @FXML
-    TextField fname;
+    TextField usrFName;
     @FXML
     TextField lname;
     @FXML
-    TextField username;
+    TextField uUsername;
     @FXML
-    TextField user_id;
+    TextField uUID;
     @FXML
     TextField usrRole;
     @FXML
@@ -91,9 +91,9 @@ public class AdminUserListController {
     @FXML
     TextField empUsername;
     @FXML
-    TextField emp_id;
+    TextField EID;
     @FXML
-    TextField userid;
+    TextField empUID;
     @FXML
     TextField empRole;
     @FXML
@@ -106,8 +106,11 @@ public class AdminUserListController {
     Button empUpdate;
     @FXML
     Button empDelete;
+    @FXML
+    Label endDateLabel;
+    @FXML
+    DatePicker endDate;
 
-    DatePicker endDate=new DatePicker();
     ArrayList<Users> allUsers;
     ArrayList<Employees> allEmps;
     Users utemp;
@@ -119,7 +122,6 @@ public class AdminUserListController {
         setUserTable();
         setEmpTable();
         getSelectedInfo();
-        userDetails();
         adminDetails();
     }
 
@@ -171,25 +173,25 @@ public class AdminUserListController {
         }
         Users tmp = new Users(0, "", "", "", "", "");
         try{
-                if (user_id.getText().length() > 0 && Long.parseLong(user_id.getText()) >= 0)
-                    tmp.setUserID(Long.parseLong(user_id.getText()));
+                if (uUID.getText().length() > 0 && Long.parseLong(uUID.getText()) >= 0)
+                    tmp.setUserID(Long.parseLong(uUID.getText()));
                 else{
                     Global.warningAlert("Incorrect ID", "User ID needs to be greater than 0 and less than 9");
-                    user_id.clear();
+                    uUID.clear();
                     return;
                 }
-                if (username.getText().length() > 0)
-                    tmp.setUsername(username.getText());
+                if (uUsername.getText().length() > 0)
+                    tmp.setUsername(uUsername.getText());
                 else{
                     Global.warningAlert("Incorrect Username", "Every User needs a Username");
-                    username.clear();
+                    uUsername.clear();
                     return;
                 }
-                if (fname.getText().length() > 0)
-                    tmp.setFName(fname.getText());
+                if (usrFName.getText().length() > 0)
+                    tmp.setFName(usrFName.getText());
                 else{
                     Global.warningAlert("Incorrect first name", "Every User needs a first name");
-                    fname.clear();
+                    usrFName.clear();
                     return;
                 }
                 if (lname.getText().length() > 0)
@@ -227,20 +229,20 @@ public class AdminUserListController {
         Employees etmp = new Employees(0,0, "","", 0, "",null );
         Users utmp = new Users(0, "", "", "", "", "");
         try{
-                if (emp_id.getText().length() > 0 && Long.parseLong(emp_id.getText()) >= 0)
-                    etmp.setEmployeeNo(Long.parseLong(emp_id.getText()));
+                if (EID.getText().length() > 0 && Long.parseLong(EID.getText()) >= 0)
+                    etmp.setEmployeeNo(Long.parseLong(EID.getText()));
                 else{
-                    Global.warningAlert("Incorrect ID", "User ID needs to be greater than 0 and less than 9");
-                    emp_id.clear();
+                    Global.warningAlert("Incorrect ID", "User ID needs to be greater than 0 and less than 9 digits");
+                    EID.clear();
                     return;
                 }
-                if (userid.getText().length() > 0 && Long.parseLong(userid.getText()) >= 0){
-                    etmp.setUserID(Long.parseLong(userid.getText()));
-                    utmp.setUserID(Long.parseLong(userid.getText()));
+                if (empUID.getText().length() > 0 && Long.parseLong(empUID.getText()) >= 0){
+                    etmp.setUserID(Long.parseLong(empUID.getText()));
+                    utmp.setUserID(Long.parseLong(empUID.getText()));
                 }
                 else{
-                    Global.warningAlert("Incorrect ID", "User ID needs to be greater than 0 and less than 9");
-                    userid.clear();
+                    Global.warningAlert("Incorrect ID", "User ID needs to be greater than 0 and less than 9 digits");
+                    empUID.clear();
                     return;
                 }
                 if (empFname.getText().length() > 0){
@@ -298,8 +300,24 @@ public class AdminUserListController {
             try{
                     Users.addRecord(utmp);
                     userT.getItems().add(utmp);
-            }catch (MySQLIntegrityConstraintViolationException a){
-                Global.warningAlert("User Id Exists", "You do not need to Add another User");
+            }catch (MySQLIntegrityConstraintViolationException a) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("This User ID Exists");
+                alert.setContentText("Do you want to assign this Employee to the current User ID?");
+                ButtonType okButton = new ButtonType("Yes", ButtonBar.ButtonData.YES);
+                ButtonType noButton = new ButtonType("Yes", ButtonBar.ButtonData.NO);
+                alert.getButtonTypes().addAll(okButton, noButton);
+                alert.showAndWait().ifPresent(type -> {
+                    if (type == ButtonType.NO)
+                        return;
+                    else {
+                        try {
+                            Users.modifyRole(utemp.getUserID(),empRole.getText());
+                        }catch(Exception e){
+                            Global.exceptionAlert(e,"Updating a User while adding an employee");
+                        }
+                    }
+                });
             }
             switch (method){
                 case 0: Employees.addRecordPay(etmp);
@@ -325,6 +343,8 @@ public class AdminUserListController {
                 userT.getItems().remove(userT.getSelectionModel().getSelectedItem());
                 utemp=null;
                 hideData();
+                setUserTable();
+                clearUsrData();
             }
             catch(Exception e){
                 Global.exceptionAlert(e,"Delete User");
@@ -334,26 +354,29 @@ public class AdminUserListController {
     public void deleteEmpClicked() {
         Alert deleteAlert = new Alert(Alert.AlertType.CONFIRMATION);
         deleteAlert.setTitle("Delete");
-        deleteAlert.setHeaderText("Delete User");
+        deleteAlert.setHeaderText("Delete Employee");
         deleteAlert.setContentText("Are you sure you want to delete this User?");
         if(deleteAlert.showAndWait().get() == ButtonType.OK){
             try{
-                ims.Users.deleteRecord(etemp.getUserID());
+                Users.modifyRole(etemp.getUserID(),"User");
+                Employees.deleteRecord(etemp.getEmployeeNo());
                 empT.getItems().remove(empT.getSelectionModel().getSelectedItem());
                 etemp=null;
                 hideData();
+                setEmpTable();
+                clearEmpData();
             }
             catch(Exception e){
-                Global.exceptionAlert(e,"Delete User");
+                Global.exceptionAlert(e,"Delete Employee");
             }
         }
     }
     public void modifyDBUser(){
         try{
-            Users.modifyFName(allUsers.get(uIndex).getUserID(),fname.getText());
+            Users.modifyFName(allUsers.get(uIndex).getUserID(), usrFName.getText());
             Users.modifyLName(allUsers.get(uIndex).getUserID(),lname.getText());
             Users.modifyRole(allUsers.get(uIndex).getUserID(),usrRole.getText());
-            Users.modifyUsername(allUsers.get(uIndex).getUserID(),username.getText());
+            Users.modifyUsername(allUsers.get(uIndex).getUserID(), uUsername.getText());
             initialize();
         }
         catch(Exception e){
@@ -364,33 +387,17 @@ public class AdminUserListController {
         try{
         Employees.modifyEmployeeFn(allEmps.get(eIndex).getEmployeeNo(),empFname.getText());
         Employees.modifyEmployeeLn(allEmps.get(eIndex).getEmployeeNo(),empLname.getText());
-        Employees.modifyUserId(allEmps.get(eIndex).getEmployeeNo(),Long.parseLong(userid.getText()));
+        Employees.modifyUserId(allEmps.get(eIndex).getEmployeeNo(),Long.parseLong(empUID.getText()));
         Employees.modifyStartDate(allEmps.get(eIndex).getEmployeeNo(),java.sql.Date.valueOf(startDate.getValue()));
         Employees.modifyPosition(allEmps.get(eIndex).getEmployeeNo(),empRole.getText());
-        if(method==0 ||method==2) Employees.modifyPayHour(allEmps.get(eIndex).getEmployeeNo(),Double.parseDouble(pay.getText()));
-        if(method==2 || method==3) Employees.modifyEndDate(allEmps.get(eIndex).getEmployeeNo(),java.sql.Date.valueOf(endDate.getValue()));
+        if(pay.getText().length()>0) Employees.modifyPayHour(allEmps.get(eIndex).getEmployeeNo(),Double.parseDouble(pay.getText()));
+        if(endDate.getValue()!=null) Employees.modifyEndDate(allEmps.get(eIndex).getEmployeeNo(),java.sql.Date.valueOf(endDate.getValue()));
         initialize();
         }
         catch(Exception e){
             Global.exceptionAlert(e,"modify Database Employee");
         }
         hideData();
-    }
-    public void userDetails(){
-        try{
-            userT.setOnMouseClicked(event -> {
-                uIndex= userT.getSelectionModel().getSelectedIndex();
-                fname.setText(allUsers.get(uIndex).getFName());
-                lname.setText(allUsers.get(uIndex).getLName());
-                usrRole.setText(allUsers.get(uIndex).getRole());
-                username.setText(allUsers.get(uIndex).getUsername());
-                user_id.setText(String.valueOf(allUsers.get(uIndex).getUserID()));
-                userModify.setVisible(true);
-            });
-        }
-        catch (Exception e){
-            Global.exceptionAlert(e, "Show admin details");
-        }
     }
     public void adminDetails(){
         try{
@@ -400,11 +407,25 @@ public class AdminUserListController {
                 empLname.setText(allUsers.get(eIndex).getLName());
                 empRole.setText(allUsers.get(eIndex).getRole());
                 empUsername.setText(allUsers.get(eIndex).getUsername());
-                userid.setText(String.valueOf(allUsers.get(eIndex).getUserID()));
-                emp_id.setText(String.valueOf(allEmps.get(eIndex).getEmployeeNo()));
+                empUID.setText(String.valueOf(allUsers.get(eIndex).getUserID()));
+                EID.setText(String.valueOf(allEmps.get(eIndex).getEmployeeNo()));
                 pay.setText(String.valueOf(allEmps.get(eIndex).getPayHour()));
                 empModify.setVisible(true);
             });
+            try{
+                userT.setOnMouseClicked(event -> {
+                    uIndex= userT.getSelectionModel().getSelectedIndex();
+                    usrFName.setText(allUsers.get(uIndex).getFName());
+                    lname.setText(allUsers.get(uIndex).getLName());
+                    usrRole.setText(allUsers.get(uIndex).getRole());
+                    uUsername.setText(allUsers.get(uIndex).getUsername());
+                    uUID.setText(String.valueOf(allUsers.get(uIndex).getUserID()));
+                    userModify.setVisible(true);
+                });
+            }
+            catch (Exception e){
+                Global.exceptionAlert(e, "Show admin details");
+            }
         }
         catch (Exception e){
             Global.exceptionAlert(e, "Show admin details");
@@ -412,9 +433,9 @@ public class AdminUserListController {
     }
     public void addUserData(){
         userV.setVisible(true);
-        userAddB.setVisible(true);
+        userAddHBox.setVisible(true);
         userModify.setVisible(false);
-        userModB.setVisible(false);
+        modUHBox.setVisible(false);
         clearUsrData();
     }
     public void addEmpData(){
@@ -422,29 +443,45 @@ public class AdminUserListController {
         empAddB.setVisible(true);
         empModify.setVisible(false);
         empModB.setVisible(false);
-
         clearEmpData();
     }
-    public void showUserData(){
-        userV.setVisible(true);
-        userModB.setVisible(true);
-        userAdd.setVisible(false);
-        userAddB.setVisible(false);
-        user_id.setEditable(false);
+    public void clearUsrData(){
+        usrFName.clear();
+        lname.clear();
+        usrRole.clear();
+        uUsername.clear();
+        uUID.clear();
     }
-    public void showEmpData(){
+    public void clearEmpData(){
+        empFname.clear();
+        empLname.clear();
+        empRole.clear();
+        empUsername.clear();
+        empUID.clear();
+        EID.clear();
+        pay.clear();
+    }
+    public void modUserData(){
+        userV.setVisible(true);
+        modUHBox.setVisible(true);
+        userAdd.setVisible(false);
+        userAddHBox.setVisible(false);
+        uUID.setEditable(false);
+    }
+    public void modEmpData(){
         empV.setVisible(true);
         empModB.setVisible(true);
         empAdd.setVisible(false);
         empV.setVisible(false);
         empAddB.setVisible(false);
-        emp_id.setEditable(false);
-        empV.getChildren().add(endDate);
+        EID.setEditable(false);
+        endDateLabel.setVisible(true);
+        endDate.setVisible(true);
     }
     public void hideData(){
         userV.setVisible(false);
-        userModB.setVisible(false);
-        userAddB.setVisible(false);
+        modUHBox.setVisible(false);
+        userAddHBox.setVisible(false);
         userAdd.setVisible(true);
         empV.setVisible(false);
         empModB.setVisible(false);
@@ -452,27 +489,14 @@ public class AdminUserListController {
         empAdd.setVisible(true);
         userModify.setVisible(false);
         empModify.setVisible(false);
-        user_id.setEditable(true);
-        emp_id.setEditable(true);
+        uUID.setEditable(true);
+        EID.setEditable(true);
+        endDateLabel.setVisible(false);
+        endDate.setVisible(false);
         empT.getSelectionModel().clearSelection();
         userT.getSelectionModel().clearSelection();
     }
-    public void clearEmpData(){
-        empFname.clear();
-        empLname.clear();
-        empRole.clear();
-        empUsername.clear();
-        userid.clear();
-        emp_id.clear();
-        pay.clear();
-    }
-    public void clearUsrData(){
-        fname.clear();
-        lname.clear();
-        usrRole.clear();
-        username.clear();
-        user_id.clear();
-    }
+
     @FXML
     private void openHomePage(ActionEvent event) {
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();

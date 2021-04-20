@@ -75,7 +75,7 @@ public class OrdersController {
     ArrayList<String> eNames = new ArrayList<>();
     boolean hasProd=false;
     int oIndex=-1;
-    //Orders otemp;
+
     public void initialize(){
         setOrderList();
         orderDetails();

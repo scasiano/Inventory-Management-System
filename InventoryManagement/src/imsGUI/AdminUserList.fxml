@@ -40,30 +40,31 @@
                 </HBox.margin>
             </Button>
         </children>
-    </HBox>
-        <TabPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT" prefHeight="200.0" prefWidth="200.0" scaleShape="false" snapToPixel="false" style="-fx-background-color: ALICEBLUE; -fx-border-color: white; -fx-tab-max-width: Infinity;" tabClosingPolicy="UNAVAILABLE" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.rowIndex="1">
-            <tabs>
-                <Tab text="Users">
-                    <content>
-                        <GridPane alignment="TOP_CENTER" focusTraversable="true" maxHeight="Infinity" maxWidth="Infinity" minHeight="0.0" minWidth="0.0">
-                            <columnConstraints>
+        </HBox>
+            <TabPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT" prefHeight="200.0" prefWidth="200.0" scaleShape="false" snapToPixel="false" style="-fx-background-color: ALICEBLUE; -fx-border-color: white; -fx-tab-max-width: Infinity;" tabClosingPolicy="UNAVAILABLE" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                <tabs>
+                    <Tab text="Users">
+                        <content>
+                            <GridPane alignment="TOP_CENTER" focusTraversable="true" maxHeight="Infinity" maxWidth="Infinity" minHeight="0.0" minWidth="0.0">
+                                <columnConstraints>
                                 <ColumnConstraints fillWidth="true" minWidth="10" />
                                 <ColumnConstraints fillWidth="true" percentWidth="60" />
                                 <ColumnConstraints fillWidth="true" maxWidth="10" minWidth="10" />
                                 <ColumnConstraints fillWidth="true" percentWidth="20" />
                             </columnConstraints>
-                            <rowConstraints>
+                                <rowConstraints>
                                 <RowConstraints fillHeight="true" percentHeight="5" />
                                 <RowConstraints fillHeight="true" percentHeight="90" />
                                 <RowConstraints fillHeight="true" percentHeight="5" />
                             </rowConstraints>
-                            <children>
-                                <Button fx:id="userModify" mnemonicParsing="false" onAction="#showUserData" text="Modify User" visible="false" GridPane.columnIndex="1" GridPane.halignment="RIGHT" />
-                                <Button fx:id="userAdd" mnemonicParsing="false" onAction="#addUserData" text="Add User" GridPane.columnIndex="1">
-                           <GridPane.margin>
+                                <children>
+                                    <Button fx:id="userModify" mnemonicParsing="false" onAction="#modUserData" text="Modify User" visible="false" GridPane.columnIndex="1" GridPane.halignment="RIGHT" />
+                                    <Button fx:id="userAdd" mnemonicParsing="false" onAction="#addUserData" text="Add User" GridPane.columnIndex="1">
+                                        <GridPane.margin>
                               <Insets />
-                           </GridPane.margin></Button>
-                                <TableView fx:id="userT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                           </GridPane.margin>
+                                    </Button>
+                                    <TableView fx:id="userT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                                     <columns>
                                         <TableColumn fx:id="userID" text="Username ID" />
                                         <TableColumn fx:id="uFirstName" text="First Name" />
@@ -76,73 +77,79 @@
                                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                     </columnResizePolicy>
                                 </TableView>
-
-                        <VBox fx:id="userV" fillWidth="true" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="1">
-                            <children>
-                                <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="41.0" prefWidth="152.0" text="Create/Update User" GridPane.rowIndex="1" />
-                                <TextField fx:id="fname" prefHeight="26.0" prefWidth="152.0" promptText="First Name" GridPane.rowIndex="1">
-                                    <VBox.margin>
-                                        <Insets bottom="5.0" top="5.0" />
-                                    </VBox.margin></TextField>
-                                <TextField fx:id="lname" promptText="Last Name" GridPane.rowIndex="1">
-                                    <VBox.margin>
-                                        <Insets bottom="5.0" top="5.0" />
-                                    </VBox.margin></TextField>
-                                <TextField fx:id="usrRole" promptText="Role" GridPane.rowIndex="1">
-                                    <VBox.margin>
-                                        <Insets bottom="5.0" top="5.0" />
-                                    </VBox.margin></TextField>
-                                <TextField fx:id="username" promptText="Username" GridPane.rowIndex="1">
-                                    <VBox.margin>
-                                        <Insets bottom="5.0" top="5.0" />
-                                    </VBox.margin></TextField>
-                                <TextField fx:id="user_id" promptText="User ID" GridPane.rowIndex="1">
-                                    <VBox.margin>
-                                        <Insets bottom="5.0" top="5.0" />
-                                    </VBox.margin></TextField>
-                                <HBox fx:id="userModB" alignment="TOP_CENTER" visible="false">
-                                    <Button fx:id="delete" mnemonicParsing="false" onAction="#deleteUserClicked" text="Delete User" GridPane.rowIndex="1">
+                                    <VBox fx:id="userV" fillWidth="true" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                                        <children>
+                                            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="41.0" prefWidth="152.0" text="Create/Update User" GridPane.rowIndex="1" />
+                                            <Label text="First Name:"/>
+                                            <TextField fx:id="usrFName" prefHeight="26.0" prefWidth="152.0" promptText="First Name" GridPane.rowIndex="1">
+                                                <VBox.margin>
+                                                    <Insets bottom="5.0" top="5.0" />
+                                                </VBox.margin>
+                                            </TextField>
+                                            <Label text="Last Name:"/>
+                                            <TextField fx:id="usrLName" promptText="Last Name" GridPane.rowIndex="1">
+                                                <VBox.margin>
+                                                    <Insets bottom="5.0" top="5.0" />
+                                                </VBox.margin></TextField>
+                                            <Label text="User Role:"/>
+                                            <TextField fx:id="usrRole" promptText="Role" GridPane.rowIndex="1">
+                                                <VBox.margin>
+                                                    <Insets bottom="5.0" top="5.0" />
+                                                </VBox.margin>
+                                            </TextField>
+                                            <Label text="Username:"/>
+                                            <TextField fx:id="uUsername" promptText="Username" GridPane.rowIndex="1">
+                                                <VBox.margin>
+                                                    <Insets bottom="5.0" top="5.0" />
+                                                </VBox.margin></TextField>
+                                            <Label text="User ID:"/>
+                                            <TextField fx:id="uUID" promptText="User ID" GridPane.rowIndex="1">
+                                                <VBox.margin>
+                                                    <Insets bottom="5.0" top="5.0" />
+                                                </VBox.margin></TextField>
+                                            <HBox fx:id="modUHBox" alignment="TOP_CENTER" visible="false">
+                                            <Button fx:id="delete" mnemonicParsing="false" onAction="#deleteUserClicked" text="Delete User" GridPane.rowIndex="1">
                                     <HBox.margin>
                                        <Insets left="10.0" />
                                     </HBox.margin></Button>
-                                    <Button fx:id="update" mnemonicParsing="false" onAction="#modifyDBUser" text="Update" GridPane.rowIndex="1">
+                                            <Button fx:id="update" mnemonicParsing="false" onAction="#modifyDBUser" text="Update" GridPane.rowIndex="1">
                                     <HBox.margin>
                                        <Insets left="10.0" right="10.0" />
                                     </HBox.margin></Button>
-                                    <Button fx:id="cancelOrder" mnemonicParsing="false" onAction="#hideData" text="Cancel" />
-                                </HBox>
-                                <HBox fx:id="userAddB" alignment="TOP_CENTER" visible="false">
-                                    <Button fx:id="save" mnemonicParsing="false" onAction="#saveUserClicked" text="Save" GridPane.rowIndex="1" />
-                                    <Button fx:id="cancelOrder3" mnemonicParsing="false" onAction="#hideData" text="Cancel">
+                                            <Button fx:id="cancelMod" mnemonicParsing="false" onAction="#hideData" text="Cancel" />
+                                        </HBox>
+                                            <HBox fx:id="userAddHBox" alignment="TOP_CENTER" visible="false">
+                                            <Button fx:id="save" mnemonicParsing="false" onAction="#saveUserClicked" text="Save" GridPane.rowIndex="1" />
+                                            <Button fx:id="cancelAdd" mnemonicParsing="false" onAction="#hideData" text="Cancel">
                                         <HBox.margin>
                                             <Insets left="10.0" right="10.0" />
                                         </HBox.margin>
                                     </Button>
-                                </HBox>
-                            </children>
-                            </VBox>
-                            </children>
-                        </GridPane>
-                    </content>
-                </Tab>
-                <Tab text="Employees">
-                    <content>
-                        <GridPane alignment="TOP_CENTER" focusTraversable="true" maxHeight="Infinity" maxWidth="Infinity" minHeight="0.0" minWidth="0.0">
-                            <columnConstraints>
+                                        </HBox>
+                                        </children>
+                                    </VBox>
+                                </children>
+                            </GridPane>
+                        </content>
+                    </Tab>
+                    <Tab text="Employees">
+                        <content>
+                            <GridPane alignment="TOP_CENTER" focusTraversable="true" maxHeight="Infinity" maxWidth="Infinity" minHeight="0.0" minWidth="0.0">
+                                <columnConstraints>
                                 <ColumnConstraints fillWidth="true" minWidth="10" />
                                 <ColumnConstraints fillWidth="true" percentWidth="60" />
                                 <ColumnConstraints fillWidth="true" maxWidth="10" minWidth="10" />
                                 <ColumnConstraints fillWidth="true" percentWidth="20" />
                             </columnConstraints>
-                            <rowConstraints>
+                                <rowConstraints>
                                 <RowConstraints fillHeight="true" percentHeight="5" />
                                 <RowConstraints fillHeight="true" percentHeight="90" />
                                 <RowConstraints fillHeight="true" percentHeight="5" />
                             </rowConstraints>
-                            <children>
-                                <Button fx:id="empModify" mnemonicParsing="false" onAction="#showEmpData" text="Modify Employee" visible="false" GridPane.columnIndex="1" GridPane.halignment="RIGHT" />
-                                <Button fx:id="empAdd" mnemonicParsing="false" onAction="#addEmpData" text="Add Employee" GridPane.columnIndex="1" />
-                                <TableView fx:id="empT" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                <children>
+                                    <Button fx:id="empModify" mnemonicParsing="false" onAction="#modEmpData" text="Modify Employee" visible="false" GridPane.columnIndex="1" GridPane.halignment="RIGHT" />
+                                    <Button fx:id="empAdd" mnemonicParsing="false" onAction="#addEmpData" text="Add Employee" GridPane.columnIndex="1" />
+                                    <TableView fx:id="empT" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                     <columns>
                                         <TableColumn fx:id="empID" text="Employee ID" />
                                         <TableColumn fx:id="empUserID" text="Username ID" />
@@ -158,39 +165,49 @@
                                     </TableView>
                                     <VBox fx:id="empV" fillWidth="true" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="1"><children>
                                         <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="41.0" prefWidth="152.0" text="Create/Update User" GridPane.rowIndex="1" />
+                                        <Label text="First Name:"/>
                                         <TextField fx:id="empFname" prefHeight="26.0" prefWidth="152.0" promptText="First Name" GridPane.rowIndex="1">
                                             <VBox.margin>
                                                 <Insets bottom="5.0" top="5.0" />
                                             </VBox.margin></TextField>
+                                        <Label text="Last Name:"/>
                                         <TextField fx:id="empLname" promptText="Last Name" GridPane.rowIndex="1">
                                             <VBox.margin>
                                                 <Insets bottom="5.0" top="5.0" />
                                             </VBox.margin></TextField>
+                                        <Label text="Employee Position:"/>
                                         <TextField fx:id="empRole" promptText="Role" GridPane.rowIndex="1">
                                             <VBox.margin>
                                                 <Insets bottom="5.0" top="5.0" />
                                             </VBox.margin></TextField>
+                                        <Label text="Username:"/>
                                         <TextField fx:id="empUsername" promptText="Username" GridPane.rowIndex="1">
                                             <VBox.margin>
                                                 <Insets bottom="5.0" top="5.0" />
                                             </VBox.margin></TextField>
-                                        <TextField fx:id="userid" promptText="User ID" GridPane.rowIndex="1">
+                                        <Label text="User ID:"/>
+                                        <TextField fx:id="empUID" promptText="User ID" GridPane.rowIndex="1">
                                             <VBox.margin>
                                                 <Insets bottom="5.0" top="5.0" />
                                             </VBox.margin></TextField>
-                                        <TextField fx:id="emp_id" promptText="Employee ID" GridPane.rowIndex="1">
+                                        <Label text="Employee ID:"/>
+                                        <TextField fx:id="EID" promptText="Employee ID" GridPane.rowIndex="1">
                                             <VBox.margin>
                                                 <Insets bottom="5.0" top="5.0" />
                                             </VBox.margin></TextField>
+                                        <Label text="Pay/Hour:"/>
                                         <TextField fx:id="pay" promptText="Employee Pay" GridPane.rowIndex="1">
                                             <VBox.margin>
                                                 <Insets bottom="5.0" top="5.0" />
                                             </VBox.margin></TextField>
+                                        <Label text="Start Date:"/>
                                         <DatePicker fx:id="startDate" GridPane.rowIndex="1">
                                             <VBox.margin>
                                                 <Insets bottom="5.0" top="5.0" />
                                             </VBox.margin>
                                         </DatePicker>
+                                        <Label fx:id="endDateLabel" text="End Date:" visible="false"/>
+                                        <DatePicker fx:id="endDate" GridPane.rowIndex="1" visible="false"/>
                                         <HBox fx:id="empModB" alignment="TOP_CENTER" visible="false">
                                             <Button fx:id="empDelete" mnemonicParsing="false" onAction="#deleteEmpClicked" text="Delete User" GridPane.rowIndex="1">
                                                 <HBox.margin>
@@ -201,11 +218,11 @@
                                                 <HBox.margin>
                                                     <Insets left="10.0" right="10.0" />
                                                 </HBox.margin></Button>
-                                            <Button fx:id="cancelOrder1" mnemonicParsing="false" onAction="#hideData" text="Cancel" />
+                                            <Button fx:id="cancelModE" mnemonicParsing="false" onAction="#hideData" text="Cancel" />
                                         </HBox>
                                         <HBox fx:id="empAddB" alignment="TOP_CENTER" visible="false">
                                             <Button fx:id="empSave" mnemonicParsing="false" onAction="#saveEmpClicked" text="Save" GridPane.rowIndex="1" />
-                                            <Button fx:id="cancelOrder2" mnemonicParsing="false" onAction="#hideData" text="Cancel">
+                                            <Button fx:id="cancelAddE" mnemonicParsing="false" onAction="#hideData" text="Cancel">
                                                 <HBox.margin>
                                                     <Insets left="10.0" right="10.0" />
                                                 </HBox.margin>
