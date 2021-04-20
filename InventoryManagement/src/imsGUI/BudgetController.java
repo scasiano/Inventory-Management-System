@@ -121,91 +121,60 @@ public class BudgetController {
 
     public void saveBudget(ActionEvent event) {
         boolean newB = true;
-        if (budgetTMP == null) {
-            newB = false;
-        }
-        bIndex = 1;
+        boolean hasEmployee = false;
+        boolean hasPeriodID = false;
+        if (budgetTMP == null) newB = false;
         Budget tmp = new Budget(0, startHold, endHold, 0, 0, 0, 0);
-        boolean flag = false;
         try {
-            while (!flag) {
-                if (budgetID.getText().length() > 0) {
-                    tmp.setPeriodID(Long.parseLong(budgetID.getText()));
-                    flag = true;
-                }
-                else {
-                    flag = false;
-                    Global.warningAlert("Incorrect Period ID", "Budget needs a period id.");
-                    budgetID.clear();
-                }
-                if (startDate.getValue() != null) {
-                    tmp.setDateStart(java.sql.Date.valueOf((startDate.getValue())));
-                }
-                else {
-                    flag = false;
-                    Global.warningAlert("Incorrect Start Date", "Budget start date needs to have a year, month, and day.");
-                    startDate.setValue(null);
-                }
-                if (endDate.getValue() != null) {
-                    tmp.setDateEnd(java.sql.Date.valueOf(endDate.getValue()));
-                }
-                else {
-                    flag = false;
-                    Global.warningAlert("Incorrect Start Date", "Budget end date needs to have a year, month, and day.");
-                    endDate.setValue(null);
-                }
-                if (outgoing.getText().length() > 0) {
-                    flag = true;
-                    tmp.setOutgoing(Double.parseDouble(outgoing.getText()));
-                }
-                else {
-                    flag = false;
-                    Global.warningAlert("Incorrect Outgoing Total", "Budget needs an outgoing total.");
-                    outgoing.clear();
-                }
-                if (incoming.getText().length() > 0) {
-                    flag = true;
-                    tmp.setIncome(Double.parseDouble(incoming.getText()));
-                }
-                else {
-                    flag = false;
-                    Global.warningAlert("Incorrect Incoming Total", "Budget needs an incoming total.");
-                    incoming.clear();
-                }
-                if (netProfit.getText().length() > 0) {
-                    flag = true;
-                    tmp.setNet(Double.parseDouble(netProfit.getText()));
-                }
-                else {
-                    flag = false;
-                    Global.warningAlert("Incorrect Net Income", "Budget needs a net income.");
-                    netProfit.clear();
-                }
-                if (userInfo.getText().length() > 0) {
-                    flag = true;
-                    tmp.setEmployeeNo(Long.parseLong(userInfo.getText()));
-                }
-                else {
-                    flag = false;
-                    Global.warningAlert("Incorrect Employee Number", "Budget needs an employee number.");
-                    userInfo.clear();
-                }
-                try {
-                    if (!newB) {
-                        Budget.addRecord(tmp);
-                        budgetTable.getItems().add(tmp);
-                    }
-                }
-                catch (MySQLIntegrityConstraintViolationException e) {
-                    Global.warningAlert("Budget ID Exists", "Budget ID is already in use. Budget add canceled.");
-                }
-                if(bIndex ==1) {
-                    Budget.addRecord(budgetTMP);
-                }
-                if(bIndex == 0){
-                    Budget.addRecordID(budgetTMP);
-                }
+            if (budgetID.getText().length() > 0) {
+                tmp.setPeriodID(Long.parseLong(budgetID.getText()));
+                hasPeriodID = true;
             }
+            if (startDate.getValue() != null) tmp.setDateStart(java.sql.Date.valueOf((startDate.getValue())));
+            else {
+                Global.warningAlert("Incorrect Start Date", "Budget start date needs to have a year, month, and day.");
+                startDate.setValue(null);
+                return;
+            }
+            if (endDate.getValue() != null) tmp.setDateEnd(java.sql.Date.valueOf(endDate.getValue()));
+            else {
+                Global.warningAlert("Incorrect Start Date", "Budget end date needs to have a year, month, and day.");
+                endDate.setValue(null);
+                return;
+            }
+            if (outgoing.getText().length() > 0) tmp.setOutgoing(Double.parseDouble(outgoing.getText()));
+            else {
+                Global.warningAlert("Incorrect Outgoing Total", "Budget needs an outgoing total.");
+                outgoing.clear();
+                return;
+            }
+            if (incoming.getText().length() > 0) tmp.setIncome(Double.parseDouble(incoming.getText()));
+            else {
+                Global.warningAlert("Incorrect Incoming Total", "Budget needs an incoming total.");
+                incoming.clear();
+                return;
+            }
+            if (netProfit.getText().length() > 0) tmp.setNet(Double.parseDouble(netProfit.getText()));
+            else {
+                Global.warningAlert("Incorrect Net Income", "Budget needs a net income.");
+                netProfit.clear();
+                return;
+            }
+            if (userInfo.getText().length() > 0) {
+                tmp.setEmployeeNo(Long.parseLong(userInfo.getText()));
+                hasEmployee = true;
+            }
+            try {
+                if (!newB) Budget.addRecord(tmp);
+            }
+            catch (MySQLIntegrityConstraintViolationException e) {
+                Global.warningAlert("Budget ID Exists", "Budget ID is already in use. Budget add canceled.");
+            }
+            if (hasEmployee && hasPeriodID) Budget.addRecordEmpID(tmp);
+            else if (hasEmployee) Budget.addRecordEmp(tmp);
+            else if (hasPeriodID) Budget.addRecordID(tmp);
+            else {Budget.addRecord(tmp);}
+            setBudgetList();
         }
         catch (MySQLIntegrityConstraintViolationException e) {
             Global.exceptionAlert(e, "Add Budget");
