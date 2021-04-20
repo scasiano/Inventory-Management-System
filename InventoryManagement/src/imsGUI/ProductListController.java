@@ -226,7 +226,7 @@ public class ProductListController {
             }
         }
         catch(Exception e) {
-            Global.warningAlert("Delete Product", "This Product can't be deleted becaust it is being used somewhere else");
+            Global.warningAlert("Delete Product", "This Product can't be deleted because it is being used somewhere else");
         }
     }
     @FXML

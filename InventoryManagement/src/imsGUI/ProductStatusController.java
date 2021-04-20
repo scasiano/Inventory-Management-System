@@ -111,7 +111,8 @@ public class ProductStatusController {
     public void initialize(){
         setIncomingTable();
         setOutgoingTable();
-        setProdCombo();
+        setInProdCombo();
+        setOutProdCombo();
         setEmpCombo();
         setCurrentTable();
         getSelectedInfo();
@@ -194,18 +195,31 @@ public class ProductStatusController {
         }
 
     }
-
-    public void setProdCombo(){
+    public void setInProdCombo(){
         try{
-            outProductsC.getItems().clear();
             inProductsC.getItems().clear();
             allProd= Products.selectAll();
             pNames = Products.selectName();
-            for (Products products : allProd) {
-                if (CurrentStock.selectQuantityByProductID(products.getProductID()) != 0) {
-                    String s = products.getProductID() + " | " + products.getName();
-                    outProductsC.getItems().add(s);
+            System.out.println(allProd.size() + " = " +Products.selectAll().size());
+            for (int i=0; i<allProd.size();i++) {
+                    String s = allProd.get(i).getProductID() + " | " + allProd.get(i).getName();
                     inProductsC.getItems().add(s);
+            }
+        }
+        catch(Exception e){
+            Global.exceptionAlert(e,"Set Product Combo");
+        }
+    }
+    public void setOutProdCombo(){
+        try{
+            outProductsC.getItems().clear();
+            allProd= Products.selectAll();
+            pNames = Products.selectName();
+            System.out.println(allProd.size() + " = " +Products.selectAll().size());
+            for (int i=0; i<allProd.size();i++) {
+                if (CurrentStock.selectQuantityByProductID(allProd.get(i).getProductID()) != 0) {
+                    String s = allProd.get(i).getProductID() + " | " + allProd.get(i).getName();
+                    outProductsC.getItems().add(s);
                 }
             }
         }
