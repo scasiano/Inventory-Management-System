@@ -132,42 +132,29 @@ public class ProductListController {
         Products temp = new Products(0, "", 0, 0);
         boolean flag = false;
         try {
-            while (!flag) {
-                if (productID.getText().length() > 0 && Long.parseLong(productID.getText()) >= 0) {
-                    flag = true;
-                    temp.setProductID(Long.parseLong(productID.getText()));
-                }
-                else {
-                    flag = false;
-                    Global.warningAlert("Incorrect ID", "Product ID needs to be greater than 0 and at most 9 digits long.");
-                    productID.clear();
-                }
-                if (productName.getText().length() > 0) {
-                    flag = true;
-                    temp.setName(productName.getText());
-                }
-                else {
-                    flag = false;
-                    Global.warningAlert("Incorrect Name", "Every product should have a name.");
-                }
-                if (productMSRP.getText().length() > 0 && Double.parseDouble(productMSRP.getText()) > 0) {
-                    flag = true;
-                    temp.setMsrp(Double.parseDouble(productMSRP.getText()));
-                }
-                else {
-                    flag = false;
-                    Global.warningAlert("Incorrect MSRP", "Every product should have a MSRP.");
-                    productMSRP.clear();
-                }
-                if (productPrice.getText().length() > 0 && Double.parseDouble(productPrice.getText()) > 0) {
-                    flag = true;
-                    temp.setPrice(Double.parseDouble(productPrice.getText()));
-                }
-                else {
-                    flag = false;
-                    Global.informAlert("Incorrect Price", "Every product should have a Price.");
-                    productPrice.clear();
-                }
+            if (productID.getText().length() > 0 && Long.parseLong(productID.getText()) >= 0) temp.setProductID(Long.parseLong(productID.getText()));
+            else {
+                Global.warningAlert("Incorrect ID", "Product ID needs to be greater than 0 and at most 9 digits long.");
+                productID.clear();
+                return;
+            }
+            if (productName.getText().length() > 0) temp.setName(productName.getText());
+            else {
+                Global.warningAlert("Incorrect Name", "Every product should have a name.");
+                return;
+            }
+            if (productMSRP.getText().length() > 0 && Double.parseDouble(productMSRP.getText()) > 0) temp.setMsrp(Double.parseDouble(productMSRP.getText()));
+            else {
+                flag = false;
+                Global.warningAlert("Incorrect MSRP", "Every product should have a MSRP.");
+                productMSRP.clear();
+                return;
+            }
+            if (productPrice.getText().length() > 0 && Double.parseDouble(productPrice.getText()) > 0) temp.setPrice(Double.parseDouble(productPrice.getText()));
+            else {
+                Global.informAlert("Incorrect Price", "Every product should have a Price.");
+                productPrice.clear();
+                return;
             }
             Products.addRecord(temp);
         }
