@@ -1,5 +1,6 @@
 package imsGUI;
 
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import ims.Users;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,10 +15,26 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ProfilesController {
 
+    @FXML
+    Label lFName;
+    @FXML
+    Label lLName;
+    @FXML
+    Label lUsername;
+    @FXML
+    Label lUser_id;
+    @FXML
+    Label lRole;
+    @FXML
+    Label lPassword;
+    @FXML
+    Label lConfirmPassword;
     @FXML
     TextField fname;
     @FXML
@@ -31,13 +48,9 @@ public class ProfilesController {
     @FXML
     TextField password;
     @FXML
+    TextField confirmPassword;
+    @FXML
     Button save;
-    @FXML
-    Button update;
-    @FXML
-    Button load;
-    @FXML
-    Button delete;
     @FXML
     Button homepageBtn;
     @FXML
@@ -56,19 +69,11 @@ public class ProfilesController {
         userDetails();
     }
 
-    public void setUsersList() {
+    public void setUsersList() { // not currently in use.
         ObservableList<Long> userID;
-        ObservableList<String> userFName;
-        ObservableList<String> userLName;
         ObservableList<String> userName;
-        ObservableList<String> userPassword;
-        ObservableList<String> userRole;
         ArrayList<Long> idList = new ArrayList<>();
-        ArrayList<String> fnameList = new ArrayList<>();
-        ArrayList<String> lnameList = new ArrayList<>();
         ArrayList<String> usernameList = new ArrayList<>();
-        ArrayList<String> passwordList = new ArrayList<>();
-        ArrayList<String> roleList = new ArrayList<>();
 
         VBox un = new VBox();
         Label UN = new Label();
@@ -109,30 +114,14 @@ public class ProfilesController {
             lname.setText(currentUser.getLName());
             password.setText(currentUser.getPassword());
             role.setText(currentUser.getRole());
+            confirmPassword.setText((currentUser.getPassword()));
         }
         catch (Exception e){
             Global.exceptionAlert(e, "Profile auto-fill");
         }
     }
-        /*columnUN.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                Integer index = columnUN.getSelectionModel().getSelectedIndex();
-                columnUN.getSelectionModel().select(index);
-                username.setText(allUsers.get(index).getUsername());
-                user_id.setText(String.valueOf(allUsers.get(index).getUserID()));
-                fname.setText(allUsers.get(index).getFName());
-                lname.setText(allUsers.get(index).getLName());
-                password.setText(allUsers.get(index).getPassword());
-                role.setText(allUsers.get(index).getRole());
-            }
-        });
-         */
 
-        //save.setOnAction(e -> saveButtonClicked());
-        //delete.setOnAction(e -> deleteButtonClicked());
-
-    public void startUser(ActionEvent event) {
+    public void startUser(ActionEvent event) { //  not in use.
         username.setEditable(true);
         fname.setEditable(true);
         lname.setEditable(true);
@@ -144,7 +133,27 @@ public class ProfilesController {
         userResults.setVisible(true);
     }
 
-/*    public void saveButtonClicked(ActionEvent event) throws SQLException {
+    public void modifyDBProfile(){
+        try{
+            if (Global.currentUser == null) return;
+            System.out.println("Here");
+            Users userTMP = Global.currentUser;
+            Users.modifyFName(userTMP.getUserID(), userTMP.getFName());
+            Users.modifyLName(userTMP.getUserID(), userTMP.getLName());
+            if(password.getText().equals(confirmPassword.getText())){
+                Users.modifyPassword(userTMP.getUserID(), userTMP.getPassword());
+            } else {
+                Global.warningAlert("Incorrect Password", "Passwords do not match");
+            }
+
+            System.out.println("Made it"); // Working through changes but not saving to DB.
+            //initialize();
+        } catch (Exception e){
+            Global.exceptionAlert(e, "Modify User");
+        }
+    }
+
+   public void saveButtonClicked(ActionEvent event) throws SQLException {  // not in use.
         Users tmp = new Users(0, "", "", "", "", "");
         boolean flag = false;
 
@@ -211,7 +220,7 @@ public class ProfilesController {
         usersList.getChildren().clear();
         initialize();
         clearUserInfo();
-    }*/
+    }
 
     public void clearUserInfo(){
         user_id.clear();
@@ -234,13 +243,8 @@ public class ProfilesController {
         userResults.setVisible(true);
     }
 
-    /*public void modDBUser(){
-        try{
-            ims.Users.modifyFName(allUsers.get(uIndex).getFName(), );
-        }
-    }*/
 
-    public void modifyUser(){
+    public void modifyUser(){ // not in use.
         username.setEditable(false);
         fname.setEditable(false);
         lname.setEditable(false);
@@ -251,61 +255,7 @@ public class ProfilesController {
         usersList.setVisible(true);
         userResults.setVisible(true);
     }
-    /*public void clearUserInfo(){
-        user_id.clear();
-        username.clear();
-        fname.clear();
-        lname.clear();
-        role.clear();
-        password.clear();
-    }*/
-/*public void deleteButtonClicked() throws SQLException {
-        Alert deleteAlert = new Alert(Alert.AlertType.CONFIRMATION);
-        deleteAlert.setTitle("Delete");
-        deleteAlert.setHeaderText("Delete User");
-        deleteAlert.setContentText("Are you sure you want to delete this User?");
-        if(deleteAlert.showAndWait().get() == ButtonType.OK){
-           try{ ims.Users.deleteRecord(allUsers.get(uIndex).getUserID());
-            endUserEdit();
-            columnUN.getItems().clear();
-            columnID.getItems().clear();
-            usersList.getChildren().clear();
-            usersList.getChildren().clear();
-            clearUserInfo();
-            initialize();}catch(Exception e){
-               Global.exceptionAlert(e,"Delete User");
-           }
-        }
-    }*/
-    /*public void loadTables() {
-           try {
-                username.setEditable(false);
-                user_id.setEditable(false);
-                fname.setEditable(false);
-                lname.setEditable(false);
-                role.setEditable(false);
-                password.setEditable(false);
-                username.setVisible(true);
-                user_id.setVisible(true);
-                fname.setVisible(true);
-                lname.setVisible(true);
-                role.setVisible(true);
-                password.setVisible(true);
-                save.setVisible(true);
-                update.setVisible(true);
-                delete.setVisible(true);
-                user_id.clear();
-                username.clear();
-                fname.clear();
-                lname.clear();
-                role.clear();
-                password.clear();
-                initialize();
-            } catch (Exception e) {
-                Global.exceptionAlert(e,"Load Tables");
-            }
-    }*/
-
+    
     @FXML
     private void openHomePage(ActionEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

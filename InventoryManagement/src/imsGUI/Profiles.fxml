@@ -27,19 +27,18 @@
                 </content>
               </ScrollPane>-->
 
-<AnchorPane maxHeight="Infinity" maxWidth="Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="imsGUI.ProfilesController">
+<AnchorPane maxHeight="Infinity" maxWidth="Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="596.0" prefWidth="641.0" style="-fx-background-color: ALICEBLUE;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="imsGUI.ProfilesController">
    <children>
-    <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0">
+    <GridPane prefHeight="374.0" prefWidth="600.0" style="-fx-background-color: ALICEBLUE ALICEBLUE ALICEBLUE ALICEBLUE;" AnchorPane.bottomAnchor="26.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
-            <ColumnConstraints percentWidth="20" />
-            <ColumnConstraints fillWidth="true" percentWidth="60" />
-            <ColumnConstraints percentWidth="25" />
+            <ColumnConstraints percentWidth="20.0" />
+            <ColumnConstraints percentWidth="56.0" />
+            <ColumnConstraints percentWidth="29.0" />
         </columnConstraints>
         <rowConstraints>
-            <RowConstraints percentHeight="5" />
-            <RowConstraints percentHeight="15" />
-            <RowConstraints fillHeight="true" percentHeight="60" />
-            <RowConstraints percentHeight="15" />
+            <RowConstraints percentHeight="11.0" />
+            <RowConstraints percentHeight="2.0" />
+            <RowConstraints maxHeight="350.0" minHeight="175.0" percentHeight="67.0" prefHeight="212.0" />
         </rowConstraints>
         <children>
             <HBox alignment="BASELINE_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="RIGHT_TO_LEFT" snapToPixel="false" GridPane.columnIndex="2" GridPane.columnSpan="2147483647" GridPane.halignment="LEFT">
@@ -56,36 +55,38 @@
                     </Button>
                 </children>
             </HBox>
-            <VBox GridPane.columnIndex="1" GridPane.rowIndex="2">
-                <Label alignment="CENTER" prefHeight="41.0" prefWidth="152.0" text="Update Profile" />
-                <TextField fx:id="fname" promptText="First Name">
-                  <VBox.margin>
-                     <Insets bottom="5.0" />
-                  </VBox.margin></TextField>
-                <TextField fx:id="lname" promptText="Last Name">
-                  <VBox.margin>
-                     <Insets bottom="5.0" top="5.0" />
-                  </VBox.margin></TextField>
+            <VBox prefHeight="319.0" prefWidth="331.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <Label fx:id="lFName" alignment="CENTER" contentDisplay="CENTER" prefHeight="18.0" prefWidth="324.0" text="First Name" />
+                <TextField fx:id="fname" promptText="First Name" />
+               <Label fx:id="lLName" alignment="CENTER" prefHeight="18.0" prefWidth="334.0" text="Last Name" />
+                <TextField fx:id="lname" prefHeight="26.0" prefWidth="318.0" promptText="Last Name" />
+               <Label fx:id="lUsername" alignment="CENTER" prefHeight="18.0" prefWidth="334.0" text="Username" />
                 <TextField fx:id="username" promptText="Username">
                   <VBox.margin>
                      <Insets bottom="5.0" top="5.0" />
                   </VBox.margin></TextField>
+               <Label fx:id="lRole" alignment="CENTER" prefHeight="18.0" prefWidth="323.0" text="Role" />
                 <TextField fx:id="role" promptText="Role">
                   <VBox.margin>
                      <Insets bottom="5.0" top="5.0" />
                   </VBox.margin></TextField>
+               <Label fx:id="lUser_id" alignment="CENTER" prefHeight="18.0" prefWidth="326.0" text="User ID" />
                 <TextField fx:id="user_id" editable="false" promptText="User ID">
                   <VBox.margin>
                      <Insets bottom="5.0" top="5.0" />
                   </VBox.margin></TextField>
+               <Label fx:id="lPassword" alignment="CENTER" prefHeight="18.0" prefWidth="331.0" text="Password" />
                 <!--Can be changed to a Text field if you don't want to authenticate the user again.-->
                 <PasswordField fx:id="password" promptText="Password">
                   <VBox.margin>
                      <Insets bottom="5.0" top="5.0" />
                   </VBox.margin>
                 </PasswordField>
-                <Button fx:id="save" mnemonicParsing="false" text="Update" />
+               <Label fx:id="lConfirmPassword" alignment="CENTER" prefHeight="18.0" prefWidth="350.0" text="Confirm Password" />
+               <PasswordField fx:id="confirmPassword" promptText="Confirm Password" />
+                <Button fx:id="save" mnemonicParsing="false" onAction="#modifyDBProfile" prefHeight="52.0" prefWidth="58.0" text="Update" />
             </VBox>
+             <Label alignment="CENTER" contentDisplay="TOP" prefHeight="44.0" prefWidth="317.0" text="Update Profile" GridPane.columnIndex="1" />
    </children>
     </GridPane>
    </children>
