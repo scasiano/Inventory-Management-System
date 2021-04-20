@@ -5,12 +5,10 @@ import ims.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
@@ -22,15 +20,15 @@ public class OrdersController {
     @FXML
     TableView<Orders> orderIDT;
     @FXML
-    TableColumn oID;
+    TableColumn<Orders, Long> oID;
     @FXML
-    TableColumn oFName;
+    TableColumn<Orders, String> oFName;
     @FXML
-    TableColumn oLName;
+    TableColumn<Orders, String> oLName;
     @FXML
     TableView<OrderItems> orderProds;
     @FXML
-    TableColumn products;
+    TableColumn<OrderItems, Long> products;
     @FXML
     HBox orderList;
     @FXML
@@ -40,7 +38,7 @@ public class OrdersController {
     @FXML
     TextField customerAddress;
     @FXML
-    TextField shippingStatus;
+    ComboBox<String> shippingStatus;
     @FXML
     Label datePlaced;
     @FXML
@@ -48,9 +46,9 @@ public class OrdersController {
     @FXML
     TextField trackingID;
     @FXML
-    TextField carrier;
+    ComboBox<String> carrier;
     @FXML
-    TextField employeeID;
+    ComboBox<String> empIDC;
     @FXML
     Button addOrder;
     @FXML
@@ -58,7 +56,7 @@ public class OrdersController {
     @FXML
     Label addOrderLabel;
     @FXML
-    HBox addOrderBox;
+    HBox addOrderHBox;
     @FXML
     HBox modBox;
     @FXML
@@ -66,18 +64,20 @@ public class OrdersController {
     @FXML
     Button addOrderItem;
     @FXML
-    ComboBox productsList;
+    ComboBox<String> productsList;
 
     ArrayList<Orders> allOrders;
     ArrayList<OrderItems> allItems;
     ArrayList<OrderItems> allAddItems =new ArrayList<>();
     ArrayList<Products> allProd;
+    ArrayList<Employees> allEmps;
+    ArrayList<String> eNames = new ArrayList<>();
     int oIndex=-1;
     //Orders otemp;
     public void initialize(){
         setOrderList();
         orderDetails();
-        setCombo();
+        setCombos();
     }
     public void setOrderList(){
         try{
@@ -103,6 +103,41 @@ public class OrdersController {
             Global.exceptionAlert(e,"Set Order Items Products Table");
         }
     }
+    public void setCombos(){
+        try{
+            productsList.getItems().clear();
+            empIDC.getItems().clear();
+            carrier.getItems().clear();
+            shippingStatus.getItems().clear();
+            allProd=Products.selectAll();
+            for (Products value : allProd) {
+                if (CurrentStock.selectQuantityByProductID(value.getProductID()) != 0) {
+                    String s = value.getProductID() + " | " + value.getName();
+                    productsList.getItems().add(s);
+                }
+            }
+            allEmps=Employees.selectAll();
+            allEmps= Employees.selectAll();
+            ArrayList<String> ftemp=Employees.selectEmployeeFn();
+            ArrayList<String> ltemp=Employees.selectEmployeeLn();
+            /*for(int i=0;i<ftemp.size();i++){
+                eNames.add(ftemp.get(i)+" "+ltemp.get(i));
+            }*/
+            for (Employees allEmp : allEmps) {
+                String s = Long.toString(allEmp.getEmployeeNo());
+                empIDC.getItems().add(s);
+            }
+            carrier.getItems().add("UPS");
+            carrier.getItems().add("FEDX");
+            carrier.getItems().add("USPS");
+            shippingStatus.getItems().add("Not Shipped");
+            shippingStatus.getItems().add("Shipped");
+            shippingStatus.getItems().add("Delivered");
+        }
+        catch(Exception e){
+            Global.exceptionAlert(e,"Set Combo");
+        }
+    }
     public void orderDetails() {
         try {
             orderIDT.setOnMouseClicked(event -> {
@@ -111,12 +146,12 @@ public class OrdersController {
                 customerName.setText(allOrders.get(oIndex).getCustomerFn()+" "+allOrders.get(oIndex).getCustomerLn());
                 customerAddress.setText(allOrders.get(oIndex).getCustomerAdd());
                 datePlaced.setText(String.valueOf(allOrders.get(oIndex).getDatePlaced()));
-                employeeID.setText(String.valueOf(allOrders.get(oIndex).getEmployeeNo()));
+                empIDC.setValue(Long.toString(allOrders.get(oIndex).getEmployeeNo()));
                 setOrderProds();
                 try {
-                    shippingStatus.setText(Tracking.selectByOrderID(allOrders.get(oIndex).getOrderID()).getShippingStatus());
+                    shippingStatus.setValue(Tracking.selectByOrderID(allOrders.get(oIndex).getOrderID()).getShippingStatus());
                     trackingID.setText(Tracking.selectByOrderID(allOrders.get(oIndex).getOrderID()).getTrackingID());
-                    carrier.setText(Tracking.selectByOrderID(allOrders.get(oIndex).getOrderID()).getCarrier());
+                    carrier.setValue(Tracking.selectByOrderID(allOrders.get(oIndex).getOrderID()).getCarrier());
                 }
                 catch (SQLException a){
                     a.printStackTrace();
@@ -146,21 +181,21 @@ public class OrdersController {
                     Global.warningAlert("Incorrect ID", "Order ID needs to be greater than 0 and less than 9");
                     orderID.clear();
                 }
-               try{
-                   if (customerName.getText().length() > 0){
-                       flag = true;
-                       tmp.setCustomerFn(name[0]);
-                       tmp.setCustomerLn(name[1]);
-                   }
-                   else{
-                       flag = false;
-                       Global.warningAlert("Incorrect Customer Name", "Every Order needs a Customer Name");
-                       customerName.clear();
-                   }
-               }
-               catch(Exception e){
-                   Global.warningAlert("Incomplete Name","Users Need a first and Last Name");
-               }
+                try{
+                    if (customerName.getText().length() > 0){
+                        flag = true;
+                        tmp.setCustomerFn(name[0]);
+                        tmp.setCustomerLn(name[1]);
+                    }
+                    else{
+                        flag = false;
+                        Global.warningAlert("Incorrect Customer Name", "Every Order needs a Customer Name");
+                        customerName.clear();
+                    }
+                }
+                catch(Exception e){
+                    Global.warningAlert("Incomplete Name","Users Need a first and Last Name");
+                }
                 if (customerAddress.getText().length() > 0){
                     flag = true;
                     tmp.setCustomerAdd(customerAddress.getText());
@@ -178,11 +213,9 @@ public class OrdersController {
                     Global.warningAlert("Incorrect Date", "Every Order needs a Date placed in the format yyyy-MM-dd");
                     addDate.setValue(null);
                 }
-                if(employeeID.getText().length()>0){
-                    if(Long.parseLong(employeeID.getText())>0) {
+                if(empIDC.getValue()!=null){
                         method++;
-                        tmp.setEmployeeNo(Long.parseLong(employeeID.getText()));
-                    }
+                        tmp.setEmployeeNo(Long.parseLong(empIDC.getValue()));
                 }
             }
             if(method==0){
@@ -190,7 +223,6 @@ public class OrdersController {
             else{
                 Orders.addRecordEmp(tmp);}
             orderIDT.getItems().add(tmp);
-            clearOrderInfo();
         }
         catch (MySQLIntegrityConstraintViolationException e){
             Global.warningAlert("Order Id Exists", "Order ID already exists. User add canceled");
@@ -198,6 +230,68 @@ public class OrdersController {
         catch(Exception p){
             Global.exceptionAlert(p,"Add Order");
         }
+    }
+    public void addOrderItem() {
+        String selectedItem = productsList.getSelectionModel().getSelectedItem();
+        String[] s = selectedItem.split(" | ");
+        if (orderID.getText().length() > 0) {
+            OrderItems orderItems = new OrderItems(Long.parseLong(orderID.getText()), Long.parseLong(s[0]));
+            products.setCellValueFactory(new PropertyValueFactory<OrderItems,Long>("productID"));
+            allAddItems.add(orderItems);
+            ObservableList<OrderItems> orderI = FXCollections.observableArrayList(allAddItems);
+            orderProds.setItems(orderI);
+        }
+    }
+    public void addOrder(){
+        orderID.clear();
+        customerName.clear();
+        customerAddress.clear();
+        trackingID.clear();
+        productsList.setVisible(true);
+        addOrderItem.setVisible(true);
+        addDate.setVisible(true);
+        orderID.setEditable(true);
+        customerName.setEditable(true);
+        customerAddress.setEditable(true);
+        shippingStatus.setEditable(true);
+        trackingID.setEditable(true);
+        carrier.setEditable(true);
+        empIDC.setEditable(true);
+        modOrder.setVisible(false);
+        addOrderHBox.setVisible(true);
+        productsList.setValue(null);
+        empIDC.setValue(null);
+        carrier.setValue(null);
+        shippingStatus.setValue(null);
+        orderProds.getItems().clear();
+    }
+    public void modifyOrderClicked(){
+        try{
+            String[] name=customerName.getText().split(" ");
+            Orders.modifyCustomerFn(allOrders.get(oIndex).getOrderID(),name[0]);
+            Orders.modifyCustomerLn(allOrders.get(oIndex).getOrderID(),name[1]);
+            Orders.modifyCustomerAdd(allOrders.get(oIndex).getOrderID(),customerAddress.getText());
+            if(empIDC.getValue()!=null){
+                String s = empIDC.getSelectionModel().getSelectedItem();
+                Orders.modifyEmployeeNo(allOrders.get(oIndex).getOrderID(),Long.parseLong(s));
+            }
+            if(shippingStatus.getValue()!=null) Tracking.modifyShippingStatus(allOrders.get(oIndex).getOrderID(),shippingStatus.getValue());
+            clearOrderInfo();
+        }
+        catch(Exception e){Global.exceptionAlert(e,"Modify Order");}
+    }
+    public void modOrder(){
+        orderProds.setVisible(true);
+        customerName.setEditable(true);
+        customerAddress.setEditable(true);
+        shippingStatus.setEditable(true);
+        empIDC.setEditable(true);
+        modBox.setVisible(true);
+        addOrder.setVisible(false);
+        addOrderHBox.setVisible(false);
+        startMod.setVisible(true);
+        productsList.setVisible(false);
+        addOrderItem.setVisible(false);
     }
     public void deleteOrderClicked() {
         Alert deleteAlert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -215,103 +309,34 @@ public class OrdersController {
             }
         }
     }
-    public void addOrder(){
-        orderID.clear();
-        customerName.clear();
-        customerAddress.clear();
-        shippingStatus.clear();
-        trackingID.clear();
-        carrier.clear();
-        employeeID.clear();
-        productsList.setVisible(true);
-        addOrderItem.setVisible(true);
-        addDate.setVisible(true);
-        orderID.setEditable(true);
-        customerName.setEditable(true);
-        customerAddress.setEditable(true);
-        shippingStatus.setEditable(true);
-        trackingID.setEditable(true);
-        carrier.setEditable(true);
-        employeeID.setEditable(true);
-        modOrder.setVisible(false);
-        addOrderBox.setVisible(true);
-    }
-    public void modOrder(){
-        orderProds.setVisible(true);
-        customerName.setEditable(true);
-        customerAddress.setEditable(true);
-        shippingStatus.setEditable(true);
-        employeeID.setEditable(true);
-        modBox.setVisible(true);
-        addOrder.setVisible(false);
-        addOrderBox.setVisible(false);
-        startMod.setVisible(true);
-        productsList.setVisible(false);
-        addOrderItem.setVisible(false);
-    }
-    public void modifyOrder(){
-        try{
-            String[] name=customerName.getText().split(" ");
-            Orders.modifyCustomerFn(allOrders.get(oIndex).getOrderID(),name[0]);
-            Orders.modifyCustomerLn(allOrders.get(oIndex).getOrderID(),name[1]);
-            Orders.modifyCustomerAdd(allOrders.get(oIndex).getOrderID(),customerAddress.getText());
-            if(employeeID.getText().length()>0) Orders.modifyEmployeeNo(allOrders.get(oIndex).getOrderID(),Long.parseLong(employeeID.getText()));
-            if(shippingStatus.getText().length()>0) Tracking.modifyShippingStatus(allOrders.get(oIndex).getOrderID(),shippingStatus.getText());
-            clearOrderInfo();
-        }
-        catch(Exception e){Global.exceptionAlert(e,"Modify Order");}
-    }
-    public void setCombo(){
-        try{
-            allProd=Products.selectAll();
-            for (Products value : allProd) {
-                if (CurrentStock.selectQuantityByProductID(value.getProductID()) != 0) {
-                    String s = value.getProductID() + " | " + value.getName();
-                    productsList.getItems().add(s);
-                }
-            }
-        }
-        catch(Exception e){
-            Global.exceptionAlert(e,"Set Combo");
-        }
-    }
-    public void addOrderItem() {
-        String selectedItem = (String) productsList.getSelectionModel().getSelectedItem();
-        String[] s = selectedItem.split(" | ");
-        if (orderID.getText().length() > 0) {
-            OrderItems orderItems = new OrderItems(Long.parseLong(orderID.getText()), Long.parseLong(s[0]));
-            products.setCellValueFactory(new PropertyValueFactory<OrderItems,Long>("productID"));
-            allAddItems.add(orderItems);
-            ObservableList<OrderItems> orderI = FXCollections.observableArrayList(allAddItems);
-            orderProds.setItems(orderI);
-        }
-    }
     public void clearOrderInfo(){
         orderProds.setVisible(true);
         orderID.clear();
         customerName.clear();
         customerAddress.clear();
-        shippingStatus.clear();
         trackingID.clear();
-        carrier.clear();
-        employeeID.clear();
         orderID.setEditable(false);
         customerName.setEditable(false);
         customerAddress.setEditable(false);
         shippingStatus.setEditable(false);
         trackingID.setEditable(false);
         carrier.setEditable(false);
-        employeeID.setEditable(false);
+        empIDC.setEditable(false);
         modOrder.setVisible(false);
-        addOrderBox.setVisible(true);
+        addOrderHBox.setVisible(true);
         addDate.setVisible(false);
         addOrder.setVisible(true);
         modOrder.setVisible(true);
         startMod.setVisible(false);
         modBox.setVisible(false);
-        addOrderBox.setVisible(false);
+        addOrderHBox.setVisible(false);
         productsList.setVisible(false);
         addOrderItem.setVisible(false);
+        productsList.setValue(null);
+        empIDC.setValue(null);
+        carrier.setValue(null);
+        shippingStatus.setValue(null);
+        orderProds.getItems().clear();
     }
 
     @FXML
