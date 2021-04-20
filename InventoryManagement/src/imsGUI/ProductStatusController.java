@@ -200,7 +200,6 @@ public class ProductStatusController {
             inProductsC.getItems().clear();
             allProd= Products.selectAll();
             pNames = Products.selectName();
-            System.out.println(allProd.size() + " = " +Products.selectAll().size());
             for (int i=0; i<allProd.size();i++) {
                     String s = allProd.get(i).getProductID() + " | " + allProd.get(i).getName();
                     inProductsC.getItems().add(s);
@@ -215,7 +214,6 @@ public class ProductStatusController {
             outProductsC.getItems().clear();
             allProd= Products.selectAll();
             pNames = Products.selectName();
-            System.out.println(allProd.size() + " = " +Products.selectAll().size());
             for (int i=0; i<allProd.size();i++) {
                 if (CurrentStock.selectQuantityByProductID(allProd.get(i).getProductID()) != 0) {
                     String s = allProd.get(i).getProductID() + " | " + allProd.get(i).getName();
