@@ -95,7 +95,7 @@ CREATE TABLE `current_stock` (
 
 LOCK TABLES `current_stock` WRITE;
 /*!40000 ALTER TABLE `current_stock` DISABLE KEYS */;
-INSERT INTO `current_stock` VALUES (00127369128,0),(00127835219,0),(00153852934,98),(00192637485,95),(00512357126,0),(00536271623,0),(00628352190,93),(00632742987,95),(00643826261,99),(00729834278,100);
+INSERT INTO `current_stock` VALUES (00127369128,0),(00127835219,0),(00153852934,88),(00192637485,15),(00512357126,0),(00536271623,0),(00628352190,93),(00632742987,95),(00643826261,99),(00729834278,100);
 /*!40000 ALTER TABLE `current_stock` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -165,7 +165,7 @@ CREATE TABLE `incoming_goods` (
   KEY `incoming_goods_ibfk_1` (`product_id`),
   CONSTRAINT `incoming_goods_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON UPDATE CASCADE,
   CONSTRAINT `incoming_goods_ibfk_2` FOREIGN KEY (`employee_no`) REFERENCES `employees` (`employee_no`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -229,7 +229,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`casiano`@`10.10.100.10`*/ /*!50003 TRIGGER `inventory_management`.`incoming_goods_AFTER_DELETE` AFTER DELETE ON `incoming_goods` FOR EACH ROW
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `inventory_management`.`incoming_goods_AFTER_DELETE` AFTER DELETE ON `incoming_goods` FOR EACH ROW
 BEGIN
 	UPDATE `inventory_management`.`current_stock`
 		SET current_stock.quantity = current_stock.quantity - OLD.quantity
@@ -358,7 +358,7 @@ CREATE TABLE `outgoing_goods` (
   KEY `outgoing_goods_ibfk_1` (`product_id`),
   CONSTRAINT `outgoing_goods_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON UPDATE CASCADE,
   CONSTRAINT `outgoing_goods_ibfk_2` FOREIGN KEY (`employee_no`) REFERENCES `employees` (`employee_no`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -367,7 +367,7 @@ CREATE TABLE `outgoing_goods` (
 
 LOCK TABLES `outgoing_goods` WRITE;
 /*!40000 ALTER TABLE `outgoing_goods` DISABLE KEYS */;
-INSERT INTO `outgoing_goods` VALUES (00000000011,00628352190,'2020-02-01',7,00111111111),(00000000012,00192637485,'2020-02-01',5,00222222222),(00000000013,00153852934,'2020-02-01',2,00111111111),(00000000014,00643826261,'2020-02-01',1,00222222222),(00000000015,00632742987,'2020-02-01',5,00111111111);
+INSERT INTO `outgoing_goods` VALUES (00000000011,00628352190,'2020-02-01',7,00111111111),(00000000012,00192637485,'2020-02-01',50,00555555555),(00000000013,00153852934,'2020-02-01',2,00111111111),(00000000014,00643826261,'2020-02-01',1,00222222222),(00000000015,00632742987,'2020-02-01',5,00111111111),(00000000016,00192637485,'2021-04-15',10,00222222222),(00000000017,00192637485,'2021-04-15',15,00333333333),(00000000018,00153852934,'2021-04-22',10,00000000000),(00000000019,00192637485,'2021-04-21',10,00111111111);
 /*!40000 ALTER TABLE `outgoing_goods` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -399,7 +399,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`casiano`@`10.10.100.10`*/ /*!50003 TRIGGER `inventory_management`.`outgoing_goods_AFTER_UPDATE` AFTER UPDATE ON `outgoing_goods` FOR EACH ROW
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `inventory_management`.`outgoing_goods_AFTER_UPDATE` AFTER UPDATE ON `outgoing_goods` FOR EACH ROW
 BEGIN
 	UPDATE `inventory_management`.`current_stock`
 		SET current_stock.quantity = current_stock.quantity + OLD.quantity
@@ -422,7 +422,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`casiano`@`10.10.100.10`*/ /*!50003 TRIGGER `inventory_management`.`outgoing_goods_AFTER_DELETE` AFTER DELETE ON `outgoing_goods` FOR EACH ROW
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `inventory_management`.`outgoing_goods_AFTER_DELETE` AFTER DELETE ON `outgoing_goods` FOR EACH ROW
 BEGIN
 	UPDATE `inventory_management`.`current_stock`
 		SET current_stock.quantity = current_stock.quantity + OLD.quantity
@@ -598,4 +598,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-04-19 13:01:17
+-- Dump completed on 2021-04-19 17:07:47

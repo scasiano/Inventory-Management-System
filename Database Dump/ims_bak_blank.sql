@@ -161,7 +161,7 @@ CREATE TABLE `incoming_goods` (
   KEY `incoming_goods_ibfk_1` (`product_id`),
   CONSTRAINT `incoming_goods_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON UPDATE CASCADE,
   CONSTRAINT `incoming_goods_ibfk_2` FOREIGN KEY (`employee_no`) REFERENCES `employees` (`employee_no`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -224,7 +224,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`casiano`@`10.10.100.10`*/ /*!50003 TRIGGER `inventory_management`.`incoming_goods_AFTER_DELETE` AFTER DELETE ON `incoming_goods` FOR EACH ROW
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `inventory_management`.`incoming_goods_AFTER_DELETE` AFTER DELETE ON `incoming_goods` FOR EACH ROW
 BEGIN
 	UPDATE `inventory_management`.`current_stock`
 		SET current_stock.quantity = current_stock.quantity - OLD.quantity
@@ -350,7 +350,7 @@ CREATE TABLE `outgoing_goods` (
   KEY `outgoing_goods_ibfk_1` (`product_id`),
   CONSTRAINT `outgoing_goods_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON UPDATE CASCADE,
   CONSTRAINT `outgoing_goods_ibfk_2` FOREIGN KEY (`employee_no`) REFERENCES `employees` (`employee_no`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -390,7 +390,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`casiano`@`10.10.100.10`*/ /*!50003 TRIGGER `inventory_management`.`outgoing_goods_AFTER_UPDATE` AFTER UPDATE ON `outgoing_goods` FOR EACH ROW
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `inventory_management`.`outgoing_goods_AFTER_UPDATE` AFTER UPDATE ON `outgoing_goods` FOR EACH ROW
 BEGIN
 	UPDATE `inventory_management`.`current_stock`
 		SET current_stock.quantity = current_stock.quantity + OLD.quantity
@@ -413,7 +413,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`casiano`@`10.10.100.10`*/ /*!50003 TRIGGER `inventory_management`.`outgoing_goods_AFTER_DELETE` AFTER DELETE ON `outgoing_goods` FOR EACH ROW
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `inventory_management`.`outgoing_goods_AFTER_DELETE` AFTER DELETE ON `outgoing_goods` FOR EACH ROW
 BEGIN
 	UPDATE `inventory_management`.`current_stock`
 		SET current_stock.quantity = current_stock.quantity + OLD.quantity
@@ -587,4 +587,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-04-19 13:04:21
+-- Dump completed on 2021-04-19 17:08:35
