@@ -234,55 +234,44 @@ public class ProductStatusController {
         }
     }
     public void saveIncomingClicked(ActionEvent event) {
-        int newU=1;
+        boolean hasTrack = false;
+        boolean hasEmp = false;
         IncomingGoods tmp= new IncomingGoods(0, null, "", 0, 0);
-        boolean flag = false;
         try{
-            while(!flag){
-                try{
-                    if (inProductsList.getValue() != null){
-                        flag = true;
-                        String selectedItem = (String) inProductsList.getSelectionModel().getSelectedItem();
-                        String[] s = selectedItem.split(" | ");
-                        tmp.setProductID(Long.parseLong(s[0]));
-                    }
-                }catch(Exception e){Global.exceptionAlert(e,"Incoming  Products Combo");}
-                if (inDateT.getValue()!=null){
-                    flag = true;
-                    tmp.setDateIn(java.sql.Date.valueOf(inDateT.getValue()));
-                }
-                else{
-                    flag = false;
-                    Global.warningAlert("Incorrect Date", "Date needs to be in the format of yyyy-MM-dd");
-                    inDateT.setValue(null);
-                }
-                if (trackNoT.getText().length() > 0){
-                    flag = true;
-                    tmp.setTrackingNo(trackNoT.getText());
-                    newU --;
-                }
-                if (inQuantT.getText().length() > 0){
-                    flag = true;
-                    tmp.setQuantity(Integer.parseInt(inQuantT.getText()));
-                }
-                else{
-                    flag = false;
-                    Global.warningAlert("Incorrect Quantity", "Every Incoming Shipment needs a Quantity");
-                    inQuantT.clear();
-                }
-                if(inEmpC.getValue()!=null){
-                    String selectedItem = (String) inEmpC.getSelectionModel().getSelectedItem();
+            try{
+                if (inProductsList.getValue() != null){
+                    String selectedItem = (String) inProductsList.getSelectionModel().getSelectedItem();
                     String[] s = selectedItem.split(" | ");
                     tmp.setProductID(Long.parseLong(s[0]));
-                    newU+=2;
                 }
             }
-            switch (newU){
-                case 0: IncomingGoods.addRecordTrack(tmp);
-                case 1: IncomingGoods.addRecord(tmp);
-                case 2: IncomingGoods.addRecordTrackEmp(tmp);
-                case 3: IncomingGoods.addRecordEmp(tmp);
+            catch(Exception e){Global.exceptionAlert(e,"Incoming  Products Combo");}
+            if (inDateT.getValue()!=null) tmp.setDateIn(java.sql.Date.valueOf(inDateT.getValue()));
+            else{
+                Global.warningAlert("Incorrect Date", "Date needs to be in the format of yyyy-MM-dd");
+                inDateT.setValue(null);
+                return;
             }
+            if (trackNoT.getText().length() > 0){
+                tmp.setTrackingNo(trackNoT.getText());
+                hasTrack = true;
+            }
+            if (inQuantT.getText().length() > 0) tmp.setQuantity(Integer.parseInt(inQuantT.getText()));
+            else{
+                Global.warningAlert("Incorrect Quantity", "Every Incoming Shipment needs a Quantity");
+                inQuantT.clear();
+                return;
+            }
+            if(inEmpC.getValue()!=null){
+                String selectedItem = (String) inEmpC.getSelectionModel().getSelectedItem();
+                String[] s = selectedItem.split(" | ");
+                tmp.setProductID(Long.parseLong(s[0]));
+                hasEmp = true;
+            }
+            if (hasEmp && hasTrack) IncomingGoods.addRecordTrackEmp(tmp);
+            else if (hasEmp) IncomingGoods.addRecordEmp(tmp);
+            else if (hasTrack) IncomingGoods.addRecordTrack(tmp);
+            else IncomingGoods.addRecord(tmp);
             setIncomingTable();
             setCurrentTable();
             hideData();
@@ -297,50 +286,43 @@ public class ProductStatusController {
     }
 
     public void saveOutgoingClicked(ActionEvent event) {
-        int newU = 1;
+        boolean hasEmp = false;
         OutgoingGoods tmp = new OutgoingGoods(0, null, 0, 0);
-        boolean flag = false;
         try {
-            while (!flag) {
-                try{
-                    if (outProductsList.getValue()!=null) {
-                        flag = true;
-                        String selectedItem = (String) outProductsList.getSelectionModel().getSelectedItem();
-                        String[] s = selectedItem.split(" | ");
-                        tmp.setProductID(Long.parseLong(s[0]));
-                    }
-                }
-                catch(Exception e){
-                    Global.exceptionAlert(e,"Out Products Combo");
-                }
-                if (outDateT.getValue()!=null) {
-                    flag = true;
-                    tmp.setDateGo(java.sql.Date.valueOf(outDateT.getValue()));
-                }
-                else {
-                    flag = false;
-                    Global.warningAlert("Incorrect Date", "Date needs to be in the format of yyy-MM-dd");
-                    outDateT.setValue(null);
-                }
-                if (outQuantT.getText().length() > 0) {
-                    flag = true;
-                    tmp.setQuantity(Integer.parseInt(outQuantT.getText()));
-                }
-                else {
-                    flag = false;
-                    Global.warningAlert("Incorrect Quantity", "Every Incoming Shipment needs a Quantity");
-                    outQuantT.clear();
-                }
-                if (outEmpC.getValue()!=null) {
-                    String selectedItem = outEmpC.getSelectionModel().getSelectedItem().toString();
+            try{
+                if (outProductsList.getValue()!=null) {
+                    String selectedItem = (String) outProductsList.getSelectionModel().getSelectedItem();
                     String[] s = selectedItem.split(" | ");
-                    tmp.setEmployeeNo(Long.parseLong(s[0]));
-                    newU++;
+                    tmp.setProductID(Long.parseLong(s[0]));
                 }
             }
-            if (newU == 1) OutgoingGoods.addRecord(tmp);
-            if (newU == 2) OutgoingGoods.addRecordEmp(tmp);
-
+            catch(Exception e){
+                Global.exceptionAlert(e,"Out Products Combo");
+            }
+            if (outDateT.getValue()!=null) {
+                tmp.setDateGo(java.sql.Date.valueOf(outDateT.getValue()));
+            }
+            else {
+                Global.warningAlert("Incorrect Date", "Date needs to be in the format of yyyy-MM-dd");
+                outDateT.setValue(null);
+                return;
+            }
+            if (outQuantT.getText().length() > 0) {
+                tmp.setQuantity(Integer.parseInt(outQuantT.getText()));
+            }
+            else {
+                Global.warningAlert("Incorrect Quantity", "Every Incoming Shipment needs a Quantity");
+                outQuantT.clear();
+                return;
+            }
+            if (outEmpC.getValue()!=null) {
+                String selectedItem = outEmpC.getSelectionModel().getSelectedItem().toString();
+                String[] s = selectedItem.split(" | ");
+                tmp.setEmployeeNo(Long.parseLong(s[0]));
+                hasEmp = true;
+            }
+            if (hasEmp) OutgoingGoods.addRecordEmp(tmp);
+            else OutgoingGoods.addRecord(tmp);
             setOutgoingTable();
             setCurrentTable();
             hideData();
@@ -412,7 +394,7 @@ public class ProductStatusController {
             }
         }
     }
-    public void deleteOutgoingClicked() throws SQLException {
+    public void deleteOutgoingClicked() {
         Alert deleteAlert = new Alert(Alert.AlertType.CONFIRMATION);
         deleteAlert.setTitle("Delete");
         deleteAlert.setHeaderText("Delete User");
