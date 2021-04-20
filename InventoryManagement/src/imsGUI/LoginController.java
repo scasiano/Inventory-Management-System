@@ -37,6 +37,7 @@ public class LoginController {
             userBox.clear();
             passBox.clear();
             ImsGui.global.getProfilesController().userDetails();
+            ImsGui.global.getHomepageController().initialize();
 
         } catch (Exception e) {
             Global.exceptionAlert(e, "login");

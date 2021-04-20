@@ -53,7 +53,7 @@ public class ProfilesController {
     int uIndex = -1;
 
     public void initialize() {
-
+        userDetails();
     }
 
     public void setUsersList() {
@@ -101,10 +101,7 @@ public class ProfilesController {
 
     public void userDetails() {
         try {
-            if (Global.currentUser == null) {
-                userDetails();
-                return;
-            }
+            if (Global.currentUser == null) return;
             Users currentUser = Global.currentUser;
             username.setText(currentUser.getUsername());
             user_id.setText(Long.toString(currentUser.getUserID()));

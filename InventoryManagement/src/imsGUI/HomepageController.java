@@ -21,23 +21,23 @@ public class HomepageController {
     Button adminB;
 
     public void initialize(){
-       allowAdmin();
+        allowAdmin();
     }
     private void allowAdmin(){
-        if(!(Global.privilege)){
-            adminB.setVisible(false);
-        }
+        adminB.setVisible(Global.privilege);
     }
     @FXML
     private void openAdminU(ActionEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(ImsGui.global.getAdminUserListScene());
+        ImsGui.global.getAdminUserListController().initialize();
         stage.show();
     }
     @FXML
     private void openBudget(ActionEvent event) {
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         stage.setScene(ImsGui.global.getBudgetScene());
+        ImsGui.global.getBudgetController().initialize();
         stage.show();
     }
     @FXML
@@ -50,25 +50,28 @@ public class HomepageController {
     private void openOrders(ActionEvent event) {
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         stage.setScene(ImsGui.global.getOrdersScene());
+        ImsGui.global.getOrdersController().initialize();
         stage.show();
     }
     @FXML
     private void openProduct(ActionEvent event) {
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        //stage.setTitle("Hello World");
         stage.setScene(ImsGui.global.getProductListScene());
+        ImsGui.global.getProfilesController().initialize();
         stage.show();
     }
     @FXML
     private void openProductStatus(ActionEvent event) {
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         stage.setScene(ImsGui.global.getProductStatusScene());
+        ImsGui.global.getProductStatusController().initialize();
         stage.show();
     }
     @FXML
     private void openProfiles(ActionEvent event) {
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         stage.setScene(ImsGui.global.getProfilesScene());
+        ImsGui.global.getProfilesController().initialize();
         stage.show();
     }
 }
