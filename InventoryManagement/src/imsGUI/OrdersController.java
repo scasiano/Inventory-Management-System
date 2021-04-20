@@ -190,6 +190,7 @@ public class OrdersController {
                 }
                 catch(Exception e){
                     Global.warningAlert("Incomplete Name","Users Need a first and Last Name");
+                    return;
                 }
                 if (customerAddress.getText().length() > 0)
                     tmp.setCustomerAdd(customerAddress.getText());

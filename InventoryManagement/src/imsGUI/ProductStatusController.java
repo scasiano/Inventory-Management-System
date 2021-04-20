@@ -119,49 +119,46 @@ public class ProductStatusController {
     }
     public void setIncomingTable(){
         try {
-            inID.setCellValueFactory(new PropertyValueFactory<IncomingGoods,Long>("incomingID"));
-            inProductID.setCellValueFactory(new PropertyValueFactory<IncomingGoods,Long>("productID"));
-            dateIn.setCellValueFactory(new PropertyValueFactory<IncomingGoods, Date>("dateIn"));
-            trackingID.setCellValueFactory(new PropertyValueFactory<IncomingGoods,String>("trackingNo"));
-            inQuantity.setCellValueFactory(new PropertyValueFactory<IncomingGoods,Integer>("quantity"));
-            inEmpID.setCellValueFactory(new PropertyValueFactory<IncomingGoods,Long>("employeeNo"));
+            inID.setCellValueFactory(new PropertyValueFactory<>("incomingID"));
+            inProductID.setCellValueFactory(new PropertyValueFactory<>("productID"));
+            dateIn.setCellValueFactory(new PropertyValueFactory<>("dateIn"));
+            trackingID.setCellValueFactory(new PropertyValueFactory<>("trackingNo"));
+            inQuantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+            inEmpID.setCellValueFactory(new PropertyValueFactory<>("employeeNo"));
             allIn = IncomingGoods.selectAll();
             ObservableList<IncomingGoods> incoming = FXCollections.observableArrayList(allIn);
             incomingT.setItems(incoming);
         }
         catch(SQLException e){
-            System.out.println(e);
-            System.out.println(e.getSQLState());
+            Global.exceptionAlert(e,"Set Incoming Table");
         }
     }
     public void setOutgoingTable(){
         try {
-            outID.setCellValueFactory(new PropertyValueFactory<OutgoingGoods,Long>("outgoingID"));
-            outProductID.setCellValueFactory(new PropertyValueFactory<OutgoingGoods,Long>("productID"));
-            dateGo.setCellValueFactory(new PropertyValueFactory<OutgoingGoods, Date>("dateGo"));
-            outQuantity.setCellValueFactory(new PropertyValueFactory<OutgoingGoods,Integer>("quantity"));
-            outEmpID.setCellValueFactory(new PropertyValueFactory<OutgoingGoods,Long>("employeeNo"));
+            outID.setCellValueFactory(new PropertyValueFactory<>("outgoingID"));
+            outProductID.setCellValueFactory(new PropertyValueFactory<>("productID"));
+            dateGo.setCellValueFactory(new PropertyValueFactory<>("dateGo"));
+            outQuantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+            outEmpID.setCellValueFactory(new PropertyValueFactory<>("employeeNo"));
             allOut = OutgoingGoods.selectAll();
             ObservableList<OutgoingGoods> outgoing = FXCollections.observableArrayList(allOut);
             outgoingT.setItems(outgoing);
         }
         catch(SQLException e){
-            System.out.println(e);
-            System.out.println(e.getSQLState());
+            Global.exceptionAlert(e,"Set Outgoing Table");
         }
     }
     public void setCurrentTable(){
         try {
-            productID.setCellValueFactory(new PropertyValueFactory<CurrentStock,Long>("productID"));
+            productID.setCellValueFactory(new PropertyValueFactory<>("productID"));
             //curProductName.setCellValueFactory(new PropertyValueFactory<Products,String>("name"));
-            curQuantity.setCellValueFactory(new PropertyValueFactory<CurrentStock,Integer>("quantity"));
+            curQuantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
             allCur = CurrentStock.selectAll();
             ObservableList<CurrentStock> current = FXCollections.observableArrayList(allCur);
             currentT.setItems(current);
         }
         catch(SQLException e){
-            System.out.println(e);
-            System.out.println(e.getSQLState());
+            Global.exceptionAlert(e,"Set Current Table");
         }
     }
     public void getSelectedInfo(){
@@ -236,7 +233,7 @@ public class ProductStatusController {
             Global.exceptionAlert(e,"Set Employee Combo");
         }
     }
-    public void saveIncomingClicked(ActionEvent event) {
+    public void saveIncomingClicked() {
         boolean hasTrack = false;
         boolean hasEmp = false;
         IncomingGoods tmp= new IncomingGoods(0, null, "", 0);
@@ -249,7 +246,8 @@ public class ProductStatusController {
                 }
             }
             catch(Exception e){Global.exceptionAlert(e,"Incoming  Products Combo");}
-            if (inDatePick.getValue()!=null) tmp.setDateIn(java.sql.Date.valueOf(inDatePick.getValue()));
+            if (inDatePick.getValue()!=null)
+                tmp.setDateIn(java.sql.Date.valueOf(inDatePick.getValue()));
             else{
                 Global.warningAlert("Incorrect Date", "Date needs to be in the format of yyyy-MM-dd");
                 inDatePick.setValue(null);
@@ -259,7 +257,8 @@ public class ProductStatusController {
                 tmp.setTrackingNo(trackNoT.getText());
                 hasTrack = true;
             }
-            if (inQuantTBox.getText().length() > 0) tmp.setQuantity(Integer.parseInt(inQuantTBox.getText()));
+            if (inQuantTBox.getText().length() > 0)
+                tmp.setQuantity(Integer.parseInt(inQuantTBox.getText()));
             else{
                 Global.warningAlert("Incorrect Quantity", "Every Incoming Shipment needs a Quantity");
                 inQuantTBox.clear();
@@ -288,13 +287,13 @@ public class ProductStatusController {
         }
     }
 
-    public void saveOutgoingClicked(ActionEvent event) {
+    public void saveOutgoingClicked() {
         boolean hasEmp = false;
         OutgoingGoods tmp = new OutgoingGoods(0, null, 0 );
         try {
             try{
                 if (outProductsC.getValue()!=null) {
-                    String selectedItem = (String) outProductsC.getSelectionModel().getSelectedItem();
+                    String selectedItem = outProductsC.getSelectionModel().getSelectedItem();
                     String[] s = selectedItem.split(" | ");
                     tmp.setProductID(Long.parseLong(s[0]));
                 }
@@ -302,18 +301,17 @@ public class ProductStatusController {
             catch(Exception e){
                 Global.exceptionAlert(e,"Out Products Combo");
             }
-            if (outDatePick.getValue()!=null) {
+            if (outDatePick.getValue()!=null)
                 tmp.setDateGo(java.sql.Date.valueOf(outDatePick.getValue()));
-            }
             else {
                 Global.warningAlert("Incorrect Date", "Date needs to be in the format of yyyy-MM-dd");
                 outDatePick.setValue(null);
                 return;
             }
             try {
-                if (outQuantTBox.getText().length() > 0) {
+                if (outQuantTBox.getText().length() > 0)
                     tmp.setQuantity(Integer.parseInt(outQuantTBox.getText()));
-                } else {
+                else {
                     Global.warningAlert("Incorrect Quantity", "Every Incoming Shipment needs a Quantity");
                     outQuantTBox.clear();
                     return;
@@ -327,8 +325,10 @@ public class ProductStatusController {
                 tmp.setEmployeeNo(Long.parseLong(s[0]));
                 hasEmp = true;
             }
-            if (hasEmp) OutgoingGoods.addRecordEmp(tmp);
-            else OutgoingGoods.addRecord(tmp);
+            if (hasEmp)
+                OutgoingGoods.addRecordEmp(tmp);
+            else
+                OutgoingGoods.addRecord(tmp);
             setOutgoingTable();
             setCurrentTable();
             hideData();
@@ -373,7 +373,7 @@ public class ProductStatusController {
                 Global.warningAlert("Quantity","There aren't enough products to send out.");
             }
             if (outEmpC.getValue()!=null) {
-                String selectedItem = outEmpC.getSelectionModel().getSelectedItem().toString();
+                String selectedItem = outEmpC.getSelectionModel().getSelectedItem();
                 String[] s = selectedItem.split(" | ");
                 OutgoingGoods.modifyEmployee(outtmp.getOutgoingID(), Long.parseLong(s[0]));
             }

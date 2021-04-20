@@ -34,15 +34,15 @@ public class AdminUserListController {
     @FXML
     HBox userModB;
     @FXML
-    TableColumn userID;
+    TableColumn<Users, Long> userID;
     @FXML
-    TableColumn uFirstName;
+    TableColumn<Users, String> uFirstName;
     @FXML
-    TableColumn ULastName;
+    TableColumn<Users, String> ULastName;
     @FXML
-    TableColumn userName;
+    TableColumn<Users, String> userName;
     @FXML
-    TableColumn role;
+    TableColumn<Users, String> role;
     @FXML
     TextField fname;
     @FXML
@@ -73,17 +73,17 @@ public class AdminUserListController {
     @FXML
     HBox empModB;
     @FXML
-    TableColumn empID;
+    TableColumn<Employees, Long> empID;
     @FXML
-    TableColumn empUserID;
+    TableColumn<Employees, Long> empUserID;
     @FXML
-    TableColumn firstName;
+    TableColumn<Employees, String> firstName;
     @FXML
-    TableColumn lastName;
+    TableColumn<Employees, String> lastName;
     @FXML
-    TableColumn payHour;
+    TableColumn<Employees, Double> payHour;
     @FXML
-    TableColumn dateStart;
+    TableColumn<Employees, Date> dateStart;
     @FXML
     TextField empFname;
     @FXML
@@ -125,11 +125,11 @@ public class AdminUserListController {
 
     public void setUserTable(){
         try {
-            userID.setCellValueFactory(new PropertyValueFactory<Users,Long>("userID"));
-            uFirstName.setCellValueFactory(new PropertyValueFactory<Users,String>("fName"));
-            ULastName.setCellValueFactory(new PropertyValueFactory<Users, String>("lName"));
-            userName.setCellValueFactory(new PropertyValueFactory<Users,String>("username"));
-            role.setCellValueFactory(new PropertyValueFactory<Users,String>("role"));
+            userID.setCellValueFactory(new PropertyValueFactory<>("userID"));
+            uFirstName.setCellValueFactory(new PropertyValueFactory<>("fName"));
+            ULastName.setCellValueFactory(new PropertyValueFactory<>("lName"));
+            userName.setCellValueFactory(new PropertyValueFactory<>("username"));
+            role.setCellValueFactory(new PropertyValueFactory<>("role"));
             allUsers = Users.selectAll();
             ObservableList<Users> users = FXCollections.observableArrayList(allUsers);
             userT.setItems(users);
@@ -140,12 +140,12 @@ public class AdminUserListController {
     }
     public void setEmpTable(){
         try {
-            empID.setCellValueFactory(new PropertyValueFactory<Employees, Long>("employeeNo"));
-            empUserID.setCellValueFactory(new PropertyValueFactory<Employees, Long>("userID"));
-            firstName.setCellValueFactory(new PropertyValueFactory<Employees, String>("employeeFn"));
-            lastName.setCellValueFactory(new PropertyValueFactory<Employees, String>("employeeLn"));
-            payHour.setCellValueFactory(new PropertyValueFactory<Employees, Double>("position"));
-            dateStart.setCellValueFactory(new PropertyValueFactory<Employees, Date>("startDate"));
+            empID.setCellValueFactory(new PropertyValueFactory<>("employeeNo"));
+            empUserID.setCellValueFactory(new PropertyValueFactory<>("userID"));
+            firstName.setCellValueFactory(new PropertyValueFactory<>("employeeFn"));
+            lastName.setCellValueFactory(new PropertyValueFactory<>("employeeLn"));
+            payHour.setCellValueFactory(new PropertyValueFactory<>("position"));
+            dateStart.setCellValueFactory(new PropertyValueFactory<>("startDate"));
             allEmps = Employees.selectAll();
             ObservableList<Employees> emps = FXCollections.observableArrayList(allEmps);
             empT.setItems(emps);
@@ -164,65 +164,52 @@ public class AdminUserListController {
             empModify.setVisible(true);
         });
     }
-    public void saveUserClicked(ActionEvent event) {
+    public void saveUserClicked() {
         boolean newU=true;
         if(utemp==null) {
             newU=false;
         }
         Users tmp = new Users(0, "", "", "", "", "");
-        boolean flag = false;
         try{
-            while(!flag){
-                if (user_id.getText().length() > 0 && (long) user_id.getText().length() >= 0){
-                    flag = true;
+                if (user_id.getText().length() > 0 && Long.parseLong(user_id.getText()) >= 0)
                     tmp.setUserID(Long.parseLong(user_id.getText()));
-                }
                 else{
-                    flag = false;
                     Global.warningAlert("Incorrect ID", "User ID needs to be greater than 0 and less than 9");
                     user_id.clear();
+                    return;
                 }
-                if (username.getText().length() > 0){
-                    flag = true;
+                if (username.getText().length() > 0)
                     tmp.setUsername(username.getText());
-                }
                 else{
-                    flag = false;
                     Global.warningAlert("Incorrect Username", "Every User needs a Username");
                     username.clear();
+                    return;
                 }
-                if (fname.getText().length() > 0){
-                    flag = true;
+                if (fname.getText().length() > 0)
                     tmp.setFName(fname.getText());
-                }
                 else{
-                    flag = false;
                     Global.warningAlert("Incorrect first name", "Every User needs a first name");
                     fname.clear();
+                    return;
                 }
-                if (lname.getText().length() > 0){
-                    flag = true;
+                if (lname.getText().length() > 0)
                     tmp.setLName(lname.getText());
-                }
                 else{
-                    flag = false;
                     Global.warningAlert("Incorrect last name", "Every User needs a last name");
                     lname.clear();
+                    return;
                 }
-                if (usrRole.getText().length() > 0){
-                    flag = true;
+                if (usrRole.getText().length() > 0)
                     tmp.setRole(usrRole.getText());
-                }
                 else{
-                    flag = false;
                     Global.warningAlert("Incorrect role", "Every User needs a role type");
                     usrRole.clear();
+                    return;
                 }
 
                 //default
                 String pass="password"+tmp.getLName().substring(0,2)+tmp.getFName().substring(0,2)+"!";
                 tmp.setPassword(pass);
-            }
             if(!newU) {
                 Users.addRecord(tmp);
                 userT.getItems().add(tmp);
@@ -235,85 +222,71 @@ public class AdminUserListController {
             Global.exceptionAlert(p,"Save Employee");
         }
     }
-    public void saveEmpClicked(ActionEvent event) {
-        boolean newU=true;
-        if(etemp==null) {
-            newU=false;
-        }
+    public void saveEmpClicked(){
         method=1;
         Employees etmp = new Employees(0,0, "","", 0, "",null );
         Users utmp = new Users(0, "", "", "", "", "");
-        boolean flag = false;
         try{
-            while(!flag){
-                if (emp_id.getText().length() > 0 && Long.parseLong(emp_id.getText()) >= 0){
+                if (emp_id.getText().length() > 0 && Long.parseLong(emp_id.getText()) >= 0)
                     etmp.setEmployeeNo(Long.parseLong(emp_id.getText()));
-                    flag = true;
-                }
                 else{
-                    flag = false;
                     Global.warningAlert("Incorrect ID", "User ID needs to be greater than 0 and less than 9");
                     emp_id.clear();
+                    return;
                 }
                 if (userid.getText().length() > 0 && Long.parseLong(userid.getText()) >= 0){
                     etmp.setUserID(Long.parseLong(userid.getText()));
-                    flag = true;
                     utmp.setUserID(Long.parseLong(userid.getText()));
                 }
                 else{
                     Global.warningAlert("Incorrect ID", "User ID needs to be greater than 0 and less than 9");
                     userid.clear();
+                    return;
                 }
                 if (empFname.getText().length() > 0){
-                    flag = true;
                     etmp.setEmployeeFn(empFname.getText());
                     utmp.setFName(empFname.getText());
                 }
                 else{
-                    flag = false;
                     Global.warningAlert("Incorrect first name", "Every User needs a first name");
                     empFname.clear();
+                    return;
                 }
                 if (empLname.getText().length() > 0){
-                    flag = true;
                     etmp.setEmployeeFn(empLname.getText());
                     utmp.setLName(empLname.getText());
                 }
                 else{
-                    flag = false;
                     Global.warningAlert("Incorrect last name", "Every User needs a last name");
                     empLname.clear();
+                    return;
                 }
                 if (pay.getText().length() > 0){
                     method--;
                     etmp.setPayHour(Double.parseDouble(pay.getText()));
                 }
                 if (empRole.getText().length() > 0){
-                    flag = true;
                     etmp.setPosition(empRole.getText());
                     utmp.setRole(empRole.getText());
                 }
                 else{
-                    flag = false;
                     Global.warningAlert("Incorrect role", "Every Employee needs a role type");
                     empRole.clear();
+                    return;
                 }
-                if (empUsername.getText().length() > 0){
-                    flag = true;
+                if (empUsername.getText().length() > 0)
                     utmp.setUsername(empUsername.getText());
-                }
                 else{
-                    flag = false;
                     Global.warningAlert("Incorrect Username", "Every Employee needs a Username");
                     empUsername.clear();
+                    return;
                 }
-                if(startDate.getValue()!=null){
+                if(startDate.getValue()!=null)
                     etmp.setStartDate(java.sql.Date.valueOf(startDate.getValue()));
-                }
                 else{
-                    flag = false;
                     Global.warningAlert("Incorrect Start Date", "Every Employee needs a Start Date ");
                     startDate.setValue(null);
+                    return;
                 }
                 if(endDate.getValue()!=null){
                     method += 2;
@@ -322,12 +295,9 @@ public class AdminUserListController {
                 //default
                 String pass="password"+utmp.getLName().substring(0,2)+utmp.getFName().substring(0,2)+"!";
                 utmp.setPassword(pass);
-            }
             try{
-                if(!newU) {
                     Users.addRecord(utmp);
                     userT.getItems().add(utmp);
-                }
             }catch (MySQLIntegrityConstraintViolationException a){
                 Global.warningAlert("User Id Exists", "You do not need to Add another User");
             }
@@ -338,12 +308,9 @@ public class AdminUserListController {
                 case 3: Employees.addRecordDate(etmp);
             }
             empT.getItems().add(etmp);
-
-        }
-        catch (MySQLIntegrityConstraintViolationException e){
+        }catch(MySQLIntegrityConstraintViolationException e){
             Global.exceptionAlert(e,"Add employee");
-        }
-        catch(Exception p){
+        }catch(Exception p){
             Global.exceptionAlert(p,"Save Employee");
         }
     }
