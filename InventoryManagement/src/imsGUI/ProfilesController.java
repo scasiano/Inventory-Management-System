@@ -135,18 +135,31 @@ public class ProfilesController {
 
     public void modifyDBProfile(){
         try{
-            if (Global.currentUser == null) return;
-            System.out.println("Here");
-            Users userTMP = Global.currentUser;
-            Users.modifyFName(userTMP.getUserID(), userTMP.getFName());
-            Users.modifyLName(userTMP.getUserID(), userTMP.getLName());
-            if(password.getText().equals(confirmPassword.getText())){
-                Users.modifyPassword(userTMP.getUserID(), userTMP.getPassword());
+            if(Global.privilege = false) {
+                if (Global.currentUser == null) return;
+                System.out.println("Here");
+                Users userTMP = Global.currentUser;
+                Users.modifyFName(userTMP.getUserID(), userTMP.getFName());
+                Users.modifyLName(userTMP.getUserID(), userTMP.getLName());
+                Users.modifyUsername(userTMP.getUserID(), userTMP.getUsername());
+                Users.modifyRole(userTMP.getUserID(), userTMP.getRole());
+                if (password.getText().equals(confirmPassword.getText())) {
+                    Users.modifyPassword(userTMP.getUserID(), userTMP.getPassword());
+                } else {
+                    Global.warningAlert("Incorrect Password", "Passwords do not match");
+                } // Working through changes but not saving to DB.
             } else {
-                Global.warningAlert("Incorrect Password", "Passwords do not match");
+                if (Global.currentUser == null) return;
+                Users userTMP = Global.currentUser;
+                Users.modifyFName(userTMP.getUserID(), userTMP.getFName());
+                Users.modifyLName(userTMP.getUserID(), userTMP.getLName());
+                if (password.getText().equals(confirmPassword.getText())) {
+                    Users.modifyPassword(userTMP.getUserID(), userTMP.getPassword());
+                } else {
+                    Global.warningAlert("Incorrect Password", "Passwords do not match");
+                }
             }
 
-            System.out.println("Made it"); // Working through changes but not saving to DB.
             //initialize();
         } catch (Exception e){
             Global.exceptionAlert(e, "Modify User");
@@ -255,7 +268,7 @@ public class ProfilesController {
         usersList.setVisible(true);
         userResults.setVisible(true);
     }
-    
+
     @FXML
     private void openHomePage(ActionEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
