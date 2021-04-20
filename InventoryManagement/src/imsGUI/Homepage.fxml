@@ -55,7 +55,7 @@
                          <!--Not staying, will turn into a log out button-->
                    <Button alignment="TOP_RIGHT" mnemonicParsing="false" onAction="#openLogin" text="Logout" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
                <font>
-                  <Font size="20.0" />
+                  <Font size="15.0" />
                </font>
                <GridPane.margin>
                   <Insets right="5.0" top="5.0" />

@@ -18,8 +18,8 @@
    <children>
        <GridPane alignment="CENTER" style="-fx-background-color: grey;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
            <columnConstraints>
-               <ColumnConstraints fx:id="column0" maxWidth="5" />
-               <ColumnConstraints fx:id="column1" percentWidth="90.0" />
+               <ColumnConstraints fx:id="column0" percentWidth=".25" />
+               <ColumnConstraints fx:id="column1" percentWidth="89.875" />
                <ColumnConstraints fx:id="column2" percentWidth="10.0" />
                <ColumnConstraints />
            </columnConstraints>
@@ -44,7 +44,7 @@
                </HBox>
                <GridPane style="-fx-background-color: ALICEBLUE ALICEBLUE;" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="1">
                    <columnConstraints>
-                       <ColumnConstraints fillWidth="true" minWidth="5" />
+                       <ColumnConstraints fillWidth="true" percentWidth=".5" />
                        <ColumnConstraints fillWidth="true" percentWidth="65" />
                        <ColumnConstraints fillWidth="true" maxWidth="10" minWidth="10" />
                        <ColumnConstraints fillWidth="true" percentWidth="20" />
@@ -57,14 +57,17 @@
                    <children>
                        <TableView fx:id="budgetTable" layoutX="13.0" layoutY="57.0" prefHeight="319.0" prefWidth="421.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <columns>
-                               <TableColumn fx:id="periodTable" prefWidth="153.0" text="ID" />
-                               <TableColumn fx:id="startTable" prefWidth="153.0" text="Start Date" />
-                               <TableColumn fx:id="endTable" prefWidth="153.0" text="End Date" />
-                               <TableColumn fx:id="incomeTable" prefWidth="153.0" text="Incoming" />
-                               <TableColumn fx:id="outTable" prefWidth="153.0" text="Outgoing" />
-                               <TableColumn fx:id="netTable" prefWidth="153.0" text="Net" />
-                               <TableColumn fx:id="empTable" prefWidth="153.0" text="Emp No." />
+                               <TableColumn fx:id="periodTable" text="ID" />
+                               <TableColumn fx:id="startTable" text="Start Date" />
+                               <TableColumn fx:id="endTable" text="End Date" />
+                               <TableColumn fx:id="incomeTable" text="Incoming" />
+                               <TableColumn fx:id="outTable" text="Outgoing" />
+                               <TableColumn fx:id="netTable" text="Net" />
+                               <TableColumn fx:id="empTable" text="Emp No." />
                            </columns>
+                           <columnResizePolicy>
+                                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
                        </TableView>
                        <VBox fillWidth="true" GridPane.columnIndex="3" GridPane.rowIndex="1">
                             <Label fx:id="periodLabel" text="BudgetPeriod" />
