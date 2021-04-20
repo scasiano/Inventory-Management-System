@@ -118,9 +118,9 @@ public class OrdersController {
             }
             allEmps=Employees.selectAll();
             allEmps= Employees.selectAll();
-            ArrayList<String> ftemp=Employees.selectEmployeeFn();
+            /*ArrayList<String> ftemp=Employees.selectEmployeeFn();
             ArrayList<String> ltemp=Employees.selectEmployeeLn();
-            /*for(int i=0;i<ftemp.size();i++){
+            for(int i=0;i<ftemp.size();i++){
                 eNames.add(ftemp.get(i)+" "+ltemp.get(i));
             }*/
             for (Employees allEmp : allEmps) {
@@ -167,61 +167,52 @@ public class OrdersController {
     }
     public void addOrderClicked(ActionEvent event) {
         String[] name=customerName.getText().split(" ");
-        int method =0;
+        boolean method =false;
         Orders tmp = new Orders(0, "", "", "", null, 0);
-        boolean flag = false;
         try{
-            while(!flag){
-                if (orderID.getText().length() > 0 && Long.parseLong(orderID.getText()) >= 0){
-                    flag = true;
+                if (orderID.getText().length() > 0 && Long.parseLong(orderID.getText()) >= 0)
                     tmp.setOrderID(Long.parseLong(orderID.getText()));
-                }
                 else{
-                    flag = false;
                     Global.warningAlert("Incorrect ID", "Order ID needs to be greater than 0 and less than 9");
                     orderID.clear();
+                    return;
                 }
                 try{
                     if (customerName.getText().length() > 0){
-                        flag = true;
                         tmp.setCustomerFn(name[0]);
                         tmp.setCustomerLn(name[1]);
                     }
                     else{
-                        flag = false;
                         Global.warningAlert("Incorrect Customer Name", "Every Order needs a Customer Name");
                         customerName.clear();
+                        return;
                     }
                 }
                 catch(Exception e){
                     Global.warningAlert("Incomplete Name","Users Need a first and Last Name");
                 }
-                if (customerAddress.getText().length() > 0){
-                    flag = true;
+                if (customerAddress.getText().length() > 0)
                     tmp.setCustomerAdd(customerAddress.getText());
-                }
                 else{
-                    flag = false;
                     Global.warningAlert("Incorrect Address", "Every Order needs a Customer address");
                     customerAddress.clear();
+                    return;
                 }
-                if(addDate.getValue()!=null){
+                if(addDate.getValue()!=null)
                     tmp.setDatePlaced(java.sql.Date.valueOf(addDate.getValue()));
-                }
                 else{
-                    flag = false;
                     Global.warningAlert("Incorrect Date", "Every Order needs a Date placed in the format yyyy-MM-dd");
                     addDate.setValue(null);
+                    return;
                 }
                 if(empIDC.getValue()!=null){
-                        method++;
+                        method=true;
                         tmp.setEmployeeNo(Long.parseLong(empIDC.getValue()));
                 }
-            }
-            if(method==0){
-                Orders.addRecord(tmp);}
-            else{
-                Orders.addRecordEmp(tmp);}
+            if(!method)
+                Orders.addRecord(tmp);
+            else
+                Orders.addRecordEmp(tmp);
             orderIDT.getItems().add(tmp);
         }
         catch (MySQLIntegrityConstraintViolationException e){
