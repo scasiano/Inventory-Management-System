@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class OrdersController {
 
@@ -72,6 +73,7 @@ public class OrdersController {
     ArrayList<Products> allProd;
     ArrayList<Employees> allEmps;
     ArrayList<String> eNames = new ArrayList<>();
+    boolean hasProd=false;
     int oIndex=-1;
     //Orders otemp;
     public void initialize(){
@@ -167,11 +169,16 @@ public class OrdersController {
     }
     public void addOrderClicked(ActionEvent event) {
         String[] name=customerName.getText().split(" ");
-        boolean method =false;
-        Orders tmp = new Orders(0, "", "", "", null, 0);
+        boolean empBool =false;
+        boolean trackBool=false;
+        boolean carryBool=false;
+        Orders oTmp = new Orders(0, "", "", "", null, 0);
+        Tracking tTmp= new Tracking(0,"Not Shipped");
         try{
-                if (orderID.getText().length() > 0 && Long.parseLong(orderID.getText()) >= 0)
-                    tmp.setOrderID(Long.parseLong(orderID.getText()));
+                if (orderID.getText().length() > 0 && Long.parseLong(orderID.getText()) >= 0) {
+                    oTmp.setOrderID(Long.parseLong(orderID.getText()));
+                    tTmp.setOrderID(Long.parseLong(orderID.getText()));
+                }
                 else{
                     Global.warningAlert("Incorrect ID", "Order ID needs to be greater than 0 and less than 9");
                     orderID.clear();
@@ -179,8 +186,8 @@ public class OrdersController {
                 }
                 try{
                     if (customerName.getText().length() > 0){
-                        tmp.setCustomerFn(name[0]);
-                        tmp.setCustomerLn(name[1]);
+                        oTmp.setCustomerFn(name[0]);
+                        oTmp.setCustomerLn(name[1]);
                     }
                     else{
                         Global.warningAlert("Incorrect Customer Name", "Every Order needs a Customer Name");
@@ -193,28 +200,64 @@ public class OrdersController {
                     return;
                 }
                 if (customerAddress.getText().length() > 0)
-                    tmp.setCustomerAdd(customerAddress.getText());
+                    oTmp.setCustomerAdd(customerAddress.getText());
                 else{
                     Global.warningAlert("Incorrect Address", "Every Order needs a Customer address");
                     customerAddress.clear();
                     return;
                 }
                 if(addDate.getValue()!=null)
-                    tmp.setDatePlaced(java.sql.Date.valueOf(addDate.getValue()));
+                    oTmp.setDatePlaced(java.sql.Date.valueOf(addDate.getValue()));
                 else{
                     Global.warningAlert("Incorrect Date", "Every Order needs a Date placed in the format yyyy-MM-dd");
                     addDate.setValue(null);
                     return;
                 }
                 if(empIDC.getValue()!=null){
-                        method=true;
-                        tmp.setEmployeeNo(Long.parseLong(empIDC.getValue()));
+                        empBool=true;
+                        oTmp.setEmployeeNo(Long.parseLong(empIDC.getValue()));
                 }
-            if(!method)
-                Orders.addRecord(tmp);
+                if(shippingStatus.getValue()!=null)
+                    tTmp.setShippingStatus(shippingStatus.getValue());
+                if(!Objects.equals(shippingStatus.getValue(), "Not Shipped")){
+                    if(!trackingID.getText().isEmpty()) {
+                        tTmp.setTrackingID(trackingID.getText());
+                        trackBool=true;
+                    }
+                    else{
+                        Global.warningAlert("Shipping Status", "Your shipping status is Shipped or Delivered. You should have a tracking number.");
+                        return;
+                    }
+                    if(carrier.getValue()!=null) {
+                        tTmp.setCarrier(carrier.getValue());
+                        carryBool=true;
+                    }
+                    else{
+                        Global.warningAlert("Shipping Status", "Your shipping status is Shipped or Delivered. You should have a the Carrier Organization.");
+                        return;
+                    }
+                }
+                // Adding Order info if there is a product
+            if(!hasProd) {
+                Global.warningAlert("Missing Products", "You do not have any products for this order");
+                return;
+            }
+            if(!empBool)
+                Orders.addRecord(oTmp);
             else
-                Orders.addRecordEmp(tmp);
-            orderIDT.getItems().add(tmp);
+                Orders.addRecordEmp(oTmp);
+            //adding Tacking Info
+            if(carryBool && trackBool)
+                Tracking.addRecordTrackCarrier(tTmp);
+            else if(carryBool)
+                Tracking.addRecordCarrier(tTmp);
+            else if(trackBool)
+                Tracking.addRecordTrack(tTmp);
+            else
+                Tracking.addRecord(tTmp);
+            orderIDT.getItems().add(oTmp);
+            setOrderList();
+            clearOrderInfo();
         }
         catch (MySQLIntegrityConstraintViolationException e){
             Global.warningAlert("Order Id Exists", "Order ID already exists. User add canceled");
@@ -225,14 +268,17 @@ public class OrdersController {
     }
     public void addOrderItem() {
         String selectedItem = productsList.getSelectionModel().getSelectedItem();
-        String[] s = selectedItem.split(" | ");
+        String[] s = selectedItem.split(" \\| ");
         if (orderID.getText().length() > 0) {
             OrderItems orderItems = new OrderItems(Long.parseLong(orderID.getText()), Long.parseLong(s[0]));
             products.setCellValueFactory(new PropertyValueFactory<OrderItems,Long>("productID"));
             allAddItems.add(orderItems);
             ObservableList<OrderItems> orderI = FXCollections.observableArrayList(allAddItems);
             orderProds.setItems(orderI);
+            hasProd= true;
         }
+        else
+            Global.warningAlert("No Order ID","Please Create an Order ID before adding a product");
     }
     public void addOrder(){
         orderID.clear();
