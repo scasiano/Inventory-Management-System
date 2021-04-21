@@ -121,6 +121,9 @@ public class AdminUserListController {
         setEmpTable();
         setCombos();
         getSelectedInfo();
+        clearUsrData();
+        clearEmpData();
+        hideData();
     }
 
     public void setUserTable(){
@@ -493,12 +496,18 @@ public class AdminUserListController {
 
     @FXML
     private void openHomePage(ActionEvent event) {
+        clearUsrData();
+        clearEmpData();
+        hideData();
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         stage.setScene(ImsGui.global.getHomepageScene());
         stage.show();
     }
     @FXML
     private void openLogin(ActionEvent event) {
+        clearUsrData();
+        clearEmpData();
+        hideData();
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         stage.setScene(ImsGui.global.getLoginScene());
         stage.show();

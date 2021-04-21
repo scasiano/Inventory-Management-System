@@ -116,7 +116,8 @@ public class ProductStatusController {
         setEmpCombo();
         setCurrentTable();
         getSelectedInfo();
-
+        clearBox();
+        hideData();
     }
     public void setIncomingTable(){
         try {
@@ -297,7 +298,6 @@ public class ProductStatusController {
             Global.exceptionAlert(p,"Save Incoming");
         }
     }
-
     public void saveOutgoingClicked() {
         boolean hasEmp = false;
         OutgoingGoods tmp = new OutgoingGoods(0, null, 0 );
@@ -430,13 +430,6 @@ public class ProductStatusController {
             }
         }
     }
-    public void clearBox(){
-        inQuantTBox.clear();
-        trackNoT.clear();
-        inDatePick.setValue(null);
-        outDatePick.setValue(null);
-        outQuantTBox.clear();
-    }
     public void addIncomingData(){
         incomingV.setVisible(true);
         inAddButton.setVisible(false);
@@ -478,7 +471,15 @@ public class ProductStatusController {
             inDelete.setVisible(false);
         }
     }
+    public void clearBox(){
+        inQuantTBox.clear();
+        trackNoT.clear();
+        inDatePick.setValue(null);
+        outDatePick.setValue(null);
+        outQuantTBox.clear();
+    }
     public void hideData(){
+        clearBox();
         inAddButton.setVisible(true);
         incomingV.setVisible(false);
         inAddHBox.setVisible(false);
@@ -491,16 +492,19 @@ public class ProductStatusController {
         outModHBox.setVisible(false);
         incomingT.getSelectionModel().clearSelection();
         outgoingT.getSelectionModel().clearSelection();
-        clearBox();
     }
     @FXML
     private void openHomePage(ActionEvent event) {
+        clearBox();
+        hideData();
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         stage.setScene(ImsGui.global.getHomepageScene());
         stage.show();
     }
     @FXML
     private void openLogin(ActionEvent event) {
+        clearBox();
+        hideData();
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         stage.setScene(ImsGui.global.getLoginScene());
         stage.show();

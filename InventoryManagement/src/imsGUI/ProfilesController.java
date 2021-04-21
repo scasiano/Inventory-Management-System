@@ -67,6 +67,7 @@ public class ProfilesController {
 
     public void initialize() {
         userDetails();
+        clearUserInfo();
     }
 
     public void setUsersList() { // not currently in use.
@@ -271,6 +272,7 @@ public class ProfilesController {
 
     @FXML
     private void openHomePage(ActionEvent event) {
+        clearUserInfo();
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(ImsGui.global.getHomepageScene());
         stage.show();
@@ -278,6 +280,7 @@ public class ProfilesController {
 
     @FXML
     private void openLogin(ActionEvent event) {
+        clearUserInfo();
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(ImsGui.global.getLoginScene());
         stage.show();

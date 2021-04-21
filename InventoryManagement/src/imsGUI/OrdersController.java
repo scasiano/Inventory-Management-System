@@ -80,6 +80,7 @@ public class OrdersController {
         setOrderList();
         orderDetails();
         setCombos();
+        clearOrderInfo();
     }
     public void setOrderList(){
         try{
@@ -388,12 +389,14 @@ public class OrdersController {
 
     @FXML
     private void openHomePage(ActionEvent event) {
+        clearOrderInfo();
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         stage.setScene(ImsGui.global.getHomepageScene());
         stage.show();
     }
     @FXML
     private void openLogin(ActionEvent event) {
+        clearOrderInfo();
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         stage.setScene(ImsGui.global.getLoginScene());
         stage.show();

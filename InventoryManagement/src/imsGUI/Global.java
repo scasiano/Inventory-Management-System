@@ -48,12 +48,12 @@ public class Global {
         Parent productStatus = productStatusLoader.load();
         Parent profiles = profilesLoader.load();
         adminUserListScene = new Scene(adminUserList);
-        budgetScene = new Scene(budget);
+        budgetScene = new Scene(budget,720,480);
         homepageScene = new Scene(homepage);
         loginScene = new Scene(login);
-        ordersScene = new Scene(orders);
-        productListScene = new Scene(productList);
-        productStatusScene = new Scene(productStatus);
+        ordersScene = new Scene(orders,720,480);
+        productListScene = new Scene(productList,720,480);
+        productStatusScene = new Scene(productStatus,720,480);
         profilesScene = new Scene(profiles);
         adminUserListController = adminUserListLoader.getController();
         budgetController = budgetLoader.getController();

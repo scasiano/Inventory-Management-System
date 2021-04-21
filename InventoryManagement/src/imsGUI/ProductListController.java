@@ -53,6 +53,8 @@ public class ProductListController {
         setProductList();
         prodDetails();
         addProd.setVisible(Global.privilege);
+        clearProdList();
+        clearProdInfo();
     }
 
     public void setProductList() {
@@ -231,12 +233,16 @@ public class ProductListController {
     }
     @FXML
     private void openHomePage(ActionEvent event) {
+        clearProdList();
+        clearProdInfo();
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         stage.setScene(ImsGui.global.getHomepageScene());
         stage.show();
     }
     @FXML
     private void openLogin(ActionEvent event) {
+        clearProdList();
+        clearProdInfo();
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         stage.setScene(ImsGui.global.getLoginScene());
         stage.show();
