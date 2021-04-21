@@ -127,8 +127,7 @@ public class ProductStatusController {
             inQuantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
             inEmpID.setCellValueFactory(new PropertyValueFactory<>("employeeNo"));
             allIn = IncomingGoods.selectAll();
-            ObservableList<IncomingGoods> incoming = FXCollections.observableArrayList(allIn);
-            incomingT.setItems(incoming);
+            incomingT.setItems(FXCollections.observableArrayList(allIn));
         }
         catch(SQLException e){
             Global.exceptionAlert(e,"Set Incoming Table");
