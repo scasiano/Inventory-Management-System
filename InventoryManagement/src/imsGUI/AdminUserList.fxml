@@ -166,32 +166,33 @@
                                     </TableView>
                                     <VBox fx:id="empV" fillWidth="true" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="1"><children>
                                         <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="41.0" prefWidth="152.0" text="Create/Update User" GridPane.rowIndex="1" />
-                                        <Label text="First Name:"/>
-                                        <TextField fx:id="empFname" prefHeight="26.0" prefWidth="152.0" promptText="First Name" GridPane.rowIndex="1">
-                                            <VBox.margin>
-                                                <Insets bottom="5.0" top="5.0" />
-                                            </VBox.margin></TextField>
-                                        <Label text="Last Name:"/>
-                                        <TextField fx:id="empLname" promptText="Last Name" GridPane.rowIndex="1">
-                                            <VBox.margin>
-                                                <Insets bottom="5.0" top="5.0" />
-                                            </VBox.margin></TextField>
                                         <Label text="User ID:"/>
                                         <ComboBox fx:id="empUIDC" promptText="User ID" GridPane.rowIndex="1">
                                             <VBox.margin>
                                                 <Insets bottom="5.0" top="5.0" />
                                             </VBox.margin></ComboBox>
+                                        <Label text="First Name:"/>
+                                        <TextField fx:id="empFname" prefHeight="26.0" prefWidth="152.0" promptText="First Name" GridPane.rowIndex="1" editable="false">
+                                            <VBox.margin>
+                                                <Insets bottom="5.0" top="5.0" />
+                                            </VBox.margin>
+                                        </TextField>
+                                        <Label text="Last Name:"/>
+                                        <TextField fx:id="empLname" promptText="Last Name" GridPane.rowIndex="1" editable="false">
+                                            <VBox.margin>
+                                                <Insets bottom="5.0" top="5.0" />
+                                            </VBox.margin></TextField>
                                         <Label text="Employee ID:"/>
                                         <TextField fx:id="EID" promptText="Employee ID" GridPane.rowIndex="1">
                                             <VBox.margin>
                                                 <Insets bottom="5.0" top="5.0" />
                                             </VBox.margin></TextField>
-                                        <Label text="Pay/Hour:"/>
                                         <Label text="Employee Position:"/>
                                         <ComboBox fx:id="empRoleC" promptText="Role" GridPane.rowIndex="1">
                                             <VBox.margin>
                                                 <Insets bottom="5.0" top="5.0" />
                                             </VBox.margin></ComboBox>
+                                        <Label text="Pay/Hour:"/>
                                         <TextField fx:id="pay" promptText="Employee Pay" GridPane.rowIndex="1">
                                             <VBox.margin>
                                                 <Insets bottom="5.0" top="5.0" />

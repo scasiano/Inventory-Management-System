@@ -169,16 +169,16 @@ public class AdminUserListController {
             });
         }
         catch (Exception e){
-            Global.exceptionAlert(e, "Show admin details");
+            Global.exceptionAlert(e, "Show User Admin details");
         }
         try{
             empT.setOnMouseClicked(event -> {
                 etemp=empT.getSelectionModel().getSelectedItem();
                 eIndex= empT.getSelectionModel().getSelectedIndex();
-                empFname.setText(allEmps.get(eIndex).getEmployeeFn());
-                empLname.setText(allEmps.get(eIndex).getEmployeeLn());
+                empFname.setText(etemp.getEmployeeFn());
+                empLname.setText(etemp.getEmployeeLn());
                 empRoleC.setValue(allEmps.get(eIndex).getPosition());
-                empUIDC.setValue(String.valueOf(allUsers.get(eIndex).getUserID()));
+                empUIDC.setValue(allUsers.get(eIndex).getUserID() +" | "+ etemp.getEmployeeFn() + " " + etemp.getEmployeeLn());
                 EID.setText(String.valueOf(allEmps.get(eIndex).getEmployeeNo()));
                 startDate.setValue(allEmps.get(eIndex).getStartDate().toLocalDate());
                 if(allEmps.get(eIndex).getEndDate()!=null)
@@ -188,8 +188,18 @@ public class AdminUserListController {
             });
         }
         catch (Exception e){
-            Global.exceptionAlert(e, "Show admin details");
+            Global.exceptionAlert(e, "Show Employee Admin details");
         }
+
+        empUIDC.setOnAction(event -> {
+            if(empUIDC.getValue()!=null) {
+                String selectedItem = empUIDC.getSelectionModel().getSelectedItem();
+                String[] s = selectedItem.split(" \\| ");
+                String[] name = s[1].split(" ");
+                empFname.setText(name[0]);
+                empLname.setText(name[1]);
+            }
+        });
     }
     public void setCombos(){
         empUIDC.getItems().clear();
@@ -283,35 +293,23 @@ public class AdminUserListController {
         Employees etmp = new Employees(0,0, "","", 0, "",null );
         Users utmp = new Users(0, "", "", "", "", "");
         try{
-                if (EID.getText().length() > 0 && Long.parseLong(EID.getText()) >= 0)
-                    etmp.setEmployeeNo(Long.parseLong(EID.getText()));
-                else{
-                    Global.warningAlert("Incorrect ID", "User ID needs to be greater than 0 and less than 9 digits");
-                    EID.clear();
-                    return;
-                }
-                if (empUIDC.getValue().length() > 0 && Long.parseLong(empUIDC.getValue()) >= 0){
-                    etmp.setUserID(Long.parseLong(empUIDC.getValue()));
+                if (empUIDC.getValue()!=null){
+                    String selectedItem = empUIDC.getSelectionModel().getSelectedItem();
+                    String[] s = selectedItem.split(" \\| ");
+                    etmp.setUserID(Long.parseLong(s[0]));
                 }
                 else{
                     Global.warningAlert("Incorrect ID", "User ID needs to be greater than 0 and less than 9 digits");
                     empUIDC.setValue(null);
                     return;
                 }
-                if (empFname.getText().length() > 0){
-                    etmp.setEmployeeFn(empFname.getText());
-                }
+                etmp.setEmployeeFn(empFname.getText());
+                etmp.setEmployeeLn(empLname.getText());
+                if (EID.getText().length() > 0 && Long.parseLong(EID.getText()) >= 0)
+                    etmp.setEmployeeNo(Long.parseLong(EID.getText()));
                 else{
-                    Global.warningAlert("Incorrect first name", "Every User needs a first name");
-                    empFname.clear();
-                    return;
-                }
-                if (empLname.getText().length() > 0){
-                    etmp.setEmployeeLn(empLname.getText());
-                }
-                else{
-                    Global.warningAlert("Incorrect last name", "Every User needs a last name");
-                    empLname.clear();
+                    Global.warningAlert("Incorrect ID", "User ID needs to be greater than 0 and less than 9 digits");
+                    EID.clear();
                     return;
                 }
                 if (pay.getText().length() > 0){
@@ -334,20 +332,13 @@ public class AdminUserListController {
                     startDate.setValue(null);
                     return;
                 }
-                if(endDate.getValue()!=null){
-                    method += 2;
-                    etmp.setEndDate(java.sql.Date.valueOf(endDate.getValue()));
-                }
-                //default
-                String pass="password"+utmp.getLName().substring(0,2)+utmp.getFName().substring(0,2)+"!";
-                utmp.setPassword(pass);
+
             switch (method){
-                case 0: Employees.addRecordPay(etmp);
                 case 1: Employees.addRecord(etmp);
-                case 2: Employees.addRecordPayDate(etmp);
-                case 3: Employees.addRecordDate(etmp);
+                case 0: Employees.addRecordPay(etmp);
             }
             empT.getItems().add(etmp);
+            setUserTable();
             setEmpTable();
             clearEmpData();
             hideData();
@@ -383,8 +374,7 @@ public class AdminUserListController {
             Employees.modifyStartDate(allEmps.get(eIndex).getEmployeeNo(),java.sql.Date.valueOf(startDate.getValue()));
             if(empRoleC.getValue()!=null) {
                 Employees.modifyPosition(allEmps.get(eIndex).getEmployeeNo(), empRoleC.getValue());
-                Users.modifyRole(Employees.selectUserIDByEmpID(allEmps.get(eIndex).getEmployeeNo()),empRoleC.getValue());
-                System.out.println(Employees.selectUserIDByEmpID(allEmps.get(eIndex).getEmployeeNo()));
+                Users.modifyRole(allEmps.get(eIndex).getUserID(),empRoleC.getValue());
             }
             if(pay.getText().length()>0) Employees.modifyPayHour(allEmps.get(eIndex).getEmployeeNo(),Double.parseDouble(pay.getText()));
             if(endDate.getValue()!=null) Employees.modifyEndDate(allEmps.get(eIndex).getEmployeeNo(),java.sql.Date.valueOf(endDate.getValue()));
