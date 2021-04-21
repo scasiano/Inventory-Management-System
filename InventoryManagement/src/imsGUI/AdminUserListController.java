@@ -52,7 +52,7 @@ public class AdminUserListController {
     @FXML
     TextField uUID;
     @FXML
-    TextField usrRole;
+    ComboBox<String> usrRoleC;
     @FXML
     Button save;
     @FXML
@@ -89,13 +89,11 @@ public class AdminUserListController {
     @FXML
     TextField empLname;
     @FXML
-    TextField empUsername;
-    @FXML
     TextField EID;
     @FXML
-    TextField empUID;
+    ComboBox<String> empUIDC;
     @FXML
-    TextField empRole;
+    ComboBox<String> empRoleC;
     @FXML
     TextField pay;
     @FXML
@@ -121,6 +119,7 @@ public class AdminUserListController {
     public void initialize(){
         setUserTable();
         setEmpTable();
+        setCombos();
         getSelectedInfo();
     }
 
@@ -163,7 +162,7 @@ public class AdminUserListController {
 
                 usrFName.setText(allUsers.get(uIndex).getFName());
                 usrLName.setText(allUsers.get(uIndex).getLName());
-                usrRole.setText(allUsers.get(uIndex).getRole());
+                usrRoleC.setValue(allUsers.get(uIndex).getRole());
                 uUsername.setText(allUsers.get(uIndex).getUsername());
                 uUID.setText(String.valueOf(allUsers.get(uIndex).getUserID()));
                 userModify.setVisible(true);
@@ -178,13 +177,8 @@ public class AdminUserListController {
                 eIndex= empT.getSelectionModel().getSelectedIndex();
                 empFname.setText(allEmps.get(eIndex).getEmployeeFn());
                 empLname.setText(allEmps.get(eIndex).getEmployeeLn());
-                empRole.setText(allEmps.get(eIndex).getPosition());
-                try {
-                    empUsername.setText(Users.selectUserByID(allEmps.get(eIndex).getUserID()).getUsername());
-                } catch (Exception throwables) {
-                    Global.exceptionAlert(throwables,"Username for Employee Autofill");
-                }
-                empUID.setText(String.valueOf(allUsers.get(eIndex).getUserID()));
+                empRoleC.setValue(allEmps.get(eIndex).getPosition());
+                empUIDC.setValue(String.valueOf(allUsers.get(eIndex).getUserID()));
                 EID.setText(String.valueOf(allEmps.get(eIndex).getEmployeeNo()));
                 startDate.setValue(allEmps.get(eIndex).getStartDate().toLocalDate());
                 if(allEmps.get(eIndex).getEndDate()!=null)
@@ -196,6 +190,31 @@ public class AdminUserListController {
         catch (Exception e){
             Global.exceptionAlert(e, "Show admin details");
         }
+    }
+    public void setCombos(){
+        empUIDC.getItems().clear();
+        usrRoleC.getItems().clear();
+        empRoleC.getItems().clear();
+        try{
+            allUsers= Users.selectAll();
+            ArrayList<String> fname = Users.selectFName();
+            ArrayList<String> lname = Users.selectLName();
+            for (int i=0; i<allUsers.size();i++) {
+                String s = allUsers.get(i).getUserID() + " | " + fname.get(i)+" "+lname.get(i);
+                empUIDC.getItems().add(s);
+            }
+        }
+        catch(Exception e){
+            Global.exceptionAlert(e,"Set Product Combo");
+        }
+        usrRoleC.getItems().add("User");
+        usrRoleC.getItems().add("Customer");
+        empRoleC.getItems().add("Clerk");
+        empRoleC.getItems().add("Financier");
+        empRoleC.getItems().add("Assistant Manager");
+        empRoleC.getItems().add("Manager");
+        empRoleC.getItems().add("IT");
+        empRoleC.getItems().add("Admin");
     }
     public void saveUserClicked() {
         boolean newU=true;
@@ -232,11 +251,11 @@ public class AdminUserListController {
                     usrLName.clear();
                     return;
                 }
-                if (usrRole.getText().length() > 0)
-                    tmp.setRole(usrRole.getText());
+                if (usrRoleC.getValue()!=null)
+                    tmp.setRole(usrRoleC.getValue());
                 else{
                     Global.warningAlert("Incorrect role", "Every User needs a role type");
-                    usrRole.clear();
+                    usrRoleC.setValue(null);
                     return;
                 }
 
@@ -248,6 +267,7 @@ public class AdminUserListController {
                 userT.getItems().add(tmp);
             }
             setUserTable();
+            setCombos();
             clearUsrData();
             hideData();
         }
@@ -270,18 +290,16 @@ public class AdminUserListController {
                     EID.clear();
                     return;
                 }
-                if (empUID.getText().length() > 0 && Long.parseLong(empUID.getText()) >= 0){
-                    etmp.setUserID(Long.parseLong(empUID.getText()));
-                    utmp.setUserID(Long.parseLong(empUID.getText()));
+                if (empUIDC.getValue().length() > 0 && Long.parseLong(empUIDC.getValue()) >= 0){
+                    etmp.setUserID(Long.parseLong(empUIDC.getValue()));
                 }
                 else{
                     Global.warningAlert("Incorrect ID", "User ID needs to be greater than 0 and less than 9 digits");
-                    empUID.clear();
+                    empUIDC.setValue(null);
                     return;
                 }
                 if (empFname.getText().length() > 0){
                     etmp.setEmployeeFn(empFname.getText());
-                    utmp.setFName(empFname.getText());
                 }
                 else{
                     Global.warningAlert("Incorrect first name", "Every User needs a first name");
@@ -290,7 +308,6 @@ public class AdminUserListController {
                 }
                 if (empLname.getText().length() > 0){
                     etmp.setEmployeeLn(empLname.getText());
-                    utmp.setLName(empLname.getText());
                 }
                 else{
                     Global.warningAlert("Incorrect last name", "Every User needs a last name");
@@ -301,20 +318,13 @@ public class AdminUserListController {
                     method--;
                     etmp.setPayHour(Double.parseDouble(pay.getText()));
                 }
-                if (empRole.getText().length() > 0){
-                    etmp.setPosition(empRole.getText());
-                    utmp.setRole(empRole.getText());
+                if (empRoleC.getValue()!=null){
+                    etmp.setPosition(empRoleC.getValue());
+                    Users.modifyRole(etmp.getUserID(),empRoleC.getValue());
                 }
                 else{
                     Global.warningAlert("Incorrect role", "Every Employee needs a role type");
-                    empRole.clear();
-                    return;
-                }
-                if (empUsername.getText().length() > 0)
-                    utmp.setUsername(empUsername.getText());
-                else{
-                    Global.warningAlert("Incorrect Username", "Every Employee needs a Username");
-                    empUsername.clear();
+                    empRoleC.setValue(null);
                     return;
                 }
                 if(startDate.getValue()!=null)
@@ -331,28 +341,6 @@ public class AdminUserListController {
                 //default
                 String pass="password"+utmp.getLName().substring(0,2)+utmp.getFName().substring(0,2)+"!";
                 utmp.setPassword(pass);
-            try{
-                Users.addRecord(utmp);
-                userT.getItems().add(utmp);
-            }catch (MySQLIntegrityConstraintViolationException a) {
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("This User ID Exists");
-                alert.setContentText("Do you want to assign this Employee to the current User ID?");
-                ButtonType okButton = new ButtonType("Yes", ButtonBar.ButtonData.YES);
-                ButtonType noButton = new ButtonType("Yes", ButtonBar.ButtonData.NO);
-                alert.getButtonTypes().addAll(okButton, noButton);
-                alert.showAndWait().ifPresent(type -> {
-                    if (type == ButtonType.NO)
-                        return;
-                    else {
-                        try {
-                            Users.modifyRole(utemp.getUserID(),empRole.getText());
-                        }catch(Exception e){
-                            Global.exceptionAlert(e,"Updating a User while adding an employee");
-                        }
-                    }
-                });
-            }
             switch (method){
                 case 0: Employees.addRecordPay(etmp);
                 case 1: Employees.addRecord(etmp);
@@ -373,7 +361,7 @@ public class AdminUserListController {
         try{
             Users.modifyFName(allUsers.get(uIndex).getUserID(), usrFName.getText());
             Users.modifyLName(allUsers.get(uIndex).getUserID(),usrLName.getText());
-            Users.modifyRole(allUsers.get(uIndex).getUserID(),usrRole.getText());
+            Users.modifyRole(allUsers.get(uIndex).getUserID(), usrRoleC.getValue());
             Users.modifyUsername(allUsers.get(uIndex).getUserID(), uUsername.getText());
             initialize();
             clearUsrData();
@@ -387,9 +375,17 @@ public class AdminUserListController {
         try{
             Employees.modifyEmployeeFn(allEmps.get(eIndex).getEmployeeNo(),empFname.getText());
             Employees.modifyEmployeeLn(allEmps.get(eIndex).getEmployeeNo(),empLname.getText());
-            Employees.modifyUserId(allEmps.get(eIndex).getEmployeeNo(),Long.parseLong(empUID.getText()));
+            if(empUIDC.getValue()!=null) {
+                String selectedItem = empUIDC.getSelectionModel().getSelectedItem();
+                String[] s = selectedItem.split(" \\| ");
+                Employees.modifyUserId(allEmps.get(eIndex).getEmployeeNo(), Long.parseLong(s[0]));
+            }
             Employees.modifyStartDate(allEmps.get(eIndex).getEmployeeNo(),java.sql.Date.valueOf(startDate.getValue()));
-            Employees.modifyPosition(allEmps.get(eIndex).getEmployeeNo(),empRole.getText());
+            if(empRoleC.getValue()!=null) {
+                Employees.modifyPosition(allEmps.get(eIndex).getEmployeeNo(), empRoleC.getValue());
+                Users.modifyRole(Employees.selectUserIDByEmpID(allEmps.get(eIndex).getEmployeeNo()),empRoleC.getValue());
+                System.out.println(Employees.selectUserIDByEmpID(allEmps.get(eIndex).getEmployeeNo()));
+            }
             if(pay.getText().length()>0) Employees.modifyPayHour(allEmps.get(eIndex).getEmployeeNo(),Double.parseDouble(pay.getText()));
             if(endDate.getValue()!=null) Employees.modifyEndDate(allEmps.get(eIndex).getEmployeeNo(),java.sql.Date.valueOf(endDate.getValue()));
             initialize();
@@ -456,18 +452,18 @@ public class AdminUserListController {
     public void clearUsrData(){
         usrFName.clear();
         usrLName.clear();
-        usrRole.clear();
+        usrRoleC.setValue(null);
         uUsername.clear();
         uUID.clear();
     }
     public void clearEmpData(){
         empFname.clear();
         empLname.clear();
-        empRole.clear();
-        empUsername.clear();
-        empUID.clear();
+        empUIDC.setValue(null);
         EID.clear();
         pay.clear();
+        empUIDC.setValue(null);
+        empRoleC.setValue(null);
         startDate.setValue(null);
         endDate.setValue(null);
     }
@@ -483,7 +479,6 @@ public class AdminUserListController {
         empModB.setVisible(true);
         empAdd.setVisible(false);
         EID.setEditable(false);
-        empUsername.setEditable(false);
         endDateLabel.setVisible(true);
         endDate.setVisible(true);
     }

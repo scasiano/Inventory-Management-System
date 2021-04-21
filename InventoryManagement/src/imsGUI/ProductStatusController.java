@@ -253,7 +253,7 @@ public class ProductStatusController {
             try{
                 if (inProductsC.getValue() != null){
                     String selectedItem = inProductsC.getSelectionModel().getSelectedItem();
-                    String[] s = selectedItem.split(" | ");
+                    String[] s = selectedItem.split(" \\| ");
                     tmp.setProductID(Long.parseLong(s[0]));
                 }
             }
@@ -278,7 +278,7 @@ public class ProductStatusController {
             }
             if(inEmpC.getValue()!=null){
                 String selectedItem = inEmpC.getSelectionModel().getSelectedItem();
-                String[] s = selectedItem.split(" | ");
+                String[] s = selectedItem.split(" \\| ");
                 tmp.setEmployeeNo(Long.parseLong(s[0]));
                 hasEmp = true;
             }
@@ -306,7 +306,7 @@ public class ProductStatusController {
             try{
                 if (outProductsC.getValue()!=null) {
                     String selectedItem = outProductsC.getSelectionModel().getSelectedItem();
-                    String[] s = selectedItem.split(" | ");
+                    String[] s = selectedItem.split(" \\| ");
                     tmp.setProductID(Long.parseLong(s[0]));
                 }
             }
@@ -333,7 +333,7 @@ public class ProductStatusController {
             }
             if (outEmpC.getValue()!=null) {
                 String selectedItem = outEmpC.getSelectionModel().getSelectedItem().toString();
-                String[] s = selectedItem.split(" | ");
+                String[] s = selectedItem.split(" \\| ");
                 tmp.setEmployeeNo(Long.parseLong(s[0]));
                 hasEmp = true;
             }
@@ -355,14 +355,14 @@ public class ProductStatusController {
     public void modIncom(){
         try{
             String selected = inProductsC.getSelectionModel().getSelectedItem();
-            String[] p = selected.split(" | ");
+            String[] p = selected.split(" \\| ");
             IncomingGoods.modifyProductID(intmp.getIncomingID(),(Long.parseLong(p[0])));
             IncomingGoods.modifyDateIn(intmp.getIncomingID(),java.sql.Date.valueOf(inDatePick.getValue()));
             IncomingGoods.modifyQuantity(intmp.getIncomingID(),Integer.parseInt(inQuantTBox.getText()));
             IncomingGoods.modifyTrackingNo(intmp.getIncomingID(),trackNoT.getText());
             if(inEmpC.getValue()!=null){
                 String selectedItem = inEmpC.getSelectionModel().getSelectedItem();
-                String[] s = selectedItem.split(" | ");
+                String[] s = selectedItem.split(" \\| ");
                 IncomingGoods.modifyEmployeeNo(intmp.getIncomingID(),Long.parseLong(s[0]));
             }
             setIncomingTable();
@@ -376,7 +376,7 @@ public class ProductStatusController {
     public void modOut(){
         try{
             String selected = outProductsC.getSelectionModel().getSelectedItem().toString();
-            String[] p = selected.split(" | ");
+            String[] p = selected.split(" \\| ");
             OutgoingGoods.modifyDateGo(outtmp.getOutgoingID(),java.sql.Date.valueOf(outDatePick.getValue()));
             OutgoingGoods.modifyProductID(outtmp.getOutgoingID(),(Long.parseLong(p[0])));
             try{
@@ -386,7 +386,7 @@ public class ProductStatusController {
             }
             if (outEmpC.getValue()!=null) {
                 String selectedItem = outEmpC.getSelectionModel().getSelectedItem();
-                String[] s = selectedItem.split(" | ");
+                String[] s = selectedItem.split(" \\| ");
                 OutgoingGoods.modifyEmployee(outtmp.getOutgoingID(), Long.parseLong(s[0]));
             }
             setOutgoingTable();
