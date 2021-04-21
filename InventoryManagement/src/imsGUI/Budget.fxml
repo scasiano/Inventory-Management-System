@@ -30,15 +30,15 @@
            <children>
                <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT" prefHeight="36.0" prefWidth="508.0" snapToPixel="false" GridPane.columnIndex="2" GridPane.columnSpan="2147483647" GridPane.halignment="LEFT">
                    <children>
-                       <Button fx:id="loginBtn" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#openLogin" prefHeight="0.0" prefWidth="63.0" text="Logout" wrapText="true" HBox.hgrow="NEVER">
-                           <HBox.margin>
-                               <Insets bottom="5.0" left="5.0" right="30.0" top="5.0" />
-                           </HBox.margin>
-                       </Button>
                        <Button fx:id="homeBtn" alignment="TOP_RIGHT" centerShape="false" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#openHomePage" prefHeight="15.0" prefWidth="85.0" text="Home Page" textOverrun="CLIP" wrapText="true">
                      <HBox.margin>
                         <Insets right="30.0" />
                      </HBox.margin>
+                       </Button>
+                       <Button fx:id="loginBtn" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#openLogin" prefHeight="0.0" prefWidth="63.0" text="Logout" wrapText="true" HBox.hgrow="NEVER">
+                           <HBox.margin>
+                               <Insets bottom="5.0" left="5.0" right="30.0" top="5.0" />
+                           </HBox.margin>
                        </Button>
                    </children>
                </HBox>
@@ -81,8 +81,6 @@
                                    <Insets bottom="5.0" top="5.0" />
                                </VBox.margin>
                            </DatePicker>
-                           <Label layoutX="495.0" layoutY="263.0" text="Budget ID" />
-                           <TextField fx:id="budgetID" layoutX="466.0" layoutY="280.0" prefHeight="26.0" prefWidth="112.0" />
 
                            <Label fx:id="netLabel" layoutX="493.0" layoutY="115.0" text="Net Profit" />
                            <TextField fx:id="netProfit" layoutX="463.0" layoutY="132.0" prefHeight="26.0" prefWidth="112.0" />
@@ -90,8 +88,6 @@
                             <TextField fx:id="incoming" prefHeight="26.0" prefWidth="112.0" />
                            <Label fx:id="outLabel" text="Total Outgoing" />
                             <TextField fx:id="outgoing" prefHeight="26.0" prefWidth="112.0" />
-                           <Label fx:id="empLabel" layoutX="468.0" layoutY="315.0" text="Employee Assigned" />
-                            <TextField fx:id="userInfo" prefHeight="26.0" prefWidth="112.0" />
                            <HBox prefHeight="36.0" prefWidth="73.0">
                             <Button fx:id="addBtn" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#saveBudget" text="ADD">
                            <HBox.margin>

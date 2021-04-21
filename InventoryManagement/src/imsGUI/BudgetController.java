@@ -2,6 +2,7 @@ package imsGUI;
 
 import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 import ims.Budget;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -28,8 +29,6 @@ public class BudgetController {
     Label inLabel;
     @FXML
     Label empLabel;
-    @FXML
-    Label transactionsLabel;
     @FXML
     DatePicker startDate;
     @FXML
@@ -71,23 +70,16 @@ public class BudgetController {
     @FXML
     TableColumn empTable;
 
-    DatePicker endD = new DatePicker();
-    DatePicker startD = new DatePicker();
     ArrayList<Budget> allBudget = new ArrayList<Budget>();
     Budget budgetTMP;
     int bIndex = 1;
 
-    Date startHold = new Date(2021-01-01);
-    Date endHold = new Date(2021-01-02);
-
-    DateFormat dfStart = new SimpleDateFormat("yyyy-MM-dd");
-    DateFormat dfEnd = new SimpleDateFormat("yyyy-MM-dd");
-
+    Date startHold = new Date(2021 - 01 - 01);
+    Date endHold = new Date(2021 - 01 - 02);
 
     public void initialize() {
         setBudgetList();
         budgetDetails();
-        getSelectedInfo();
     }
 
     public void setBudgetList() {
@@ -102,20 +94,8 @@ public class BudgetController {
             allBudget = Budget.selectAll();
             ObservableList<Budget> budgets = FXCollections.observableArrayList(allBudget);
             budgetTable.setItems(budgets);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             Global.exceptionAlert(e, "Set Budget List");
-        }
-    }
-
-    public void getSelectedInfo() {
-        try {
-            budgetTable.setOnMouseClicked(event -> {
-                budgetTMP = budgetTable.getSelectionModel().getSelectedItem();
-            });
-        }
-        catch (Exception e) {
-            Global.exceptionAlert(e, "Show Budget Details");
         }
     }
 
@@ -160,20 +140,19 @@ public class BudgetController {
             }
             try {
                 if (!newB) Budget.addRecord(tmp);
-            }
-            catch (MySQLIntegrityConstraintViolationException e) {
+            } catch (MySQLIntegrityConstraintViolationException e) {
                 Global.warningAlert("Budget ID Exists", "Budget ID is already in use. Budget add canceled.");
             }
             if (hasEmployee && hasPeriodID) Budget.addRecordEmpID(tmp);
             else if (hasEmployee) Budget.addRecordEmp(tmp);
             else if (hasPeriodID) Budget.addRecordID(tmp);
-            else {Budget.addRecord(tmp);}
+            else {
+                Budget.addRecord(tmp);
+            }
             setBudgetList();
-        }
-        catch (MySQLIntegrityConstraintViolationException e) {
+        } catch (MySQLIntegrityConstraintViolationException e) {
             Global.exceptionAlert(e, "Add Budget");
-        }
-        catch (Exception p) {
+        } catch (Exception p) {
             Global.exceptionAlert(p, "Save employee");
         }
     }
@@ -192,18 +171,15 @@ public class BudgetController {
         loginBtn.setVisible(true);
     }
 
-    public void budgetDetails(){
-        try{
+    public void budgetDetails() {
+        try {
             budgetTable.setOnMouseClicked(mouseEvent -> {
-                bIndex= budgetTable.getSelectionModel().getSelectedIndex();
-                budgetID.setText(String.valueOf(allBudget.get(bIndex).getPeriodID()));
+                bIndex = budgetTable.getSelectionModel().getSelectedIndex();
                 incoming.setText(String.valueOf(allBudget.get(bIndex).getIncome()));
                 outgoing.setText(String.valueOf(allBudget.get(bIndex).getOutgoing()));
                 netProfit.setText(String.valueOf(allBudget.get(bIndex).getNet()));
-                userInfo.setText(String.valueOf(allBudget.get(bIndex).getEmployeeNo()));
             });
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             Global.exceptionAlert(e, "Show budget details");
         }
     }
@@ -220,15 +196,15 @@ public class BudgetController {
         addBtn.setVisible(true);
     }
 
-    public void modifyDBBudget(){
-        try{
+    public void modifyDBBudget() {
+        try {
             Budget.modifyDateStart(budgetTMP.getDateStart(), budgetTMP.getDateStart());
             Budget.modifyDateEnd(budgetTMP.getDateStart(), budgetTMP.getDateEnd());
             Budget.modifyOutgoing(budgetTMP.getDateStart(), budgetTMP.getOutgoing());
             Budget.modifyIncome(budgetTMP.getDateStart(), budgetTMP.getIncome());
             Budget.modifyEmployeeNo(budgetTMP.getDateStart(), budgetTMP.getEmployeeNo());
             initialize();
-        } catch (Exception e){
+        } catch (Exception e) {
             Global.exceptionAlert(e, "Modify Budget");
         }
         endBudgetEdit();
@@ -257,18 +233,17 @@ public class BudgetController {
             if (delete.showAndWait().get() == ButtonType.OK) {
                 ims.Budget.deleteRecord(allBudget.get(bIndex).getDateStart());
                 budgetTable.getItems().remove(budgetTable.getSelectionModel().getSelectedItems());
-                budgetTMP=null;
+                budgetTMP = null;
                 hideInfo();
                 endBudgetEdit();
                 initialize();
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             Global.exceptionAlert(e, "Delete Budget");
         }
     }
 
-    public void hideInfo(){
+    public void hideInfo() {
         startDate.setEditable(false);
         endDate.setEditable(false);
         userInfo.setEditable(false);
