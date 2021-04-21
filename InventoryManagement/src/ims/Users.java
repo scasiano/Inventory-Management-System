@@ -142,4 +142,11 @@ public class Users {
         while (dbResult.next()) return new Users(dbResult.getLong(1), dbResult.getString(2), dbResult.getString(3), dbResult.getString(4), dbResult.getString(5), dbResult.getString(6));
         return null;
     }
+
+    //SQL Special Queries
+    public static Users selectUserByID(Long userID) throws SQLException{
+        ResultSet dbResult = SqlController.dbStatement.executeQuery("select * from users where user_id=" + userID + "");
+        while (dbResult.next()) return new Users(dbResult.getLong(1), dbResult.getString(2), dbResult.getString(3), dbResult.getString(4), dbResult.getString(5), dbResult.getString(6));
+        return null;
+    }
 }
