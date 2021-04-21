@@ -200,4 +200,11 @@ public class Employees {
     public static void modifyEndDate(long primaryKey, Date updateValue) throws SQLException {
         SqlController.dbStatement.executeUpdate("update employees set end_date = '" + updateValue + "' where employee_no = " + primaryKey);
     }
+
+    //SQL Special Queries
+    public static Users selectUserByEmpID(Long employeeNo) throws SQLException{
+        ResultSet dbResult = SqlController.dbStatement.executeQuery("select user_id from employees where employee_no=" + employeeNo);
+        while (dbResult.next()) return new Users(dbResult.getLong(1), dbResult.getString(2), dbResult.getString(3), dbResult.getString(4), dbResult.getString(5), dbResult.getString(6));
+        return null;
+    }
 }

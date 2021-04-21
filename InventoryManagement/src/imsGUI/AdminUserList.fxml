@@ -15,6 +15,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.control.ComboBox?>
 <GridPane maxHeight="Infinity" maxWidth="Infinity" style="-fx-background-color: grey;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="imsGUI.AdminUserListController">
     <columnConstraints>
         <ColumnConstraints fx:id="column0" minWidth="10.0" />
@@ -92,11 +93,11 @@
                                                     <Insets bottom="5.0" top="5.0" />
                                                 </VBox.margin></TextField>
                                             <Label text="User Role:"/>
-                                            <TextField fx:id="usrRole" promptText="Role" GridPane.rowIndex="1">
+                                            <ComboBox fx:id="usrRoleC" promptText="Role" GridPane.rowIndex="1">
                                                 <VBox.margin>
                                                     <Insets bottom="5.0" top="5.0" />
                                                 </VBox.margin>
-                                            </TextField>
+                                            </ComboBox>
                                             <Label text="Username:"/>
                                             <TextField fx:id="uUsername" promptText="Username" GridPane.rowIndex="1">
                                                 <VBox.margin>
@@ -165,28 +166,19 @@
                                     </TableView>
                                     <VBox fx:id="empV" fillWidth="true" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="1"><children>
                                         <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="41.0" prefWidth="152.0" text="Create/Update User" GridPane.rowIndex="1" />
-                                        <Label text="First Name:"/>
-                                        <TextField fx:id="empFname" prefHeight="26.0" prefWidth="152.0" promptText="First Name" GridPane.rowIndex="1">
-                                            <VBox.margin>
-                                                <Insets bottom="5.0" top="5.0" />
-                                            </VBox.margin></TextField>
-                                        <Label text="Last Name:"/>
-                                        <TextField fx:id="empLname" promptText="Last Name" GridPane.rowIndex="1">
-                                            <VBox.margin>
-                                                <Insets bottom="5.0" top="5.0" />
-                                            </VBox.margin></TextField>
-                                        <Label text="Employee Position:"/>
-                                        <TextField fx:id="empRole" promptText="Role" GridPane.rowIndex="1">
-                                            <VBox.margin>
-                                                <Insets bottom="5.0" top="5.0" />
-                                            </VBox.margin></TextField>
-                                        <Label text="Username:"/>
-                                        <TextField fx:id="empUsername" promptText="Username" GridPane.rowIndex="1">
-                                            <VBox.margin>
-                                                <Insets bottom="5.0" top="5.0" />
-                                            </VBox.margin></TextField>
                                         <Label text="User ID:"/>
-                                        <TextField fx:id="empUID" promptText="User ID" GridPane.rowIndex="1">
+                                        <ComboBox fx:id="empUIDC" promptText="User ID" GridPane.rowIndex="1">
+                                            <VBox.margin>
+                                                <Insets bottom="5.0" top="5.0" />
+                                            </VBox.margin></ComboBox>
+                                        <Label text="First Name:"/>
+                                        <TextField fx:id="empFname" prefHeight="26.0" prefWidth="152.0" promptText="First Name" GridPane.rowIndex="1" editable="false">
+                                            <VBox.margin>
+                                                <Insets bottom="5.0" top="5.0" />
+                                            </VBox.margin>
+                                        </TextField>
+                                        <Label text="Last Name:"/>
+                                        <TextField fx:id="empLname" promptText="Last Name" GridPane.rowIndex="1" editable="false">
                                             <VBox.margin>
                                                 <Insets bottom="5.0" top="5.0" />
                                             </VBox.margin></TextField>
@@ -195,6 +187,11 @@
                                             <VBox.margin>
                                                 <Insets bottom="5.0" top="5.0" />
                                             </VBox.margin></TextField>
+                                        <Label text="Employee Position:"/>
+                                        <ComboBox fx:id="empRoleC" promptText="Role" GridPane.rowIndex="1">
+                                            <VBox.margin>
+                                                <Insets bottom="5.0" top="5.0" />
+                                            </VBox.margin></ComboBox>
                                         <Label text="Pay/Hour:"/>
                                         <TextField fx:id="pay" promptText="Employee Pay" GridPane.rowIndex="1">
                                             <VBox.margin>

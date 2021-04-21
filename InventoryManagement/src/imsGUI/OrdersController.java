@@ -219,7 +219,7 @@ public class OrdersController {
                 }
                 if(shippingStatus.getValue()!=null)
                     tTmp.setShippingStatus(shippingStatus.getValue());
-                if(!Objects.equals(shippingStatus.getValue(), "Not Shipped")){
+                if(shippingStatus.getValue().equals("Not Shipped")){
                     if(!trackingID.getText().isEmpty()) {
                         tTmp.setTrackingID(trackingID.getText());
                         trackBool=true;
@@ -237,6 +237,15 @@ public class OrdersController {
                         return;
                     }
                 }
+                if(!trackingID.getText().isEmpty()) {
+                    tTmp.setTrackingID(trackingID.getText());
+                    trackBool=true;
+                }
+                if(carrier.getValue()!=null) {
+                    tTmp.setCarrier(carrier.getValue());
+                    carryBool=true;
+                }
+
                 // Adding Order info if there is a product
             if(!hasProd) {
                 Global.warningAlert("Missing Products", "You do not have any products for this order");
