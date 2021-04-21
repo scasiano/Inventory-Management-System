@@ -40,9 +40,9 @@ public class BudgetController {
     @FXML
     TextField incoming;
     @FXML
-    TextField userInfo;
-    @FXML
     TextField budgetID;
+    @FXML
+    ComboBox<String> userInfo;
     @FXML
     Button addBtn;
     @FXML
@@ -71,6 +71,7 @@ public class BudgetController {
     TableColumn empTable;
 
     ArrayList<Budget> allBudget = new ArrayList<Budget>();
+    ArrayList<String> empList = new ArrayList<>();
     Budget budgetTMP;
     int bIndex = 1;
 
@@ -100,10 +101,8 @@ public class BudgetController {
     }
 
     public void saveBudget(ActionEvent event) {
-        boolean newB = true;
         boolean hasEmployee = false;
         boolean hasPeriodID = false;
-        if (budgetTMP == null) newB = false;
         Budget tmp = new Budget(0, startHold, endHold, 0, 0, 0, 0);
         try {
             if (budgetID.getText().length() > 0) {
@@ -134,14 +133,11 @@ public class BudgetController {
                 incoming.clear();
                 return;
             }
-            if (userInfo.getText().length() > 0) {
-                tmp.setEmployeeNo(Long.parseLong(userInfo.getText()));
+            if (userInfo.getValue() != null) {
+                String empSelected = userInfo.getSelectionModel().getSelectedItem();
+                String[] hold = empSelected.split(" | ");
+                tmp.setEmployeeNo(Long.parseLong(hold[0]));
                 hasEmployee = true;
-            }
-            try {
-                if (!newB) Budget.addRecord(tmp);
-            } catch (MySQLIntegrityConstraintViolationException e) {
-                Global.warningAlert("Budget ID Exists", "Budget ID is already in use. Budget add canceled.");
             }
             if (hasEmployee && hasPeriodID) Budget.addRecordEmpID(tmp);
             else if (hasEmployee) Budget.addRecordEmp(tmp);
@@ -157,27 +153,16 @@ public class BudgetController {
         }
     }
 
-    public void startBudget(ActionEvent event) {
-        startDate.setEditable(true);
-        endDate.setEditable(true);
-        netProfit.setEditable(true);
-        outgoing.setEditable(true);
-        incoming.setEditable(true);
-        userInfo.setEditable(true);
-        modifyBtn.setVisible(true);
-        deleteBtn.setVisible(true);
-        addBtn.setVisible(true);
-        homeBtn.setVisible(true);
-        loginBtn.setVisible(true);
-    }
-
     public void budgetDetails() {
         try {
             budgetTable.setOnMouseClicked(mouseEvent -> {
+                budgetTMP = budgetTable.getSelectionModel().getSelectedItem();
                 bIndex = budgetTable.getSelectionModel().getSelectedIndex();
+                startDate.setValue(allBudget.get(bIndex).getDateStart().toLocalDate());
+                endDate.setValue(allBudget.get(bIndex).getDateEnd().toLocalDate());
+                userInfo.setValue(allBudget.get(bIndex).getEmployeeNo() + "");
                 incoming.setText(String.valueOf(allBudget.get(bIndex).getIncome()));
                 outgoing.setText(String.valueOf(allBudget.get(bIndex).getOutgoing()));
-                netProfit.setText(String.valueOf(allBudget.get(bIndex).getNet()));
             });
         } catch (Exception e) {
             Global.exceptionAlert(e, "Show budget details");
@@ -187,11 +172,8 @@ public class BudgetController {
     public void endBudgetEdit() {
         startDate.setEditable(false);
         endDate.setEditable(false);
-        userInfo.setEditable(false);
         incoming.setEditable(false);
         outgoing.setEditable(false);
-        budgetID.setEditable(false);
-        netProfit.setEditable(false);
         modifyBtn.setVisible(true);
         addBtn.setVisible(true);
     }
@@ -202,10 +184,10 @@ public class BudgetController {
             Budget.modifyDateEnd(budgetTMP.getDateStart(), budgetTMP.getDateEnd());
             Budget.modifyOutgoing(budgetTMP.getDateStart(), budgetTMP.getOutgoing());
             Budget.modifyIncome(budgetTMP.getDateStart(), budgetTMP.getIncome());
-            Budget.modifyEmployeeNo(budgetTMP.getDateStart(), budgetTMP.getEmployeeNo());
+           // Budget.modifyEmployeeNo(budgetTMP.getDateStart(), budgetTMP.getEmployeeNo());
             initialize();
         } catch (Exception e) {
-            Global.exceptionAlert(e, "Modify Budget");
+            ///Global.exceptionAlert(e, "Modify Budget");
         }
         endBudgetEdit();
     }
