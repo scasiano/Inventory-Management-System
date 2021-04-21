@@ -89,7 +89,7 @@ public class IncomingGoods {
     public static ArrayList<IncomingGoods> selectAll() throws SQLException {
         ResultSet dbResult = SqlController.dbStatement.executeQuery("select * from incoming_goods");
         ArrayList<IncomingGoods> resultList = new ArrayList<>();
-        while (dbResult.next()) resultList.add(new IncomingGoods(dbResult.getLong(1), dbResult.getLong(2), dbResult.getDate(3), dbResult.getString(4), dbResult.getInt(5), dbResult.getInt(5)));
+        while (dbResult.next()) resultList.add(new IncomingGoods(dbResult.getLong(1), dbResult.getLong(2), dbResult.getDate(3), dbResult.getString(4), dbResult.getInt(5), dbResult.getInt(6)));
         return resultList;
     }
     public static ArrayList<Long> selectIncomingID() throws SQLException {
