@@ -86,7 +86,7 @@ public class BudgetController {
         setBudgetList();
         setEmpCombo();
         budgetDetails();
-       // clear();
+        clear();
     }
 
     public void setBudgetList() {
@@ -189,12 +189,12 @@ public class BudgetController {
         addBtn.setVisible(true);
     }
 
-//    public void clear(){
-//        startDate.setValue(null);
-//        endDate.setValue(null);
-//        incoming.clear();
-//        outgoing.clear();
-//    }
+    public void clear(){
+        startDate.setValue(null);
+        endDate.setValue(null);
+        incoming.clear();
+        outgoing.clear();
+    }
 
     public void modifyDBBudget() {
         try {
