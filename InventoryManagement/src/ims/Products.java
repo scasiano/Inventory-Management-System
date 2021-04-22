@@ -3,10 +3,10 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class Products {
-    long productID; //PK
-    String name;
-    double msrp;
-    double price;
+    private long productID; //PK
+    private String name;
+    private double msrp;
+    private double price;
 
     public Products(long productID, String name, double msrp, double price){
         this.productID = productID;

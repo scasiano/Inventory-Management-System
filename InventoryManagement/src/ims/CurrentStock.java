@@ -3,8 +3,8 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class CurrentStock { //This entire table is autogen, all products exist here and quantity is changed based on incoming v. outgoing
-    long productID;
-    int quantity;
+    private long productID;
+    private int quantity;
 
     public CurrentStock(long productID, int quantity) {
         this.productID = productID;

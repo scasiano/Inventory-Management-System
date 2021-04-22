@@ -3,10 +3,10 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class Tracking {
-    long orderID; //PK //FK
-    String shippingStatus;
-    String trackingID; //nullable
-    String carrier; //nullable
+    private long orderID; //PK //FK
+    private String shippingStatus;
+    private String trackingID; //nullable
+    private String carrier; //nullable
 
     public Tracking(long orderID, String shippingStatus, String trackingID, String carrier) {
         this.orderID = orderID;

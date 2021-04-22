@@ -3,9 +3,9 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class InvoiceHistory {
-    long orderID; //PK //FK
-    Date dateProcessed;
-    double totalCharge;
+    private long orderID; //PK //FK
+    private Date dateProcessed;
+    private double totalCharge;
 
     public InvoiceHistory(long orderID, Date datePlaced, double totalCharge) {
         this.orderID = orderID;

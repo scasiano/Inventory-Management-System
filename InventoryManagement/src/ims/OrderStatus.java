@@ -3,10 +3,10 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class OrderStatus {
-    Date orderDate;
-    Date invoiceDate;
-    double outstandingBalance;
-    String shippingStatus;
+    private Date orderDate;
+    private Date invoiceDate;
+    private double outstandingBalance;
+    private String shippingStatus;
 
     public OrderStatus(Date orderDate, Date invoiceDate, double outstandingBalance, String shippingStatus) {
         this.orderDate = orderDate;

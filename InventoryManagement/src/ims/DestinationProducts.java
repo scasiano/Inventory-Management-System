@@ -3,9 +3,9 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class DestinationProducts {
-    Date datePlaced;
-    long productID;
-    String customerAdd;
+    private Date datePlaced;
+    private long productID;
+    private String customerAdd;
 
     public DestinationProducts(Date datePlaced, long productID, String customerAdd) {
         this.datePlaced = datePlaced;

@@ -5,12 +5,12 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class Users {
-    long userID;
-    String username;
-    String password;
-    String fName;
-    String lName;
-    String role;
+    private long userID;
+    private String username;
+    private String password;
+    private String fName;
+    private String lName;
+    private String role;
 
     public Users(long userID, String username, String password, String fName, String lName, String role) {
         this.userID = userID; //PK

@@ -3,12 +3,12 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class Orders {
-    long orderID; //PK
-    String customerFn;
-    String customerLn;
-    String customerAdd;
-    Date datePlaced;
-    long employeeNo; //FK //nullable
+    private long orderID; //PK
+    private String customerFn;
+    private String customerLn;
+    private String customerAdd;
+    private Date datePlaced;
+    private long employeeNo; //FK //nullable
 
     public Orders(long orderID, String customerFn, String customerLn, String customerAdd, Date datePlaced, long employeeNo) {
         this.orderID = orderID;

@@ -3,11 +3,11 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class OutgoingGoods {
-    long outgoingID; //PK
-    long productID; //FK
-    Date dateGo;
-    int quantity;
-    long employeeNo; //FK //nullable
+    private long outgoingID; //PK
+    private long productID; //FK
+    private Date dateGo;
+    private int quantity;
+    private long employeeNo; //FK //nullable
 
     public OutgoingGoods(long outgoingID, long productID, Date dateGo, int quantity, long employeeNo) {
         this.outgoingID = outgoingID;

@@ -3,13 +3,13 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class Budget {
-    long periodID; //PK //Auto Increment
-    Date dateStart; //Unique
-    Date dateEnd; //Unique
-    double outgoing;
-    double income;
-    double net; //nullable //generated from outgoing and income
-    long employeeNo; //nullable
+    private long periodID; //PK //Auto Increment
+    private Date dateStart; //Unique
+    private Date dateEnd; //Unique
+    private double outgoing;
+    private double income;
+    private double net; //nullable //generated from outgoing and income
+    private long employeeNo; //nullable
 
     public Budget(long periodID, Date dateStart, Date dateEnd, double outgoing, double income, double net, long employeeNo) {
         this.periodID = periodID;

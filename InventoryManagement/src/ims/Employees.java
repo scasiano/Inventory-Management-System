@@ -3,14 +3,14 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class Employees {
-    long employeeNo; //PK
-    long userID; //FK
-    String employeeFn;
-    String employeeLn;
-    double payHour; //default 10
-    String position;
-    Date startDate;
-    Date endDate; //nullable
+    private long employeeNo; //PK
+    private long userID; //FK
+    private String employeeFn;
+    private String employeeLn;
+    private double payHour; //default 10
+    private String position;
+    private Date startDate;
+    private Date endDate; //nullable
 
     public Employees(long employeeNo, long userID, String employeeFn, String employeeLn, double payHour, String position, Date startDate, Date endDate) {
         this.employeeNo = employeeNo;

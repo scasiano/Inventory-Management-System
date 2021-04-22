@@ -3,9 +3,9 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class OrderItems {
-    long orderID; //FK
-    long productID; //FK
-    String productName; //not in DB
+    private long orderID; //FK
+    private long productID; //FK
+    private String productName; //not in DB
 
     public OrderItems(long orderID, long productID) {
         this.orderID = orderID;

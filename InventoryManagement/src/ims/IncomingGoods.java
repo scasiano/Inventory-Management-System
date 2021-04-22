@@ -3,12 +3,23 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class IncomingGoods {
-    long incomingID; //PK
-    long productID; //FK
-    Date dateIn;
-    String trackingNo; //nullable
-    int quantity;
-    long employeeNo; //nullable
+    private long incomingID; //PK
+    private long productID; //FK
+    private Date dateIn;
+    private String trackingNo; //nullable
+    private int quantity;
+    private long employeeNo; //nullable
+    private double productPrice;
+
+    public IncomingGoods(long incomingID, long productID, Date dateIn, String trackingNo, int quantity, long employeeNo, double productPrice) {
+        this.incomingID = incomingID;
+        this.productID = productID;
+        this.dateIn = dateIn;
+        this.trackingNo = trackingNo;
+        this.quantity = quantity;
+        this.employeeNo = employeeNo;
+        this.productPrice = productPrice*quantity;
+    }
 
     public IncomingGoods(long incomingID, long productID, Date dateIn, String trackingNo, int quantity, long employeeNo) {
         this.incomingID = incomingID;
@@ -66,6 +77,9 @@ public class IncomingGoods {
     public long getEmployeeNo() {
         return employeeNo;
     }
+    public double getProductPrice() {
+        return productPrice;
+    }
     public void setIncomingID(long incomingID) {
         this.incomingID = incomingID;
     }
@@ -89,7 +103,7 @@ public class IncomingGoods {
     public static ArrayList<IncomingGoods> selectAll() throws SQLException {
         ResultSet dbResult = SqlController.dbStatement.executeQuery("select * from incoming_goods");
         ArrayList<IncomingGoods> resultList = new ArrayList<>();
-        while (dbResult.next()) resultList.add(new IncomingGoods(dbResult.getLong(1), dbResult.getLong(2), dbResult.getDate(3), dbResult.getString(4), dbResult.getInt(5), dbResult.getInt(6)));
+        while (dbResult.next()) resultList.add(new IncomingGoods(dbResult.getLong(1), dbResult.getLong(2), dbResult.getDate(3), dbResult.getString(4), dbResult.getInt(5), dbResult.getInt(6), Products.selectProductPriceByProductID(dbResult.getLong(2))));
         return resultList;
     }
     public static ArrayList<Long> selectIncomingID() throws SQLException {

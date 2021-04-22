@@ -3,11 +3,11 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class ActiveInvoice {
-    long orderID; //PK //FK
-    Date dateProcessed;
-    double totalCharge;
-    double totalRecieved; //nullable //generated from totalcharges and outstandingbalance
-    double outstandingBalance;
+    private long orderID; //PK //FK
+    private Date dateProcessed;
+    private double totalCharge;
+    private double totalRecieved; //nullable //generated from totalcharges and outstandingbalance
+    private double outstandingBalance;
 
     //For adding
     ActiveInvoice(long orderID, Date dateProcessed, double totalCharge, double outstandingBalance){
