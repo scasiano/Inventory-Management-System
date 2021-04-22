@@ -101,4 +101,11 @@ public class Products {
         while (dbResult.next()) return dbResult.getString(1);
         return "";
     }
+
+    //SQL Queries PRODUCTMSRP FROM PRODUCTID
+    public static Double selectProductMsrpByProductID(long productID) throws SQLException{
+        ResultSet dbResult = SqlController.dbStatement.executeQuery("select msrp from products where product_id = " + productID);
+        while (dbResult.next()) return dbResult.getDouble(1);
+        return 0.0;
+    }
 }
