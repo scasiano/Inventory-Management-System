@@ -29,7 +29,7 @@ CREATE TABLE `active_invoice` (
   `total_recieved` decimal(10,2) GENERATED ALWAYS AS (`total_charge` - `outstanding_balance`) VIRTUAL,
   `outstanding_balance` decimal(10,2) NOT NULL,
   PRIMARY KEY (`order_id`),
-  CONSTRAINT `active_invoice_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON UPDATE CASCADE
+  CONSTRAINT `active_invoice_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -587,4 +587,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-04-20 19:03:28
+-- Dump completed on 2021-04-21 21:05:35
