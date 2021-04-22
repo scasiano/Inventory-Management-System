@@ -14,7 +14,6 @@ import javafx.stage.Stage;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class OrdersController {
 
@@ -124,6 +123,7 @@ public class OrdersController {
             shippingStatus.getItems().add("Not Shipped");
             shippingStatus.getItems().add("Shipped");
             shippingStatus.getItems().add("Delivered");
+            lockCombobox();
         }
         catch(Exception e){
             Global.exceptionAlert(e,"Set Combo");
@@ -257,6 +257,7 @@ public class OrdersController {
             orderIDT.getItems().add(oTmp);
             setOrderList();
             clearOrderInfo();
+            lockCombobox();
         }
         catch (MySQLIntegrityConstraintViolationException e){
             Global.warningAlert("Order Id Exists", "Order ID already exists. User add canceled");
@@ -290,22 +291,18 @@ public class OrdersController {
         orderID.setEditable(true);
         customerName.setEditable(true);
         customerAddress.setEditable(true);
-        shippingStatus.setEditable(false);
+        shippingStatus.setEditable(true);
         trackingID.setEditable(true);
-        carrier.setEditable(false);
-        empIDC.setEditable(false);
-        customerAddress.setDisable(false);
-        shippingStatus.setDisable(false);
-        empIDC.setDisable(false);
+        carrier.setEditable(true);
+        empIDC.setEditable(true);
         modOrder.setVisible(false);
         addOrderHBox.setVisible(true);
         productsList.setValue(null);
         empIDC.setValue(null);
         carrier.setValue(null);
-        carrier.setEditable(false);
-        carrier.setDisable(false);
         shippingStatus.setValue(null);
         orderProds.getItems().clear();
+        unlockCombobox();
     }
     public void modifyOrderClicked(){
         try{
@@ -320,24 +317,23 @@ public class OrdersController {
             }
             if(shippingStatus.getValue()!=null) Tracking.modifyShippingStatus(otemp.getOrderID(),shippingStatus.getValue());
             clearOrderInfo();
+            lockCombobox();
         }
         catch(Exception e){Global.exceptionAlert(e,"Modify Order");}
     }
     public void modOrder(){
         orderProds.setVisible(true);
         customerName.setEditable(true);
-        customerAddress.setEditable(false);
-        shippingStatus.setEditable(false);
-        empIDC.setEditable(false);
-        customerAddress.setDisable(false);
-        shippingStatus.setDisable(false);
-        empIDC.setDisable(false);
+        customerAddress.setEditable(true);
+        shippingStatus.setEditable(true);
+        empIDC.setEditable(true);
         modBox.setVisible(true);
         addOrder.setVisible(false);
         addOrderHBox.setVisible(false);
         startMod.setVisible(true);
         productsList.setVisible(false);
         addOrderItem.setVisible(false);
+        unlockCombobox();
     }
     public void deleteOrderClicked() {
         Alert deleteAlert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -350,6 +346,7 @@ public class OrdersController {
                 orderIDT.getItems().remove(orderIDT.getSelectionModel().getSelectedItem());
                 otemp=null;
                 clearOrderInfo();
+                lockCombobox();
             }
             catch(Exception e){
                 Global.exceptionAlert(e,"Delete User");
@@ -382,14 +379,24 @@ public class OrdersController {
         productsList.setValue(null);
         empIDC.setValue(null);
         carrier.setValue(null);
-        carrier.setDisable(true);
         shippingStatus.setValue(null);
-        shippingStatus.setDisable(true);
         orderProds.getItems().clear();
         empIDC.setValue(null);
-        empIDC.setDisable(true);
         productsList.setValue(null);
         shippingStatus.setValue(null);
+        lockCombobox();
+    }
+
+    private void lockCombobox(){
+        empIDC.setDisable(true);
+        carrier.setDisable(true);
+        shippingStatus.setDisable(true);
+    }
+
+    private void unlockCombobox(){
+        empIDC.setDisable(false);
+        carrier.setDisable(false);
+        shippingStatus.setDisable(false);
     }
 
     @FXML

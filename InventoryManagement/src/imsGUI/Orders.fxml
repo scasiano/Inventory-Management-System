@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="Infinity" maxWidth="Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="imsGUI.OrdersController">
+<AnchorPane maxHeight="Infinity" maxWidth="Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="imsGUI.OrdersController">
         <GridPane fx:id="ParGrid" alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: grey;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <columnConstraints>
                 <ColumnConstraints fx:id="column0" maxWidth="5" minWidth="5.0" />
@@ -93,7 +93,7 @@
                             </TextField>
                             <TextField fx:id="customerName" editable="false" maxHeight="30" minHeight="5" minWidth="5" style="-fx-background-color: white; -fx-border-color: ALICEBLUE;" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
                             <TextField fx:id="customerAddress" editable="false" maxHeight="30" minHeight="5" minWidth="5" style="-fx-background-color: white; -fx-border-color: ALICEBLUE;" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-                            <ComboBox fx:id="shippingStatus" editable="false" maxHeight="30" minHeight="5" minWidth="5" style="-fx-background-color: white; -fx-border-color: ALICEBLUE;" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+                            <ComboBox fx:id="shippingStatus" editable="false" maxHeight="30" maxWidth="1.7976931348623157E308" minHeight="5" minWidth="5" style="-fx-background-color: white; -fx-border-color: ALICEBLUE;" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
                             <TextField fx:id="trackingID" alignment="TOP_LEFT" editable="false" maxHeight="30.0" minHeight="5" minWidth="5" style="-fx-background-color: white; -fx-border-color: ALICEBLUE;" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="4" GridPane.valignment="CENTER">
                                 <GridPane.margin>
                                     <Insets bottom="20.0" top="20.0" />
@@ -114,7 +114,7 @@
                             <TableView fx:id="orderProds" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="1" GridPane.rowSpan="3">
                                 <columns>
                                     <TableColumn fx:id="products" prefWidth="75.0" text="Order Products" />
-                                    <TableColumn fx:id="prodName" text="Product Name"/>
+                                    <TableColumn fx:id="prodName" text="Product Name" />
                                 </columns>
                                 <columnResizePolicy>
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
