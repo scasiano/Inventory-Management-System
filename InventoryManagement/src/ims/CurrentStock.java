@@ -33,7 +33,8 @@ public class CurrentStock { //This entire table is autogen, all products exist h
     public static ArrayList<CurrentStock> selectAll() throws SQLException {
         ResultSet dbResult = SqlController.dbStatement.executeQuery("select * from current_stock");
         ArrayList<CurrentStock> resultList = new ArrayList<>();
-        while (dbResult.next()) resultList.add(new CurrentStock(dbResult.getLong(1), dbResult.getInt(2), Products.selectProductNameByProductID(dbResult.getLong(1))));
+        while (dbResult.next()) resultList.add(new CurrentStock(dbResult.getLong(1), dbResult.getInt(2)));
+        for (CurrentStock element:resultList) element.productName = Products.selectProductNameByProductID(element.productID);
         return resultList;
     }
     public static ArrayList<Long> selectProductID() throws SQLException {

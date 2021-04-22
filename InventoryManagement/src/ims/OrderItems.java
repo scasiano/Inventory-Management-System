@@ -38,7 +38,8 @@ public class OrderItems {
     public static ArrayList<OrderItems> selectAll() throws SQLException {
         ResultSet dbResult = SqlController.dbStatement.executeQuery("select * from order_items");
         ArrayList<OrderItems> resultList = new ArrayList<>();
-        while (dbResult.next()) resultList.add(new OrderItems(dbResult.getLong(1), dbResult.getLong(2), Products.selectProductNameByProductID(dbResult.getLong(2))));
+        while (dbResult.next()) resultList.add(new OrderItems(dbResult.getLong(1), dbResult.getLong(2)));
+        for (OrderItems element:resultList) element.productName = Products.selectProductNameByProductID(element.productID);
         return resultList;
     }
     public static ArrayList<Long> selectOrderID() throws SQLException {
