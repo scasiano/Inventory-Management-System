@@ -53,10 +53,8 @@ public class ProductListController {
         setProductList();
         prodDetails();
         addProd.setVisible(Global.privilege);
-        clearProdList();
         clearProdInfo();
     }
-
     public void setProductList() {
         try{allProd = Products.selectAll();}
         catch (SQLException e){Global.exceptionAlert(e, "get products");}
@@ -86,7 +84,6 @@ public class ProductListController {
         }
         startMod.setVisible(false);
     }
-
     public void prodDetails() {
         try {
             listID.setOnMouseClicked(event -> {
@@ -117,7 +114,6 @@ public class ProductListController {
         }
 
     }
-
     public void startProduct(ActionEvent event) {
         productName.setEditable(true);
         productID.setEditable(true);
@@ -129,7 +125,6 @@ public class ProductListController {
         startMod.setVisible(false);
         clearProdInfo();
     }
-
     public void addDBProduct(ActionEvent event) throws SQLException {
         Products temp = new Products(0, "", 0, 0);
         boolean flag = false;
@@ -167,19 +162,6 @@ public class ProductListController {
         clearProdList();
         initialize();
         clearProdInfo();
-    }
-    public void clearProdList(){
-        listID.getItems().clear();
-        listName.getItems().clear();
-        idBox.getChildren().clear();
-        nameBox.getChildren().clear();
-        productsList.getChildren().clear();
-    }
-    public void clearProdInfo(){
-        productID.clear();
-        productName.clear();
-        productMSRP.clear();
-        productPrice.clear();
     }
     public void endProductEdit(){
         productName.setEditable(false);
@@ -231,9 +213,22 @@ public class ProductListController {
             Global.warningAlert("Delete Product", "This Product can't be deleted because it is being used somewhere else");
         }
     }
+    public void clearProdList(){
+        listID.getItems().clear();
+        listName.getItems().clear();
+        idBox.getChildren().clear();
+        nameBox.getChildren().clear();
+        productsList.getChildren().clear();
+    }
+    public void clearProdInfo(){
+        productID.clear();
+        productName.clear();
+        productMSRP.clear();
+        productPrice.clear();
+    }
+
     @FXML
     private void openHomePage(ActionEvent event) {
-        clearProdList();
         clearProdInfo();
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         stage.setScene(ImsGui.global.getHomepageScene());
@@ -241,7 +236,6 @@ public class ProductListController {
     }
     @FXML
     private void openLogin(ActionEvent event) {
-        clearProdList();
         clearProdInfo();
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         stage.setScene(ImsGui.global.getLoginScene());
