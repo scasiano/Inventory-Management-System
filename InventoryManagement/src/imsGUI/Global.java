@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
+
 import java.io.*;
 
 public class Global {
@@ -39,22 +40,14 @@ public class Global {
         FXMLLoader productListLoader = new FXMLLoader(getClass().getResource("ProductList.fxml"));
         FXMLLoader productStatusLoader = new FXMLLoader(getClass().getResource("ProductStatus.fxml"));
         FXMLLoader profilesLoader = new FXMLLoader(getClass().getResource("Profiles.fxml"));
-        Parent adminUserList = adminUserListLoader.load();
-        Parent budget = budgetLoader.load();
-        Parent homepage = homepageLoader.load();
-        Parent login = loginLoader.load();
-        Parent orders = ordersLoader.load();
-        Parent productList = productListLoader.load();
-        Parent productStatus = productStatusLoader.load();
-        Parent profiles = profilesLoader.load();
-        adminUserListScene = new Scene(adminUserList);
-        budgetScene = new Scene(budget,720,480);
-        homepageScene = new Scene(homepage);
-        loginScene = new Scene(login);
-        ordersScene = new Scene(orders,720,480);
-        productListScene = new Scene(productList,720,480);
-        productStatusScene = new Scene(productStatus,720,480);
-        profilesScene = new Scene(profiles);
+        adminUserListScene = new Scene(adminUserListLoader.load());
+        budgetScene = new Scene(budgetLoader.load(),720,480);
+        homepageScene = new Scene(homepageLoader.load());
+        loginScene = new Scene(loginLoader.load());
+        ordersScene = new Scene(ordersLoader.load(),720,480);
+        productListScene = new Scene(productListLoader.load(),720,480);
+        productStatusScene = new Scene(productStatusLoader.load(),720,480);
+        profilesScene = new Scene(profilesLoader.load());
         adminUserListController = adminUserListLoader.getController();
         budgetController = budgetLoader.getController();
         homepageController = homepageLoader.getController();
