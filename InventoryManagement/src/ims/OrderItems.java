@@ -5,10 +5,16 @@ import java.util.ArrayList;
 public class OrderItems {
     long orderID; //FK
     long productID; //FK
+    String productName; //not in DB
 
     public OrderItems(long orderID, long productID) {
         this.orderID = orderID;
         this.productID = productID;
+    }
+    public OrderItems(long orderID, long productID, String productName) {
+        this.orderID = orderID;
+        this.productID = productID;
+        this.productName = productName;
     }
 
     //Get set
@@ -17,6 +23,9 @@ public class OrderItems {
     }
     public long getProductID() {
         return productID;
+    }
+    public String getProductName() {
+        return productName;
     }
     public void setOrderID(long orderID) {
         this.orderID = orderID;
@@ -29,7 +38,7 @@ public class OrderItems {
     public static ArrayList<OrderItems> selectAll() throws SQLException {
         ResultSet dbResult = SqlController.dbStatement.executeQuery("select * from order_items");
         ArrayList<OrderItems> resultList = new ArrayList<>();
-        while (dbResult.next()) resultList.add(new OrderItems(dbResult.getLong(1), dbResult.getLong(2)));
+        while (dbResult.next()) resultList.add(new OrderItems(dbResult.getLong(1), dbResult.getLong(2), Products.selectProductNameByProductID(dbResult.getLong(2))));
         return resultList;
     }
     public static ArrayList<Long> selectOrderID() throws SQLException {
