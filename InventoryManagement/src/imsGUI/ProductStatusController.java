@@ -95,7 +95,7 @@ public class ProductStatusController {
     @FXML
     TableColumn<CurrentStock, Long> productID;
     @FXML
-    TableColumn curProductName;
+    TableColumn<CurrentStock, String> curProductName;
     @FXML
     TableColumn<CurrentStock, Integer> curQuantity;
 
@@ -150,7 +150,7 @@ public class ProductStatusController {
     public void setCurrentTable(){
         try {
             productID.setCellValueFactory(new PropertyValueFactory<>("productID"));
-            //curProductName.setCellValueFactory(new PropertyValueFactory<Products,String>("name"));
+            curProductName.setCellValueFactory(new PropertyValueFactory<>("productName"));
             curQuantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
             allCur = CurrentStock.selectAll();
             ObservableList<CurrentStock> current = FXCollections.observableArrayList(allCur);

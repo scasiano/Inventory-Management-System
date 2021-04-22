@@ -31,7 +31,7 @@ public class OrdersController {
     @FXML
     TableColumn<OrderItems, Long> products;
     @FXML
-    HBox orderList;
+    TableColumn<OrderItems, String> prodName;
     @FXML
     TextField orderID;
     @FXML
@@ -72,9 +72,8 @@ public class OrdersController {
     ArrayList<OrderItems> allAddItems =new ArrayList<>();
     ArrayList<Products> allProd;
     ArrayList<Employees> allEmps;
-    ArrayList<String> eNames = new ArrayList<>();
+    Orders otemp;
     boolean hasProd=false;
-    int oIndex=-1;
 
     public void initialize(){
         setOrderList();
@@ -84,9 +83,9 @@ public class OrdersController {
     }
     public void setOrderList(){
         try{
-            oID.setCellValueFactory(new PropertyValueFactory<Orders,Long>("orderID"));
-            oFName.setCellValueFactory(new PropertyValueFactory<Orders,String>("customerFn"));
-            oLName.setCellValueFactory(new PropertyValueFactory<Orders,String>("customerLn"));
+            oID.setCellValueFactory(new PropertyValueFactory<>("orderID"));
+            oFName.setCellValueFactory(new PropertyValueFactory<>("customerFn"));
+            oLName.setCellValueFactory(new PropertyValueFactory<>("customerLn"));
             allOrders=Orders.selectAll();
             ObservableList<Orders> oIDs = FXCollections.observableArrayList(allOrders);
             orderIDT.setItems(oIDs);
@@ -96,15 +95,10 @@ public class OrdersController {
         }
     }
     public void setOrderProds(){
-        try {
-            products.setCellValueFactory(new PropertyValueFactory<OrderItems,Long>("productID"));
-            allItems = OrderItems.selectByOrderID(allOrders.get(oIndex).getOrderID());
+            products.setCellValueFactory(new PropertyValueFactory<>("productID"));
+            prodName.setCellValueFactory(new PropertyValueFactory<>("productName"));
             ObservableList<OrderItems> orderI = FXCollections.observableArrayList(allItems);
             orderProds.setItems(orderI);
-        }
-        catch(SQLException e){
-            Global.exceptionAlert(e,"Set Order Items Products Table");
-        }
     }
     public void setCombos(){
         try{
@@ -120,14 +114,8 @@ public class OrdersController {
                 }
             }
             allEmps=Employees.selectAll();
-            allEmps= Employees.selectAll();
-            /*ArrayList<String> ftemp=Employees.selectEmployeeFn();
-            ArrayList<String> ltemp=Employees.selectEmployeeLn();
-            for(int i=0;i<ftemp.size();i++){
-                eNames.add(ftemp.get(i)+" "+ltemp.get(i));
-            }*/
             for (Employees allEmp : allEmps) {
-                String s = Long.toString(allEmp.getEmployeeNo());
+                String s = allEmp.getEmployeeNo() + " | " + allEmp.getEmployeeFn() + " " + allEmp.getEmployeeLn();
                 empIDC.getItems().add(s);
             }
             carrier.getItems().add("UPS");
@@ -144,20 +132,20 @@ public class OrdersController {
     public void orderDetails() {
         try {
             orderIDT.setOnMouseClicked(event -> {
-                oIndex= orderIDT.getSelectionModel().getSelectedIndex();
-                orderID.setText(String.valueOf(allOrders.get(oIndex).getOrderID()));
-                customerName.setText(allOrders.get(oIndex).getCustomerFn()+" "+allOrders.get(oIndex).getCustomerLn());
-                customerAddress.setText(allOrders.get(oIndex).getCustomerAdd());
-                datePlaced.setText(String.valueOf(allOrders.get(oIndex).getDatePlaced()));
-                empIDC.setValue(Long.toString(allOrders.get(oIndex).getEmployeeNo()));
-                setOrderProds();
+                otemp = orderIDT.getSelectionModel().getSelectedItem();
+                orderID.setText(String.valueOf(otemp.getOrderID()));
+                customerName.setText(otemp.getCustomerFn() + " " + otemp.getCustomerLn());
+                customerAddress.setText(otemp.getCustomerAdd());
+                datePlaced.setText(String.valueOf(otemp.getDatePlaced()));
                 try {
-                    shippingStatus.setValue(Tracking.selectByOrderID(allOrders.get(oIndex).getOrderID()).getShippingStatus());
-                    trackingID.setText(Tracking.selectByOrderID(allOrders.get(oIndex).getOrderID()).getTrackingID());
-                    carrier.setValue(Tracking.selectByOrderID(allOrders.get(oIndex).getOrderID()).getCarrier());
+                    empIDC.setValue(otemp.getEmployeeNo() + " | " + Employees.selectEmployeeByEmpID(otemp.getEmployeeNo()).getEmployeeFn() + " " + Employees.selectEmployeeByEmpID(otemp.getEmployeeNo()).getEmployeeLn());
+                    allItems = OrderItems.selectByOrderID(otemp.getOrderID());
+                    shippingStatus.setValue(Tracking.selectByOrderID(otemp.getOrderID()).getShippingStatus());
+                    trackingID.setText(Tracking.selectByOrderID(otemp.getOrderID()).getTrackingID());
+                    carrier.setValue(Tracking.selectByOrderID(otemp.getOrderID()).getCarrier());
                 }
                 catch (SQLException a){
-                    a.printStackTrace();
+                    Global.exceptionAlert(a, "Setting Employee ID ComboBox");
                 }
                 if(Global.privilege) modOrder.setVisible(true);
                 setOrderProds();
@@ -166,7 +154,6 @@ public class OrdersController {
         catch (Exception e){
             Global.exceptionAlert(e,"Show Order Details");
         }
-
     }
     public void addOrderClicked(ActionEvent event) {
         String[] name=customerName.getText().split(" ");
@@ -176,7 +163,7 @@ public class OrdersController {
         Orders oTmp = new Orders(0, "", "", "", null, 0);
         Tracking tTmp= new Tracking(0,"Not Shipped");
         try{
-                if (orderID.getText().length() > 0 && Long.parseLong(orderID.getText()) >= 0) {
+                if (orderID.getText().length() > 0 && Long.parseLong(orderID.getText()) >= 0){
                     oTmp.setOrderID(Long.parseLong(orderID.getText()));
                     tTmp.setOrderID(Long.parseLong(orderID.getText()));
                 }
@@ -216,7 +203,9 @@ public class OrdersController {
                 }
                 if(empIDC.getValue()!=null){
                         empBool=true;
-                        oTmp.setEmployeeNo(Long.parseLong(empIDC.getValue()));
+                        String s = empIDC.getSelectionModel().getSelectedItem();
+                        String[] p = s.split(" \\| ");
+                        oTmp.setEmployeeNo(Long.parseLong(p[0]));
                 }
                 if(shippingStatus.getValue()!=null)
                     tTmp.setShippingStatus(shippingStatus.getValue());
@@ -316,14 +305,15 @@ public class OrdersController {
     public void modifyOrderClicked(){
         try{
             String[] name=customerName.getText().split(" ");
-            Orders.modifyCustomerFn(allOrders.get(oIndex).getOrderID(),name[0]);
-            Orders.modifyCustomerLn(allOrders.get(oIndex).getOrderID(),name[1]);
-            Orders.modifyCustomerAdd(allOrders.get(oIndex).getOrderID(),customerAddress.getText());
+            Orders.modifyCustomerFn(otemp.getOrderID(),name[0]);
+            Orders.modifyCustomerLn(otemp.getOrderID(),name[1]);
+            Orders.modifyCustomerAdd(otemp.getOrderID(),customerAddress.getText());
             if(empIDC.getValue()!=null){
                 String s = empIDC.getSelectionModel().getSelectedItem();
-                Orders.modifyEmployeeNo(allOrders.get(oIndex).getOrderID(),Long.parseLong(s));
+                String[] p = s.split(" \\| ");
+                Orders.modifyEmployeeNo(otemp.getOrderID(),Long.parseLong(p[0]));
             }
-            if(shippingStatus.getValue()!=null) Tracking.modifyShippingStatus(allOrders.get(oIndex).getOrderID(),shippingStatus.getValue());
+            if(shippingStatus.getValue()!=null) Tracking.modifyShippingStatus(otemp.getOrderID(),shippingStatus.getValue());
             clearOrderInfo();
         }
         catch(Exception e){Global.exceptionAlert(e,"Modify Order");}
@@ -348,9 +338,10 @@ public class OrdersController {
         deleteAlert.setContentText("Are you sure you want to delete this User?");
         if(deleteAlert.showAndWait().get() == ButtonType.OK){
             try{
-                ims.Orders.deleteRecord(allOrders.get(oIndex).getOrderID());
+                Orders.deleteRecord(otemp.getOrderID());
                 orderIDT.getItems().remove(orderIDT.getSelectionModel().getSelectedItem());
-                oIndex=-1;
+                otemp=null;
+                clearOrderInfo();
             }
             catch(Exception e){
                 Global.exceptionAlert(e,"Delete User");
@@ -358,7 +349,7 @@ public class OrdersController {
         }
     }
     public void clearOrderInfo(){
-        orderProds.setVisible(true);
+
         orderID.clear();
         customerName.clear();
         customerAddress.clear();
@@ -370,11 +361,11 @@ public class OrdersController {
         trackingID.setEditable(false);
         carrier.setEditable(false);
         empIDC.setEditable(false);
+        orderProds.setVisible(true);
         modOrder.setVisible(false);
         addOrderHBox.setVisible(true);
         addDate.setVisible(false);
         addOrder.setVisible(true);
-        modOrder.setVisible(true);
         startMod.setVisible(false);
         modBox.setVisible(false);
         addOrderHBox.setVisible(false);
@@ -385,6 +376,9 @@ public class OrdersController {
         carrier.setValue(null);
         shippingStatus.setValue(null);
         orderProds.getItems().clear();
+        empIDC.setValue(null);
+        productsList.setValue(null);
+        shippingStatus.setValue(null);
     }
 
     @FXML

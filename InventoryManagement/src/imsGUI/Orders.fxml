@@ -11,7 +11,7 @@
                 <ColumnConstraints fx:id="column0" maxWidth="5" minWidth="5.0" />
                 <ColumnConstraints fx:id="column1" fillWidth="true" percentWidth="30" />
                 <ColumnConstraints fx:id="column2" fillWidth="true" percentWidth="58.5" />
-                <ColumnConstraints fx:id="column3" percentWidth="15" />
+                <ColumnConstraints fx:id="column3" percentWidth="14" />
             </columnConstraints>
             <rowConstraints>
                 <RowConstraints fx:id="row0" fillHeight="true" percentHeight="5" />
@@ -19,7 +19,7 @@
             </rowConstraints>
             <children>
                 <Button fx:id="addOrder" mnemonicParsing="false" onAction="#addOrder" text="Add Order" GridPane.columnIndex="1" />
-                <Button fx:id="modOrder" mnemonicParsing="false" onAction="#modOrder" text="Modify Order" visible="false" GridPane.columnIndex="1">
+                <Button fx:id="modOrder" mnemonicParsing="false" onAction="#modOrder" text="Modify Order" visible="false" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
                     <GridPane.margin>
                         <Insets left="100.0" />
                     </GridPane.margin>
@@ -44,7 +44,7 @@
                             <ColumnConstraints fx:id="c1" fillWidth="true" percentWidth="20" />
                             <ColumnConstraints fx:id="c2" fillWidth="true" percentWidth="35" />
                             <ColumnConstraints fx:id="c3" fillWidth="true" percentWidth="40" />
-                            <ColumnConstraints fx:id="c4" fillWidth="true" minWidth="10" />
+                            <ColumnConstraints fx:id="c4" fillWidth="true" minWidth="8" />
                         </columnConstraints>
                         <rowConstraints>
                             <RowConstraints fx:id="r0" percentHeight="14" />
@@ -114,6 +114,7 @@
                             <TableView fx:id="orderProds" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="1" GridPane.rowSpan="3">
                                 <columns>
                                     <TableColumn fx:id="products" prefWidth="75.0" text="Order Products" />
+                                    <TableColumn fx:id="prodName" text="Product Name"/>
                                 </columns>
                                 <columnResizePolicy>
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -172,6 +173,9 @@
                             <Insets top="10.0" />
                         </GridPane.margin>
                     </GridPane>
+            <GridPane.margin>
+               <Insets right="5.0" />
+            </GridPane.margin>
                 </ScrollPane>
                 <HBox alignment="BASELINE_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="RIGHT_TO_LEFT" snapToPixel="false" GridPane.columnIndex="3" GridPane.columnSpan="2147483647" GridPane.halignment="LEFT">
                     <children>
