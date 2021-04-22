@@ -2,6 +2,8 @@ package imsGUI;
 
 import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 import ims.Budget;
+import ims.Employees;
+import ims.OutgoingGoods;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,6 +15,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.sql.Date;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -72,6 +75,7 @@ public class BudgetController {
 
     ArrayList<Budget> allBudget = new ArrayList<Budget>();
     ArrayList<String> empList = new ArrayList<>();
+    ArrayList<Employees> allEmployees = new ArrayList<>();
     Budget budgetTMP;
     int bIndex = 1;
 
@@ -80,7 +84,9 @@ public class BudgetController {
 
     public void initialize() {
         setBudgetList();
+        setEmpCombo();
         budgetDetails();
+       // clear();
     }
 
     public void setBudgetList() {
@@ -160,7 +166,12 @@ public class BudgetController {
                 bIndex = budgetTable.getSelectionModel().getSelectedIndex();
                 startDate.setValue(allBudget.get(bIndex).getDateStart().toLocalDate());
                 endDate.setValue(allBudget.get(bIndex).getDateEnd().toLocalDate());
-                userInfo.setValue(allBudget.get(bIndex).getEmployeeNo() + "");
+                try{
+                    userInfo.setValue(allBudget.get(bIndex).getEmployeeNo() + " | " + Employees.selectEmployeeByEmpID(budgetTMP.getEmployeeNo()).getEmployeeFn()+
+                            " "+Employees.selectEmployeeByEmpID(budgetTMP.getEmployeeNo()).getEmployeeLn());
+                } catch (SQLException throwables) {
+                    Global.exceptionAlert(throwables, "Employees for Budget Combobox");
+                }
                 incoming.setText(String.valueOf(allBudget.get(bIndex).getIncome()));
                 outgoing.setText(String.valueOf(allBudget.get(bIndex).getOutgoing()));
             });
@@ -178,6 +189,13 @@ public class BudgetController {
         addBtn.setVisible(true);
     }
 
+//    public void clear(){
+//        startDate.setValue(null);
+//        endDate.setValue(null);
+//        incoming.clear();
+//        outgoing.clear();
+//    }
+
     public void modifyDBBudget() {
         try {
             Budget.modifyDateStart(budgetTMP.getDateStart(), budgetTMP.getDateStart());
@@ -190,6 +208,19 @@ public class BudgetController {
             ///Global.exceptionAlert(e, "Modify Budget");
         }
         endBudgetEdit();
+    }
+
+    public void setEmpCombo(){
+        try{
+            userInfo.getItems().clear();
+            allEmployees = Employees.selectAll();
+            for(Employees allEmp : allEmployees){
+                String hold = allEmp.getEmployeeNo() + " | " + allEmp.getEmployeeFn() + " " + allEmp.getEmployeeLn();
+                userInfo.getItems().add(hold);
+            }
+        } catch (Exception e){
+            Global.exceptionAlert(e, "Setting Budget Employee Combobox");
+        }
     }
 
     public void modifyBudget() {
