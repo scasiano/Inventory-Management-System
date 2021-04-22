@@ -290,15 +290,20 @@ public class OrdersController {
         orderID.setEditable(true);
         customerName.setEditable(true);
         customerAddress.setEditable(true);
-        shippingStatus.setEditable(true);
+        shippingStatus.setEditable(false);
         trackingID.setEditable(true);
-        carrier.setEditable(true);
-        empIDC.setEditable(true);
+        carrier.setEditable(false);
+        empIDC.setEditable(false);
+        customerAddress.setDisable(false);
+        shippingStatus.setDisable(false);
+        empIDC.setDisable(false);
         modOrder.setVisible(false);
         addOrderHBox.setVisible(true);
         productsList.setValue(null);
         empIDC.setValue(null);
         carrier.setValue(null);
+        carrier.setEditable(false);
+        carrier.setDisable(false);
         shippingStatus.setValue(null);
         orderProds.getItems().clear();
     }
@@ -321,9 +326,12 @@ public class OrdersController {
     public void modOrder(){
         orderProds.setVisible(true);
         customerName.setEditable(true);
-        customerAddress.setEditable(true);
-        shippingStatus.setEditable(true);
-        empIDC.setEditable(true);
+        customerAddress.setEditable(false);
+        shippingStatus.setEditable(false);
+        empIDC.setEditable(false);
+        customerAddress.setDisable(false);
+        shippingStatus.setDisable(false);
+        empIDC.setDisable(false);
         modBox.setVisible(true);
         addOrder.setVisible(false);
         addOrderHBox.setVisible(false);
@@ -374,9 +382,12 @@ public class OrdersController {
         productsList.setValue(null);
         empIDC.setValue(null);
         carrier.setValue(null);
+        carrier.setDisable(true);
         shippingStatus.setValue(null);
+        shippingStatus.setDisable(true);
         orderProds.getItems().clear();
         empIDC.setValue(null);
+        empIDC.setDisable(true);
         productsList.setValue(null);
         shippingStatus.setValue(null);
     }
