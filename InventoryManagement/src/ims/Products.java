@@ -108,4 +108,11 @@ public class Products {
         while (dbResult.next()) return dbResult.getDouble(1);
         return 0.0;
     }
+
+    //SQL Queries PRODUCTPRICE FROM PRODUCTID
+    public static Double selectProductPriceByProductID(long productID) throws SQLException{
+        ResultSet dbResult = SqlController.dbStatement.executeQuery("select price from products where product_id = " + productID);
+        while (dbResult.next()) return dbResult.getDouble(1);
+        return 0.0;
+    }
 }
