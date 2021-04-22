@@ -1,10 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="Infinity" maxWidth="Infinity" minHeight="-Infinity" minWidth="0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="imsGUI.ProductStatusController">
+<AnchorPane maxHeight="Infinity" maxWidth="Infinity" minHeight="-Infinity" minWidth="0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="imsGUI.ProductStatusController">
 <GridPane maxHeight="Infinity" maxWidth="Infinity" minWidth="0" style="-fx-background-color: grey;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
     <columnConstraints>
         <ColumnConstraints fx:id="column0" minWidth="10.0" />
@@ -33,10 +47,10 @@
         </HBox>
        <TabPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="0.0" nodeOrientation="LEFT_TO_RIGHT" style="-fx-background-color: ALICEBLUE; -fx-border-color: white; -fx-tab-max-width: Infinity; -fx-tab-min-width: 0;" tabClosingPolicy="UNAVAILABLE" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
           <tabs>
-              <Tab text="Current Stock">
+              <Tab style="-fx-background-color: ALICEBLUE;" text="Current Stock">
                   <content>
                       <ScrollPane fitToHeight="true" fitToWidth="true">
-                          <GridPane focusTraversable="true" maxHeight="Infinity" maxWidth="Infinity" minHeight="-Infinity" minWidth="-Infinity">
+                          <GridPane focusTraversable="true" maxHeight="Infinity" maxWidth="Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: ALICEBLUE;">
                               <columnConstraints>
                                   <ColumnConstraints fillWidth="true" minWidth="10" />
                                   <ColumnConstraints fillWidth="true" percentWidth="60" />
@@ -69,10 +83,10 @@
                       </ScrollPane>
                   </content>
               </Tab>
-            <Tab text="Incoming Goods">
+            <Tab style="-fx-background-color: ALICEBLUE;" text="Incoming Goods">
                 <content>
                     <ScrollPane fitToHeight="true" fitToWidth="true">
-                    <GridPane focusTraversable="true" maxHeight="Infinity" maxWidth="Infinity" minHeight="-Infinity" minWidth="-Infinity">
+                    <GridPane focusTraversable="true" maxHeight="Infinity" maxWidth="Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: ALICEBLUE;">
                         <columnConstraints>
                             <ColumnConstraints fillWidth="true" minWidth="10" />
                             <ColumnConstraints fillWidth="true" percentWidth="60" />
@@ -104,31 +118,31 @@
                                 </columnResizePolicy>
                             </TableView>
                             <VBox fx:id="incomingV" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="1">
-                                <Label text="Product ID"/>
+                                <Label text="Product ID" />
                                 <ComboBox fx:id="inProductsC" promptText="Select Product">
                                     <VBox.margin>
                                         <Insets bottom="5.0" top="5.0" />
                                     </VBox.margin>
                                 </ComboBox>
-                                <Label text="Incoming Date"/>
+                                <Label text="Incoming Date" />
                                 <DatePicker fx:id="inDatePick">
                                     <VBox.margin>
                                         <Insets bottom="5.0" top="5.0" />
                                     </VBox.margin>
                                 </DatePicker>
-                                <Label text="Tracking Number"/>
+                                <Label text="Tracking Number" />
                                 <TextField fx:id="trackNoT" promptText="Tracking Number(Optional)">
                                     <VBox.margin>
                                         <Insets bottom="5.0" top="5.0" />
                                     </VBox.margin>
                                 </TextField>
-                                <Label text="Product Quantity"/>
+                                <Label text="Product Quantity" />
                                 <TextField fx:id="inQuantTBox" promptText="Incoming Product Quantity">
                                     <VBox.margin>
                                         <Insets bottom="5.0" top="5.0" />
                                     </VBox.margin>
                                 </TextField>
-                                <Label text="Employee ID"/>
+                                <Label text="Employee ID" />
                                 <ComboBox fx:id="inEmpC" promptText="Select Employee ID(Optional)">
                                     <VBox.margin>
                                         <Insets bottom="5.0" top="5.0" />
@@ -171,10 +185,10 @@
                     </ScrollPane>
                 </content>
             </Tab>
-            <Tab text="Out Going Goods">
+            <Tab style="-fx-background-color: ALICEBLUE;" text="Out Going Goods">
                 <content>
                     <ScrollPane fitToHeight="true" fitToWidth="true">
-                    <GridPane focusTraversable="true" maxHeight="Infinity" maxWidth="Infinity" minHeight="-Infinity" minWidth="-Infinity">
+                    <GridPane focusTraversable="true" maxHeight="Infinity" maxWidth="Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: ALICEBLUE;">
                         <columnConstraints>
                             <ColumnConstraints fillWidth="true" minWidth="10" />
                             <ColumnConstraints fillWidth="true" percentWidth="60" />
@@ -206,25 +220,25 @@
                           </TableView>
                           <VBox fx:id="outgoingV" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="1">
                               <children>
-                                  <Label text="Product ID"/>
+                                  <Label text="Product ID" />
                                   <ComboBox fx:id="outProductsC" promptText="Outgoing Product ID">
                                       <VBox.margin>
                                           <Insets bottom="5.0" top="5.0" />
                                       </VBox.margin>
                                   </ComboBox>
-                                  <Label text="Outgoing Date"/>
+                                  <Label text="Outgoing Date" />
                                   <DatePicker fx:id="outDatePick">
                                       <VBox.margin>
                                           <Insets bottom="5.0" top="5.0" />
                                       </VBox.margin>
                                   </DatePicker>
-                                  <Label text="Product Quantity"/>
+                                  <Label text="Product Quantity" />
                                   <TextField fx:id="outQuantTBox" promptText="Outgoing Quantity">
                                       <VBox.margin>
                                           <Insets bottom="5.0" top="5.0" />
                                       </VBox.margin>
                                   </TextField>
-                                  <Label text="Employee ID"/>
+                                  <Label text="Employee ID" />
                                   <ComboBox fx:id="outEmpC" promptText="Select Employee ID(Optional)">
                                       <VBox.margin>
                                           <Insets bottom="5.0" top="5.0" />
