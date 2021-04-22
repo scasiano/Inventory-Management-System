@@ -194,7 +194,7 @@ public class ProductListController {
         addProd.setVisible(false);
         addProdLabel.setVisible(true);
         modBox.setVisible(true);
-        startMod.setVisible(false);
+        startMod.setVisible(true);
     }
     public void delDBProduct() {
         Alert delete=new Alert(Alert.AlertType.CONFIRMATION);
