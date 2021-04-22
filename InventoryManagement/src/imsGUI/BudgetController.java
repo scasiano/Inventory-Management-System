@@ -2,7 +2,6 @@ package imsGUI;
 
 import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 import ims.Budget;
-import ims.Employees;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,7 +13,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.sql.Date;
-import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -58,23 +56,22 @@ public class BudgetController {
     @FXML
     TableView<Budget> budgetTable;
     @FXML
-    TableColumn<Budget, Long> periodTable;
+    TableColumn periodTable;
     @FXML
-    TableColumn<Budget, Date> startTable;
+    TableColumn startTable;
     @FXML
-    TableColumn<Budget, Date> endTable;
+    TableColumn endTable;
     @FXML
-    TableColumn<Budget, Double> incomeTable;
+    TableColumn incomeTable;
     @FXML
-    TableColumn<Budget, Double> outTable;
+    TableColumn outTable;
     @FXML
-    TableColumn<Budget, Double> netTable;
+    TableColumn netTable;
     @FXML
-    TableColumn<Budget, Long> empTable;
+    TableColumn empTable;
 
     ArrayList<Budget> allBudget = new ArrayList<Budget>();
     ArrayList<String> empList = new ArrayList<>();
-    ArrayList<Employees> allEmployees = new ArrayList<>();
     Budget budgetTMP;
     int bIndex = 1;
 
@@ -83,19 +80,18 @@ public class BudgetController {
 
     public void initialize() {
         setBudgetList();
-        setEmpCombo();
         budgetDetails();
     }
 
     public void setBudgetList() {
         try {
-            periodTable.setCellValueFactory(new PropertyValueFactory<>("periodID"));
-            startTable.setCellValueFactory(new PropertyValueFactory<>("dateStart"));//the things in the parenthese at the end is the constructor argument name
-            endTable.setCellValueFactory(new PropertyValueFactory<>("dateEnd"));
-            incomeTable.setCellValueFactory(new PropertyValueFactory<>("income"));
-            outTable.setCellValueFactory(new PropertyValueFactory<>("outgoing"));
-            netTable.setCellValueFactory(new PropertyValueFactory<>("net"));
-            empTable.setCellValueFactory(new PropertyValueFactory<>("employeeNo"));
+            periodTable.setCellValueFactory(new PropertyValueFactory<Budget, Long>("periodID"));
+            startTable.setCellValueFactory(new PropertyValueFactory<Budget, Date>("dateStart"));//the things in the parenthese at the end is the constructor argument name
+            endTable.setCellValueFactory(new PropertyValueFactory<Budget, Date>("dateEnd"));
+            incomeTable.setCellValueFactory(new PropertyValueFactory<Budget, Double>("income"));
+            outTable.setCellValueFactory(new PropertyValueFactory<Budget, Double>("outgoing"));
+            netTable.setCellValueFactory(new PropertyValueFactory<Budget, Double>("net"));
+            empTable.setCellValueFactory(new PropertyValueFactory<Budget, Long>("employeeNo"));
             allBudget = Budget.selectAll();
             ObservableList<Budget> budgets = FXCollections.observableArrayList(allBudget);
             budgetTable.setItems(budgets);
@@ -164,12 +160,7 @@ public class BudgetController {
                 bIndex = budgetTable.getSelectionModel().getSelectedIndex();
                 startDate.setValue(allBudget.get(bIndex).getDateStart().toLocalDate());
                 endDate.setValue(allBudget.get(bIndex).getDateEnd().toLocalDate());
-                try{
-                    userInfo.setValue(allBudget.get(bIndex).getEmployeeNo() + " | " + Employees.selectEmployeeByEmpID(budgetTMP.getEmployeeNo()).getEmployeeFn()+
-                            " "+Employees.selectEmployeeByEmpID(budgetTMP.getEmployeeNo()).getEmployeeLn());
-                } catch (SQLException throwables) {
-                    Global.exceptionAlert(throwables, "Employees for Budget Combobox");
-                }
+                userInfo.setValue(allBudget.get(bIndex).getEmployeeNo() + "");
                 incoming.setText(String.valueOf(allBudget.get(bIndex).getIncome()));
                 outgoing.setText(String.valueOf(allBudget.get(bIndex).getOutgoing()));
             });
@@ -199,19 +190,6 @@ public class BudgetController {
             ///Global.exceptionAlert(e, "Modify Budget");
         }
         endBudgetEdit();
-    }
-
-    public void setEmpCombo(){
-        try{
-            userInfo.getItems().clear();
-            allEmployees = Employees.selectAll();
-            for(Employees allEmp : allEmployees){
-                String hold = allEmp.getEmployeeNo() + " | " + allEmp.getEmployeeFn() + " " + allEmp.getEmployeeLn();
-                userInfo.getItems().add(hold);
-            }
-        } catch (Exception e){
-            Global.exceptionAlert(e, "Setting Budget Employee Combobox");
-        }
     }
 
     public void modifyBudget() {
