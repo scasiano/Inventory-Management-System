@@ -202,9 +202,9 @@ public class Employees {
     }
 
     //SQL Special Queries
-    public static Users selectUserByEmpID(Long employeeNo) throws SQLException{
-        ResultSet dbResult = SqlController.dbStatement.executeQuery("select user_id from employees where employee_no=" + employeeNo);
-        while (dbResult.next()) return new Users(dbResult.getLong(1), dbResult.getString(2), dbResult.getString(3), dbResult.getString(4), dbResult.getString(5), dbResult.getString(6));
+    public static Employees selectEmployeeByEmpID(Long employeeNo) throws SQLException{
+        ResultSet dbResult = SqlController.dbStatement.executeQuery("select * from employees where employee_no=" + employeeNo);
+        while (dbResult.next()) return new Employees(dbResult.getLong(1), dbResult.getLong(2), dbResult.getString(3), dbResult.getString(4), dbResult.getDouble(5), dbResult.getString(6), dbResult.getDate(7), dbResult.getDate(8));
         return null;
     }
 }
