@@ -207,4 +207,9 @@ public class Employees {
         while (dbResult.next()) return new Employees(dbResult.getLong(1), dbResult.getLong(2), dbResult.getString(3), dbResult.getString(4), dbResult.getDouble(5), dbResult.getString(6), dbResult.getDate(7), dbResult.getDate(8));
         return null;
     }
+    public static Employees selectEmployeeByUserID(Long employeeNo) throws SQLException{
+        ResultSet dbResult = SqlController.dbStatement.executeQuery("select * from employees where user_id =" + employeeNo);
+        while (dbResult.next()) return new Employees(dbResult.getLong(1), dbResult.getLong(2), dbResult.getString(3), dbResult.getString(4), dbResult.getDouble(5), dbResult.getString(6), dbResult.getDate(7), dbResult.getDate(8));
+        return null;
+    }
 }
