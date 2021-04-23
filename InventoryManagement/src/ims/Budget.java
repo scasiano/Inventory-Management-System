@@ -169,19 +169,19 @@ public class Budget {
     }
 
     //SQL Queries MODIFY
-    public static void modifyDateStart(Date primaryKey, Date updateValue) throws SQLException {
-        SqlController.dbStatement.executeUpdate("update budget set date_start = '" + updateValue + "' where date_start = '" + primaryKey + "'");
+    public static void modifyDateStart(long primaryKey, Date updateValue) throws SQLException {
+        SqlController.dbStatement.executeUpdate("update budget set date_start = '" + updateValue + "' where period_id = " + primaryKey);
     }
-    public static void modifyDateEnd(Date primaryKey, Date updateValue) throws SQLException {
-        SqlController.dbStatement.executeUpdate("update budget set date_end = '" + updateValue + "' where date_start = '" + primaryKey + "'");
+    public static void modifyDateEnd(long primaryKey, Date updateValue) throws SQLException {
+        SqlController.dbStatement.executeUpdate("update budget set date_end = '" + updateValue + "' where period_id = " + primaryKey);
     }
-    public static void modifyOutgoing(Date primaryKey, double updateValue) throws SQLException {
-        SqlController.dbStatement.executeUpdate("update budget set outgoing = " + updateValue + " where date_start = '" + primaryKey + "'");
+    public static void modifyOutgoing(long primaryKey, double updateValue) throws SQLException {
+        SqlController.dbStatement.executeUpdate("update budget set outgoing = " + updateValue + " where period_id = " + primaryKey);
     }
-    public static void modifyIncome(Date primaryKey, double updateValue) throws SQLException {
-        SqlController.dbStatement.executeUpdate("update budget set income = " + updateValue + " where date_start = '" + primaryKey + "'");
+    public static void modifyIncome(long primaryKey, double updateValue) throws SQLException {
+        SqlController.dbStatement.executeUpdate("update budget set income = " + updateValue + " where period_id = " + primaryKey);
     }
-    public static void modifyEmployeeNo(Date primaryKey, long updateValue) throws SQLException {
-        SqlController.dbStatement.executeUpdate("update budget set employee_no = " + updateValue + " where date_start = '" + primaryKey + "'");
+    public static void modifyEmployeeNo(long primaryKey, long updateValue) throws SQLException {
+        SqlController.dbStatement.executeUpdate("update budget set employee_no = " + updateValue + " where period_id = " + primaryKey);
     }
 }
