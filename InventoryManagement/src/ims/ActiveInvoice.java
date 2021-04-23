@@ -10,7 +10,7 @@ public class ActiveInvoice {
     private double outstandingBalance;
 
     //For adding
-    ActiveInvoice(long orderID, Date dateProcessed, double totalCharge, double outstandingBalance){
+    public ActiveInvoice(long orderID, Date dateProcessed, double totalCharge, double outstandingBalance){
         this.orderID = orderID;
         this.dateProcessed = dateProcessed;
         this.totalCharge = totalCharge;
@@ -18,7 +18,7 @@ public class ActiveInvoice {
     }
 
     //For returning
-    ActiveInvoice(long orderID, Date dateProcessed, double totalCharge, double totalRecieved, double outstandingBalance){
+    public ActiveInvoice(long orderID, Date dateProcessed, double totalCharge, double totalRecieved, double outstandingBalance){
         this.orderID = orderID;
         this.dateProcessed = dateProcessed;
         this.totalCharge = totalCharge;
@@ -113,5 +113,18 @@ public class ActiveInvoice {
     }
     public static void modifyOutstandingBalance(long primaryKey, double updateValue) throws SQLException {
         SqlController.dbStatement.executeUpdate("update active_invoice set outstanding_balance = " + updateValue + " where order_id = " + primaryKey);
+    }
+
+    //Special SQL Queries
+    public static ArrayList<ActiveInvoice> selectArrActiveByOrderID(long orderID) throws SQLException{
+        ResultSet dbResult = SqlController.dbStatement.executeQuery("select * from active_invoice where order_id = " + orderID);
+        ArrayList<ActiveInvoice> resultList = new ArrayList<>();
+        while (dbResult.next()) resultList.add(new ActiveInvoice(dbResult.getLong(1), dbResult.getDate(2), dbResult.getDouble(3), dbResult.getDouble(4), dbResult.getDouble(5)));
+        return resultList;
+    }
+    public static ActiveInvoice selectActiveByOrderID(long orderID) throws SQLException{
+        ResultSet dbResult = SqlController.dbStatement.executeQuery("select * from active_invoice where order_id = " + orderID);
+        while (dbResult.next()) return new ActiveInvoice(dbResult.getLong(1), dbResult.getDate(2), dbResult.getDouble(3), dbResult.getDouble(4), dbResult.getDouble(5));
+        return null;
     }
 }

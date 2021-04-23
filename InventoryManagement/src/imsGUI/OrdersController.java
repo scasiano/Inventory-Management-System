@@ -10,6 +10,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.sql.SQLException;
@@ -65,6 +66,12 @@ public class OrdersController {
     Button addOrderItem;
     @FXML
     ComboBox<String> productsList;
+    @FXML
+    VBox invoiceBox;
+    @FXML
+    Label orderTotal;
+    @FXML
+    TextField ammountPaid;
 
     ArrayList<Orders> allOrders;
     ArrayList<OrderItems> allItems;
@@ -72,6 +79,9 @@ public class OrdersController {
     ArrayList<Products> allProd;
     ArrayList<Employees> allEmps;
     Orders otemp;
+    ActiveInvoice aIntmp;
+    InvoiceHistory iIntmp;
+    Double oPrice;
     boolean hasProd=false;
 
     public void initialize(){
@@ -149,13 +159,24 @@ public class OrdersController {
                 }
                 if(Global.privilege) modOrder.setVisible(true);
                 setOrderProds();
+                orderTotal.setText(Double.toString(orderTotal()));
+                try{
+                    if(ActiveInvoice.selectArrActiveByOrderID(otemp.getOrderID()).size()>0){
+                        ammountPaid.setText(Double.toString(ActiveInvoice.selectActiveByOrderID(otemp.getOrderID()).getTotalRecieved()));
+                    }
+                    else if(InvoiceHistory.selectArrHistoryByOrderID(otemp.getOrderID()).size()>0){
+                        ammountPaid.setText(Double.toString(InvoiceHistory.selectHistoryByOrderID(otemp.getOrderID()).getTotalCharge()));
+                        ammountPaid.setEditable(false);
+                    }
+                }catch(Exception e){
+                    Global.exceptionAlert(e,"Getting Invoice Info");
+                }
             });
-        }
-        catch (Exception e){
+        }catch (Exception e){
             Global.exceptionAlert(e,"Show Order Details");
         }
     }
-    public void addOrderClicked(ActionEvent event) {
+    public void addOrderClicked() {
         String[] name=customerName.getText().split(" ");
         boolean empBool =false;
         boolean trackBool=false;
@@ -204,12 +225,12 @@ public class OrdersController {
                 if(empIDC.getValue()!=null){
                         empBool=true;
                         String s = empIDC.getSelectionModel().getSelectedItem();
-                        String[] p = s.split(" \\| ");
+                        String[] p = s.split(" | ");
                         oTmp.setEmployeeNo(Long.parseLong(p[0]));
                 }
                 if(shippingStatus.getValue()!=null)
                     tTmp.setShippingStatus(shippingStatus.getValue());
-                if(shippingStatus.getValue().equals("Not Shipped")){
+                if(shippingStatus.getValue()!=null || !shippingStatus.getValue().equals("Not Shipped")){
                     if(!trackingID.getText().isEmpty()) {
                         tTmp.setTrackingID(trackingID.getText());
                         trackBool=true;
@@ -242,7 +263,7 @@ public class OrdersController {
                 return;
             }
             if(!empBool)
-                Orders.addRecord(oTmp);
+            {Orders.addRecord(oTmp);System.out.println("Added");}
             else
                 Orders.addRecordEmp(oTmp);
             //adding Tacking Info
@@ -256,6 +277,18 @@ public class OrdersController {
                 Tracking.addRecord(tTmp);
             orderIDT.getItems().add(oTmp);
             setOrderList();
+            oPrice=orderTotal();
+            orderTotal.setText(oPrice.toString());
+            if(!ammountPaid.getText().isEmpty()){
+                if(Double.parseDouble(ammountPaid.getText())<oPrice) {
+                    aIntmp = new ActiveInvoice(Long.parseLong(orderID.getText()), java.sql.Date.valueOf(datePlaced.getText()), Double.parseDouble(orderTotal.getText()), Double.parseDouble(ammountPaid.getText()), Double.parseDouble(orderTotal.getText()) - Double.parseDouble(ammountPaid.getText()));
+                    ActiveInvoice.addRecord(aIntmp);
+                }
+                else {
+                    iIntmp = new InvoiceHistory(Long.parseLong(orderID.getText()), java.sql.Date.valueOf(datePlaced.getText()), Double.parseDouble(orderTotal.getText()));
+                    InvoiceHistory.addRecord(iIntmp);
+                }
+            }
             clearOrderInfo();
             lockCombobox();
         }
@@ -271,15 +304,96 @@ public class OrdersController {
         String[] s = selectedItem.split(" \\| ");
         if (orderID.getText().length() > 0) {
             OrderItems orderItems = new OrderItems(Long.parseLong(orderID.getText()), Long.parseLong(s[0]));
-            products.setCellValueFactory(new PropertyValueFactory<OrderItems,Long>("productID"));
-            allAddItems.add(orderItems);
-            ObservableList<OrderItems> orderI = FXCollections.observableArrayList(allAddItems);
+            products.setCellValueFactory(new PropertyValueFactory<>("productID"));
+            prodName.setCellValueFactory(new PropertyValueFactory<>("productName"));
+            allItems.add(orderItems);
+            ObservableList<OrderItems> orderI = FXCollections.observableArrayList(allItems);
             orderProds.setItems(orderI);
             hasProd= true;
+            orderTotal.setText(Double.toString(orderTotal()));
         }
         else
             Global.warningAlert("No Order ID","Please Create an Order ID before adding a product");
     }
+    public double orderTotal(){
+        double orderSum = 0;
+        for (OrderItems item : allItems)
+            try {
+                orderSum += Products.selectProductMsrpByProductID(item.getProductID());
+            }catch(Exception e){
+                Global.exceptionAlert(e, "Get Product Price total");
+            }
+        return orderSum;
+    }
+    public void modifyOrderClicked(){
+        try{
+            String[] name=customerName.getText().split(" ");
+            Orders.modifyCustomerFn(otemp.getOrderID(),name[0]);
+            Orders.modifyCustomerLn(otemp.getOrderID(),name[1]);
+            Orders.modifyCustomerAdd(otemp.getOrderID(),customerAddress.getText());
+            if(empIDC.getValue()!=null){
+                String s = empIDC.getSelectionModel().getSelectedItem();
+                String[] p = s.split(" \\| ");
+                Orders.modifyEmployeeNo(otemp.getOrderID(),Long.parseLong(p[0]));
+            }
+            if(shippingStatus.getValue()!=null) Tracking.modifyShippingStatus(otemp.getOrderID(),shippingStatus.getValue());
+            if(!ammountPaid.getText().isEmpty()){
+                if(ActiveInvoice.selectArrActiveByOrderID(otemp.getOrderID()).size()>0) {
+                    if (Double.parseDouble(ammountPaid.getText()) < Double.parseDouble(orderTotal.getText())) {
+                        aIntmp = ActiveInvoice.selectActiveByOrderID(otemp.getOrderID());
+                        ActiveInvoice.modifyOutstandingBalance(otemp.getOrderID(), Double.valueOf(ammountPaid.getText()));
+                    }
+                    else {
+                        deleteActiveInvoice();
+                    }
+                }
+            }
+            if(ActiveInvoice.selectArrActiveByOrderID(otemp.getOrderID()).size()>0){
+                ammountPaid.setText(Double.toString(ActiveInvoice.selectActiveByOrderID(otemp.getOrderID()).getTotalRecieved()));
+            }
+            else if(InvoiceHistory.selectArrHistoryByOrderID(otemp.getOrderID()).size()>0){
+                ammountPaid.setText(Double.toString(InvoiceHistory.selectHistoryByOrderID(otemp.getOrderID()).getTotalCharge()));
+                ammountPaid.setEditable(false);
+            }
+            clearOrderInfo();
+            lockCombobox();
+        }
+        catch(Exception e){Global.exceptionAlert(e,"Modify Order");}
+    }
+    public void deleteOrderClicked() {
+        Alert deleteAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        deleteAlert.setTitle("Delete");
+        deleteAlert.setHeaderText("Delete Order");
+        deleteAlert.setContentText("Are you sure you want to delete this User?");
+        if(deleteAlert.showAndWait().get() == ButtonType.OK){
+            try{
+                if(ActiveInvoice.selectArrActiveByOrderID(otemp.getOrderID()).size()>0) {
+                    Orders.deleteRecord(otemp.getOrderID());
+                    orderIDT.getItems().remove(orderIDT.getSelectionModel().getSelectedItem());
+                    otemp = null;
+                    clearOrderInfo();
+                    lockCombobox();
+                }
+                else
+                    Global.warningAlert("Cannot Delete","You cannot delete an order that is complete because the invoice is no longer active.");
+                clearOrderInfo();
+            }catch(Exception e){
+                Global.exceptionAlert(e,"Delete Order");
+            }
+        }
+    }
+    public void deleteActiveInvoice(){
+        try{
+            ActiveInvoice.deleteRecord(otemp.getOrderID());
+            iIntmp = new InvoiceHistory(Long.parseLong(orderID.getText()),java.sql.Date.valueOf(datePlaced.getText()), Double.parseDouble(orderTotal.getText()));
+            InvoiceHistory.addRecord(iIntmp);
+            ammountPaid.setEditable(false);
+            clearOrderInfo();
+        }catch(Exception e){
+            Global.exceptionAlert(e,"Delete User");
+        }
+    }
+
     public void addOrder(){
         orderID.clear();
         customerName.clear();
@@ -297,30 +411,16 @@ public class OrdersController {
         empIDC.setEditable(true);
         modOrder.setVisible(false);
         addOrderHBox.setVisible(true);
+        invoiceBox.setVisible(true);
         productsList.setValue(null);
         empIDC.setValue(null);
         carrier.setValue(null);
         shippingStatus.setValue(null);
+        ammountPaid.setEditable(true);
         orderProds.getItems().clear();
         unlockCombobox();
     }
-    public void modifyOrderClicked(){
-        try{
-            String[] name=customerName.getText().split(" ");
-            Orders.modifyCustomerFn(otemp.getOrderID(),name[0]);
-            Orders.modifyCustomerLn(otemp.getOrderID(),name[1]);
-            Orders.modifyCustomerAdd(otemp.getOrderID(),customerAddress.getText());
-            if(empIDC.getValue()!=null){
-                String s = empIDC.getSelectionModel().getSelectedItem();
-                String[] p = s.split(" \\| ");
-                Orders.modifyEmployeeNo(otemp.getOrderID(),Long.parseLong(p[0]));
-            }
-            if(shippingStatus.getValue()!=null) Tracking.modifyShippingStatus(otemp.getOrderID(),shippingStatus.getValue());
-            clearOrderInfo();
-            lockCombobox();
-        }
-        catch(Exception e){Global.exceptionAlert(e,"Modify Order");}
-    }
+
     public void modOrder(){
         orderProds.setVisible(true);
         customerName.setEditable(true);
@@ -333,28 +433,11 @@ public class OrdersController {
         startMod.setVisible(true);
         productsList.setVisible(false);
         addOrderItem.setVisible(false);
+        invoiceBox.setVisible(true);
         unlockCombobox();
     }
-    public void deleteOrderClicked() {
-        Alert deleteAlert = new Alert(Alert.AlertType.CONFIRMATION);
-        deleteAlert.setTitle("Delete");
-        deleteAlert.setHeaderText("Delete Order");
-        deleteAlert.setContentText("Are you sure you want to delete this User?");
-        if(deleteAlert.showAndWait().get() == ButtonType.OK){
-            try{
-                Orders.deleteRecord(otemp.getOrderID());
-                orderIDT.getItems().remove(orderIDT.getSelectionModel().getSelectedItem());
-                otemp=null;
-                clearOrderInfo();
-                lockCombobox();
-            }
-            catch(Exception e){
-                Global.exceptionAlert(e,"Delete User");
-            }
-        }
-    }
     public void clearOrderInfo(){
-
+        invoiceBox.setVisible(true);
         orderID.clear();
         customerName.clear();
         customerAddress.clear();
@@ -376,6 +459,7 @@ public class OrdersController {
         addOrderHBox.setVisible(false);
         productsList.setVisible(false);
         addOrderItem.setVisible(false);
+        invoiceBox.setVisible(false);
         productsList.setValue(null);
         empIDC.setValue(null);
         carrier.setValue(null);

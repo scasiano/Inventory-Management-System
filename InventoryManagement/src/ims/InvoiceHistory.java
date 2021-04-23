@@ -76,4 +76,18 @@ public class InvoiceHistory {
     public static void modifyTotalCharge(long primaryKey, double updateValue) throws SQLException {
         SqlController.dbStatement.executeUpdate("update invoice_history set total_charge = " + updateValue + " where order_id = " + primaryKey);
     }
+
+    //Special SQL Queries
+    public static ArrayList<InvoiceHistory> selectArrHistoryByOrderID(long orderID) throws SQLException{
+        ResultSet dbResult = SqlController.dbStatement.executeQuery("select * from invoice_history where order_id = " + orderID);
+        ArrayList<InvoiceHistory> resultList = new ArrayList<>();
+        while (dbResult.next()) resultList.add(new InvoiceHistory(dbResult.getLong(1), dbResult.getDate(2), dbResult.getDouble(3)));
+        return resultList;
+    }
+    public static InvoiceHistory selectHistoryByOrderID(long orderID) throws SQLException{
+        ResultSet dbResult = SqlController.dbStatement.executeQuery("select * from invoice_history where order_id = " + orderID);
+        InvoiceHistory resultList = null;
+        while (dbResult.next()) resultList = new InvoiceHistory(dbResult.getLong(1), dbResult.getDate(2), dbResult.getDouble(3));
+        return resultList;
+    }
 }

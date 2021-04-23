@@ -31,8 +31,6 @@ public class ProfilesController {
     @FXML
     TextField password;
     @FXML
-    TextField currentPassword;
-    @FXML
     Label empL;
     @FXML
     TextField emp_id;
@@ -42,7 +40,7 @@ public class ProfilesController {
     @FXML
     Button loginBtn;
 
-
+    String passWord;
     public void initialize() {
         userDetails();
     }
@@ -56,12 +54,17 @@ public class ProfilesController {
             fname.setText(currentUser.getFName());
             lname.setText(currentUser.getLName());
             password.setText(currentUser.getPassword());
+            passWord=currentUser.getPassword();
             role.setText(currentUser.getRole());
             if(!role.getText().equals("User") && !role.getText().equals("Customer")){
                 empL.setVisible(true);
                 emp_id.setVisible(true);
-                if(!role.getText().equals("Admin"))//currently admin employee numbers are not show because of database setup
-                emp_id.setText(Long.toString(Employees.selectEmployeeByUserID(currentUser.getUserID()).getEmployeeNo()));
+               try {
+                   emp_id.setText(Long.toString(Employees.selectEmployeeByUserID(currentUser.getUserID()).getEmployeeNo()));
+               }catch(NullPointerException e){
+                   empL.setVisible(false);
+                   emp_id.setVisible(false);
+               }
             }
         }
         catch (Exception e){
@@ -76,7 +79,7 @@ public class ProfilesController {
                 Users userTMP = Global.currentUser;
                 Users.modifyFName(userTMP.getUserID(), fname.getText());
                 Users.modifyLName(userTMP.getUserID(), lname.getText());
-                if (!password.getText().equals(currentPassword.getText())) {
+                if (!password.getText().equals(passWord)) {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     Label userL = new Label();
                     userL.setText("Current Username");
