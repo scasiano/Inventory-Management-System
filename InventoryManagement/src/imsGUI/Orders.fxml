@@ -110,7 +110,7 @@
                                     <Font size="15.0" />
                                 </font>
                             </Label>
-                            <ComboBox fx:id="empIDC" maxWidth="1.7976931348623157E308" minHeight="5" minWidth="5" style="-fx-background-color: white; -fx-border-color: ALICEBLUE;" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+                            <ComboBox fx:id="empIDC" maxWidth="1.7976931348623157E308" editable="false" minHeight="5" minWidth="5" style="-fx-background-color: white; -fx-border-color: ALICEBLUE;" GridPane.columnIndex="2" GridPane.rowIndex="6" />
                             <TableView fx:id="orderProds" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="1" GridPane.rowSpan="3">
                                 <columns>
                                     <TableColumn fx:id="products" prefWidth="75.0" text="Order Products" />
@@ -136,33 +136,33 @@
                                     <Button fx:id="deleteDBOrder" layoutX="35.0" layoutY="10.0" mnemonicParsing="false" onAction="#deleteOrderClicked" text="Delete Order" />
                                     <Button fx:id="startMod" mnemonicParsing="false" onAction="#modifyOrderClicked" text="Save" visible="false" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER">
                                         <HBox.margin>
-                              <Insets left="10.0" right="10.0" />
-                           </HBox.margin>
+                                            <Insets left="10.0" right="10.0" />
+                                        </HBox.margin>
                                     </Button>
-                                    <Button fx:id="cancelOrder1" mnemonicParsing="false" onAction="#clearOrderInfo" text="Cancel" />
-                                </children>
-                                <GridPane.margin>
-                                    <Insets bottom="10.0" left="30.0" right="30.0" top="50.0" />
-                                </GridPane.margin>
-                            </HBox>
-                            <VBox fx:id="invoiceBox" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="5">
-                                <HBox>
-                                    <Label text="Order Total= $"/>
-                                    <Label fx:id="orderTotal"/>
+                                        <Button fx:id="cancelOrder1" mnemonicParsing="false" onAction="#clearOrderInfo" text="Cancel" />
+                                    </children>
+                                    <GridPane.margin>
+                                        <Insets bottom="10.0" left="30.0" right="30.0" top="50.0" />
+                                    </GridPane.margin>
                                 </HBox>
-                                <TextField fx:id="ammountPaid" maxHeight="30" minHeight="5" minWidth="5" style="-fx-background-color: white; -fx-border-color: ALICEBLUE;" />
-                            </VBox>
-                            <Label fx:id="datePlaced" GridPane.columnIndex="3" GridPane.halignment="CENTER">
+                                <VBox fx:id="invoiceBox" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="5">
+                                    <HBox>
+                                        <Label text="Order Total= $"/>
+                                        <Label fx:id="orderTotal"/>
+                                    </HBox>
+                                    <TextField fx:id="ammountPaid" maxHeight="30" minHeight="5" minWidth="5" style="-fx-background-color: white; -fx-border-color: ALICEBLUE;" />
+                                </VBox>
+                                <Label fx:id="datePlaced" GridPane.columnIndex="3" GridPane.halignment="CENTER">
                      <font>
                         <Font size="15.0" />
                      </font>
                   </Label>
-                            <DatePicker fx:id="addDate" visible="false" GridPane.columnIndex="3" GridPane.halignment="CENTER">
+                                <DatePicker fx:id="addDate" visible="false" GridPane.columnIndex="3" GridPane.halignment="CENTER">
                                 <GridPane.margin>
                                     <Insets left="10.0" />
                                 </GridPane.margin>
                             </DatePicker>
-                            <Label text="Placed:" GridPane.columnIndex="3">
+                                <Label text="Placed:" GridPane.columnIndex="3">
                                 <GridPane.margin>
                                     <Insets left="20.0" />
                                 </GridPane.margin>
@@ -170,19 +170,19 @@
                                     <Font size="15.0" />
                                 </font>
                             </Label>
-                            <ComboBox fx:id="productsList" prefWidth="150.0" promptText="Select Products" visible="false" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="TOP">
-                                <GridPane.margin>
-                                    <Insets top="10.0" />
-                                </GridPane.margin>
-                            </ComboBox>
-                        </children>
+                                <ComboBox fx:id="productsList" prefWidth="150.0" promptText="Select Products" editable="false" visible="false" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="TOP">
+                                    <GridPane.margin>
+                                        <Insets top="10.0" />
+                                    </GridPane.margin>
+                                </ComboBox>
+                            </children>
                         <GridPane.margin>
                             <Insets top="10.0" />
                         </GridPane.margin>
                     </GridPane>
-            <GridPane.margin>
-               <Insets right="5.0" />
-            </GridPane.margin>
+                    <GridPane.margin>
+                        <Insets right="5.0" />
+                    </GridPane.margin>
                 </ScrollPane>
                 <HBox alignment="BASELINE_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="RIGHT_TO_LEFT" snapToPixel="false" GridPane.columnIndex="3" GridPane.columnSpan="2147483647" GridPane.halignment="LEFT">
                     <children>
