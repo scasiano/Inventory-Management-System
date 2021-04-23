@@ -161,6 +161,7 @@ public class OrdersController {
                 if(Global.privilege) modOrder.setVisible(true);
                 setOrderProds();
                 orderTotal.setText(Double.toString(orderTotal()));
+                invoiceBox.setVisible(true);
                 try{
                     if(ActiveInvoice.selectArrActiveByOrderID(otemp.getOrderID()).size()>0){
                         ammountPaid.setText(Double.toString(ActiveInvoice.selectActiveByOrderID(otemp.getOrderID()).getTotalRecieved()));
@@ -168,7 +169,7 @@ public class OrdersController {
                     else if(InvoiceHistory.selectArrHistoryByOrderID(otemp.getOrderID()).size()>0){
                         ammountPaid.setText(Double.toString(InvoiceHistory.selectHistoryByOrderID(otemp.getOrderID()).getTotalCharge()));
                         ammountPaid.setEditable(false);
-                    }
+                    }   
                 }catch(Exception e){
                     Global.exceptionAlert(e,"Getting Invoice Info");
                 }
@@ -386,6 +387,7 @@ public class OrdersController {
         if(deleteAlert.showAndWait().get() == ButtonType.OK){
             try{
                     if (InvoiceHistory.selectArrHistoryByOrderID(otemp.getOrderID()).size() == 0) {
+                        ActiveInvoice.deleteRecord(otemp.getOrderID());
                         Orders.deleteRecord(otemp.getOrderID());
                         orderIDT.getItems().remove(orderIDT.getSelectionModel().getSelectedItem());
                         otemp = null;
@@ -402,7 +404,7 @@ public class OrdersController {
     }
     public void deleteActiveInvoice(){
         try{
-            ActiveInvoice.deleteRecord(otemp.getOrderID());
+
             iIntmp = new InvoiceHistory(Long.parseLong(orderID.getText()),java.sql.Date.valueOf(datePlaced.getText()), Double.parseDouble(orderTotal.getText()));
             InvoiceHistory.addRecord(iIntmp);
             ammountPaid.setEditable(false);
