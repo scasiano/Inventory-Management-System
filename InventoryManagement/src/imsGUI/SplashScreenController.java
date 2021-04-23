@@ -21,23 +21,18 @@ public class SplashScreenController {
         fadeIn.setFromValue(0);
         fadeIn.setToValue(1);
         fadeIn.setCycleCount(1);
-        FadeTransition fadeOut = new FadeTransition(Duration.seconds(0), splashVBox);
+        FadeTransition fadeOut = new FadeTransition(Duration.seconds(2), splashVBox);
         fadeOut.setFromValue(1);
-        fadeOut.setToValue(0);
+        fadeOut.setToValue(1);
         fadeOut.setCycleCount(1);
         fadeIn.play();
         fadeIn.setOnFinished((e) -> {
             fadeOut.play();
+            ImsGui.startProcessing();
         });
         fadeOut.setOnFinished((e) -> {
-            try {
-                TimeUnit.SECONDS.sleep(2);
-            } catch (InterruptedException interruptedException) {
-                interruptedException.printStackTrace();
-            }
             splashStage.close();
             ImsGui.showLogin(primaryStage);
         });
-        ImsGui.startProcessing();
     }
 }

@@ -1,10 +1,13 @@
 package imsGUI;
 
+import com.mysql.jdbc.exceptions.jdbc4.CommunicationsException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -84,6 +87,12 @@ public class ImsGui extends Application {
         try {
             ims.SqlController.initializeSql(dbUserName, dbPassword, dbIpAddress, dbPort, dbName);
             global.loadFxmlFiles();
+        }
+        catch (CommunicationsException ce){
+            System.exit(404);
+        }
+        catch (IllegalStateException ie){
+            System.exit(404);
         }
         catch(Exception e) {
             Global.exceptionAlert(e, "launch");
