@@ -13,6 +13,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -74,8 +75,8 @@ public class OrdersController {
     TextField ammountPaid;
 
     ArrayList<Orders> allOrders;
-    ArrayList<OrderItems> allItems;
-    ArrayList<OrderItems> allAddItems =new ArrayList<>();
+    ArrayList<OrderItems> allItems = new ArrayList<>();
+    ArrayList<OrderItems> allAddItems = new ArrayList<>();
     ArrayList<Products> allProd;
     ArrayList<Employees> allEmps;
     Orders otemp;
@@ -230,7 +231,7 @@ public class OrdersController {
                 }
                 if(shippingStatus.getValue()!=null)
                     tTmp.setShippingStatus(shippingStatus.getValue());
-                if(shippingStatus.getValue()!=null || !shippingStatus.getValue().equals("Not Shipped")){
+                if(!tTmp.getShippingStatus().equals("Not Shipped")){
                     if(!trackingID.getText().isEmpty()) {
                         tTmp.setTrackingID(trackingID.getText());
                         trackBool=true;
@@ -285,7 +286,7 @@ public class OrdersController {
                     ActiveInvoice.addRecord(aIntmp);
                 }
                 else {
-                    iIntmp = new InvoiceHistory(Long.parseLong(orderID.getText()), java.sql.Date.valueOf(datePlaced.getText()), Double.parseDouble(orderTotal.getText()));
+                    iIntmp = new InvoiceHistory(Long.parseLong(orderID.getText()), Date.valueOf(datePlaced.getText()), Double.parseDouble(orderTotal.getText()));
                     InvoiceHistory.addRecord(iIntmp);
                 }
             }
@@ -303,7 +304,7 @@ public class OrdersController {
         String selectedItem = productsList.getSelectionModel().getSelectedItem();
         String[] s = selectedItem.split(" \\| ");
         if (orderID.getText().length() > 0) {
-            OrderItems orderItems = new OrderItems(Long.parseLong(orderID.getText()), Long.parseLong(s[0]));
+            OrderItems orderItems = new OrderItems(Long.parseLong(orderID.getText()), Long.parseLong(s[0]),s[1]);
             products.setCellValueFactory(new PropertyValueFactory<>("productID"));
             prodName.setCellValueFactory(new PropertyValueFactory<>("productName"));
             allItems.add(orderItems);
@@ -369,7 +370,6 @@ public class OrdersController {
         deleteAlert.setContentText("Are you sure you want to delete this User?");
         if(deleteAlert.showAndWait().get() == ButtonType.OK){
             try{
-                System.out.println(InvoiceHistory.selectArrHistoryByOrderID(otemp.getOrderID()).size());
                 if(InvoiceHistory.selectArrHistoryByOrderID(otemp.getOrderID()).size()==0) {
                     Orders.deleteRecord(otemp.getOrderID());
                     orderIDT.getItems().remove(orderIDT.getSelectionModel().getSelectedItem());
