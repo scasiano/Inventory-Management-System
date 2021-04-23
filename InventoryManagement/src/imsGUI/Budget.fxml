@@ -56,18 +56,21 @@
                        <RowConstraints fillHeight="true" percentHeight="5" />
                    </rowConstraints>
                    <children>
-                       <TableView fx:id="budgetTable" layoutX="13.0" layoutY="57.0" prefHeight="616.0" prefWidth="658.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                       <TableView fx:id="budgetTable" layoutX="13.0" layoutY="57.0" prefHeight="610.0" prefWidth="648.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                            <columns>
                                <TableColumn fx:id="periodTable" prefWidth="42.0" text="ID" />
                                <TableColumn fx:id="startTable" prefWidth="110.41561889648438" text="Start Date" />
                                <TableColumn fx:id="endTable" prefWidth="114.08433532714844" text="End Date" />
                                <TableColumn fx:id="incomeTable" prefWidth="95.71092224121094" text="Incoming" />
                                <TableColumn fx:id="outTable" prefWidth="101.04483032226562" text="Outgoing" />
-                               <TableColumn fx:id="netTable" prefWidth="80.586181640625" text="Net" />
-                               <TableColumn fx:id="empTable" prefWidth="111.5018310546875" text="Emp No." />
+                               <TableColumn fx:id="netTable" prefWidth="90.509521484375" text="Net" />
+                               <TableColumn fx:id="empTable" prefWidth="96.50006103515625" text="Emp No." />
                            </columns>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
                        </TableView>
-                       <VBox fillWidth="true" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                       <VBox fillWidth="true" prefHeight="627.0" prefWidth="211.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
                             <Label fx:id="periodLabel" text="BudgetPeriod">
                         <VBox.margin>
                            <Insets />
