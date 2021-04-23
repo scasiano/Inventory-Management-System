@@ -225,7 +225,7 @@ public class OrdersController {
                 if(empIDC.getValue()!=null){
                         empBool=true;
                         String s = empIDC.getSelectionModel().getSelectedItem();
-                        String[] p = s.split(" | ");
+                        String[] p = s.split(" \\| ");
                         oTmp.setEmployeeNo(Long.parseLong(p[0]));
                 }
                 if(shippingStatus.getValue()!=null)
@@ -327,6 +327,7 @@ public class OrdersController {
     }
     public void modifyOrderClicked(){
         try{
+
             String[] name=customerName.getText().split(" ");
             Orders.modifyCustomerFn(otemp.getOrderID(),name[0]);
             Orders.modifyCustomerLn(otemp.getOrderID(),name[1]);
@@ -336,9 +337,10 @@ public class OrdersController {
                 String[] p = s.split(" \\| ");
                 Orders.modifyEmployeeNo(otemp.getOrderID(),Long.parseLong(p[0]));
             }
-            if(shippingStatus.getValue()!=null) Tracking.modifyShippingStatus(otemp.getOrderID(),shippingStatus.getValue());
+            if(shippingStatus.getValue()!=null)
+                Tracking.modifyShippingStatus(otemp.getOrderID(),shippingStatus.getValue());
             if(!ammountPaid.getText().isEmpty()){
-                if(ActiveInvoice.selectArrActiveByOrderID(otemp.getOrderID()).size()>0) {
+                if(InvoiceHistory.selectArrHistoryByOrderID(otemp.getOrderID()).size()==0){
                     if (Double.parseDouble(ammountPaid.getText()) < Double.parseDouble(orderTotal.getText())) {
                         aIntmp = ActiveInvoice.selectActiveByOrderID(otemp.getOrderID());
                         ActiveInvoice.modifyOutstandingBalance(otemp.getOrderID(), Double.valueOf(ammountPaid.getText()));
@@ -367,7 +369,8 @@ public class OrdersController {
         deleteAlert.setContentText("Are you sure you want to delete this User?");
         if(deleteAlert.showAndWait().get() == ButtonType.OK){
             try{
-                if(ActiveInvoice.selectArrActiveByOrderID(otemp.getOrderID()).size()>0) {
+                System.out.println(InvoiceHistory.selectArrHistoryByOrderID(otemp.getOrderID()).size());
+                if(InvoiceHistory.selectArrHistoryByOrderID(otemp.getOrderID()).size()==0) {
                     Orders.deleteRecord(otemp.getOrderID());
                     orderIDT.getItems().remove(orderIDT.getSelectionModel().getSelectedItem());
                     otemp = null;
