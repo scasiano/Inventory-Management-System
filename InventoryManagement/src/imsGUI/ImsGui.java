@@ -1,6 +1,8 @@
 package imsGUI;
 
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.BufferedReader;
@@ -62,6 +64,23 @@ public class ImsGui extends Application {
             dbPort = "3306";
             dbName = "inventory_management";
         }
+        VBox splashVBox = null;
+        try{
+            splashVBox = FXMLLoader.load(getClass().getResource("SplashScreen.fxml"));
+        }
+        catch (IOException e) {
+            Global.exceptionAlert(e, "Splash");
+        }
+        SplashScreenController.loadSplashScreen(primaryStage, splashVBox);
+    }
+
+    public static void showLogin(Stage primaryStage){
+        primaryStage.setTitle("Inventory Management Database");
+        primaryStage.setScene(global.getLoginScene());
+        primaryStage.show();
+    }
+
+    public static void startProcessing(){
         try {
             ims.SqlController.initializeSql(dbUserName, dbPassword, dbIpAddress, dbPort, dbName);
             global.loadFxmlFiles();
@@ -70,9 +89,6 @@ public class ImsGui extends Application {
             Global.exceptionAlert(e, "launch");
             System.exit(4167);
         }
-        primaryStage.setTitle("Inventory Management Database");
-        primaryStage.setScene(global.getLoginScene());
-        primaryStage.show();
     }
 
     public static void main(String[] args) {
