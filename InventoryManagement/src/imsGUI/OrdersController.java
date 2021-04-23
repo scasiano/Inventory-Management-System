@@ -379,21 +379,22 @@ public class OrdersController {
     }
     public void deleteOrderClicked() {
         Alert deleteAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        oPrice=orderTotal();
         deleteAlert.setTitle("Delete");
         deleteAlert.setHeaderText("Delete Order");
         deleteAlert.setContentText("Are you sure you want to delete this User?");
         if(deleteAlert.showAndWait().get() == ButtonType.OK){
             try{
-                if(InvoiceHistory.selectArrHistoryByOrderID(otemp.getOrderID()).size()==0) {
-                    Orders.deleteRecord(otemp.getOrderID());
-                    orderIDT.getItems().remove(orderIDT.getSelectionModel().getSelectedItem());
-                    otemp = null;
+                    if (InvoiceHistory.selectArrHistoryByOrderID(otemp.getOrderID()).size() == 0) {
+                        Orders.deleteRecord(otemp.getOrderID());
+                        orderIDT.getItems().remove(orderIDT.getSelectionModel().getSelectedItem());
+                        otemp = null;
+                        clearOrderInfo();
+                        lockCombobox();
+                    }
+                    else
+                        Global.warningAlert("Cannot Delete", "You cannot delete an order that is complete because the invoice is no longer active.");
                     clearOrderInfo();
-                    lockCombobox();
-                }
-                else
-                    Global.warningAlert("Cannot Delete","You cannot delete an order that is complete because the invoice is no longer active.");
-                clearOrderInfo();
             }catch(Exception e){
                 Global.exceptionAlert(e,"Delete Order");
             }
