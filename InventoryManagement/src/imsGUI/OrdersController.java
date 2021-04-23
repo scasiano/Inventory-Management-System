@@ -263,8 +263,9 @@ public class OrdersController {
                 Global.warningAlert("Missing Products", "You do not have any products for this order");
                 return;
             }
-            if(!empBool)
-            {Orders.addRecord(oTmp);System.out.println("Added");}
+            if(!empBool){
+                Orders.addRecord(oTmp);
+            }
             else
                 Orders.addRecordEmp(oTmp);
             //adding Tacking Info
@@ -277,19 +278,23 @@ public class OrdersController {
             else
                 Tracking.addRecord(tTmp);
             orderIDT.getItems().add(oTmp);
+            addOrderItemToDB();
             setOrderList();
             oPrice=orderTotal();
             orderTotal.setText(oPrice.toString());
             if(!ammountPaid.getText().isEmpty()){
                 if(Double.parseDouble(ammountPaid.getText())<oPrice) {
-                    aIntmp = new ActiveInvoice(Long.parseLong(orderID.getText()), java.sql.Date.valueOf(datePlaced.getText()), Double.parseDouble(orderTotal.getText()), Double.parseDouble(ammountPaid.getText()), Double.parseDouble(orderTotal.getText()) - Double.parseDouble(ammountPaid.getText()));
+                    aIntmp = new ActiveInvoice(Long.parseLong(orderID.getText()), oTmp.getDatePlaced(), Double.parseDouble(orderTotal.getText()), Double.parseDouble(ammountPaid.getText()), Double.parseDouble(orderTotal.getText()) - Double.parseDouble(ammountPaid.getText()));
                     ActiveInvoice.addRecord(aIntmp);
                 }
                 else {
-                    iIntmp = new InvoiceHistory(Long.parseLong(orderID.getText()), Date.valueOf(datePlaced.getText()), Double.parseDouble(orderTotal.getText()));
+                    System.out.println(Long.parseLong(orderID.getText())+", "+oTmp.getDatePlaced()+", "+Double.parseDouble(orderTotal.getText()));
+                    iIntmp = new InvoiceHistory(Long.parseLong(orderID.getText()), oTmp.getDatePlaced(), Double.parseDouble(orderTotal.getText()));
                     InvoiceHistory.addRecord(iIntmp);
                 }
             }
+            else
+                Orders.deleteRecord(Long.parseLong(orderID.getText()));
             clearOrderInfo();
             lockCombobox();
         }
@@ -315,6 +320,15 @@ public class OrdersController {
         }
         else
             Global.warningAlert("No Order ID","Please Create an Order ID before adding a product");
+    }
+    public void addOrderItemToDB() {
+        for (OrderItems items:allItems) {
+            try{
+                OrderItems.addRecord(items);
+            }catch(Exception e){
+                Global.warningAlert("Order Items","Order Items are not adding to the DB");
+            }
+        }
     }
     public double orderTotal(){
         double orderSum = 0;
