@@ -76,16 +76,19 @@ public class BudgetController {
     @FXML
     TableColumn<IncomingGoods, Long> incomingID;
     @FXML
+    TableColumn<IncomingGoods,Date> dateOut;
+    @FXML
     TableColumn<IncomingGoods,Double> ammountSpent;
     @FXML
     TableView<InvoiceHistory> incomeTable;
     @FXML
     TableColumn<InvoiceHistory,Long> orderID;
     @FXML
+    TableColumn<InvoiceHistory,Date> dateIn;
+    @FXML
     TableColumn<InvoiceHistory,Long> incomeAmmount;
 
     ArrayList<Budget> allBudget = new ArrayList<Budget>();
-    ArrayList<IncomingGoods> incomeInfoList = new ArrayList<>();
     ArrayList<Employees> allEmployees = new ArrayList<>();
     Budget budgetTMP;
     int bIndex = 1;
@@ -120,9 +123,11 @@ public class BudgetController {
     public void setInvoiceTabTable(){
         try{
             incomingID.setCellValueFactory(new PropertyValueFactory<>("incomingID"));
+            dateOut.setCellValueFactory(new PropertyValueFactory<>("dateIn"));
             ammountSpent.setCellValueFactory(new PropertyValueFactory<>("productPrice"));
             spentTable.setItems(FXCollections.observableArrayList(IncomingGoods.selectAll()));
             orderID.setCellValueFactory(new PropertyValueFactory<>("orderID"));
+            dateIn.setCellValueFactory(new PropertyValueFactory<>("dateProcessed"));
             incomeAmmount.setCellValueFactory(new PropertyValueFactory<>("totalCharge"));
             incomeTable.setItems(FXCollections.observableArrayList(InvoiceHistory.selectAll()));
         }catch (Exception e) {
@@ -178,7 +183,6 @@ public class BudgetController {
             Global.exceptionAlert(p, "Save employee");
         }
     }
-
     public void budgetDetails() {
         try {
             budgetTable.setOnMouseClicked(mouseEvent -> {
@@ -199,7 +203,6 @@ public class BudgetController {
             Global.exceptionAlert(e, "Show budget details");
         }
     }
-
     public void endBudgetEdit() {
         startDate.setEditable(false);
         endDate.setEditable(false);
@@ -221,7 +224,7 @@ public class BudgetController {
             if (startDate.getValue() != null && !(java.sql.Date.valueOf(startDate.getValue()).equals(budgetTMP.getDateStart()))) Budget.modifyDateStart(budgetTMP.getPeriodID(), java.sql.Date.valueOf(startDate.getValue()));
             if (endDate.getValue() != null && !(java.sql.Date.valueOf(endDate.getValue()).equals(budgetTMP.getDateEnd()))) Budget.modifyDateEnd(budgetTMP.getPeriodID(), java.sql.Date.valueOf(endDate.getValue()));
             if (outgoing.getText() != null && Double.parseDouble(outgoing.getText()) == budgetTMP.getOutgoing()) Budget.modifyOutgoing(budgetTMP.getPeriodID(), Double.parseDouble(outgoing.getText()));
-            if (incoming.getText() != null && Double.parseDouble(incoming.getText()) == budgetTMP.getIncome()) Budget.modifyIncome(budgetTMP.getPeriodID(), Double.parseDouble(incoming.getText()));
+           if (incoming.getText() != null && Double.parseDouble(incoming.getText()) == budgetTMP.getIncome()) Budget.modifyIncome(budgetTMP.getPeriodID(), Double.parseDouble(incoming.getText()));
             String empSelected = userInfo.getSelectionModel().getSelectedItem();
             if (empSelected != null){
                 String[] hold = empSelected.split(" | ");

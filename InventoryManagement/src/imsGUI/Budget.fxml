@@ -80,9 +80,9 @@
                      <Label fx:id="empLabel" text="Employee ID" />
                      <ComboBox fx:id="userInfo" prefWidth="150.0" />
                            <Label fx:id="inLabel" text="Total Incoming" />
-                            <TextField fx:id="incoming" prefHeight="26.0" prefWidth="112.0" />
+                            <TextField fx:id="incoming" editable="false" prefHeight="26.0" prefWidth="112.0" />
                            <Label fx:id="outLabel" text="Total Outgoing" />
-                            <TextField fx:id="outgoing" prefHeight="26.0" prefWidth="112.0" />
+                            <TextField fx:id="outgoing" editable="false" prefHeight="26.0" prefWidth="112.0" />
                            <HBox prefHeight="36.0" prefWidth="73.0">
                             <Button fx:id="addBtn" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#saveBudget" text="ADD">
                            <HBox.margin>
@@ -144,6 +144,7 @@
                            <TableView fx:id="spentTable" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                <columns>
                                    <TableColumn fx:id="incomingID" prefWidth="75.0" text="Incoming ID" />
+                                   <TableColumn fx:id="dateOut" text="Date"/>
                                    <TableColumn fx:id="ammountSpent" prefWidth="75.0" text="Spent Ammount" />
                                </columns>
                                <columnResizePolicy>
@@ -156,6 +157,7 @@
                            <TableView fx:id="incomeTable" layoutX="-90.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
                                <columns>
                                    <TableColumn fx:id="orderID" prefWidth="75.0" text="Incoice" />
+                                   <TableColumn fx:id="dateIn" text="Date"/>
                                    <TableColumn fx:id="incomeAmmount" prefWidth="75.0" text="Ammount Gained" />
                                </columns>
                                <columnResizePolicy>
