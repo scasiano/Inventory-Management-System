@@ -19,10 +19,10 @@
 
 <AnchorPane prefHeight="718.0" prefWidth="962.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="imsGUI.BudgetController">
    <children>
-       <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+       <TabPane prefHeight="200.0" prefWidth="300.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
            <tabs>
                <Tab text="Budgets">
-                    <GridPane alignment="CENTER" layoutX="-8.0" layoutY="-2.0" prefHeight="720.0" prefWidth="1005.0" style="-fx-background-color: grey;" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="-8.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="-2.0">
+                    <GridPane alignment="CENTER" style="-fx-background-color: grey;">
                         <columnConstraints>
                             <ColumnConstraints fx:id="column0" minWidth="5.0" />
                             <ColumnConstraints fx:id="column1" maxWidth="776.6875610351562" minWidth="499.87591552734375" percentWidth="90.0" prefWidth="719.8753662109375" />
@@ -48,7 +48,7 @@
                                     </Button>
                                 </children>
                             </HBox>
-                            <GridPane prefHeight="709.0" prefWidth="1520.0" style="-fx-background-color: ALICEBLUE ALICEBLUE;" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="1">
+                            <GridPane style="-fx-background-color: ALICEBLUE ALICEBLUE;" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="1">
                                 <columnConstraints>
                                     <ColumnConstraints fillWidth="true" minWidth="5" />
                                     <ColumnConstraints fillWidth="true" percentWidth="65" />
@@ -61,7 +61,7 @@
                                     <RowConstraints fillHeight="true" percentHeight="5" />
                                 </rowConstraints>
                                 <children>
-                                    <TableView fx:id="budgetTable" layoutX="13.0" layoutY="57.0" prefHeight="610.0" prefWidth="648.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+                                    <TableView fx:id="budgetTable" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                                         <columns>
                                             <TableColumn fx:id="periodColumn" prefWidth="42.0" text="ID" />
                                             <TableColumn fx:id="startColumn" prefWidth="110.41561889648438" text="Start Date" />
@@ -75,18 +75,18 @@
                                             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                         </columnResizePolicy>
                                     </TableView>
-                                    <VBox fillWidth="true" prefHeight="627.0" prefWidth="211.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                                    <VBox fillWidth="true" GridPane.columnIndex="3" GridPane.rowIndex="1">
                                         <Label fx:id="periodLabel" text="BudgetPeriod">
                                             <VBox.margin>
                                                 <Insets />
                                             </VBox.margin>
                                         </Label>
-                                        <DatePicker fx:id="startDate" layoutX="440.0" layoutY="49.0" prefHeight="26.0" prefWidth="157.0" promptText="Start Date">
+                                        <DatePicker fx:id="startDate" promptText="Start Date">
                            <VBox.margin>
                                <Insets bottom="5.0" top="5.0" />
                            </VBox.margin>
                            </DatePicker>
-                           <DatePicker fx:id="endDate" layoutX="440.0" layoutY="83.0" prefHeight="26.0" prefWidth="157.0" promptText="End Date">
+                           <DatePicker fx:id="endDate" promptText="End Date">
                                <VBox.margin>
                                    <Insets bottom="5.0" top="5.0" />
                                </VBox.margin>
@@ -125,11 +125,11 @@
                     </GridPane>
                </Tab>
                <Tab text="Money Flow/Invoices">
-                   <GridPane alignment="CENTER" layoutX="-8.0" layoutY="-2.0" prefHeight="720.0" prefWidth="1005.0" style="-fx-background-color: grey;" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="-8.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="-2.0">
+                   <GridPane alignment="CENTER" style="-fx-background-color: grey;" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="-8.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="-2.0">
                    <columnConstraints>
                        <ColumnConstraints minWidth="5.0" />
-                       <ColumnConstraints percentWidth="50.0" prefWidth="719.8753662109375" />
-                       <ColumnConstraints percentWidth="50.0" prefWidth="719.8753662109375" />
+                       <ColumnConstraints fillWidth="true" percentWidth="50.0" prefWidth="719.8753662109375" />
+                       <ColumnConstraints fillWidth="true" percentWidth="50.0" prefWidth="719.8753662109375" />
                        <ColumnConstraints minWidth="50.0" />
                    </columnConstraints>
                    <rowConstraints>
@@ -137,7 +137,20 @@
                        <RowConstraints fillHeight="true" percentHeight="95" />
                    </rowConstraints>
                   <children>
-
+                      <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT" prefHeight="36.0" prefWidth="508.0" snapToPixel="false" GridPane.columnIndex="2" GridPane.columnSpan="2147483647" GridPane.halignment="LEFT">
+                          <children>
+                              <Button fx:id="homeButton" alignment="TOP_RIGHT" centerShape="false" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#openHomePage" prefHeight="15.0" prefWidth="85.0" text="Home Page" textOverrun="CLIP" wrapText="true">
+                                  <HBox.margin>
+                                      <Insets right="30.0" />
+                                  </HBox.margin>
+                              </Button>
+                              <Button fx:id="loginButton" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#openLogin" prefHeight="0.0" prefWidth="63.0" text="Logout" wrapText="true" HBox.hgrow="NEVER">
+                                  <HBox.margin>
+                                      <Insets bottom="5.0" left="5.0" right="30.0" top="5.0" />
+                                  </HBox.margin>
+                              </Button>
+                          </children>
+                      </HBox>
                    <GridPane prefHeight="709.0" prefWidth="1520.0" style="-fx-background-color: ALICEBLUE ALICEBLUE;" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="1">
                        <columnConstraints>
                            <ColumnConstraints fillWidth="true" minWidth="50" />

@@ -16,15 +16,12 @@ import javafx.stage.Stage;
 
 import java.sql.Date;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class BudgetController {
 
     @FXML
     Label periodLabel;
-    @FXML
-    Label netLabel;
     @FXML
     Label outLabel;
     @FXML
@@ -36,13 +33,9 @@ public class BudgetController {
     @FXML
     DatePicker endDate;
     @FXML
-    TextField netProfit;
-    @FXML
     TextField outgoing;
     @FXML
     TextField incoming;
-    @FXML
-    TextField budgetID;
     @FXML
     ComboBox<String> userInfo;
     @FXML
@@ -58,19 +51,19 @@ public class BudgetController {
     @FXML
     TableView<Budget> budgetTable;
     @FXML
-    TableColumn periodColumn;
+    TableColumn<Budget, Long> periodColumn;
     @FXML
-    TableColumn startColumn;
+    TableColumn<Budget, Date> startColumn;
     @FXML
-    TableColumn endColumn;
+    TableColumn<Budget, Date> endColumn;
     @FXML
-    TableColumn incomeColumn;
+    TableColumn<Budget, Double> incomeColumn;
     @FXML
-    TableColumn outColumn;
+    TableColumn<Budget, Double> outColumn;
     @FXML
-    TableColumn netColumn;
+    TableColumn<Budget, Double> netColumn;
     @FXML
-    TableColumn empColumn;
+    TableColumn<Budget, Long> empColumn;
 
     @FXML
     TableView<IncomingGoods> spentTable;
@@ -89,31 +82,31 @@ public class BudgetController {
     @FXML
     TableColumn<InvoiceHistory,Long> incomeAmmount;
 
-    ArrayList<Budget> allBudget = new ArrayList<Budget>();
+    ArrayList<Budget> allBudget = new ArrayList<>();
     ArrayList<Employees> allEmployees = new ArrayList<>();
     Budget budgetTMP;
     int bIndex = 1;
 
-    Date startHold = new Date(2021 - 01 - 01);
-    Date endHold = new Date(2021 - 01 - 02);
+    Date startHold = new Date(1900 - 01 - 01);
+    Date endHold = new Date(1900 - 01 - 02);
 
     public void initialize() {
         setBudgetList();
         setEmpCombo();
         budgetDetails();
         setInvoiceTabTable();
-        clear();
+        clearBoxes();
     }
 
     public void setBudgetList() {
         try {
-            periodColumn.setCellValueFactory(new PropertyValueFactory<Budget, Long>("periodID"));
-            startColumn.setCellValueFactory(new PropertyValueFactory<Budget, Date>("dateStart"));//the things in the parenthese at the end is the constructor argument name
-            endColumn.setCellValueFactory(new PropertyValueFactory<Budget, Date>("dateEnd"));
-            incomeColumn.setCellValueFactory(new PropertyValueFactory<Budget, Double>("income"));
-            outColumn.setCellValueFactory(new PropertyValueFactory<Budget, Double>("outgoing"));
-            netColumn.setCellValueFactory(new PropertyValueFactory<Budget, Double>("net"));
-            empColumn.setCellValueFactory(new PropertyValueFactory<Budget, Long>("employeeNo"));
+            periodColumn.setCellValueFactory(new PropertyValueFactory<>("periodID"));
+            startColumn.setCellValueFactory(new PropertyValueFactory<>("dateStart"));//the things in the parenthese at the end is the constructor argument name
+            endColumn.setCellValueFactory(new PropertyValueFactory<>("dateEnd"));
+            incomeColumn.setCellValueFactory(new PropertyValueFactory<>("income"));
+            outColumn.setCellValueFactory(new PropertyValueFactory<>("outgoing"));
+            netColumn.setCellValueFactory(new PropertyValueFactory<>("net"));
+            empColumn.setCellValueFactory(new PropertyValueFactory<>("employeeNo"));
             allBudget = Budget.selectAll();
             ObservableList<Budget> budgets = FXCollections.observableArrayList(allBudget);
             budgetTable.setItems(budgets);
@@ -151,17 +144,18 @@ public class BudgetController {
         try {
             budgetTable.setOnMouseClicked(mouseEvent -> {
                 budgetTMP = budgetTable.getSelectionModel().getSelectedItem();
-                bIndex = budgetTable.getSelectionModel().getSelectedIndex();
-                startDate.setValue(allBudget.get(bIndex).getDateStart().toLocalDate());
-                endDate.setValue(allBudget.get(bIndex).getDateEnd().toLocalDate());
+                startDate.setValue(budgetTMP.getDateStart().toLocalDate());
+                endDate.setValue(budgetTMP.getDateEnd().toLocalDate());
                 try{
                     userInfo.setValue(allBudget.get(bIndex).getEmployeeNo() + " | " + Employees.selectEmployeeByEmpID(budgetTMP.getEmployeeNo()).getEmployeeFn()+
                             " "+Employees.selectEmployeeByEmpID(budgetTMP.getEmployeeNo()).getEmployeeLn());
                 } catch (SQLException throwables) {
                     Global.exceptionAlert(throwables, "Employees for Budget Combobox");
                 }
-                incoming.setText(String.valueOf(allBudget.get(bIndex).getIncome()));
-                outgoing.setText(String.valueOf(allBudget.get(bIndex).getOutgoing()));
+                if(startDate.getValue() != null && endDate.getValue() != null) {
+                    outgoing.setText(getSubtractedIncomeInPeriod().toString());
+                    incoming.setText(getAddedIncomeInPeriod().toString());
+                }
             });
             startDate.setOnAction(event ->{
                 if(endDate.getValue()!=null){
@@ -179,7 +173,7 @@ public class BudgetController {
             Global.exceptionAlert(e, "Show budget details");
         }
     }
-    public void saveBudget(ActionEvent event) {
+    public void saveBudget() {
         boolean hasEmployee = false;
         boolean hasPeriodID = false;
         Budget tmp = new Budget(startHold, endHold, 0, 0, 0);
@@ -197,17 +191,20 @@ public class BudgetController {
                 endDate.setValue(null);
                 return;
             }
-            outgoing.setText(getSubtractedIncomeInPeriod().toString());
-            incoming.setText(getAddedIncomeInPeriod().toString());
-            tmp.setOutgoing(Double.parseDouble(outgoing.getText()));
-            tmp.setIncome(Double.parseDouble(incoming.getText()));
+            if(startDate.getValue() != null && endDate.getValue() != null){
+                outgoing.setText(getSubtractedIncomeInPeriod().toString());
+                incoming.setText(getAddedIncomeInPeriod().toString());
+                tmp.setOutgoing(Double.parseDouble(outgoing.getText()));
+                tmp.setIncome(Double.parseDouble(incoming.getText()));
+            }
             if (userInfo.getValue() != null) {
                 String empSelected = userInfo.getSelectionModel().getSelectedItem();
-                String[] hold = empSelected.split(" | ");
+                String[] hold = empSelected.split(" \\| ");
                 tmp.setEmployeeNo(Long.parseLong(hold[0]));
                 hasEmployee = true;
             }
-            if (hasEmployee && hasPeriodID) Budget.addRecordEmpID(tmp);
+            if (hasEmployee && hasPeriodID)
+                Budget.addRecordEmpID(tmp);
             else if (hasEmployee) Budget.addRecordEmp(tmp);
             else if (hasPeriodID) Budget.addRecordID(tmp);
             else {
@@ -227,6 +224,7 @@ public class BudgetController {
             for(int i=0;i<orderDate.size();i++){
                 System.out.println("Outgoing $\nStart Date:"+startDate.getValue()+"End Date:"+endDate.getValue());
                 if(startDate.getValue().compareTo(orderDate.get(i).getDateIn().toLocalDate())<0){
+                    System.out.println("\tStart Date:"+startDate.getValue());
                     if(endDate.getValue().compareTo(orderDate.get(i).getDateIn().toLocalDate())>0) {
                         outGoing += orderDate.get(i).getProductPrice();
                         System.out.println("\tOutgoing= "+outGoing);
@@ -242,13 +240,13 @@ public class BudgetController {
         Double ingoing=0.0;
         try{
             ArrayList<InvoiceHistory> orderDate =InvoiceHistory.selectAll();
-            for(int i=0;i<orderDate.size();i++){
-                System.out.println(" Incoming $\nStart Date:"+startDate.getValue()+ "\nother date: "+orderDate.get(i).getDateProcessed().toLocalDate()+"first comparison:"+startDate.getValue().compareTo(orderDate.get(i).getDateProcessed().toLocalDate()));
-                if(startDate.getValue().compareTo(orderDate.get(i).getDateProcessed().toLocalDate())<0 || startDate.getValue().compareTo(orderDate.get(i).getDateProcessed().toLocalDate())==0){
-                    System.out.println("\tIncoming="+ingoing);
-                    if(endDate.getValue().compareTo(orderDate.get(i).getDateProcessed().toLocalDate())>0 || endDate.getValue().compareTo(orderDate.get(i).getDateProcessed().toLocalDate())==0){
-                        ingoing+=orderDate.get(i).getTotalCharge();
-                        System.out.println("\tIncoming="+ingoing);
+            for (InvoiceHistory invoiceHistory : orderDate) {
+                System.out.println(" Incoming $\nStart Date:" + startDate.getValue() + "\nother date: " + invoiceHistory.getDateProcessed().toLocalDate() + "first comparison:" + startDate.getValue().compareTo(invoiceHistory.getDateProcessed().toLocalDate()));
+                if (startDate.getValue().compareTo(invoiceHistory.getDateProcessed().toLocalDate()) < 0 || startDate.getValue().compareTo(invoiceHistory.getDateProcessed().toLocalDate()) == 0) {
+                    System.out.println("\tIncoming=" + ingoing);
+                    if (endDate.getValue().compareTo(invoiceHistory.getDateProcessed().toLocalDate()) > 0 || endDate.getValue().compareTo(invoiceHistory.getDateProcessed().toLocalDate()) == 0) {
+                        ingoing += invoiceHistory.getTotalCharge();
+                        System.out.println("\tIncoming=" + ingoing);
                     }
                 }
             }
@@ -259,14 +257,15 @@ public class BudgetController {
     }
     public void modifyDBBudget() {
         try {
-            if (startDate.getValue() != null && !(java.sql.Date.valueOf(startDate.getValue()).equals(budgetTMP.getDateStart()))) Budget.modifyDateStart(budgetTMP.getPeriodID(), java.sql.Date.valueOf(startDate.getValue()));
-            if (endDate.getValue() != null && !(java.sql.Date.valueOf(endDate.getValue()).equals(budgetTMP.getDateEnd()))) Budget.modifyDateEnd(budgetTMP.getPeriodID(), java.sql.Date.valueOf(endDate.getValue()));
+            if (startDate.getValue() != null && !(startDate.getValue().equals(budgetTMP.getDateStart().toLocalDate())))
+                Budget.modifyDateStart(budgetTMP.getPeriodID(), java.sql.Date.valueOf(startDate.getValue()));
+            if (endDate.getValue() != null && !(endDate.getValue().equals(budgetTMP.getDateEnd().toLocalDate()))) Budget.modifyDateEnd(budgetTMP.getPeriodID(), java.sql.Date.valueOf(endDate.getValue()));
             Budget.modifyOutgoing(budgetTMP.getPeriodID(), Double.parseDouble(outgoing.getText()));
             Budget.modifyIncome(budgetTMP.getPeriodID(), Double.parseDouble(incoming.getText()));
 
             if (userInfo.getValue() != null){
                 String empSelected = userInfo.getSelectionModel().getSelectedItem();
-                String[] hold = empSelected.split(" | ");
+                String[] hold = empSelected.split(" \\| ");
                 if (Long.parseLong(hold[0]) != budgetTMP.getEmployeeNo()) Budget.modifyEmployeeNo(budgetTMP.getPeriodID(), Long.parseLong(hold[0]));
             }
             initialize();
@@ -283,12 +282,13 @@ public class BudgetController {
         delete.setContentText("Are you sure you want to delete this Budget?");
         try {
             if (delete.showAndWait().get() == ButtonType.OK) {
-                ims.Budget.deleteRecord(allBudget.get(bIndex).getDateStart());
-                budgetTable.getItems().remove(budgetTable.getSelectionModel().getSelectedItems());
+                ims.Budget.deleteRecord(java.sql.Date.valueOf(budgetTMP.getDateStart().toLocalDate()));
+                budgetTable.getItems().remove(budgetTMP);
                 budgetTMP = null;
-                hideInfo();
-                endBudgetEdit();
                 initialize();
+                hideInfo();
+                clearBoxes();
+                endBudgetEdit();
             }
         } catch (Exception e) {
             Global.exceptionAlert(e, "Delete Budget");
@@ -314,10 +314,11 @@ public class BudgetController {
         outgoing.setEditable(false);
         modifyBtn.setVisible(true);
         addBtn.setVisible(true);
+        clearBoxes();
     }
-    public void clear(){
-        startDate.setValue(null);
-        endDate.setValue(null);
+    public void clearBoxes(){
+        startDate.setValue(startHold.toLocalDate());
+        endDate.setValue(endHold.toLocalDate());
         incoming.clear();
         outgoing.clear();
     }
