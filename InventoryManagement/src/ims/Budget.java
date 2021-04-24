@@ -150,8 +150,8 @@ public class Budget {
     }
 
     //SQL Queries DELETE
-    public static void deleteRecord(Date primaryKey) throws SQLException{
-        SqlController.dbStatement.executeUpdate("delete from budget where date_start = '" + primaryKey + "'");
+    public static void deleteRecord(long primaryKey) throws SQLException{
+        SqlController.dbStatement.executeUpdate("delete from budget where period_id = " + primaryKey);
     }
 
     //SQL Queries ADD
