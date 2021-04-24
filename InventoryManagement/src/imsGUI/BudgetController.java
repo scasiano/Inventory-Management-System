@@ -3,8 +3,6 @@ package imsGUI;
 import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 import ims.Budget;
 import ims.Employees;
-import ims.OutgoingGoods;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,8 +14,6 @@ import javafx.stage.Stage;
 
 import java.sql.Date;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class BudgetController {
@@ -59,19 +55,19 @@ public class BudgetController {
     @FXML
     TableView<Budget> budgetTable;
     @FXML
-    TableColumn periodTable;
+    TableColumn periodColumn;
     @FXML
-    TableColumn startTable;
+    TableColumn startColumn;
     @FXML
-    TableColumn endTable;
+    TableColumn endColumn;
     @FXML
-    TableColumn incomeTable;
+    TableColumn incomeColumn;
     @FXML
-    TableColumn outTable;
+    TableColumn outColumn;
     @FXML
-    TableColumn netTable;
+    TableColumn netColumn;
     @FXML
-    TableColumn empTable;
+    TableColumn empColumn;
 
     ArrayList<Budget> allBudget = new ArrayList<Budget>();
     ArrayList<String> empList = new ArrayList<>();
@@ -91,13 +87,13 @@ public class BudgetController {
 
     public void setBudgetList() {
         try {
-            periodTable.setCellValueFactory(new PropertyValueFactory<Budget, Long>("periodID"));
-            startTable.setCellValueFactory(new PropertyValueFactory<Budget, Date>("dateStart"));//the things in the parenthese at the end is the constructor argument name
-            endTable.setCellValueFactory(new PropertyValueFactory<Budget, Date>("dateEnd"));
-            incomeTable.setCellValueFactory(new PropertyValueFactory<Budget, Double>("income"));
-            outTable.setCellValueFactory(new PropertyValueFactory<Budget, Double>("outgoing"));
-            netTable.setCellValueFactory(new PropertyValueFactory<Budget, Double>("net"));
-            empTable.setCellValueFactory(new PropertyValueFactory<Budget, Long>("employeeNo"));
+            periodColumn.setCellValueFactory(new PropertyValueFactory<Budget, Long>("periodID"));
+            startColumn.setCellValueFactory(new PropertyValueFactory<Budget, Date>("dateStart"));//the things in the parenthese at the end is the constructor argument name
+            endColumn.setCellValueFactory(new PropertyValueFactory<Budget, Date>("dateEnd"));
+            incomeColumn.setCellValueFactory(new PropertyValueFactory<Budget, Double>("income"));
+            outColumn.setCellValueFactory(new PropertyValueFactory<Budget, Double>("outgoing"));
+            netColumn.setCellValueFactory(new PropertyValueFactory<Budget, Double>("net"));
+            empColumn.setCellValueFactory(new PropertyValueFactory<Budget, Long>("employeeNo"));
             allBudget = Budget.selectAll();
             ObservableList<Budget> budgets = FXCollections.observableArrayList(allBudget);
             budgetTable.setItems(budgets);

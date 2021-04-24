@@ -169,7 +169,7 @@ public class OrdersController {
                     else if(InvoiceHistory.selectArrHistoryByOrderID(otemp.getOrderID()).size()>0){
                         ammountPaid.setText(Double.toString(InvoiceHistory.selectHistoryByOrderID(otemp.getOrderID()).getTotalCharge()));
                         ammountPaid.setEditable(false);
-                    }   
+                    }
                 }catch(Exception e){
                     Global.exceptionAlert(e,"Getting Invoice Info");
                 }
