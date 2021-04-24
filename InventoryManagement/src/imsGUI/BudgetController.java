@@ -88,7 +88,7 @@ public class BudgetController {
     int bIndex = 1;
 
     Date startHold = new Date(2021 - 01 - 01);
-    Date endHold = new Date(2021 - 01 - 01);
+    Date endHold = new Date(2021 - 01 - 02);
 
     public void initialize() {
         setBudgetList();
@@ -156,6 +156,7 @@ public class BudgetController {
                     outgoing.setText(getSubtractedIncomeInPeriod().toString());
                     incoming.setText(getAddedIncomeInPeriod().toString());
                 }
+                modifyBudget();
             });
             startDate.setOnAction(event ->{
                 if(endDate.getValue()!=null){
@@ -219,7 +220,7 @@ public class BudgetController {
         }
     }
     public Double getSubtractedIncomeInPeriod(){
-        Double outGoing=0.0;
+        double outGoing=0.0;
         try{
             ArrayList<IncomingGoods> orderDate =IncomingGoods.selectAll();
             for(int i=0;i<orderDate.size();i++){
@@ -302,8 +303,6 @@ public class BudgetController {
     }
 
     public void modifyBudget() {
-        startDate.setEditable(true);
-        endDate.setEditable(true);
         outgoing.setEditable(true);
         incoming.setEditable(true);
         userInfo.setEditable(true);
@@ -314,8 +313,6 @@ public class BudgetController {
         loginBtn.setVisible(true);
     }
     public void endBudgetEdit() {
-        startDate.setEditable(false);
-        endDate.setEditable(false);
         incoming.setEditable(false);
         outgoing.setEditable(false);
         modifyBtn.setVisible(true);
@@ -324,6 +321,7 @@ public class BudgetController {
     }
     public void clearBoxes(){
         startDate.setValue(startHold.toLocalDate());
+        System.out.println(startHold.toLocalDate());
         endDate.setValue(endHold.toLocalDate());
         incoming.clear();
         outgoing.clear();
