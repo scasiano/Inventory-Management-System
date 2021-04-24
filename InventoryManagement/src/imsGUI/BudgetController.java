@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 
 import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class BudgetController {
@@ -134,6 +135,50 @@ public class BudgetController {
             Global.exceptionAlert(e, "set Invoice Tab Tables");
         }
     }
+    public void setEmpCombo(){
+        try{
+            userInfo.getItems().clear();
+            allEmployees = Employees.selectAll();
+            for(Employees allEmp : allEmployees){
+                String hold = allEmp.getEmployeeNo() + " | " + allEmp.getEmployeeFn() + " " + allEmp.getEmployeeLn();
+                userInfo.getItems().add(hold);
+            }
+        } catch (Exception e){
+            Global.exceptionAlert(e, "Setting Budget Employee Combobox");
+        }
+    }
+    public void budgetDetails() {
+        try {
+            budgetTable.setOnMouseClicked(mouseEvent -> {
+                budgetTMP = budgetTable.getSelectionModel().getSelectedItem();
+                bIndex = budgetTable.getSelectionModel().getSelectedIndex();
+                startDate.setValue(allBudget.get(bIndex).getDateStart().toLocalDate());
+                endDate.setValue(allBudget.get(bIndex).getDateEnd().toLocalDate());
+                try{
+                    userInfo.setValue(allBudget.get(bIndex).getEmployeeNo() + " | " + Employees.selectEmployeeByEmpID(budgetTMP.getEmployeeNo()).getEmployeeFn()+
+                            " "+Employees.selectEmployeeByEmpID(budgetTMP.getEmployeeNo()).getEmployeeLn());
+                } catch (SQLException throwables) {
+                    Global.exceptionAlert(throwables, "Employees for Budget Combobox");
+                }
+                incoming.setText(String.valueOf(allBudget.get(bIndex).getIncome()));
+                outgoing.setText(String.valueOf(allBudget.get(bIndex).getOutgoing()));
+            });
+            startDate.setOnAction(event ->{
+                if(endDate.getValue()!=null){
+                    outgoing.setText(getSubtractedIncomeInPeriod().toString());
+                    incoming.setText(getAddedIncomeInPeriod().toString());
+                }
+            });
+            endDate.setOnAction(event ->{
+                if(startDate.getValue()!=null){
+                    outgoing.setText(getSubtractedIncomeInPeriod().toString());
+                    incoming.setText(getAddedIncomeInPeriod().toString());
+                }
+            });
+        } catch (Exception e) {
+            Global.exceptionAlert(e, "Show budget details");
+        }
+    }
     public void saveBudget(ActionEvent event) {
         boolean hasEmployee = false;
         boolean hasPeriodID = false;
@@ -152,18 +197,10 @@ public class BudgetController {
                 endDate.setValue(null);
                 return;
             }
-            if (outgoing.getText().length() > 0) tmp.setOutgoing(Double.parseDouble(outgoing.getText()));
-            else {
-                Global.warningAlert("Incorrect Outgoing Total", "Budget needs an outgoing total.");
-                outgoing.clear();
-                return;
-            }
-            if (incoming.getText().length() > 0) tmp.setIncome(Double.parseDouble(incoming.getText()));
-            else {
-                Global.warningAlert("Incorrect Incoming Total", "Budget needs an incoming total.");
-                incoming.clear();
-                return;
-            }
+            outgoing.setText(getSubtractedIncomeInPeriod().toString());
+            incoming.setText(getAddedIncomeInPeriod().toString());
+            tmp.setOutgoing(Double.parseDouble(outgoing.getText()));
+            tmp.setIncome(Double.parseDouble(incoming.getText()));
             if (userInfo.getValue() != null) {
                 String empSelected = userInfo.getSelectionModel().getSelectedItem();
                 String[] hold = empSelected.split(" | ");
@@ -183,50 +220,52 @@ public class BudgetController {
             Global.exceptionAlert(p, "Save employee");
         }
     }
-    public void budgetDetails() {
-        try {
-            budgetTable.setOnMouseClicked(mouseEvent -> {
-                budgetTMP = budgetTable.getSelectionModel().getSelectedItem();
-                bIndex = budgetTable.getSelectionModel().getSelectedIndex();
-                startDate.setValue(allBudget.get(bIndex).getDateStart().toLocalDate());
-                endDate.setValue(allBudget.get(bIndex).getDateEnd().toLocalDate());
-                try{
-                    userInfo.setValue(allBudget.get(bIndex).getEmployeeNo() + " | " + Employees.selectEmployeeByEmpID(budgetTMP.getEmployeeNo()).getEmployeeFn()+
-                            " "+Employees.selectEmployeeByEmpID(budgetTMP.getEmployeeNo()).getEmployeeLn());
-                } catch (SQLException throwables) {
-                    Global.exceptionAlert(throwables, "Employees for Budget Combobox");
+    public Double getSubtractedIncomeInPeriod(){
+        Double outGoing=0.0;
+        try{
+            ArrayList<IncomingGoods> orderDate =IncomingGoods.selectAll();
+            for(int i=0;i<orderDate.size();i++){
+                System.out.println("Outgoing $\nStart Date:"+startDate.getValue()+"End Date:"+endDate.getValue());
+                if(startDate.getValue().compareTo(orderDate.get(i).getDateIn().toLocalDate())<0){
+                    if(endDate.getValue().compareTo(orderDate.get(i).getDateIn().toLocalDate())>0) {
+                        outGoing += orderDate.get(i).getProductPrice();
+                        System.out.println("\tOutgoing= "+outGoing);
+                    }
                 }
-                incoming.setText(String.valueOf(allBudget.get(bIndex).getIncome()));
-                outgoing.setText(String.valueOf(allBudget.get(bIndex).getOutgoing()));
-            });
-        } catch (Exception e) {
-            Global.exceptionAlert(e, "Show budget details");
+            }
+        }catch(Exception e){
+            Global.exceptionAlert(e, "getting subtractedIncome");
         }
+        return outGoing;
     }
-    public void endBudgetEdit() {
-        startDate.setEditable(false);
-        endDate.setEditable(false);
-        incoming.setEditable(false);
-        outgoing.setEditable(false);
-        modifyBtn.setVisible(true);
-        addBtn.setVisible(true);
+    public Double getAddedIncomeInPeriod(){
+        Double ingoing=0.0;
+        try{
+            ArrayList<InvoiceHistory> orderDate =InvoiceHistory.selectAll();
+            for(int i=0;i<orderDate.size();i++){
+                System.out.println(" Incoming $\nStart Date:"+startDate.getValue()+ "\nother date: "+orderDate.get(i).getDateProcessed().toLocalDate()+"first comparison:"+startDate.getValue().compareTo(orderDate.get(i).getDateProcessed().toLocalDate()));
+                if(startDate.getValue().compareTo(orderDate.get(i).getDateProcessed().toLocalDate())<0 || startDate.getValue().compareTo(orderDate.get(i).getDateProcessed().toLocalDate())==0){
+                    System.out.println("\tIncoming="+ingoing);
+                    if(endDate.getValue().compareTo(orderDate.get(i).getDateProcessed().toLocalDate())>0 || endDate.getValue().compareTo(orderDate.get(i).getDateProcessed().toLocalDate())==0){
+                        ingoing+=orderDate.get(i).getTotalCharge();
+                        System.out.println("\tIncoming="+ingoing);
+                    }
+                }
+            }
+        }catch(Exception e){
+            Global.exceptionAlert(e, "getting subtractedIncome");
+        }
+        return ingoing;
     }
-
-    public void clear(){
-        startDate.setValue(null);
-        endDate.setValue(null);
-        incoming.clear();
-        outgoing.clear();
-    }
-
     public void modifyDBBudget() {
         try {
             if (startDate.getValue() != null && !(java.sql.Date.valueOf(startDate.getValue()).equals(budgetTMP.getDateStart()))) Budget.modifyDateStart(budgetTMP.getPeriodID(), java.sql.Date.valueOf(startDate.getValue()));
             if (endDate.getValue() != null && !(java.sql.Date.valueOf(endDate.getValue()).equals(budgetTMP.getDateEnd()))) Budget.modifyDateEnd(budgetTMP.getPeriodID(), java.sql.Date.valueOf(endDate.getValue()));
-            if (outgoing.getText() != null && Double.parseDouble(outgoing.getText()) == budgetTMP.getOutgoing()) Budget.modifyOutgoing(budgetTMP.getPeriodID(), Double.parseDouble(outgoing.getText()));
-           if (incoming.getText() != null && Double.parseDouble(incoming.getText()) == budgetTMP.getIncome()) Budget.modifyIncome(budgetTMP.getPeriodID(), Double.parseDouble(incoming.getText()));
-            String empSelected = userInfo.getSelectionModel().getSelectedItem();
-            if (empSelected != null){
+            Budget.modifyOutgoing(budgetTMP.getPeriodID(), Double.parseDouble(outgoing.getText()));
+            Budget.modifyIncome(budgetTMP.getPeriodID(), Double.parseDouble(incoming.getText()));
+
+            if (userInfo.getValue() != null){
+                String empSelected = userInfo.getSelectionModel().getSelectedItem();
                 String[] hold = empSelected.split(" | ");
                 if (Long.parseLong(hold[0]) != budgetTMP.getEmployeeNo()) Budget.modifyEmployeeNo(budgetTMP.getPeriodID(), Long.parseLong(hold[0]));
             }
@@ -237,33 +276,6 @@ public class BudgetController {
         }
         endBudgetEdit();
     }
-
-    public void setEmpCombo(){
-        try{
-            userInfo.getItems().clear();
-            allEmployees = Employees.selectAll();
-            for(Employees allEmp : allEmployees){
-                String hold = allEmp.getEmployeeNo() + " | " + allEmp.getEmployeeFn() + " " + allEmp.getEmployeeLn();
-                userInfo.getItems().add(hold);
-            }
-        } catch (Exception e){
-            Global.exceptionAlert(e, "Setting Budget Employee Combobox");
-        }
-    }
-
-    public void modifyBudget() {
-        startDate.setEditable(true);
-        endDate.setEditable(true);
-        outgoing.setEditable(true);
-        incoming.setEditable(true);
-        userInfo.setEditable(true);
-        modifyBtn.setVisible(true);
-        deleteBtn.setVisible(true);
-        addBtn.setVisible(true);
-        homeBtn.setVisible(true);
-        loginBtn.setVisible(true);
-    }
-
     public void deleteDBBudget() {
         Alert delete = new Alert(Alert.AlertType.CONFIRMATION);
         delete.setTitle("Delete");
@@ -283,6 +295,32 @@ public class BudgetController {
         }
     }
 
+    public void modifyBudget() {
+        startDate.setEditable(true);
+        endDate.setEditable(true);
+        outgoing.setEditable(true);
+        incoming.setEditable(true);
+        userInfo.setEditable(true);
+        modifyBtn.setVisible(true);
+        deleteBtn.setVisible(true);
+        addBtn.setVisible(true);
+        homeBtn.setVisible(true);
+        loginBtn.setVisible(true);
+    }
+    public void endBudgetEdit() {
+        startDate.setEditable(false);
+        endDate.setEditable(false);
+        incoming.setEditable(false);
+        outgoing.setEditable(false);
+        modifyBtn.setVisible(true);
+        addBtn.setVisible(true);
+    }
+    public void clear(){
+        startDate.setValue(null);
+        endDate.setValue(null);
+        incoming.clear();
+        outgoing.clear();
+    }
     public void hideInfo() {
         startDate.setEditable(false);
         endDate.setEditable(false);
