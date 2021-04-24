@@ -83,9 +83,9 @@ public class BudgetController {
     TableColumn<InvoiceHistory,Long> orderID;
     @FXML
     TableColumn<InvoiceHistory,Long> incomeAmmount;
-    
+
     ArrayList<Budget> allBudget = new ArrayList<Budget>();
-    ArrayList<String> empList = new ArrayList<>();
+    ArrayList<IncomingGoods> incomeInfoList = new ArrayList<>();
     ArrayList<Employees> allEmployees = new ArrayList<>();
     Budget budgetTMP;
     int bIndex = 1;
@@ -97,6 +97,7 @@ public class BudgetController {
         setBudgetList();
         setEmpCombo();
         budgetDetails();
+        setInvoiceTabTable();
         clear();
     }
 
@@ -114,6 +115,18 @@ public class BudgetController {
             budgetTable.setItems(budgets);
         } catch (Exception e) {
             Global.exceptionAlert(e, "Set Budget List");
+        }
+    }
+    public void setInvoiceTabTable(){
+        try{
+            incomingID.setCellValueFactory(new PropertyValueFactory<>("incomingID"));
+            ammountSpent.setCellValueFactory(new PropertyValueFactory<>("productPrice"));
+            spentTable.setItems(FXCollections.observableArrayList(IncomingGoods.selectAll()));
+            orderID.setCellValueFactory(new PropertyValueFactory<>("orderID"));
+            incomeAmmount.setCellValueFactory(new PropertyValueFactory<>("totalCharge"));
+            incomeTable.setItems(FXCollections.observableArrayList(InvoiceHistory.selectAll()));
+        }catch (Exception e) {
+            Global.exceptionAlert(e, "set Invoice Tab Tables");
         }
     }
     public void saveBudget(ActionEvent event) {
