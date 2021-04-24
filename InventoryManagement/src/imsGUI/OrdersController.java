@@ -462,6 +462,7 @@ public class OrdersController {
         customerName.clear();
         customerAddress.clear();
         trackingID.clear();
+        datePlaced.setText(null);
         orderID.setEditable(false);
         customerName.setEditable(false);
         customerAddress.setEditable(false);
