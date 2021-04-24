@@ -3,6 +3,8 @@ package imsGUI;
 import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 import ims.Budget;
 import ims.Employees;
+import ims.IncomingGoods;
+import ims.InvoiceHistory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -69,6 +71,19 @@ public class BudgetController {
     @FXML
     TableColumn empColumn;
 
+    @FXML
+    TableView<IncomingGoods> spentTable;
+    @FXML
+    TableColumn<IncomingGoods, Long> incomingID;
+    @FXML
+    TableColumn<IncomingGoods,Double> ammountSpent;
+    @FXML
+    TableView<InvoiceHistory> incomeTable;
+    @FXML
+    TableColumn<InvoiceHistory,Long> orderID;
+    @FXML
+    TableColumn<InvoiceHistory,Long> incomeAmmount;
+    
     ArrayList<Budget> allBudget = new ArrayList<Budget>();
     ArrayList<String> empList = new ArrayList<>();
     ArrayList<Employees> allEmployees = new ArrayList<>();
@@ -101,7 +116,6 @@ public class BudgetController {
             Global.exceptionAlert(e, "Set Budget List");
         }
     }
-
     public void saveBudget(ActionEvent event) {
         boolean hasEmployee = false;
         boolean hasPeriodID = false;
