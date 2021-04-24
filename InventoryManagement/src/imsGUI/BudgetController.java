@@ -87,15 +87,15 @@ public class BudgetController {
     Budget budgetTMP;
     int bIndex = 1;
 
-    Date startHold = null;
-    Date endHold = null;
+    Date startHold = new Date(2021 - 01 - 01);
+    Date endHold = new Date(2021 - 01 - 01);
 
     public void initialize() {
         setBudgetList();
         setEmpCombo();
         budgetDetails();
         setInvoiceTabTable();
-        clearBoxes();
+        //clearBoxes();
     }
 
     public void setBudgetList() {
