@@ -29,6 +29,7 @@ public class Global {
     private ProductStatusController productStatusController;
     private ProfilesController profilesController;
     public static Boolean privilege=true;
+    public static Boolean averagePrivelege= true;
     public static Users currentUser;
 
     public void loadFxmlFiles() throws Exception{

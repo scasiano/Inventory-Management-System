@@ -22,6 +22,7 @@ public class LoginController {
             String User = userBox.getText();
             String Pass = passBox.getText();
             boolean admin;
+            boolean averagePrivelege;
             String role = authenticateUser(User, Pass);
             if (role.equals("")){
                 Global.warningAlert("Incorrect Credentials", "Your username and password do not match, please try again");
@@ -30,6 +31,8 @@ public class LoginController {
             }
             admin = role.equalsIgnoreCase("Admin") || role.equalsIgnoreCase("IT");
             Global.privilege=admin;
+            Global.averagePrivelege= !(role.contains("User")) && !(role.contains("Customer"));
+            System.out.println(Global.averagePrivelege);
             Global.currentUser = Users.selectUserByUserName(User);
             Stage stage = (Stage) LogBut.getScene().getWindow();
             stage.setScene(ImsGui.global.getHomepageScene());

@@ -95,7 +95,7 @@ public class BudgetController {
         setEmpCombo();
         budgetDetails();
         setInvoiceTabTable();
-        //clearBoxes();
+        clearBoxes();
     }
 
     public void setBudgetList() {

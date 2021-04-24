@@ -22,10 +22,12 @@ public class HomepageController {
 
     public void initialize(){
         allowAdmin();
+        allowEmp();
     }
     private void allowAdmin(){
         adminB.setVisible(Global.privilege);
     }
+    private void allowEmp(){budgetB.setVisible(Global.averagePrivelege); prodStatB.setVisible(Global.averagePrivelege);}
     @FXML
     private void openAdminU(ActionEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
