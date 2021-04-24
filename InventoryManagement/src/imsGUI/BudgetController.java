@@ -87,8 +87,8 @@ public class BudgetController {
     Budget budgetTMP;
     int bIndex = 1;
 
-    Date startHold = new Date(1900 - 01 - 01);
-    Date endHold = new Date(1900 - 01 - 02);
+    Date startHold = null;
+    Date endHold = null;
 
     public void initialize() {
         setBudgetList();
@@ -185,9 +185,10 @@ public class BudgetController {
                 startDate.setValue(null);
                 return;
             }
-            if (endDate.getValue() != null) tmp.setDateEnd(java.sql.Date.valueOf(endDate.getValue()));
+            if (endDate.getValue() != null && endDate.getValue().compareTo(startDate.getValue())>0)
+                tmp.setDateEnd(java.sql.Date.valueOf(endDate.getValue()));
             else {
-                Global.warningAlert("Incorrect Start Date", "Budget end date needs to have a year, month, and day.");
+                Global.warningAlert("Incorrect Start Date", "Budget end date needs to have a year, month, and day. It also needs to be after the Start Date");
                 endDate.setValue(null);
                 return;
             }
@@ -259,7 +260,12 @@ public class BudgetController {
         try {
             if (startDate.getValue() != null && !(startDate.getValue().equals(budgetTMP.getDateStart().toLocalDate())))
                 Budget.modifyDateStart(budgetTMP.getPeriodID(), java.sql.Date.valueOf(startDate.getValue()));
-            if (endDate.getValue() != null && !(endDate.getValue().equals(budgetTMP.getDateEnd().toLocalDate()))) Budget.modifyDateEnd(budgetTMP.getPeriodID(), java.sql.Date.valueOf(endDate.getValue()));
+            if (endDate.getValue() != null && endDate.getValue().compareTo(startDate.getValue())>0 && !(endDate.getValue().equals(budgetTMP.getDateEnd().toLocalDate())))
+                Budget.modifyDateEnd(budgetTMP.getPeriodID(), java.sql.Date.valueOf(endDate.getValue()));
+            else {
+                Global.warningAlert("End Date", "The End Date has to be after the start Date");
+                return;
+            }
             Budget.modifyOutgoing(budgetTMP.getPeriodID(), Double.parseDouble(outgoing.getText()));
             Budget.modifyIncome(budgetTMP.getPeriodID(), Double.parseDouble(incoming.getText()));
 
@@ -282,7 +288,7 @@ public class BudgetController {
         delete.setContentText("Are you sure you want to delete this Budget?");
         try {
             if (delete.showAndWait().get() == ButtonType.OK) {
-                ims.Budget.deleteRecord(allBudget.get(bIndex).getPeriodID());
+                ims.Budget.deleteRecord(budgetTMP.getPeriodID());
                 budgetTable.getItems().remove(budgetTMP);
                 budgetTMP = null;
                 initialize();
