@@ -105,12 +105,9 @@ public class BudgetController {
     public void saveBudget(ActionEvent event) {
         boolean hasEmployee = false;
         boolean hasPeriodID = false;
-        Budget tmp = new Budget(0, startHold, endHold, 0, 0, 0, 0);
+        Budget tmp = new Budget(startHold, endHold, 0, 0, 0);
         try {
-            if (budgetID.getText().length() > 0) {
-                tmp.setPeriodID(Long.parseLong(budgetID.getText()));
-                hasPeriodID = true;
-            }
+
             if (startDate.getValue() != null) tmp.setDateStart(java.sql.Date.valueOf((startDate.getValue())));
             else {
                 Global.warningAlert("Incorrect Start Date", "Budget start date needs to have a year, month, and day.");
@@ -194,14 +191,19 @@ public class BudgetController {
 
     public void modifyDBBudget() {
         try {
-            Budget.modifyDateStart(budgetTMP.getDateStart(), budgetTMP.getDateStart());
-            Budget.modifyDateEnd(budgetTMP.getDateStart(), budgetTMP.getDateEnd());
-            Budget.modifyOutgoing(budgetTMP.getDateStart(), budgetTMP.getOutgoing());
-            Budget.modifyIncome(budgetTMP.getDateStart(), budgetTMP.getIncome());
-           // Budget.modifyEmployeeNo(budgetTMP.getDateStart(), budgetTMP.getEmployeeNo());
+            if (startDate.getValue() != null && !(java.sql.Date.valueOf(startDate.getValue()).equals(budgetTMP.getDateStart()))) Budget.modifyDateStart(budgetTMP.getPeriodID(), java.sql.Date.valueOf(startDate.getValue()));
+            if (endDate.getValue() != null && !(java.sql.Date.valueOf(endDate.getValue()).equals(budgetTMP.getDateEnd()))) Budget.modifyDateEnd(budgetTMP.getPeriodID(), java.sql.Date.valueOf(endDate.getValue()));
+            if (outgoing.getText() != null && Double.parseDouble(outgoing.getText()) == budgetTMP.getOutgoing()) Budget.modifyOutgoing(budgetTMP.getPeriodID(), Double.parseDouble(outgoing.getText()));
+            if (incoming.getText() != null && Double.parseDouble(incoming.getText()) == budgetTMP.getIncome()) Budget.modifyIncome(budgetTMP.getPeriodID(), Double.parseDouble(incoming.getText()));
+            String empSelected = userInfo.getSelectionModel().getSelectedItem();
+            if (empSelected != null){
+                String[] hold = empSelected.split(" | ");
+                if (Long.parseLong(hold[0]) != budgetTMP.getEmployeeNo()) Budget.modifyEmployeeNo(budgetTMP.getPeriodID(), Long.parseLong(hold[0]));
+            }
             initialize();
-        } catch (Exception e) {
-            ///Global.exceptionAlert(e, "Modify Budget");
+        }
+        catch (Exception e) {
+            Global.exceptionAlert(e, "Modify Budget");
         }
         endBudgetEdit();
     }
@@ -222,7 +224,6 @@ public class BudgetController {
     public void modifyBudget() {
         startDate.setEditable(true);
         endDate.setEditable(true);
-        netProfit.setEditable(true);
         outgoing.setEditable(true);
         incoming.setEditable(true);
         userInfo.setEditable(true);
@@ -258,8 +259,6 @@ public class BudgetController {
         userInfo.setEditable(false);
         incoming.setEditable(false);
         outgoing.setEditable(false);
-        budgetID.setEditable(false);
-        netProfit.setEditable(false);
         modifyBtn.setVisible(true);
         addBtn.setVisible(true);
     }
