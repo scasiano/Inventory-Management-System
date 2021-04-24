@@ -282,7 +282,7 @@ public class BudgetController {
         delete.setContentText("Are you sure you want to delete this Budget?");
         try {
             if (delete.showAndWait().get() == ButtonType.OK) {
-                ims.Budget.deleteRecord(budgetTMP.getPeriodID());
+                ims.Budget.deleteRecord(java.sql.Date.valueOf(budgetTMP.getDateStart().toLocalDate()));
                 budgetTable.getItems().remove(budgetTMP);
                 budgetTMP = null;
                 initialize();
