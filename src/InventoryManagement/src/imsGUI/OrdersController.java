@@ -149,6 +149,9 @@ public class OrdersController {
     public void orderDetails() {
         try {
             orderIDT.setOnMouseClicked(event -> {
+                shippingStatus.setValue(null);
+                carrier.setValue(null);
+                empIDC.setValue(null);
                 otemp = orderIDT.getSelectionModel().getSelectedItem();
                 orderID.setText(String.valueOf(otemp.getOrderID()));
                 customerName.setText(otemp.getCustomerFn() + " " + otemp.getCustomerLn());
@@ -232,7 +235,7 @@ public class OrdersController {
                     return;
                 }
                 String n="";
-                if(empIDC.getValue()!=null && n.equals(empIDC.getValue())){
+                if(empIDC.getValue()!=null && !n.equals(empIDC.getValue())){
                     System.out.println("Why?"+!n.equals(empIDC.getValue()));
                         empBool=true;
                         String s = empIDC.getSelectionModel().getSelectedItem();
@@ -360,7 +363,9 @@ public class OrdersController {
             Orders.modifyCustomerFn(otemp.getOrderID(),name[0]);
             Orders.modifyCustomerLn(otemp.getOrderID(),name[1]);
             Orders.modifyCustomerAdd(otemp.getOrderID(),customerAddress.getText());
-            if(empIDC.getValue()!=null){
+            String n="";
+            if(empIDC.getValue()!=null && !n.equals(empIDC.getValue())){
+                System.out.println("Why?"+!n.equals(empIDC.getValue()));
                 String s = empIDC.getSelectionModel().getSelectedItem();
                 String[] p = s.split(" \\| ");
                 Orders.modifyEmployeeNo(otemp.getOrderID(),Long.parseLong(p[0]));
@@ -383,17 +388,20 @@ public class OrdersController {
                     return;
                 }
             }
-            System.out.println(!ammountPaid.getText().isEmpty());
-            System.out.println("Balance Resolved:"+!(Double.parseDouble(ammountPaid.getText()) < ActiveInvoice.selectActiveByOrderID(otemp.getOrderID()).getTotalCharge()));
+           // System.out.println(!ammountPaid.getText().isEmpty());
+          //  System.out.println("Balance Resolved:"+!(Double.parseDouble(ammountPaid.getText()) < ActiveInvoice.selectActiveByOrderID(otemp.getOrderID()).getTotalCharge()));
             if(!ammountPaid.getText().isEmpty()){
                     if (Double.parseDouble(ammountPaid.getText()) < ActiveInvoice.selectActiveByOrderID(otemp.getOrderID()).getTotalCharge()) {
                         aIntmp = ActiveInvoice.selectActiveByOrderID(otemp.getOrderID());
                         //ActiveInvoice.modifyTotalCharge(aIntmp.getOrderID(), Double.valueOf(orderTotal.getText()));
-                        System.out.println(Double.parseDouble(orderTotal.getText())+"-"+Double.valueOf(ammountPaid.getText()));
+                       // System.out.println(ActiveInvoice.selectActiveByOrderID(otemp.getOrderID()).getTotalCharge()+"-"+Double.valueOf(ammountPaid.getText()));
                         ActiveInvoice.modifyOutstandingBalance(otemp.getOrderID(),ActiveInvoice.selectActiveByOrderID(otemp.getOrderID()).getTotalCharge()-Double.valueOf(ammountPaid.getText()));
-                        System.out.println(ActiveInvoice.selectActiveByOrderID(otemp.getOrderID()).getOutstandingBalance());
+                       // System.out.println(ActiveInvoice.selectActiveByOrderID(otemp.getOrderID()).getTotalCharge()-Double.valueOf(ammountPaid.getText())+"="+ActiveInvoice.selectActiveByOrderID(otemp.getOrderID()).getOutstandingBalance());
                     }
+                    else
+                        deleteActiveInvoice();
             }
+
             if(InvoiceHistory.selectArrHistoryByOrderID(otemp.getOrderID()).size()==0){
                 ammountPaid.setText(Double.toString(ActiveInvoice.selectActiveByOrderID(otemp.getOrderID()).getTotalRecieved()));
             }
@@ -433,7 +441,7 @@ public class OrdersController {
     }
     public void deleteActiveInvoice(){
         try{
-
+            ActiveInvoice.deleteRecord(aIntmp.getOrderID());
             iIntmp = new InvoiceHistory(Long.parseLong(orderID.getText()),java.sql.Date.valueOf(datePlaced.getText()), Double.parseDouble(orderTotal.getText()));
             InvoiceHistory.addRecord(iIntmp);
             ammountPaid.setEditable(false);
@@ -480,6 +488,12 @@ public class OrdersController {
         try {
             if (InvoiceHistory.selectArrHistoryByOrderID(otemp.getOrderID()).size() == 0 || Double.parseDouble(ammountPaid.getText()) < Double.parseDouble(orderTotal.getText()))
                 ammountPaid.setEditable(true);
+            else{
+             carrier.setDisable(true);
+             empIDC.setDisable(true);
+             trackingID.setEditable(false);
+             shippingStatus.setDisable(true);
+            }
         }catch(Exception e){
             Global.exceptionAlert(e,"try to set up modification: Invoice");
         }
@@ -535,6 +549,7 @@ public class OrdersController {
             int i=allItems.size()-1;
             allItems.remove(i);
         }
+        empIDC.setValue(null);
         lockCombobox();
     }
 
