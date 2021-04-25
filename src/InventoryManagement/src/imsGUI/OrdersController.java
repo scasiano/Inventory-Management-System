@@ -13,7 +13,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -171,7 +170,7 @@ public class OrdersController {
                 orderTotal.setText(Double.toString(orderTotal()));
                 invoiceBox.setVisible(true);
                 try{
-                    if(ActiveInvoice.selectArrActiveByOrderID(otemp.getOrderID()).size()>0){
+                    if(InvoiceHistory.selectArrHistoryByOrderID(otemp.getOrderID()).size()==0){
                         ammountPaid.setText(Double.toString(ActiveInvoice.selectActiveByOrderID(otemp.getOrderID()).getTotalRecieved()));
                     }
                     else if(InvoiceHistory.selectArrHistoryByOrderID(otemp.getOrderID()).size()>0){
@@ -368,8 +367,8 @@ public class OrdersController {
             }
             if(shippingStatus.getValue()!=null)
                 Tracking.modifyShippingStatus(otemp.getOrderID(),shippingStatus.getValue());
-            if(shippingStatus.getValue().equals("Not Shipped")){
-                if(!trackingID.getText().isEmpty()) {
+            if(!shippingStatus.getValue().equals("Not Shipped")){
+                if(trackingID.getText()!=null) {
                    Tracking.modifyTrackingID(otemp.getOrderID(),trackingID.getText());
                 }
                 else{
@@ -384,18 +383,18 @@ public class OrdersController {
                     return;
                 }
             }
+            System.out.println(!ammountPaid.getText().isEmpty());
+            System.out.println("Balance Resolved:"+!(Double.parseDouble(ammountPaid.getText()) < ActiveInvoice.selectActiveByOrderID(otemp.getOrderID()).getTotalCharge()));
             if(!ammountPaid.getText().isEmpty()){
-                if(InvoiceHistory.selectArrHistoryByOrderID(otemp.getOrderID()).size()==0){
-                    if (Double.parseDouble(ammountPaid.getText()) < Double.parseDouble(orderTotal.getText())) {
+                    if (Double.parseDouble(ammountPaid.getText()) < ActiveInvoice.selectActiveByOrderID(otemp.getOrderID()).getTotalCharge()) {
                         aIntmp = ActiveInvoice.selectActiveByOrderID(otemp.getOrderID());
-                        ActiveInvoice.modifyOutstandingBalance(otemp.getOrderID(), Double.valueOf(ammountPaid.getText()));
+                        //ActiveInvoice.modifyTotalCharge(aIntmp.getOrderID(), Double.valueOf(orderTotal.getText()));
+                        System.out.println(Double.parseDouble(orderTotal.getText())+"-"+Double.valueOf(ammountPaid.getText()));
+                        ActiveInvoice.modifyOutstandingBalance(otemp.getOrderID(),ActiveInvoice.selectActiveByOrderID(otemp.getOrderID()).getTotalCharge()-Double.valueOf(ammountPaid.getText()));
+                        System.out.println(ActiveInvoice.selectActiveByOrderID(otemp.getOrderID()).getOutstandingBalance());
                     }
-                    else {
-                        deleteActiveInvoice();
-                    }
-                }
             }
-            if(ActiveInvoice.selectArrActiveByOrderID(otemp.getOrderID()).size()>0){
+            if(InvoiceHistory.selectArrHistoryByOrderID(otemp.getOrderID()).size()==0){
                 ammountPaid.setText(Double.toString(ActiveInvoice.selectActiveByOrderID(otemp.getOrderID()).getTotalRecieved()));
             }
             else if(InvoiceHistory.selectArrHistoryByOrderID(otemp.getOrderID()).size()>0){
@@ -412,7 +411,7 @@ public class OrdersController {
         oPrice=orderTotal();
         deleteAlert.setTitle("Delete");
         deleteAlert.setHeaderText("Delete Order");
-        deleteAlert.setContentText("Are you sure you want to delete this User?");
+        deleteAlert.setContentText("Are you sure you want to delete this Order?");
         if(deleteAlert.showAndWait().get() == ButtonType.OK){
             try{
                     if (InvoiceHistory.selectArrHistoryByOrderID(otemp.getOrderID()).size() == 0) {
@@ -440,7 +439,7 @@ public class OrdersController {
             ammountPaid.setEditable(false);
             clearOrderInfo();
         }catch(Exception e){
-            Global.exceptionAlert(e,"Delete User");
+            Global.exceptionAlert(e,"Delete Active Invoice");
         }
     }
 
@@ -479,15 +478,14 @@ public class OrdersController {
         customerName.setEditable(true);
         customerAddress.setEditable(true);
         try {
-            if (InvoiceHistory.selectArrHistoryByOrderID(otemp.getOrderID()).size() == 0)
+            if (InvoiceHistory.selectArrHistoryByOrderID(otemp.getOrderID()).size() == 0 || Double.parseDouble(ammountPaid.getText()) < Double.parseDouble(orderTotal.getText()))
                 ammountPaid.setEditable(true);
         }catch(Exception e){
-            Global.exceptionAlert(e,"try to set up modification");
+            Global.exceptionAlert(e,"try to set up modification: Invoice");
         }
-        if(shippingStatus.getValue().equals("Not Shipped")){
-            carrier.setDisable(false);
-            trackingID.setEditable(true);
-        }
+
+                carrier.setDisable(false);
+                trackingID.setEditable(true);
         modBox.setVisible(true);
         addOrder.setVisible(false);
         addOrderHBox.setVisible(false);

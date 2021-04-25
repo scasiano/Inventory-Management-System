@@ -293,7 +293,7 @@ public class ProductStatusController {
             }
             tmp.setProductPrice(tmp.getQuantity()*Products.selectProductPriceByProductID(tmp.getProductID()));
             String n="";
-            if(inEmpC.getValue()!=null && n.equals(inEmpC.getValue())){
+            if(inEmpC.getValue()!=null && !n.equals(inEmpC.getValue())){
                 String selectedItem = inEmpC.getSelectionModel().getSelectedItem();
                 String[] s = selectedItem.split(" \\| ");
                 tmp.setEmployeeNo(Long.parseLong(s[0]));
@@ -355,7 +355,7 @@ public class ProductStatusController {
                 Global.warningAlert("Quantity","There aren't enough products to send out.");
             }
             String n="";
-            if(outEmpC.getValue()!=null && n.equals(outEmpC.getValue())) {
+            if(outEmpC.getValue()!=null && !n.equals(outEmpC.getValue())) {
                 String selectedItem = outEmpC.getSelectionModel().getSelectedItem();
                 String[] s = selectedItem.split(" \\| ");
                 tmp.setEmployeeNo(Long.parseLong(s[0]));
