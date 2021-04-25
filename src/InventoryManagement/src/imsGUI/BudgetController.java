@@ -231,7 +231,7 @@ public class BudgetController {
                 if(startDate.getValue().compareTo(orderDate.get(i).getDateIn().toLocalDate())<0){
                     System.out.println("\tStart Date:"+startDate.getValue());
                     if(endDate.getValue().compareTo(orderDate.get(i).getDateIn().toLocalDate())>0) {
-                        outGoing += orderDate.get(i).getProductPrice();
+                        outGoing += orderDate.get(i).getProductPrice()*orderDate.get(i).getQuantity();
                     }
                 }
 

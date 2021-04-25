@@ -254,7 +254,7 @@ public class ProductStatusController {
     public void saveIncomingClicked() {
         boolean hasTrack = false;
         boolean hasEmp = false;
-        IncomingGoods tmp= new IncomingGoods(0, null, "", 0,0.0);
+        IncomingGoods tmp= new IncomingGoods(0, null, "", 0);
         try{
             try{
                 if (inProductsC.getValue() != null){
@@ -291,6 +291,7 @@ public class ProductStatusController {
             }catch(NumberFormatException e){
                 Global.warningAlert("Incorrect Format","Your quantity is not of the right format");
             }
+            tmp.setProductPrice(tmp.getQuantity()*Products.selectProductPriceByProductID(tmp.getProductID()));
             String n="";
             if(inEmpC.getValue()!=null && n.equals(inEmpC.getValue())){
                 String selectedItem = inEmpC.getSelectionModel().getSelectedItem();
@@ -369,9 +370,11 @@ public class ProductStatusController {
                 Global.warningAlert("Invalid Quantity","There is not enough of this product to send out. Please chose a different quantity");
                 return;
             }
+            //InvoiceHistory iIntmp = new InvoiceHistory(Long.parseLong(orderID.getText()), oTmp.getDatePlaced(), Double.parseDouble(orderTotal.getText()));
+            //InvoiceHistory.addRecord(iIntmp);
                 setOutgoingTable();
-            setCurrentTable();
-            hideData();
+                setCurrentTable();
+                hideData();
         }
         catch(MySQLIntegrityConstraintViolationException e){
             Global.warningAlert("Outgoing Id Exists", "Outgoing ID already exists. Outgoing Order add canceled");
@@ -465,6 +468,7 @@ public class ProductStatusController {
                 Global.exceptionAlert(e,"Delete Outgoing Good");
             }
         }
+        setCurrentTable();
     }
     public void addIncomingData(){
         incomingV.setVisible(true);

@@ -296,13 +296,13 @@ public class AdminUserListController {
         Users utmp = new Users(0, "", "", "", "", "");
         try{
                 String n="";
-                if (empUIDC.getValue()!=null && n.equals(empUIDC.getValue())){
+                if (empUIDC.getValue()!=null ){
                     String selectedItem = empUIDC.getSelectionModel().getSelectedItem();
                     String[] s = selectedItem.split(" \\| ");
                     etmp.setUserID(Long.parseLong(s[0]));
                 }
                 else{
-                    Global.warningAlert("Incorrect ID", "User ID needs to be greater than 0 and less than 9 digits");
+                    Global.warningAlert("Incorrect ID", "Please Select a User");
                     empUIDC.setValue(null);
                     return;
                 }
@@ -412,10 +412,10 @@ public class AdminUserListController {
         Alert deleteAlert = new Alert(Alert.AlertType.CONFIRMATION);
         deleteAlert.setTitle("Delete");
         deleteAlert.setHeaderText("Delete Employee");
-        deleteAlert.setContentText("Are you sure you want to delete this User?");
+        deleteAlert.setContentText("Are you sure you want to delete this Employee?");
         if(deleteAlert.showAndWait().get() == ButtonType.OK){
             try{
-                Users.modifyRole(etemp.getUserID(),"User");
+                Users.modifyRole(etemp.getUserID(),"Employee");
                 Employees.deleteRecord(etemp.getEmployeeNo());
                 empT.getItems().remove(empT.getSelectionModel().getSelectedItem());
                 etemp=null;

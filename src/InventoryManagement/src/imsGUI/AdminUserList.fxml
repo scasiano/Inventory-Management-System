@@ -206,7 +206,7 @@
                                         <Label fx:id="endDateLabel" text="End Date:" visible="false"/>
                                         <DatePicker fx:id="endDate" GridPane.rowIndex="1" visible="false"/>
                                         <HBox fx:id="empModB" alignment="TOP_CENTER" visible="false">
-                                            <Button fx:id="empDelete" mnemonicParsing="false" onAction="#deleteEmpClicked" text="Delete User" GridPane.rowIndex="1">
+                                            <Button fx:id="empDelete" mnemonicParsing="false" onAction="#deleteEmpClicked" text="Delete Employee" GridPane.rowIndex="1">
                                                 <HBox.margin>
                                                     <Insets left="10.0" />
                                                 </HBox.margin>

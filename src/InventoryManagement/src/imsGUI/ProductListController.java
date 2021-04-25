@@ -131,10 +131,16 @@ public class ProductListController {
         Products temp = new Products(0, "", 0, 0);
         boolean flag = false;
         try {
-            if (productID.getText().length() > 0 && Long.parseLong(productID.getText()) >= 0) temp.setProductID(Long.parseLong(productID.getText()));
-            else {
-                Global.warningAlert("Incorrect ID", "Product ID needs to be greater than 0 and at most 9 digits long.");
-                productID.clear();
+            try {
+                if (productID.getText().length() > 0 && Long.parseLong(productID.getText()) >= 0)
+                    temp.setProductID(Long.parseLong(productID.getText()));
+                else {
+                    Global.warningAlert("Incorrect ID", "Product ID needs to be greater than 0 and at most 9 digits long.");
+                    productID.clear();
+                    return;
+                }
+            }catch(NumberFormatException e){
+                Global.warningAlert("Not a number", "Please enter a number for the Product ID");
                 return;
             }
             if (productName.getText().length() > 0) temp.setName(productName.getText());
@@ -156,8 +162,7 @@ public class ProductListController {
                 return;
             }
             Products.addRecord(temp);
-        }
-        catch (MySQLIntegrityConstraintViolationException e) {
+        }catch (MySQLIntegrityConstraintViolationException e) {
             Global.warningAlert("Product Id Exists", "Product ID already exists. Product Add canceled");
         }
         endProductEdit();

@@ -103,6 +103,9 @@ public class IncomingGoods {
     public void setEmployeeNo(long employeeNo) {
         this.employeeNo = employeeNo;
     }
+    public void setProductPrice(double quantityProductPrice ){
+        this.productPrice = quantityProductPrice;
+    }
 
 
     //SQL Queries READ

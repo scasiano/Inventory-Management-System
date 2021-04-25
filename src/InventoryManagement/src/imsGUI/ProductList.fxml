@@ -51,8 +51,8 @@
                 <children>
                     <Label minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: white;" text="Product Name:" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="CENTER" />
                     <Label style="-fx-background-color: white;" text="Product ID:" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-                    <Label style="-fx-background-color: white;" text="Product MSRP:" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-                    <Label style="-fx-background-color: white;" text="Product Price" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+                    <Label style="-fx-background-color: white;" text="Product MSRP $:" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+                    <Label style="-fx-background-color: white;" text="Product Price $:" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
                     <Label style="-fx-background-color: white;" text="Product Description" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
                     <TextField fx:id="productName" editable="false" maxHeight="30" maxWidth="1.7976931348623157E308" minHeight="5" minWidth="5" style="-fx-background-color: white; -fx-border-color: ALICEBLUE;" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.valignment="CENTER">
                         <GridPane.margin>

@@ -127,7 +127,7 @@ public class OrdersController {
                     productsList.getItems().add(s);
                 }
                 if(i==0 && value==allProd.size()-1){
-                    Global.warningAlert("No Available Products","All products have a quantity of zero. Please order some Incoming Goods.");
+                    Global.warningAlert("No Available Products","All products have a quantity of zero. Please order some Incoming Goods in Product Status.");
                 }
             }
             allEmps=Employees.selectAll();
@@ -411,6 +411,7 @@ public class OrdersController {
                 Global.exceptionAlert(e,"Delete Order");
             }
         }
+        //clearOrderInfo();
     }
     public void deleteActiveInvoice(){
         try{
