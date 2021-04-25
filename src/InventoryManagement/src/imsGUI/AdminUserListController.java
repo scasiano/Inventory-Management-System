@@ -162,7 +162,6 @@ public class AdminUserListController {
             userT.setOnMouseClicked(event -> {
                 utemp= userT.getSelectionModel().getSelectedItem();
                 uIndex= userT.getSelectionModel().getSelectedIndex();
-
                 usrFName.setText(allUsers.get(uIndex).getFName());
                 usrLName.setText(allUsers.get(uIndex).getLName());
                 usrRoleC.setValue(allUsers.get(uIndex).getRole());
@@ -296,7 +295,8 @@ public class AdminUserListController {
         Employees etmp = new Employees(0,0, "","", 0, "",null );
         Users utmp = new Users(0, "", "", "", "", "");
         try{
-                if (empUIDC.getValue()!=null){
+                String n="";
+                if (empUIDC.getValue()!=null && n.equals(empUIDC.getValue())){
                     String selectedItem = empUIDC.getSelectionModel().getSelectedItem();
                     String[] s = selectedItem.split(" \\| ");
                     etmp.setUserID(Long.parseLong(s[0]));

@@ -45,9 +45,9 @@ public class Global {
         budgetScene = new Scene(budgetLoader.load(),720,480);
         homepageScene = new Scene(homepageLoader.load());
         loginScene = new Scene(loginLoader.load());
-        ordersScene = new Scene(ordersLoader.load(),720,480);
+        ordersScene = new Scene(ordersLoader.load(),1000,500);
         productListScene = new Scene(productListLoader.load(),720,480);
-        productStatusScene = new Scene(productStatusLoader.load(),720,480);
+        productStatusScene = new Scene(productStatusLoader.load(),1000,500);
         profilesScene = new Scene(profilesLoader.load());
         adminUserListController = adminUserListLoader.getController();
         budgetController = budgetLoader.getController();

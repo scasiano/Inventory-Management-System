@@ -76,13 +76,15 @@ public class OrdersController {
 
     ArrayList<Orders> allOrders;
     ArrayList<OrderItems> allItems = new ArrayList<>();
-    ArrayList<OrderItems> allAddItems = new ArrayList<>();
     ArrayList<Products> allProd;
     ArrayList<Employees> allEmps;
     Orders otemp;
     ActiveInvoice aIntmp;
     InvoiceHistory iIntmp;
     Double oPrice;
+    long millis=System.currentTimeMillis();
+    java.sql.Date placedDate = new java.sql.Date(millis);
+
     boolean hasProd=false;
 
     public void initialize(){
@@ -112,15 +114,20 @@ public class OrdersController {
     }
     public void setCombos(){
         try{
+            int i=0;
             productsList.getItems().clear();
             empIDC.getItems().clear();
             carrier.getItems().clear();
             shippingStatus.getItems().clear();
             allProd=Products.selectAll();
-            for (Products value : allProd) {
-                if (CurrentStock.selectQuantityByProductID(value.getProductID()) != 0) {
-                    String s = value.getProductID() + " | " + value.getName();
+            for (int value=0;value< allProd.size();value++) {
+                if (CurrentStock.selectQuantityByProductID(allProd.get(value).getProductID()) != 0) {
+                    String s = allProd.get(value).getProductID() + " | " + allProd.get(value).getName();
+                    i++;
                     productsList.getItems().add(s);
+                }
+                if(i==0 && value==allProd.size()-1){
+                    Global.warningAlert("No Available Products","All products have a quantity of zero. Please order some Incoming Goods.");
                 }
             }
             allEmps=Employees.selectAll();
@@ -149,7 +156,8 @@ public class OrdersController {
                 customerAddress.setText(otemp.getCustomerAdd());
                 datePlaced.setText(String.valueOf(otemp.getDatePlaced()));
                 try {
-                    empIDC.setValue(otemp.getEmployeeNo() + " | " + Employees.selectEmployeeByEmpID(otemp.getEmployeeNo()).getEmployeeFn() + " " + Employees.selectEmployeeByEmpID(otemp.getEmployeeNo()).getEmployeeLn());
+                    if(otemp.getEmployeeNo() != 0)
+                        empIDC.setValue(otemp.getEmployeeNo() + " | " + Employees.selectEmployeeByEmpID(otemp.getEmployeeNo()).getEmployeeFn() + " " + Employees.selectEmployeeByEmpID(otemp.getEmployeeNo()).getEmployeeLn());
                     allItems = OrderItems.selectByOrderID(otemp.getOrderID());
                     shippingStatus.setValue(Tracking.selectByOrderID(otemp.getOrderID()).getShippingStatus());
                     trackingID.setText(Tracking.selectByOrderID(otemp.getOrderID()).getTrackingID());
@@ -224,7 +232,9 @@ public class OrdersController {
                     addDate.setValue(null);
                     return;
                 }
-                if(empIDC.getValue()!=null){
+                String n="";
+                if(empIDC.getValue()!=null && n.equals(empIDC.getValue())){
+                    System.out.println("Why?"+!n.equals(empIDC.getValue()));
                         empBool=true;
                         String s = empIDC.getSelectionModel().getSelectedItem();
                         String[] p = s.split(" \\| ");
@@ -425,10 +435,7 @@ public class OrdersController {
         orderID.setEditable(true);
         customerName.setEditable(true);
         customerAddress.setEditable(true);
-        shippingStatus.setEditable(true);
         trackingID.setEditable(true);
-        carrier.setEditable(true);
-        empIDC.setEditable(true);
         modOrder.setVisible(false);
         addOrderHBox.setVisible(true);
         invoiceBox.setVisible(true);
@@ -445,8 +452,6 @@ public class OrdersController {
         orderProds.setVisible(true);
         customerName.setEditable(true);
         customerAddress.setEditable(true);
-        shippingStatus.setEditable(true);
-        empIDC.setEditable(true);
         modBox.setVisible(true);
         addOrder.setVisible(false);
         addOrderHBox.setVisible(false);
@@ -487,6 +492,7 @@ public class OrdersController {
         shippingStatus.setValue(null);
         orderProds.getItems().clear();
         empIDC.setValue(null);
+        addDate.setValue(placedDate.toLocalDate());
         productsList.setValue(null);
         shippingStatus.setValue(null);
         lockCombobox();

@@ -28,6 +28,7 @@ public class IncomingGoods {
         this.trackingNo = trackingNo;
         this.quantity = quantity;
         this.employeeNo = employeeNo;
+        this.productPrice = productPrice*quantity;
     }
 
     public IncomingGoods(long productID, Date dateIn, String trackingNo, int quantity, long employeeNo) {
@@ -36,6 +37,7 @@ public class IncomingGoods {
         this.trackingNo = trackingNo;
         this.quantity = quantity;
         this.employeeNo = employeeNo;
+        this.productPrice = productPrice*quantity;
     }
 
     public IncomingGoods(long productID, Date dateIn, int quantity, long employeeNo) {
@@ -43,6 +45,7 @@ public class IncomingGoods {
         this.dateIn = dateIn;
         this.quantity = quantity;
         this.employeeNo = employeeNo;
+        this.productPrice = productPrice*quantity;
     }
 
     public IncomingGoods(long productID, Date dateIn, String trackingNo, int quantity) {
@@ -50,12 +53,14 @@ public class IncomingGoods {
         this.dateIn = dateIn;
         this.trackingNo = trackingNo;
         this.quantity = quantity;
+        this.productPrice = productPrice*quantity;
     }
 
     public IncomingGoods(long productID, Date dateIn, int quantity) {
         this.productID = productID;
         this.dateIn = dateIn;
         this.quantity = quantity;
+        this.productPrice = productPrice*quantity;
     }
 
     //Get set
@@ -98,6 +103,7 @@ public class IncomingGoods {
     public void setEmployeeNo(long employeeNo) {
         this.employeeNo = employeeNo;
     }
+
 
     //SQL Queries READ
     public static ArrayList<IncomingGoods> selectAll() throws SQLException {

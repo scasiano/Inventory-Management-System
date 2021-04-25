@@ -86,11 +86,11 @@ public class BudgetController {
     ArrayList<Employees> allEmployees = new ArrayList<>();
     Budget budgetTMP;
     int bIndex = 1;
+    long millis=System.currentTimeMillis();
+    java.sql.Date startHold = new java.sql.Date(millis);
+    java.sql.Date endHold = new java.sql.Date(millis);
 
-    Date startHold = new Date(2021 - 01 - 01);
-    Date endHold = new Date(2021 - 01 - 02);
-
-    public void initialize() {
+    public void initialize(){
         setBudgetList();
         setEmpCombo();
         budgetDetails();
@@ -147,6 +147,8 @@ public class BudgetController {
                 startDate.setValue(budgetTMP.getDateStart().toLocalDate());
                 endDate.setValue(budgetTMP.getDateEnd().toLocalDate());
                 try{
+                    String n="";
+                    if(userInfo.getValue()!=null && n.equals(userInfo.getValue()))
                     userInfo.setValue(allBudget.get(bIndex).getEmployeeNo() + " | " + Employees.selectEmployeeByEmpID(budgetTMP.getEmployeeNo()).getEmployeeFn()+
                             " "+Employees.selectEmployeeByEmpID(budgetTMP.getEmployeeNo()).getEmployeeLn());
                 } catch (SQLException throwables) {
@@ -199,7 +201,8 @@ public class BudgetController {
                 tmp.setOutgoing(Double.parseDouble(outgoing.getText()));
                 tmp.setIncome(Double.parseDouble(incoming.getText()));
             }
-            if (userInfo.getValue() != null) {
+            String n="";
+            if(userInfo.getValue()!=null && n.equals(userInfo.getValue())) {
                 String empSelected = userInfo.getSelectionModel().getSelectedItem();
                 String[] hold = empSelected.split(" \\| ");
                 tmp.setEmployeeNo(Long.parseLong(hold[0]));
@@ -229,9 +232,9 @@ public class BudgetController {
                     System.out.println("\tStart Date:"+startDate.getValue());
                     if(endDate.getValue().compareTo(orderDate.get(i).getDateIn().toLocalDate())>0) {
                         outGoing += orderDate.get(i).getProductPrice();
-                        System.out.println("\tOutgoing= "+outGoing);
                     }
                 }
+
             }
         }catch(Exception e){
             Global.exceptionAlert(e, "getting subtractedIncome");

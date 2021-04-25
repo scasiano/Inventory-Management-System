@@ -174,7 +174,9 @@ public class ProductStatusController {
                 trackNoT.setText(intmp.getTrackingNo());
                 inQuantTBox.setText(Integer.toString(intmp.getQuantity()));
                 try {
-                    inEmpC.setValue(intmp.getEmployeeNo() +" | "+Employees.selectEmployeeByEmpID(intmp.getEmployeeNo()).getEmployeeFn()+ " "+Employees.selectEmployeeByEmpID(intmp.getEmployeeNo()).getEmployeeLn());
+                    String n="";
+                    if(inEmpC.getValue()!=null && n.equals(inEmpC.getValue()))
+                        inEmpC.setValue(intmp.getEmployeeNo() +" | "+Employees.selectEmployeeByEmpID(intmp.getEmployeeNo()).getEmployeeFn()+ " "+Employees.selectEmployeeByEmpID(intmp.getEmployeeNo()).getEmployeeLn());
                 } catch (SQLException throwables) {
                     Global.exceptionAlert(throwables, "Incoming Employees ComboBox");
                 }
@@ -195,7 +197,9 @@ public class ProductStatusController {
                 outDatePick.setValue(outtmp.getDateGo().toLocalDate());
                 outQuantTBox.setText(String.valueOf(outtmp.getQuantity()));
                 try {
-                    outEmpC.setValue(outtmp.getEmployeeNo()+" | " + Employees.selectEmployeeByEmpID(outtmp.getEmployeeNo()).getEmployeeFn()+ " "+Employees.selectEmployeeByEmpID(outtmp.getEmployeeNo()).getEmployeeLn());
+                    String n="";
+                    if(outEmpC.getValue()!=null && n.equals(outEmpC.getValue()))
+                        outEmpC.setValue(outtmp.getEmployeeNo()+" | " + Employees.selectEmployeeByEmpID(outtmp.getEmployeeNo()).getEmployeeFn()+ " "+Employees.selectEmployeeByEmpID(outtmp.getEmployeeNo()).getEmployeeLn());
                 } catch (SQLException throwables) {
                     Global.exceptionAlert(throwables,"Outgoing Employee ComboBox");
                 }
@@ -250,13 +254,14 @@ public class ProductStatusController {
     public void saveIncomingClicked() {
         boolean hasTrack = false;
         boolean hasEmp = false;
-        IncomingGoods tmp= new IncomingGoods(0, null, "", 0);
+        IncomingGoods tmp= new IncomingGoods(0, null, "", 0,0.0);
         try{
             try{
                 if (inProductsC.getValue() != null){
                     String selectedItem = inProductsC.getSelectionModel().getSelectedItem();
                     String[] s = selectedItem.split(" \\| ");
                     tmp.setProductID(Long.parseLong(s[0]));
+
                 }
                 else {
                     Global.warningAlert("Product ID","Every Incoming Order needs a Product ID");
@@ -286,7 +291,8 @@ public class ProductStatusController {
             }catch(NumberFormatException e){
                 Global.warningAlert("Incorrect Format","Your quantity is not of the right format");
             }
-            if(inEmpC.getValue()!=null){
+            String n="";
+            if(inEmpC.getValue()!=null && n.equals(inEmpC.getValue())){
                 String selectedItem = inEmpC.getSelectionModel().getSelectedItem();
                 String[] s = selectedItem.split(" \\| ");
                 tmp.setEmployeeNo(Long.parseLong(s[0]));
@@ -298,6 +304,7 @@ public class ProductStatusController {
             else IncomingGoods.addRecord(tmp);
             setIncomingTable();
             setCurrentTable();
+            setProdCombo();
             hideData();
         }
         catch (MySQLIntegrityConstraintViolationException e){
@@ -346,7 +353,8 @@ public class ProductStatusController {
             }catch(Exception e){
                 Global.warningAlert("Quantity","There aren't enough products to send out.");
             }
-            if (outEmpC.getValue()!=null) {
+            String n="";
+            if(outEmpC.getValue()!=null && n.equals(outEmpC.getValue())) {
                 String selectedItem = outEmpC.getSelectionModel().getSelectedItem();
                 String[] s = selectedItem.split(" \\| ");
                 tmp.setEmployeeNo(Long.parseLong(s[0]));
@@ -426,7 +434,7 @@ public class ProductStatusController {
     public void deleteIncomingClicked() {
         Alert deleteAlert = new Alert(Alert.AlertType.CONFIRMATION);
         deleteAlert.setTitle("Delete");
-        deleteAlert.setHeaderText("Delete User");
+        deleteAlert.setHeaderText("Delete Incoming");
         deleteAlert.setContentText("Are you sure you want to delete this Incoming Good?");
         if(deleteAlert.showAndWait().get() == ButtonType.OK){
             try{
@@ -443,11 +451,12 @@ public class ProductStatusController {
     public void deleteOutgoingClicked() {
         Alert deleteAlert = new Alert(Alert.AlertType.CONFIRMATION);
         deleteAlert.setTitle("Delete");
-        deleteAlert.setHeaderText("Delete User");
+        deleteAlert.setHeaderText("Delete Outgoing");
         deleteAlert.setContentText("Are you sure you want to delete this Incoming Good?");
         if(deleteAlert.showAndWait().get() == ButtonType.OK){
             try{
-                ims.Users.deleteRecord(outtmp.getOutgoingID());
+                System.out.println(outtmp.getOutgoingID());
+                OutgoingGoods.deleteRecord(outtmp.getOutgoingID());
                 outgoingT.getItems().remove(outgoingT.getSelectionModel().getSelectedItem());
                 outtmp=null;
                 hideData();
@@ -466,7 +475,6 @@ public class ProductStatusController {
         inProductsC.setValue(null);
         inEmpC.setValue(null);
         clearBox();
-        hideData();
     }
     public void addOutgoingData(){
         outgoingV.setVisible(true);
@@ -477,7 +485,6 @@ public class ProductStatusController {
         outProductsC.setValue(null);
         outEmpC.setValue(null);
         clearBox();
-        hideData();
     }
     public void modIncomingData(){
         inModHBox.setVisible(true);
@@ -485,7 +492,6 @@ public class ProductStatusController {
         inModButton.setVisible(false);
         incomingV.setVisible(true);
         inAddHBox.setVisible(false);
-
         if(!Global.privilege) {
             outDelete.setVisible(false);
             inDelete.setVisible(false);
