@@ -124,7 +124,7 @@
                         </children>
                     </GridPane>
                </Tab>
-               <Tab text="Money Flow/Invoices">
+               <Tab text="Transactions">
                    <GridPane alignment="CENTER" style="-fx-background-color: grey;" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="-8.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="-2.0">
                    <columnConstraints>
                        <ColumnConstraints minWidth="5.0" />
@@ -172,7 +172,7 @@
                                <columns>
                                    <TableColumn fx:id="incomingID" prefWidth="75.0" text="Incoming ID" />
                                    <TableColumn fx:id="dateOut" text="Date" />
-                                   <TableColumn fx:id="productPrice" prefWidth="75.0" text="Product Price" />
+                                   <TableColumn fx:id="productPrice" prefWidth="75.0" text="Price/Product " />
                                    <TableColumn fx:id="productQuantity" text="Quantity Incoming"/>
                                </columns>
                                <columnResizePolicy>
