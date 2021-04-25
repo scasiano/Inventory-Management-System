@@ -391,15 +391,17 @@ public class OrdersController {
            // System.out.println(!ammountPaid.getText().isEmpty());
           //  System.out.println("Balance Resolved:"+!(Double.parseDouble(ammountPaid.getText()) < ActiveInvoice.selectActiveByOrderID(otemp.getOrderID()).getTotalCharge()));
             if(!ammountPaid.getText().isEmpty()){
-                    if (Double.parseDouble(ammountPaid.getText()) < ActiveInvoice.selectActiveByOrderID(otemp.getOrderID()).getTotalCharge()) {
-                        aIntmp = ActiveInvoice.selectActiveByOrderID(otemp.getOrderID());
+                if(InvoiceHistory.selectArrHistoryByOrderID(otemp.getOrderID()).size()==0) {
+                    aIntmp=ActiveInvoice.selectActiveByOrderID(otemp.getOrderID());
+                    if (Double.parseDouble(ammountPaid.getText()) < Double.parseDouble(orderTotal.getText())) {
+                        //aIntmp = ActiveInvoice.selectActiveByOrderID(otemp.getOrderID());
                         //ActiveInvoice.modifyTotalCharge(aIntmp.getOrderID(), Double.valueOf(orderTotal.getText()));
-                       // System.out.println(ActiveInvoice.selectActiveByOrderID(otemp.getOrderID()).getTotalCharge()+"-"+Double.valueOf(ammountPaid.getText()));
-                        ActiveInvoice.modifyOutstandingBalance(otemp.getOrderID(),ActiveInvoice.selectActiveByOrderID(otemp.getOrderID()).getTotalCharge()-Double.valueOf(ammountPaid.getText()));
-                       // System.out.println(ActiveInvoice.selectActiveByOrderID(otemp.getOrderID()).getTotalCharge()-Double.valueOf(ammountPaid.getText())+"="+ActiveInvoice.selectActiveByOrderID(otemp.getOrderID()).getOutstandingBalance());
-                    }
-                    else
+                        // System.out.println(ActiveInvoice.selectActiveByOrderID(otemp.getOrderID()).getTotalCharge()+"-"+Double.valueOf(ammountPaid.getText()));
+                        ActiveInvoice.modifyOutstandingBalance(otemp.getOrderID(), ActiveInvoice.selectActiveByOrderID(otemp.getOrderID()).getTotalCharge() - Double.valueOf(ammountPaid.getText()));
+                        // System.out.println(ActiveInvoice.selectActiveByOrderID(otemp.getOrderID()).getTotalCharge()-Double.valueOf(ammountPaid.getText())+"="+ActiveInvoice.selectActiveByOrderID(otemp.getOrderID()).getOutstandingBalance());
+                    } else
                         deleteActiveInvoice();
+                }
             }
 
             if(InvoiceHistory.selectArrHistoryByOrderID(otemp.getOrderID()).size()==0){

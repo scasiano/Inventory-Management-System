@@ -207,7 +207,7 @@ public class BudgetController {
                 tmp.setIncome(Double.parseDouble(incoming.getText()));
             }
             String n="";
-            if(userInfo.getValue()!=null && n.equals(userInfo.getValue())) {
+            if(userInfo.getValue()!=null && !n.equals(userInfo.getValue())) {
                 String empSelected = userInfo.getSelectionModel().getSelectedItem();
                 String[] hold = empSelected.split(" \\| ");
                 tmp.setEmployeeNo(Long.parseLong(hold[0]));
@@ -269,7 +269,7 @@ public class BudgetController {
         try {
             if (startDate.getValue() != null && !(startDate.getValue().equals(budgetTMP.getDateStart().toLocalDate())))
                 Budget.modifyDateStart(budgetTMP.getPeriodID(), java.sql.Date.valueOf(startDate.getValue()));
-            if (endDate.getValue() != null && endDate.getValue().compareTo(startDate.getValue())>0 && !(endDate.getValue().equals(budgetTMP.getDateEnd().toLocalDate())))
+            if (endDate.getValue() != null && endDate.getValue().compareTo(startDate.getValue())>0)
                 Budget.modifyDateEnd(budgetTMP.getPeriodID(), java.sql.Date.valueOf(endDate.getValue()));
             else {
                 Global.warningAlert("End Date", "The End Date has to be after the start Date");
@@ -311,6 +311,7 @@ public class BudgetController {
     }
 
     public void modifyBudget() {
+        //Global.warningAlert("Date Notification", "Please make sure to re-enter and confirm your dates when you modify them");
         outgoing.setEditable(true);
         incoming.setEditable(true);
         userInfo.setEditable(true);
