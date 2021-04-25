@@ -5,6 +5,7 @@ import ims.Budget;
 import ims.Employees;
 import ims.IncomingGoods;
 import ims.InvoiceHistory;
+import javafx.beans.property.Property;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -72,7 +73,9 @@ public class BudgetController {
     @FXML
     TableColumn<IncomingGoods,Date> dateOut;
     @FXML
-    TableColumn<IncomingGoods,Double> ammountSpent;
+    TableColumn<IncomingGoods,Double> productPrice;
+    @FXML
+    TableColumn<IncomingGoods,Integer> productQuantity;
     @FXML
     TableView<InvoiceHistory> incomeTable;
     @FXML
@@ -81,6 +84,7 @@ public class BudgetController {
     TableColumn<InvoiceHistory,Date> dateIn;
     @FXML
     TableColumn<InvoiceHistory,Long> incomeAmmount;
+
 
     ArrayList<Budget> allBudget = new ArrayList<>();
     ArrayList<Employees> allEmployees = new ArrayList<>();
@@ -118,7 +122,8 @@ public class BudgetController {
         try{
             incomingID.setCellValueFactory(new PropertyValueFactory<>("incomingID"));
             dateOut.setCellValueFactory(new PropertyValueFactory<>("dateIn"));
-            ammountSpent.setCellValueFactory(new PropertyValueFactory<>("productPrice"));
+            productPrice.setCellValueFactory(new PropertyValueFactory<>("productPrice"));
+            productQuantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
             spentTable.setItems(FXCollections.observableArrayList(IncomingGoods.selectAll()));
             orderID.setCellValueFactory(new PropertyValueFactory<>("orderID"));
             dateIn.setCellValueFactory(new PropertyValueFactory<>("dateProcessed"));

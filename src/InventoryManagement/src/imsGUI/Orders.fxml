@@ -147,9 +147,18 @@
                                 </HBox>
                                 <VBox fx:id="invoiceBox" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="5">
                                     <HBox>
-                                        <Label text="Order Total= $"/>
-                                        <Label fx:id="orderTotal"/>
+                                        <Label text="Order Total= $">
+                                            <HBox.margin>
+                                                <Insets bottom="15.0" />
+                                            </HBox.margin>
+                                        </Label>
+                                        <Label fx:id="orderTotal">
+                                            <HBox.margin>
+                                                <Insets bottom="15.0" />
+                                            </HBox.margin>
+                                        </Label>
                                     </HBox>
+                                    <Label text="Ammount Paid:"/>
                                     <TextField fx:id="ammountPaid" maxHeight="30" minHeight="5" minWidth="5" style="-fx-background-color: white; -fx-border-color: ALICEBLUE;" />
                                 </VBox>
                                 <Label fx:id="datePlaced" GridPane.columnIndex="3" GridPane.halignment="CENTER">

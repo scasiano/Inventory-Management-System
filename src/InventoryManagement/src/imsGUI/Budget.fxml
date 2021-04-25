@@ -172,7 +172,8 @@
                                <columns>
                                    <TableColumn fx:id="incomingID" prefWidth="75.0" text="Incoming ID" />
                                    <TableColumn fx:id="dateOut" text="Date" />
-                                   <TableColumn fx:id="ammountSpent" prefWidth="75.0" text="Spent Amount" />
+                                   <TableColumn fx:id="productPrice" prefWidth="75.0" text="Product Price" />
+                                   <TableColumn fx:id="productQuantity" text="Quantity Incoming"/>
                                </columns>
                                <columnResizePolicy>
                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

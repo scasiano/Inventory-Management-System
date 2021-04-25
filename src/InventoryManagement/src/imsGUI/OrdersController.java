@@ -293,24 +293,27 @@ public class OrdersController {
             setOrderList();
             oPrice=orderTotal();
             orderTotal.setText(oPrice.toString());
-            if(!ammountPaid.getText().isEmpty()){
-                if(Double.parseDouble(ammountPaid.getText())<oPrice) {
-                    aIntmp = new ActiveInvoice(Long.parseLong(orderID.getText()), oTmp.getDatePlaced(), Double.parseDouble(orderTotal.getText()), Double.parseDouble(ammountPaid.getText()), Double.parseDouble(orderTotal.getText()) - Double.parseDouble(ammountPaid.getText()));
-                    ActiveInvoice.addRecord(aIntmp);
-                }
-                else {
-                    System.out.println(Long.parseLong(orderID.getText())+", "+oTmp.getDatePlaced()+", "+Double.parseDouble(orderTotal.getText()));
-                    iIntmp = new InvoiceHistory(Long.parseLong(orderID.getText()), oTmp.getDatePlaced(), Double.parseDouble(orderTotal.getText()));
-                    InvoiceHistory.addRecord(iIntmp);
-                }
-            }
-            else
-                Orders.deleteRecord(Long.parseLong(orderID.getText()));
+           try {
+               if (!ammountPaid.getText().isEmpty()) {
+                   if (Double.parseDouble(ammountPaid.getText()) < oPrice) {
+                       aIntmp = new ActiveInvoice(Long.parseLong(orderID.getText()), oTmp.getDatePlaced(), Double.parseDouble(orderTotal.getText()), Double.parseDouble(ammountPaid.getText()), Double.parseDouble(orderTotal.getText()) - Double.parseDouble(ammountPaid.getText()));
+                       ActiveInvoice.addRecord(aIntmp);
+                   } else {
+                       System.out.println(Long.parseLong(orderID.getText()) + ", " + oTmp.getDatePlaced() + ", " + Double.parseDouble(orderTotal.getText()));
+                       iIntmp = new InvoiceHistory(Long.parseLong(orderID.getText()), oTmp.getDatePlaced(), Double.parseDouble(orderTotal.getText()));
+                       InvoiceHistory.addRecord(iIntmp);
+                   }
+               } else
+                   Orders.deleteRecord(Long.parseLong(orderID.getText()));
+           }catch(NullPointerException e){Global.warningAlert("Ammount Paid box empty","Please make sure to have a Ammount Paid");}
             clearOrderInfo();
             lockCombobox();
         }
         catch (MySQLIntegrityConstraintViolationException e){
-            Global.warningAlert("Order Id Exists", "Order ID already exists. User add canceled");
+            Global.warningAlert("Order Id Out of bounds", "Order ID number is too big.");
+            try{
+                OrderItems.deleteRecord(Long.parseLong(orderID.getText()));
+            }catch(Exception ed){Global.exceptionAlert(ed,"Tried deleting order items after order ID failed");}
         }
         catch(Exception p){
             Global.exceptionAlert(p,"Add Order");
@@ -365,6 +368,22 @@ public class OrdersController {
             }
             if(shippingStatus.getValue()!=null)
                 Tracking.modifyShippingStatus(otemp.getOrderID(),shippingStatus.getValue());
+            if(shippingStatus.getValue().equals("Not Shipped")){
+                if(!trackingID.getText().isEmpty()) {
+                   Tracking.modifyTrackingID(otemp.getOrderID(),trackingID.getText());
+                }
+                else{
+                    Global.warningAlert("Shipping Status", "Your shipping status is Shipped or Delivered. You should have a tracking number.");
+                    return;
+                }
+                if(carrier.getValue()!=null) {
+                    Tracking.modifyCarrier(otemp.getOrderID(),carrier.getValue());
+                }
+                else{
+                    Global.warningAlert("Shipping Status", "Your shipping status is Shipped or Delivered. You should have a the Carrier Organization.");
+                    return;
+                }
+            }
             if(!ammountPaid.getText().isEmpty()){
                 if(InvoiceHistory.selectArrHistoryByOrderID(otemp.getOrderID()).size()==0){
                     if (Double.parseDouble(ammountPaid.getText()) < Double.parseDouble(orderTotal.getText())) {
@@ -426,6 +445,12 @@ public class OrdersController {
     }
 
     public void addOrder(){
+        while(allItems.size()>0){
+            int i=allItems.size()-1;
+            allItems.remove(i);
+        }
+        ammountPaid.setText(null);
+        orderTotal.setText(null);
         orderID.clear();
         customerName.clear();
         customerAddress.clear();
@@ -453,6 +478,16 @@ public class OrdersController {
         orderProds.setVisible(true);
         customerName.setEditable(true);
         customerAddress.setEditable(true);
+        try {
+            if (InvoiceHistory.selectArrHistoryByOrderID(otemp.getOrderID()).size() == 0)
+                ammountPaid.setEditable(true);
+        }catch(Exception e){
+            Global.exceptionAlert(e,"try to set up modification");
+        }
+        if(shippingStatus.getValue().equals("Not Shipped")){
+            carrier.setDisable(false);
+            trackingID.setEditable(true);
+        }
         modBox.setVisible(true);
         addOrder.setVisible(false);
         addOrderHBox.setVisible(false);
@@ -496,6 +531,12 @@ public class OrdersController {
         addDate.setValue(placedDate.toLocalDate());
         productsList.setValue(null);
         shippingStatus.setValue(null);
+        ammountPaid.setText(null);
+        orderTotal.setText(null);
+        while(allItems.size()>0){
+            int i=allItems.size()-1;
+            allItems.remove(i);
+        }
         lockCombobox();
     }
 

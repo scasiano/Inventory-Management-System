@@ -184,8 +184,14 @@ public class ProductListController {
     public void modDBProduct(){
         try{
             ims.Products.modifyName(allProd.get(pIndex).getProductID(),productName.getText());
-            ims.Products.modifyMsrp(allProd.get(pIndex).getProductID(),Double.parseDouble(productMSRP.getText().substring(1)));
-            ims.Products.modifyPrice(allProd.get(pIndex).getProductID(),Double.parseDouble(productPrice.getText().substring(1)));
+            if(productMSRP.getText().substring(0,1).equals("$"))
+                ims.Products.modifyMsrp(allProd.get(pIndex).getProductID(),Double.parseDouble(productMSRP.getText().substring(1)));
+            else
+                ims.Products.modifyMsrp(allProd.get(pIndex).getProductID(),Double.parseDouble(productMSRP.getText()));
+            if(productPrice.getText().substring(0,1).equals("$"))
+                ims.Products.modifyPrice(allProd.get(pIndex).getProductID(),Double.parseDouble(productPrice.getText().substring(1)));
+            else
+                ims.Products.modifyPrice(allProd.get(pIndex).getProductID(),Double.parseDouble(productPrice.getText()));
             clearProdList();
             initialize();
         }

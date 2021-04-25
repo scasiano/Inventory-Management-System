@@ -370,16 +370,10 @@ public class ProductStatusController {
                 Global.warningAlert("Invalid Quantity","There is not enough of this product to send out. Please chose a different quantity");
                 return;
             }
-            //InvoiceHistory iIntmp = new InvoiceHistory(Long.parseLong(orderID.getText()), oTmp.getDatePlaced(), Double.parseDouble(orderTotal.getText()));
-            //InvoiceHistory.addRecord(iIntmp);
                 setOutgoingTable();
                 setCurrentTable();
                 hideData();
-        }
-        catch(MySQLIntegrityConstraintViolationException e){
-            Global.warningAlert("Outgoing Id Exists", "Outgoing ID already exists. Outgoing Order add canceled");
-        }
-        catch(Exception p){
+        }catch(Exception p){
             Global.exceptionAlert(p, "Save Outgoing");
         }
     }
