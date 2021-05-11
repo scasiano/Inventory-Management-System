@@ -1,6 +1,6 @@
 **.DS_Store
-src/InventoryManagement/.idea
-src/InventoryManagement/out
-src/InventoryManagement/InventoryManagement.iml
-src/InventoryManagement/InventoryManagement.eml
-src/InventoryManagement/loginInformation
+InventoryManagement/.idea
+InventoryManagement/out
+InventoryManagement/InventoryManagement.iml
+InventoryManagement/InventoryManagement.eml
+InventoryManagement/loginInformation
